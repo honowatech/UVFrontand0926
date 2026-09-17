@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Comment ça marche | unevoyante.fr</title>
+<meta name="description" content="Le déroulé complet d'une consultation de voyance par tchat : choix du praticien, envoi de votre question, réponse écrite, coût en crédits et confidentialité.">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
+<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ice">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre></uv-header>
+<div id="ariane"></div>
+
+<main id="contenu" class="flex-1">
+
+  <section class="bg-white">
+    <div class="shell py-12 lg:py-16">
+      <div class="max-w-3xl">
+        <span class="eyebrow">Fonctionnement</span>
+        <h1 class="mb-4 mt-2 text-h-xl-m sm:text-h-lg lg:text-h-xl">
+          Une consultation, du premier message à la réponse
+        </h1>
+        <p class="lede">
+          unevoyante.fr fonctionne à l'unité : vous payez le message que vous envoyez, jamais le temps
+          passé. Pas d'abonnement, pas de compteur qui tourne, pas de rappel commercial. Voici le
+          déroulé complet, sans zone d'ombre.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Les trois étapes -->
+  <section class="section">
+    <div class="shell">
+      <ol class="grid gap-6 lg:grid-cols-3" id="etapes"></ol>
+    </div>
+  </section>
+
+  <!-- Le détail du parcours -->
+  <section class="pb-12 lg:pb-20">
+    <div class="shell">
+      <div class="rounded-3xl bg-white p-6 shadow-card sm:p-10 lg:p-12">
+        <h2 class="mb-8 text-h-lg">Dans le détail</h2>
+
+        <ol class="relative flex flex-col gap-8 border-l-2 border-line pl-8" id="detail"></ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ce qui est inclus / exclu -->
+  <section class="pb-12 lg:pb-20">
+    <div class="shell grid gap-6 lg:grid-cols-2">
+      <div class="card-pad">
+        <h2 class="mb-5 flex items-center gap-2 text-h-md">
+          <span class="material-symbols-outlined text-[24px] text-online" aria-hidden="true">check_circle</span>
+          Ce que vous obtenez
+        </h2>
+        <ul class="space-y-3 text-body-md text-muted" id="inclus"></ul>
+      </div>
+      <div class="card-pad">
+        <h2 class="mb-5 flex items-center gap-2 text-h-md">
+          <span class="material-symbols-outlined text-[24px] text-muted" aria-hidden="true">do_not_disturb_on</span>
+          Ce que nous ne faisons pas
+        </h2>
+        <ul class="space-y-3 text-body-md text-muted" id="exclus"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bande de réassurance -->
+  <section class="bg-night py-14 text-white lg:py-16">
+    <div class="shell grid gap-8 lg:grid-cols-3" id="reassurance"></div>
+  </section>
+
+  <!-- Appel à l'action -->
+  <section class="section">
+    <div class="shell">
+      <div class="rounded-3xl bg-white p-8 text-center shadow-card lg:p-14">
+        <h2 class="mb-3 text-h-lg">Prêt à poser votre première question ?</h2>
+        <p class="mx-auto mb-8 max-w-xl text-body-lg text-muted">
+          3 crédits vous sont offerts à l'inscription, sans carte bancaire. De quoi vous faire un avis
+          par vous-même.
+        </p>
+        <div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <a href="inscription.html" class="btn-gold btn-lg">Créer mon compte · 3 crédits offerts</a>
+          <a href="voyants.html" class="btn-ghost btn-lg">Voir les praticiens</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<uv-footer></uv-footer>
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = UV_DATA, { el, icone, filAriane } = UV;
+
+  el('#ariane').innerHTML = filAriane([['Accueil', 'index.html'], ['Comment ça marche']]);
+
+  el('#etapes').innerHTML = D.ETAPES.map((e) => `
+    <li class="card-pad p-8" data-reveal>
+      <span class="mb-6 grid h-14 w-14 place-items-center rounded-full bg-gold-soft font-display text-h-md font-bold text-navy shadow-sm">${e.n}</span>
+      <h2 class="mb-2 text-h-sm">${e.titre}</h2>
+      <p class="text-body-md leading-relaxed text-muted">${e.texte}</p>
+    </li>`).join('');
+
+  const DETAIL = [
+    ['person_search', 'Vous choisissez, personne ne choisit pour vous',
+     'Aucune mise en relation automatique. Vous parcourez les 24 fiches, vous lisez les avis, vous comparez les tarifs et les créneaux. Un praticien hors ligne peut recevoir votre message : il y répondra à son retour.'],
+    ['edit_note', 'Vous écrivez votre question à votre rythme',
+     'Rien ne se déclenche pendant que vous rédigez. Vous pouvez relire, corriger, refermer la page et revenir plus tard : le brouillon reste dans la conversation et aucun crédit n’est engagé.'],
+    ['monetization_on', 'Un crédit est débité au moment de l’envoi',
+     'C’est le seul instant où votre solde bouge. Le montant est affiché juste à côté du bouton d’envoi, et le nouveau solde s’inscrit dans le fil de discussion pour que rien ne soit ambigu.'],
+    ['mark_chat_read', 'La réponse arrive par écrit, en quelques minutes',
+     'Le praticien répond dans le fil. Sa réponse n’est jamais facturée : vous ne payez que vos propres messages. Une réponse peut compter plusieurs paragraphes sans coût supplémentaire.'],
+    ['history', 'L’historique vous appartient',
+     'Toutes vos conversations restent accessibles depuis Mes tchats, sans limite de durée. Vous pouvez relire une prédiction six mois plus tard pour vérifier ce qui s’est réalisé.'],
+    ['restart_alt', 'Vous reprenez quand vous voulez',
+     'Pas de séance qui se ferme, pas de créneau à réserver. Une conversation reste ouverte indéfiniment : vous écrivez ce soir, vous relancez dans trois semaines si vous le souhaitez.'],
+  ];
+
+  el('#detail').innerHTML = DETAIL.map((d) => `
+    <li class="relative" data-reveal>
+      <span class="absolute -left-[41px] grid h-8 w-8 place-items-center rounded-full border-2 border-line bg-white">
+        ${icone(d[0], 'text-[18px] text-royal')}
+      </span>
+      <h3 class="mb-1.5 text-h-sm">${d[1]}</h3>
+      <p class="max-w-2xl text-body-md leading-relaxed text-muted">${d[2]}</p>
+    </li>`).join('');
+
+  const INCLUS = [
+    'Une réponse écrite, personnalisée et argumentée, quelle que soit sa longueur.',
+    'La possibilité de relancer le praticien dans la même conversation.',
+    'L’historique complet, consultable et relisible sans limite de durée.',
+    'Le libre choix du praticien, changeable à tout moment sans frais.',
+    'Un anonymat réel : le praticien ne connaît que le prénom que vous avez choisi.',
+  ];
+  const EXCLUS = [
+    'Aucun diagnostic médical, psychologique ou psychiatrique.',
+    'Aucun conseil financier réglementé, ni pronostic de jeux d’argent.',
+    'Aucune promesse de résultat : la voyance reste un service de guidance.',
+    'Aucune consultation pour les personnes mineures.',
+    'Aucune relance commerciale ni revente de vos données.',
+  ];
+
+  el('#inclus').innerHTML = INCLUS.map((t) => `
+    <li class="flex gap-2.5">${icone('check', 'text-[20px] shrink-0 text-online')}<span>${t}</span></li>`).join('');
+  el('#exclus').innerHTML = EXCLUS.map((t) => `
+    <li class="flex gap-2.5">${icone('remove', 'text-[20px] shrink-0 text-muted')}<span>${t}</span></li>`).join('');
+
+  el('#reassurance').innerHTML = D.CONFIANCE.map((c) => `
+    <div data-reveal>
+      <span class="mb-5 grid h-12 w-12 place-items-center rounded-lg bg-white/10">${icone(c.icon, 'text-[26px] text-gold-300')}</span>
+      <h2 class="mb-2 font-display text-h-sm text-white">${c.titre}</h2>
+      <p class="text-body-md leading-relaxed text-white/70">${c.texte}</p>
+    </div>`).join('');
+})();
+</script>
+</body>
+</html>

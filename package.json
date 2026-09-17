@@ -1,0 +1,14 @@
+{
+  "name": "unevoyante",
+  "version": "1.0.0",
+  "private": true,
+  "description": "unevoyante.fr — plateforme de voyance par tchat. Intégration des maquettes en Tailwind CSS.",
+  "scripts": {
+    "dev": "tailwindcss -i ./src/input.css -o ./assets/css/app.css --watch",
+    "build": "tailwindcss -i ./src/input.css -o ./assets/css/app.css --minify",
+    "serve": "node scripts/serve.js"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

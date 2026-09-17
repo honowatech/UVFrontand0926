@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Mon compte | unevoyante.fr</title>
+<meta name="description" content="Votre espace membre : solde de crédits, historique de consultations, praticiens favoris, préférences et confidentialité.">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
+<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ice">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre></uv-header>
+<div id="ariane"></div>
+
+<main id="contenu" class="flex-1">
+  <div class="shell py-8 lg:py-12">
+
+    <!-- Bandeau visiteur (jamais bloquant, simple invitation) -->
+    <div id="bandeau-visiteur" class="mb-8 hidden">
+      <div class="card flex flex-col gap-4 border-gold bg-gold-50 p-5 sm:flex-row sm:items-center sm:p-6">
+        <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white">
+          <span class="material-symbols-outlined text-[24px] text-gold" aria-hidden="true">auto_awesome</span>
+        </span>
+        <div class="flex-1">
+          <p class="text-label-lg font-bold text-navy">Vous naviguez en visiteur</p>
+          <p class="text-body-sm leading-relaxed text-muted">
+            Tout reste consultable. Créez un compte pour conserver vos crédits, vos conversations
+            et vos favoris d'un appareil à l'autre.
+          </p>
+        </div>
+        <!-- Mobile : deux colonnes égales, boutons toujours côte à côte
+             (padding resserré sous 360px pour tenir sur les plus petits écrans) -->
+        <div class="grid shrink-0 grid-cols-2 gap-2 sm:flex">
+          <a href="connexion.html?next=compte.html" class="btn-ghost btn-sm w-full px-3 max-[359px]:px-1.5 sm:w-auto sm:px-6">Se connecter</a>
+          <a href="inscription.html?next=compte.html" class="btn-gold btn-sm w-full px-3 max-[359px]:px-1.5 sm:w-auto sm:px-6">Créer un compte</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Entête -->
+    <header class="mb-8 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex items-center gap-4">
+        <span id="avatar" class="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-royal font-display text-h-md text-white">V</span>
+        <div>
+          <h1 class="text-h-lg-m sm:text-h-lg" id="titre-compte">Bonjour</h1>
+          <p class="text-body-md text-muted" id="sous-titre-compte"></p>
+        </div>
+      </div>
+      <a href="credits.html" class="btn-gold shrink-0">
+        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">add_circle</span>
+        Recharger mes crédits
+      </a>
+    </header>
+
+    <!-- Cartes de synthèse -->
+    <div class="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" id="synthese"></div>
+
+    <!-- Onglets -->
+    <div class="mb-6 border-b border-line">
+      <div class="scroll-x gap-1 no-scrollbar" role="tablist" aria-label="Sections du compte">
+        <button role="tab" class="shrink-0 border-b-2 px-4 py-3 text-label-md transition-colors" data-onglet="apercu">Aperçu</button>
+        <button role="tab" class="shrink-0 border-b-2 px-4 py-3 text-label-md transition-colors" data-onglet="conversations">Mes conversations</button>
+        <button role="tab" class="shrink-0 border-b-2 px-4 py-3 text-label-md transition-colors" data-onglet="favoris">Favoris</button>
+        <button role="tab" class="shrink-0 border-b-2 px-4 py-3 text-label-md transition-colors" data-onglet="achats">Achats</button>
+        <button role="tab" class="shrink-0 border-b-2 px-4 py-3 text-label-md transition-colors" data-onglet="confidentialite">Confidentialité</button>
+      </div>
+    </div>
+
+    <!-- ================== APERÇU ================== -->
+    <section id="panneau-apercu" role="tabpanel" class="grid gap-6 lg:grid-cols-2">
+      <div class="card-pad min-w-0">
+        <h2 class="mb-4 text-h-md">Reprendre une consultation</h2>
+        <div class="flex flex-col gap-2" id="apercu-conversations"></div>
+      </div>
+
+      <div class="card-pad min-w-0">
+        <h2 class="mb-4 text-h-md">Praticiens disponibles maintenant</h2>
+        <div class="flex flex-col gap-2" id="apercu-dispo"></div>
+        <a href="voyants.html" class="btn-link mt-4">Voir les 24 praticiens
+          <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span></a>
+      </div>
+
+      <div class="card-pad min-w-0 lg:col-span-2">
+        <h2 class="mb-4 text-h-md">Vos raccourcis</h2>
+        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <a href="tchat.html" class="flex items-center gap-3 rounded-md border border-line p-4 transition-colors hover:bg-ice">
+            <span class="material-symbols-outlined text-[24px] text-royal" aria-hidden="true">forum</span>
+            <span class="text-label-md text-navy">Mes tchats</span></a>
+          <a href="credits.html" class="flex items-center gap-3 rounded-md border border-line p-4 transition-colors hover:bg-ice">
+            <span class="material-symbols-outlined text-[24px] text-gold" aria-hidden="true">monetization_on</span>
+            <span class="text-label-md text-navy">Recharger</span></a>
+          <a href="faq.html" class="flex items-center gap-3 rounded-md border border-line p-4 transition-colors hover:bg-ice">
+            <span class="material-symbols-outlined text-[24px] text-royal" aria-hidden="true">help</span>
+            <span class="text-label-md text-navy">Aide &amp; FAQ</span></a>
+          <a href="info.html?sujet=contact" class="flex items-center gap-3 rounded-md border border-line p-4 transition-colors hover:bg-ice">
+            <span class="material-symbols-outlined text-[24px] text-royal" aria-hidden="true">support_agent</span>
+            <span class="text-label-md text-navy">Nous écrire</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================== CONVERSATIONS ================== -->
+    <section id="panneau-conversations" role="tabpanel" class="hidden">
+      <div class="card overflow-hidden">
+        <div class="flex flex-col divide-y divide-line" id="liste-conversations"></div>
+      </div>
+    </section>
+
+    <!-- ================== FAVORIS ================== -->
+    <section id="panneau-favoris" role="tabpanel" class="hidden">
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" id="liste-favoris"></div>
+      <div id="favoris-vide" class="hidden card-pad text-center">
+        <span class="material-symbols-outlined mb-2 text-[40px] text-line" aria-hidden="true">favorite</span>
+        <p class="mb-4 text-body-md text-muted">Vous n'avez pas encore de praticien favori.</p>
+        <a href="voyants.html" class="btn-ghost">Découvrir les praticiens</a>
+      </div>
+    </section>
+
+    <!-- ================== ACHATS ================== -->
+    <section id="panneau-achats" role="tabpanel" class="hidden">
+      <div class="card overflow-x-auto">
+        <table class="w-full min-w-[560px] text-left text-body-md">
+          <caption class="sr-only">Historique de vos achats de crédits</caption>
+          <thead class="bg-ice text-label-md text-navy">
+            <tr>
+              <th scope="col" class="px-5 py-3">Date</th>
+              <th scope="col" class="px-5 py-3">Pack</th>
+              <th scope="col" class="px-5 py-3">Crédits</th>
+              <th scope="col" class="px-5 py-3">Montant</th>
+              <th scope="col" class="px-5 py-3">Facture</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-line" id="liste-achats"></tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-body-sm text-muted">
+        Aucun abonnement n'est associé à votre compte : chaque achat est ponctuel et vos crédits n'expirent pas.
+      </p>
+    </section>
+
+    <!-- ================== CONFIDENTIALITÉ ================== -->
+    <section id="panneau-confidentialite" role="tabpanel" class="hidden grid gap-6 lg:grid-cols-2">
+      <div class="card-pad">
+        <h2 class="mb-4 text-h-md">Vos préférences</h2>
+        <div class="flex flex-col divide-y divide-line">
+          <label class="flex cursor-pointer items-start gap-3 py-4">
+            <input type="checkbox" class="check mt-0.5" data-pref="notif" checked>
+            <span><strong class="block text-label-md text-navy">Notifications de disponibilité</strong>
+              <span class="text-body-sm text-muted">Être prévenu quand un praticien suivi revient en ligne.</span></span>
+          </label>
+          <label class="flex cursor-pointer items-start gap-3 py-4">
+            <input type="checkbox" class="check mt-0.5" data-pref="resume">
+            <span><strong class="block text-label-md text-navy">Résumé mensuel par e-mail</strong>
+              <span class="text-body-sm text-muted">Un récapitulatif sobre de vos consultations. Désactivé par défaut.</span></span>
+          </label>
+          <label class="flex cursor-pointer items-start gap-3 py-4">
+            <input type="checkbox" class="check mt-0.5" data-pref="mesure">
+            <span><strong class="block text-label-md text-navy">Mesure d'audience anonyme</strong>
+              <span class="text-body-sm text-muted">Statistiques agrégées, sans revente ni profilage publicitaire.</span></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="card-pad">
+        <h2 class="mb-2 text-h-md">Vos données</h2>
+        <p class="mb-5 text-body-md leading-relaxed text-muted">
+          Conformément au RGPD, vous pouvez à tout moment exporter ou supprimer l'intégralité
+          de vos données, sans avoir à justifier votre demande.
+        </p>
+        <div class="flex flex-col gap-3">
+          <button type="button" class="btn-ghost w-full" id="exporter">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">download</span>
+            Exporter mes données (JSON)
+          </button>
+          <button type="button" class="btn-quiet w-full" id="reinitialiser">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">restart_alt</span>
+            Réinitialiser cette démonstration
+          </button>
+        </div>
+        <p class="mt-5 text-body-sm text-muted">
+          En savoir plus : <a href="info.html?sujet=confidentialite" class="font-medium text-royal underline underline-offset-2">politique de confidentialité</a>
+          · <a href="info.html?sujet=cookies" class="font-medium text-royal underline underline-offset-2">gestion des cookies</a>.
+        </p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<uv-footer class="hidden lg:block"></uv-footer>
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = UV_DATA;
+  const { el, els, icone, euro, nombre, heure, monogramme, carteVoyant, ligneVoyant, filAriane, Store, toast, echapper } = UV;
+
+  el('#ariane').innerHTML = filAriane([['Accueil', 'index.html'], ['Mon compte']]);
+
+  /* --- Entête ---------------------------------------------------------------- */
+  function rendreEntete() {
+    const c = Store.compte;
+    el('#bandeau-visiteur').classList.toggle('hidden', !!c);
+    el('#avatar').textContent = c ? c.prenom[0].toUpperCase() : 'V';
+    el('#titre-compte').textContent = c ? `Bonjour ${c.prenom}` : 'Bonjour, visiteur';
+    el('#sous-titre-compte').textContent = c
+      ? c.email
+      : 'Compte non connecté — vos données restent sur cet appareil.';
+  }
+
+  /* --- Synthèse ---------------------------------------------------------------- */
+  function rendreSynthese() {
+    const convs = Object.entries(Store.all.conversations)
+      .filter(([id, c]) => D.byId(id) && c.messages && c.messages.some((m) => m.de === 'moi'));
+    const messages = convs.reduce((s, [, c]) => s + c.messages.filter((m) => m.de === 'moi').length, 0);
+    /* [icône, teinte (src/input.css), libellé, chiffre, contexte] */
+    const cartes = [
+      ['monetization_on', 'tint-champagne', 'Solde de crédits', `${Store.credits}`, Store.credits > 0 ? 'Prêt à consulter' : 'Rechargez pour continuer'],
+      ['forum', 'tint-amethyste', 'Conversations', `${convs.length}`, 'Historique conservé'],
+      ['send', 'tint-sauge', 'Messages envoyés', `${messages}`, 'Depuis cet appareil'],
+      ['favorite', 'tint-rose', 'Praticiens favoris', `${Store.all.favoris.length}`, 'Accès rapide'],
+    ];
+    el('#synthese').innerHTML = cartes.map((c) => `
+      <div class="card-tint stat-tile ${c[1]}">
+        <span class="tint-chip">${icone(c[0], 'text-[24px]')}</span>
+        <p class="stat-label">${c[2]}</p>
+        <p class="stat-num">${c[3]}</p>
+        <p class="stat-sub">${c[4]}</p>
+      </div>`).join('');
+  }
+
+  /* --- Conversations -------------------------------------------------------------- */
+  function conversations() {
+    return Object.entries(Store.all.conversations)
+      .filter(([id, c]) => D.byId(id) && c.messages && c.messages.some((m) => m.de === 'moi'))
+      .sort((a, b) => b[1].maj - a[1].maj);
+  }
+
+  function rendreConversations() {
+    const items = conversations();
+    const vide = `
+      <div class="p-8 text-center">
+        <span class="material-symbols-outlined mb-2 text-[40px] text-line" aria-hidden="true">forum</span>
+        <p class="mb-4 text-body-md text-muted">Aucune conversation pour le moment.</p>
+        <a href="voyants.html" class="btn-ghost">Choisir un praticien</a>
+      </div>`;
+
+    el('#liste-conversations').innerHTML = items.length ? items.map(([id, c]) => {
+      const v = D.byId(id);
+      const dernier = c.messages[c.messages.length - 1];
+      const envoyes = c.messages.filter((m) => m.de === 'moi').length;
+      return `
+      <div class="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:gap-4 sm:p-5">
+        ${monogramme(v, 'h-12 w-12 text-label-lg')}
+        <div class="min-w-0 flex-1">
+          <p class="flex flex-wrap items-baseline gap-x-2">
+            <a href="voyant.html?id=${id}" class="font-display text-label-lg font-semibold text-navy hover:text-royal">${v.prenom}</a>
+            <span class="text-body-sm text-muted">${v.titre}</span>
+          </p>
+          <p class="truncate text-body-sm text-muted">${echapper(dernier.texte)}</p>
+          <p class="mt-1 text-body-sm text-muted">${envoyes} message${envoyes > 1 ? 's' : ''} envoyé${envoyes > 1 ? 's' : ''} · ${heure(c.maj)}</p>
+        </div>
+        <a href="tchat.html?voyant=${id}" class="btn-ghost btn-sm shrink-0">Reprendre</a>
+      </div>`;
+    }).join('') : vide;
+
+    el('#apercu-conversations').innerHTML = items.length
+      ? items.slice(0, 4).map(([id]) => ligneVoyant(D.byId(id), false)).join('')
+      : `<p class="rounded-md bg-ice p-4 text-body-sm text-muted">
+           Aucune conversation encore. <a href="voyants.html" class="font-medium text-royal underline underline-offset-2">Choisissez un praticien</a> pour commencer.
+         </p>`;
+  }
+
+  /* --- Favoris ------------------------------------------------------------------------ */
+  function rendreFavoris() {
+    const liste = Store.all.favoris.map((id) => D.byId(id)).filter(Boolean);
+    el('#favoris-vide').classList.toggle('hidden', liste.length > 0);
+    el('#liste-favoris').innerHTML = liste.map((v) => carteVoyant(v)).join('');
+  }
+
+  /* --- Achats -------------------------------------------------------------------------- */
+  function rendreAchats() {
+    const achats = [
+      ['12 septembre 2026', 'Évidence', 15, 19.99],
+      ['28 août 2026', 'Prévision', 6, 9.99],
+      ['3 août 2026', 'Offre d’essai', 2, 4.99],
+    ];
+    el('#liste-achats').innerHTML = achats.map((a) => `
+      <tr>
+        <td class="px-5 py-3 text-muted">${a[0]}</td>
+        <th scope="row" class="px-5 py-3 text-label-md text-navy">${a[1]}</th>
+        <td class="px-5 py-3">${a[2]}</td>
+        <td class="px-5 py-3 font-semibold text-navy">${euro(a[3])}</td>
+        <td class="px-5 py-3">
+          <button type="button" class="btn-link" data-facture>${icone('receipt_long', 'text-[16px]')} Télécharger</button>
+        </td>
+      </tr>`).join('');
+    els('[data-facture]').forEach((b) => b.addEventListener('click', () =>
+      toast('Facture générée (démonstration).', { icone: 'receipt_long' })));
+  }
+
+  /* --- Praticiens disponibles ------------------------------------------------------------ */
+  el('#apercu-dispo').innerHTML = D.VOYANTS
+    .filter((v) => v.statut === 'online').slice(0, 4)
+    .map((v) => ligneVoyant(v, false)).join('');
+
+  /* --- Onglets ---------------------------------------------------------------------------- */
+  const noms = ['apercu', 'conversations', 'favoris', 'achats', 'confidentialite'];
+  function ouvrir(nom) {
+    if (!noms.includes(nom)) nom = 'apercu';
+    noms.forEach((n) => {
+      const p = el('#panneau-' + n);
+      p.classList.toggle('hidden', n !== nom);
+      if (n === nom && (n === 'apercu' || n === 'confidentialite')) p.classList.add('grid');
+    });
+    els('[data-onglet]').forEach((b) => {
+      const actif = b.dataset.onglet === nom;
+      b.setAttribute('aria-selected', String(actif));
+      b.className = `shrink-0 border-b-2 px-4 py-3 text-label-md transition-colors ${
+        actif ? 'border-royal text-royal' : 'border-transparent text-muted hover:text-navy'}`;
+    });
+    history.replaceState(null, '', '#' + nom);
+  }
+  els('[data-onglet]').forEach((b) => b.addEventListener('click', () => ouvrir(b.dataset.onglet)));
+
+  /* --- Préférences ------------------------------------------------------------------------- */
+  els('[data-pref]').forEach((c) => c.addEventListener('change', () =>
+    toast('Préférence enregistrée.', { icone: 'tune' })));
+
+  /* --- RGPD --------------------------------------------------------------------------------- */
+  el('#exporter').addEventListener('click', () => {
+    const donnees = JSON.stringify({ exporte: new Date().toISOString(), ...Store.all }, null, 2);
+    const url = URL.createObjectURL(new Blob([donnees], { type: 'application/json' }));
+    const a = document.createElement('a');
+    a.href = url; a.download = 'unevoyante-mes-donnees.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    toast('Export généré.', { icone: 'download' });
+  });
+
+  el('#reinitialiser').addEventListener('click', () => {
+    Store.reinitialiser();
+    tout();
+    toast('Démonstration réinitialisée : 3 crédits, aucune conversation.', { icone: 'restart_alt' });
+  });
+
+  /* --- Rendu global -------------------------------------------------------------------------- */
+  function tout() {
+    rendreEntete(); rendreSynthese(); rendreConversations(); rendreFavoris(); rendreAchats();
+  }
+  tout();
+  ouvrir((location.hash || '#apercu').slice(1));
+  document.addEventListener('uv:etat', () => { rendreEntete(); rendreSynthese(); });
+})();
+</script>
+</body>
+</html>

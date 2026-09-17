@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Tous nos voyants et médiums | unevoyante.fr</title>
+<meta name="description" content="Découvrez les 24 praticiens vérifiés d'unevoyante.fr : tarot, pendule, runes, astrologie, numérologie et médiumnité. Filtrez par spécialité, disponibilité et tarif.">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
+<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ice">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre></uv-header>
+<div id="ariane"></div>
+
+<main id="contenu" class="flex-1">
+
+  <section class="bg-white">
+    <div class="shell py-10 lg:py-14">
+      <span class="eyebrow">Catalogue des praticiens</span>
+      <h1 class="mb-3 mt-2 text-h-xl-m sm:text-h-lg lg:text-h-xl">Nos voyants &amp; médiums</h1>
+      <p class="lede max-w-2xl">
+        24 praticiens sélectionnés après consultation test anonyme et signature de notre charte
+        déontologique. Chaque profil affiche son tarif, sa disponibilité réelle et l'intégralité de ses avis.
+      </p>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       BARRE DE RECHERCHE ET DE FILTRES
+       ====================================================================== -->
+  <section class="z-30 border-y border-line bg-white/95 backdrop-blur-xl md:sticky md:top-16 lg:top-18">
+    <div class="shell py-3 md:py-4">
+      <div class="flex flex-col gap-3">
+
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div class="relative flex-1">
+            <span class="material-symbols-outlined pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[20px] text-muted" aria-hidden="true">search</span>
+            <input type="search" id="recherche" class="field pl-11" placeholder="Rechercher un praticien, une spécialité…"
+                   aria-label="Rechercher un praticien">
+          </div>
+
+          <label class="flex shrink-0 items-center gap-2 text-body-sm text-muted">
+            <span class="whitespace-nowrap">Trier par</span>
+            <select id="tri" class="field min-h-[48px] w-auto py-0 pr-9 text-label-md">
+              <option value="dispo">Disponibilité</option>
+              <option value="note">Meilleures notes</option>
+              <option value="avis">Nombre d'avis</option>
+              <option value="prix">Prix croissant</option>
+              <option value="experience">Expérience</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="scroll-x gap-2 pb-1 no-scrollbar" role="group" aria-label="Filtrer par spécialité" id="filtres"></div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 text-body-sm text-muted">
+          <p><strong id="compte-resultats" class="font-semibold text-navy">24</strong> praticiens ·
+            <span id="compte-ligne">0</span> en ligne maintenant</p>
+          <label class="flex cursor-pointer items-center gap-2">
+            <input type="checkbox" id="dispo-only" class="check">
+            <span>Disponibles uniquement</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       GRILLE
+       ====================================================================== -->
+  <section class="section">
+    <div class="shell">
+      <div id="grille" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+
+      <div id="vide" class="hidden card-pad my-10 text-center">
+        <span class="material-symbols-outlined mb-2 text-[40px] text-line" aria-hidden="true">search_off</span>
+        <p class="mb-4 text-body-md text-muted">Aucun praticien ne correspond à votre recherche.</p>
+        <button type="button" class="btn-ghost" id="reset">Réinitialiser la recherche</button>
+      </div>
+
+      <!-- Rappel : aucun cul-de-sac, on propose toujours une suite -->
+      <div class="mt-14 rounded-3xl bg-white p-8 text-center shadow-card lg:p-12">
+        <h2 class="mb-3 text-h-md">Vous hésitez sur le praticien à choisir ?</h2>
+        <p class="mx-auto mb-6 max-w-xl text-body-md leading-relaxed text-muted">
+          Décrivez votre question en une phrase : nous vous orientons vers les praticiens dont la
+          spécialité correspond, en tenant compte de leur disponibilité immédiate.
+        </p>
+        <div class="mx-auto flex max-w-lg flex-col gap-2 sm:flex-row">
+          <input type="text" id="orientation" class="field flex-1" placeholder="Ex. : mon ex reviendra-t-il ?" aria-label="Décrivez votre question">
+          <button type="button" class="btn-gold shrink-0" id="orienter">M'orienter</button>
+        </div>
+        <p id="orientation-resultat" class="mt-5 hidden text-body-md text-navy"></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<uv-footer></uv-footer>
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = UV_DATA, { el, els, carteVoyant, filAriane, toast, echapper } = UV;
+
+  el('#ariane').innerHTML = filAriane([['Accueil', 'index.html'], ['Voyants']]);
+
+  /* --- État de la vue, synchronisé avec l'URL ----------------------------- */
+  let filtre = UV.param('specialite') || 'tous';
+  let recherche = UV.param('q') || '';
+  el('#recherche').value = recherche;
+
+  const FILTRES = [{ id: 'tous', label: 'Tous' }, { id: 'en-ligne', label: 'En ligne', dot: true }]
+    .concat(D.SPECIALITES.map((s) => ({ id: s.id, label: s.label })))
+    .concat([{ id: '1-credit', label: '1 crédit / message' }, { id: 'top', label: 'Top voyantes' }]);
+
+  el('#filtres').innerHTML = FILTRES.map((f) => `
+    <button type="button" class="chip" data-f="${f.id}" aria-pressed="${f.id === filtre}">
+      ${f.dot ? '<span class="dot-online"></span>' : ''}${f.label}
+    </button>`).join('');
+
+  function filtrer() {
+    const q = recherche.trim().toLowerCase();
+    const dispoOnly = el('#dispo-only').checked;
+
+    let liste = D.VOYANTS.filter((v) => {
+      if (dispoOnly && v.statut === 'offline') return false;
+      if (filtre === 'en-ligne' && v.statut !== 'online') return false;
+      if (filtre === '1-credit' && v.credits !== 1) return false;
+      if (filtre === 'top' && !v.top) return false;
+      if (!['tous', 'en-ligne', '1-credit', 'top'].includes(filtre) && !v.specialites.includes(filtre)) return false;
+      if (q) {
+        const foin = [v.prenom, v.titre, v.resume, v.accroche, v.tags.join(' '), v.specialites.join(' ')]
+          .join(' ').toLowerCase();
+        if (!foin.includes(q)) return false;
+      }
+      return true;
+    });
+
+    const ordre = { online: 0, busy: 1, offline: 2 };
+    const tri = el('#tri').value;
+    liste.sort((a, b) => {
+      if (tri === 'note') return b.note - a.note || b.avis - a.avis;
+      if (tri === 'avis') return b.avis - a.avis;
+      if (tri === 'prix') return a.credits - b.credits || b.note - a.note;
+      if (tri === 'experience') return b.experience - a.experience;
+      return ordre[a.statut] - ordre[b.statut] || (b.top - a.top) || b.note - a.note;
+    });
+    return liste;
+  }
+
+  function rendre() {
+    const liste = filtrer();
+    el('#grille').innerHTML = liste.map((v) => carteVoyant(v)).join('');
+    el('#compte-resultats').textContent = liste.length;
+    el('#compte-ligne').textContent = liste.filter((v) => v.statut === 'online').length;
+    el('#vide').classList.toggle('hidden', liste.length > 0);
+
+    // L'URL reflète la vue : le lien reste partageable et le retour arrière fonctionne
+    const u = new URL(location.href);
+    filtre === 'tous' ? u.searchParams.delete('specialite') : u.searchParams.set('specialite', filtre);
+    recherche ? u.searchParams.set('q', recherche) : u.searchParams.delete('q');
+    history.replaceState(null, '', u);
+  }
+
+  els('#filtres .chip').forEach((b) => b.addEventListener('click', () => {
+    filtre = b.dataset.f;
+    els('#filtres .chip').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    rendre();
+  }));
+
+  let minuteur;
+  el('#recherche').addEventListener('input', (e) => {
+    clearTimeout(minuteur);
+    recherche = e.target.value;
+    minuteur = setTimeout(rendre, 180);
+  });
+  el('#tri').addEventListener('change', rendre);
+  el('#dispo-only').addEventListener('change', rendre);
+  el('#reset').addEventListener('click', () => {
+    filtre = 'tous'; recherche = '';
+    el('#recherche').value = '';
+    el('#dispo-only').checked = false;
+    el('#tri').value = 'dispo';
+    els('#filtres .chip').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.f === 'tous')));
+    rendre();
+  });
+
+  rendre();
+
+  /* --- Orientation par mots-clés ------------------------------------------ */
+  const MOTS = {
+    amour: ['amour', 'ex', 'couple', 'rupture', 'reviendra', 'sentiment', 'relation', 'flamme', 'mariage', 'divorce'],
+    travail: ['travail', 'boulot', 'carrière', 'emploi', 'job', 'reconversion', 'patron', 'entretien', 'démission'],
+    famille: ['famille', 'enfant', 'parent', 'mère', 'père', 'fils', 'fille', 'grossesse', 'frère', 'sœur'],
+    astrologie: ['astro', 'thème', 'signe', 'lune', 'planète', 'karmique', 'natal'],
+    numerologie: ['numéro', 'chiffre', 'cycle', 'année personnelle', 'date'],
+    mediumnite: ['défunt', 'deuil', 'disparu', 'esprit', 'énergie', 'protection', 'lourdeur'],
+    tarot: ['tarot', 'carte', 'tirage', 'oracle'],
+  };
+
+  el('#orienter').addEventListener('click', orienter);
+  el('#orientation').addEventListener('keydown', (e) => { if (e.key === 'Enter') orienter(); });
+
+  function orienter() {
+    const q = el('#orientation').value.trim().toLowerCase();
+    const zone = el('#orientation-resultat');
+
+    if (!q) {
+      zone.classList.remove('hidden');
+      zone.innerHTML = 'Écrivez quelques mots sur votre situation, ou <a href="#" class="font-semibold text-royal underline underline-offset-2" data-tout>parcourez simplement les 24 profils</a>.';
+      zone.querySelector('[data-tout]').addEventListener('click', (e) => {
+        e.preventDefault(); el('#reset').click(); scrollTo({ top: 300, behavior: 'smooth' });
+      });
+      return;
+    }
+
+    let meilleur = null, score = 0;
+    Object.entries(MOTS).forEach(([spec, mots]) => {
+      const s = mots.filter((m) => q.includes(m)).length;
+      if (s > score) { score = s; meilleur = spec; }
+    });
+
+    if (!meilleur) {
+      // Aucun mot reconnu : on propose quand même, jamais d'écran mort
+      filtre = 'en-ligne';
+      els('#filtres .chip').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.f === 'en-ligne')));
+      rendre();
+      zone.classList.remove('hidden');
+      zone.textContent = 'Votre question est singulière : voici tous les praticiens disponibles à cet instant, la plupart traitent tous les sujets.';
+      toast('Filtre appliqué : praticiens en ligne', { icone: 'filter_alt' });
+    } else {
+      filtre = meilleur;
+      els('#filtres .chip').forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.f === meilleur)));
+      rendre();
+      const label = (D.SPECIALITES.find((s) => s.id === meilleur) || {}).label || meilleur;
+      const n = filtrer().length;
+      zone.classList.remove('hidden');
+      zone.innerHTML = `Nous avons retenu la spécialité <strong class="font-semibold">${echapper(label)}</strong> : ${n} praticien${n > 1 ? 's correspondent' : ' correspond'} à votre question.`;
+      toast(`Filtre appliqué : ${label}`, { icone: 'filter_alt' });
+    }
+    document.querySelector('#grille').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+})();
+</script>
+</body>
+</html>

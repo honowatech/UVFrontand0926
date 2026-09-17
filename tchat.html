@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Mes tchats | unevoyante.fr</title>
+<meta name="description" content="Votre consultation de voyance par tchat : échanges chiffrés, 1 crédit par message envoyé, sans limite de temps.">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
+<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ice">
+<a href="#fil" class="skip-link">Aller à la conversation</a>
+<uv-header sombre></uv-header>
+
+<main class="flex-1">
+  <div class="mx-auto grid w-full max-w-[1440px] gap-5 py-0 lg:grid-cols-[280px_1fr] lg:px-6 lg:py-6 xl:grid-cols-[300px_1fr_320px] xl:px-8 2xl:grid-cols-[320px_1fr_340px]">
+
+    <!-- ==================================================================
+         COLONNE 1 — LISTE DES CONVERSATIONS
+         Masquée sur mobile lorsqu'une conversation est ouverte, mais toujours
+         accessible via le bouton « retour ». Aucun cul-de-sac.
+         ================================================================== -->
+    <aside id="colonne-liste" class="hidden min-w-0 flex-col lg:flex">
+      <div class="card app-view flex flex-col overflow-hidden lg:sticky lg:top-24">
+        <div class="border-b border-line p-4">
+          <div class="mb-3 flex items-center justify-between">
+            <h1 class="text-h-md">Mes tchats</h1>
+            <span class="badge bg-tint text-royal" id="nb-conversations">0</span>
+          </div>
+          <div class="relative">
+            <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-muted" aria-hidden="true">search</span>
+            <input type="search" id="recherche-conv" class="field min-h-[42px] pl-10 text-body-md"
+                   placeholder="Rechercher un voyant" aria-label="Rechercher un voyant">
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-2" id="liste-conversations"></div>
+
+        <div class="border-t border-line p-4">
+          <a href="voyants.html" class="btn-quiet btn-sm w-full">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">add</span>
+            Nouvelle consultation
+          </a>
+          <p class="mt-3 flex items-center justify-center gap-1.5 text-body-sm text-muted">
+            <span class="material-symbols-outlined text-[14px] text-online" aria-hidden="true">lock</span>
+            Chiffrement de bout en bout
+          </p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ==================================================================
+         COLONNE 2 — FIL DE DISCUSSION
+         ================================================================== -->
+    <section id="colonne-fil" class="flex min-w-0 flex-col">
+      <div class="card app-view flex flex-col overflow-hidden rounded-none border-x-0 lg:rounded-lg lg:border-x">
+
+        <!-- Entête de conversation -->
+        <header class="flex items-center gap-3 border-b border-line bg-white p-3 sm:p-4" id="entete-conv"></header>
+
+        <!-- Bandeau d'information, refermable -->
+        <div id="bandeau-info" class="flex items-start gap-3 border-b border-line bg-tint px-4 py-3">
+          <span class="material-symbols-outlined mt-0.5 shrink-0 text-[20px] text-royal" aria-hidden="true">info</span>
+          <p class="flex-1 text-body-sm leading-relaxed text-royal-800">
+            Chaque message envoyé coûte <strong id="cout-message">1 crédit</strong>. Aucune limite de temps :
+            refermez la conversation et revenez quand vous voulez.
+          </p>
+          <button type="button" class="shrink-0 rounded-full p-1 text-royal transition-colors hover:bg-white/60" id="fermer-bandeau" aria-label="Masquer ce message">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">close</span>
+          </button>
+        </div>
+
+        <!-- Fil -->
+        <div id="fil" class="flex-1 space-y-4 overflow-y-auto bg-ice/40 p-4 sm:p-6" tabindex="0" aria-live="polite" aria-label="Messages de la conversation"></div>
+
+        <!-- Encart solde épuisé (n'empêche jamais de naviguer) -->
+        <div id="encart-solde" class="hidden border-t border-line bg-gold-50 p-4">
+          <div class="mx-auto flex max-w-lg flex-col items-center gap-3 rounded-lg border border-gold bg-white p-5 text-center">
+            <p class="flex items-center gap-2 font-display text-h-sm font-bold text-navy">
+              <span class="material-symbols-outlined text-[22px] text-gold" aria-hidden="true">monetization_on</span>
+              Vous n'avez plus de crédits
+            </p>
+            <p class="text-body-sm text-muted" id="texte-solde"></p>
+            <a href="credits.html" class="btn-gold w-full sm:w-auto">
+              <span class="material-symbols-outlined text-[20px]" aria-hidden="true">add_circle</span>
+              Recharger · dès 4,99 €
+            </a>
+            <p class="text-body-sm text-muted">
+              Vous pouvez aussi <a href="voyants.html" class="font-medium text-royal underline underline-offset-2">parcourir les autres praticiens</a>
+              ou <a href="index.html" class="font-medium text-royal underline underline-offset-2">revenir à l'accueil</a> : rien n'est bloqué.
+            </p>
+          </div>
+        </div>
+
+        <!-- Zone de saisie -->
+        <footer class="border-t border-line bg-white p-3 sm:p-4">
+          <div class="mb-3 flex items-center gap-2 overflow-x-auto no-scrollbar">
+            <span class="shrink-0 text-label-sm uppercase tracking-wider text-muted">Thèmes :</span>
+            <div class="flex gap-2" id="themes"></div>
+          </div>
+
+          <form id="formulaire" class="flex items-end gap-2">
+            <label for="saisie" class="sr-only">Votre message</label>
+            <div class="relative flex-1">
+              <!-- enterkeyhint : la touche « Envoyer » du clavier iOS, cohérente
+                   avec la touche Entrée gérée plus bas. -->
+              <textarea id="saisie" rows="1" class="field max-h-32 resize-none py-3 pr-24"
+                        placeholder="Posez votre question…"
+                        enterkeyhint="send" autocapitalize="sentences" autocomplete="off"></textarea>
+              <span class="pointer-events-none absolute right-3 top-1/2 inline-flex -translate-y-1/2 items-center gap-1 rounded-full bg-gold-100 px-2.5 py-1 text-label-sm text-gold-800">
+                <span class="material-symbols-outlined text-[14px]" aria-hidden="true">monetization_on</span>
+                <span id="cout-pill">1 crédit</span>
+              </span>
+            </div>
+            <button type="submit" id="envoyer" class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gold-cta text-navy shadow-gold transition-all hover:brightness-105 active:scale-95 disabled:opacity-50" aria-label="Envoyer le message">
+              <span class="material-symbols-outlined text-[22px]" aria-hidden="true">send</span>
+            </button>
+          </form>
+
+          <div id="note-saisie" class="mt-2 flex items-start justify-center gap-1">
+            <p class="text-center text-body-sm text-muted">
+              Un crédit n'est débité qu'à l'envoi effectif du message. Échanges protégés par le secret professionnel.
+            </p>
+            <button type="button" class="shrink-0 rounded-full p-0.5 text-muted transition-colors hover:bg-ice hover:text-navy" id="fermer-note" aria-label="Masquer cette information">
+              <span class="material-symbols-outlined text-[16px]" aria-hidden="true">close</span>
+            </button>
+          </div>
+        </footer>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         COLONNE 3 — PROFIL & SOLDE (desktop)
+         ================================================================== -->
+    <aside class="hidden min-w-0 xl:block">
+      <div class="sticky top-24 flex flex-col gap-4" id="colonne-profil"></div>
+    </aside>
+  </div>
+</main>
+
+<!-- Vue application sur mobile : pas de pied de page sous le tchat, il reste accessible depuis la barre d'onglets. -->
+<uv-footer class="hidden lg:block"></uv-footer>
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = UV_DATA;
+  const { el, els, icone, etoiles, monogramme, note, nombre, heure, Store, toast, echapper, STATUTS, ligneVoyant } = UV;
+
+  /* --- Praticien courant ---------------------------------------------------- */
+  const demande = UV.param('voyant');
+  const v = D.byId(demande) || D.byId(Store.all.dernierVoyant) || D.VOYANTS[0];
+  Store.set({ dernierVoyant: v.id });
+  document.title = `${v.prenom} — Mes tchats | unevoyante.fr`;
+
+  const st = STATUTS[v.statut];
+  const COUT = v.credits;
+
+  /* --- Amorçage de la conversation ------------------------------------------ */
+  const conv = Store.conversation(v.id);
+  if (!conv.messages.length) {
+    conv.messages.push({
+      de: 'eux',
+      texte: `Bonjour, je suis ${v.prenom}. Je vous écoute : quelle est votre question ?`,
+      t: Date.now() - 1000 * 60 * 4,
+    });
+  }
+  Store.marquerLu(v.id);
+
+  /* --- Entête de conversation ------------------------------------------------ */
+  el('#entete-conv').innerHTML = `
+<a href="tchat.html" class="grid h-10 w-10 shrink-0 place-items-center rounded-full text-royal transition-colors hover:bg-ice lg:hidden" aria-label="Retour à mes tchats">
+  ${icone('arrow_back', 'text-[22px]')}
+</a>
+<a href="voyant.html?id=${v.id}" class="shrink-0">${monogramme(v, 'h-11 w-11 text-label-lg')}</a>
+<div class="min-w-0 flex-1">
+  <p class="flex min-w-0 items-center gap-2">
+    <a href="voyant.html?id=${v.id}" class="truncate font-display text-h-sm font-extrabold text-navy hover:text-royal">${v.prenom}</a>
+    ${v.top ? `<span class="badge-top shrink-0">${icone('verified', 'text-[13px] text-gold')} Certifiée</span>` : ''}
+  </p>
+  <p class="flex items-center gap-1.5 truncate text-body-sm text-muted">
+    <span class="${st.dot}"></span> ${st.label} · ${COUT} crédit${COUT > 1 ? 's' : ''} / message
+  </p>
+</div>
+<a href="voyant.html?id=${v.id}" class="btn-link shrink-0 max-sm:hidden">
+  Voir la fiche ${icone('open_in_new', 'text-[16px]')}
+</a>
+<a href="credits.html" class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-line bg-ice px-3 py-1.5 text-label-sm sm:hidden">
+  ${icone('monetization_on', 'text-[16px] text-gold')}<span data-uv-credits>0</span>
+</a>`;
+
+  /* --- Bandeau d'information ------------------------------------------------- */
+  el('#cout-message').textContent = `${COUT} crédit${COUT > 1 ? 's' : ''}`;
+  el('#cout-pill').textContent = `${COUT} crédit${COUT > 1 ? 's' : ''}`;
+  if (Store.all.astuces.bandeauTchat) el('#bandeau-info').classList.add('hidden');
+  el('#fermer-bandeau').addEventListener('click', () => {
+    el('#bandeau-info').classList.add('hidden');
+    Store.set({ astuces: { ...Store.all.astuces, bandeauTchat: true } });
+  });
+  if (Store.all.astuces.noteSaisie) el('#note-saisie').classList.add('hidden');
+  el('#fermer-note').addEventListener('click', () => {
+    el('#note-saisie').classList.add('hidden');
+    Store.set({ astuces: { ...Store.all.astuces, noteSaisie: true } });
+  });
+
+  /* --- Rendu du fil ---------------------------------------------------------- */
+  function bulle(m) {
+    if (m.de === 'moi') {
+      return `<div class="flex flex-col items-end gap-1">
+        <div class="bubble-me">${echapper(m.texte)}</div>
+        <span class="flex items-center gap-1 pr-1 text-body-sm text-muted">${heure(m.t)} · Vu
+          ${icone('done_all', 'text-[14px] text-royal')}</span>
+      </div>`;
+    }
+    return `<div class="flex items-end gap-2.5">
+      ${monogramme(v, 'h-8 w-8 text-body-sm', false)}
+      <div class="flex flex-col gap-1">
+        <div class="bubble-them">${echapper(m.texte)}</div>
+        <span class="pl-1 text-body-sm text-muted">${heure(m.t)}</span>
+      </div>
+    </div>`;
+  }
+
+  function rendreFil() {
+    const c = Store.conversation(v.id);
+    el('#fil').innerHTML =
+      `<div class="flex justify-center"><span class="bubble-system">Aujourd'hui</span></div>` +
+      c.messages.map(bulle).join('');
+    descendre();
+    majSolde();
+  }
+
+  function descendre(doux) {
+    const f = el('#fil');
+    f.scrollTo({ top: f.scrollHeight, behavior: doux ? 'smooth' : 'auto' });
+  }
+
+  /* --- Indicateur de saisie --------------------------------------------------- */
+  function indicateur(actif) {
+    const existant = el('#indicateur');
+    if (!actif) { if (existant) existant.remove(); return; }
+    if (existant) return;
+    const d = document.createElement('div');
+    d.id = 'indicateur';
+    d.className = 'flex items-end gap-2.5';
+    d.innerHTML = `${monogramme(v, 'h-8 w-8 text-body-sm', false)}
+      <span class="inline-flex items-center gap-2 rounded-lg rounded-bl-sm border border-line bg-white px-4 py-3 shadow-sm">
+        <span class="flex gap-1" aria-hidden="true">
+          <span class="typing-dot h-1.5 w-1.5 rounded-full bg-royal"></span>
+          <span class="typing-dot h-1.5 w-1.5 rounded-full bg-royal" style="animation-delay:.2s"></span>
+          <span class="typing-dot h-1.5 w-1.5 rounded-full bg-royal" style="animation-delay:.4s"></span>
+        </span>
+        <span class="text-body-sm italic text-muted">${v.prenom} affine son ressenti…</span>
+      </span>`;
+    el('#fil').appendChild(d);
+    descendre(true);
+  }
+
+  /* --- Solde ------------------------------------------------------------------ */
+  function majSolde() {
+    const vide = Store.credits < COUT;
+    el('#encart-solde').classList.toggle('hidden', !vide);
+    el('#envoyer').disabled = vide;
+    el('#saisie').disabled = vide;
+    el('#saisie').placeholder = vide
+      ? 'Rechargez pour continuer la discussion'
+      : 'Posez votre question…';
+    el('#texte-solde').textContent = Store.credits === 0
+      ? `${v.prenom} vous attend : rechargez pour recevoir sa réponse.`
+      : `Il vous reste ${Store.credits} crédit${Store.credits > 1 ? 's' : ''}, or un message chez ${v.prenom} en coûte ${COUT}.`;
+    rendreProfil();
+  }
+  document.addEventListener('uv:etat', majSolde);
+
+  /* --- Envoi d'un message ------------------------------------------------------ */
+  const saisie = el('#saisie');
+  saisie.addEventListener('input', () => {
+    saisie.style.height = 'auto';
+    saisie.style.height = Math.min(saisie.scrollHeight, 128) + 'px';
+  });
+  saisie.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); el('#formulaire').requestSubmit(); }
+  });
+
+  el('#formulaire').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const texte = saisie.value.trim();
+    if (!texte) { saisie.focus(); return; }
+
+    if (!Store.debiter(COUT)) {
+      toast('Solde insuffisant : rechargez pour envoyer ce message.', { ton: 'alerte', icone: 'monetization_on', action: 'Recharger', href: 'credits.html' });
+      majSolde();
+      return;
+    }
+
+    Store.ajouterMessage(v.id, { de: 'moi', texte, t: Date.now() });
+
+    saisie.value = '';
+    saisie.style.height = 'auto';
+    rendreFil();
+    rendreListe();
+
+    // Réponse simulée du praticien
+    setTimeout(() => {
+      indicateur(true);
+      setTimeout(() => {
+        indicateur(false);
+        const c = Store.conversation(v.id);
+        const dejaDites = c.messages.filter((m) => m.de === 'eux').length - 1;
+        const reponse = v.reponses[dejaDites % v.reponses.length];
+        Store.ajouterMessage(v.id, { de: 'eux', texte: reponse, t: Date.now() });
+        rendreFil();
+        rendreListe();
+      }, 2200);
+    }, 700);
+  });
+
+  /* --- Thèmes : pré-remplissent la saisie -------------------------------------- */
+  el('#themes').innerHTML = D.THEMES_TCHAT
+    .map((t) => `<button type="button" class="chip shrink-0" data-theme="${t}">${t}</button>`).join('');
+  els('[data-theme]').forEach((b) => b.addEventListener('click', () => {
+    saisie.value = D.AMORCES[b.dataset.theme] || '';
+    saisie.focus();
+    saisie.dispatchEvent(new Event('input'));
+    saisie.setSelectionRange(saisie.value.length, saisie.value.length);
+  }));
+
+  /* --- Liste des conversations --------------------------------------------------- */
+  function conversationsOuvertes() {
+    const ids = Object.keys(Store.all.conversations).filter((id) => D.byId(id));
+    if (!ids.includes(v.id)) ids.push(v.id);
+    return ids
+      .map((id) => ({ v: D.byId(id), c: Store.all.conversations[id] }))
+      .sort((a, b) => (b.c ? b.c.maj : 0) - (a.c ? a.c.maj : 0));
+  }
+
+  function rendreListe() {
+    const q = el('#recherche-conv').value.trim().toLowerCase();
+    const items = conversationsOuvertes()
+      .filter((o) => !q || (o.v.prenom + ' ' + o.v.titre).toLowerCase().includes(q));
+
+    el('#nb-conversations').textContent = conversationsOuvertes().length;
+
+    const suggestions = D.VOYANTS
+      .filter((x) => x.statut === 'online' && !items.some((o) => o.v.id === x.id))
+      .slice(0, 4);
+
+    el('#liste-conversations').innerHTML =
+      items.map((o) => ligneVoyant(o.v, o.v.id === v.id)).join('') +
+      (suggestions.length ? `
+        <p class="px-3 pb-2 pt-5 text-label-sm uppercase tracking-wider text-muted">Suggestions en ligne</p>
+        ${suggestions.map((x) => ligneVoyant(x, false)).join('')}` : '') +
+      `<a href="voyants.html" class="mt-3 flex items-center justify-center gap-1.5 rounded-md px-3 py-3 text-label-md text-royal hover:bg-ice">
+         ${icone('search', 'text-[18px]')} Parcourir les 24 praticiens</a>`;
+  }
+  el('#recherche-conv').addEventListener('input', rendreListe);
+
+  /* --- Colonne de profil (desktop) ------------------------------------------------ */
+  function rendreProfil() {
+    const zone = el('#colonne-profil');
+    if (!zone) return;
+    zone.innerHTML = `
+<div class="card-pad text-center">
+  <div class="mb-3 flex justify-center">${monogramme(v, 'h-20 w-20 text-[28px]')}</div>
+  <h2 class="text-h-md"><a href="voyant.html?id=${v.id}" class="hover:text-royal">${v.prenom}</a></h2>
+  ${v.top ? `<p class="mt-2"><span class="badge bg-gold-cta text-navy">${icone('star', 'icon-fill text-[14px]')} TOP VOYANTE</span></p>` : ''}
+  <p class="mt-3 flex items-center justify-center gap-2 text-body-md">
+    ${etoiles(v.note, 'text-[14px]')} <strong class="font-semibold">${note(v.note)}</strong>
+    <span class="text-muted">(${nombre(v.avis)} avis)</span>
+  </p>
+  <div class="mt-4 flex flex-wrap justify-center gap-2">
+    ${v.tags.slice(0, 3).map((t) => `<span class="tag bg-tint text-royal">${t}</span>`).join('')}
+  </div>
+  <p class="quote mt-5 italic text-muted">« ${echapper(v.accroche)} »</p>
+  <a href="voyant.html?id=${v.id}" class="btn-link mt-4 justify-center">Voir la fiche complète</a>
+</div>
+
+<div class="card-pad">
+  <p class="mb-3 flex items-center gap-2 text-label-lg font-bold text-navy">
+    <span class="grid h-9 w-9 place-items-center rounded-full bg-gold-100">${icone('account_balance_wallet', 'text-[20px] text-gold-800')}</span>
+    Mes crédits
+  </p>
+  <p class="flex items-baseline justify-between">
+    <span class="font-display text-h-lg font-bold text-navy"><span data-uv-credits>0</span> crédit<span data-uv-credits-s></span></span>
+    <span class="flex items-center gap-1 text-body-sm ${Store.credits >= COUT ? 'text-online' : 'text-busy'}">
+      <span class="${Store.credits >= COUT ? 'dot-online' : 'dot-busy'}"></span>
+      ${Store.credits >= COUT ? 'Actif' : 'À recharger'}
+    </span>
+  </p>
+  <a href="credits.html" class="btn-gold mt-4 w-full">
+    ${icone('add_circle', 'text-[20px]')} Recharger mon solde</a>
+  <p class="mt-3 text-center text-body-sm text-muted">Packs sans engagement dès 4,99 €</p>
+</div>
+
+<div class="card-pad">
+  <p class="mb-2 flex items-center gap-2 text-label-lg font-bold text-navy">
+    ${icone('shield', 'text-[20px] text-royal')} Confidentialité &amp; charte
+  </p>
+  <p class="text-body-sm leading-relaxed text-muted">
+    Vos échanges sont protégés par le secret professionnel et anonymisés.
+    <a href="info.html?sujet=charte" class="font-medium text-royal underline underline-offset-2">Lire la charte</a>.
+  </p>
+</div>
+
+<div class="rounded-lg border border-line bg-tint p-5">
+  <p class="mb-1 text-label-sm uppercase tracking-wider text-royal">Conseil guidance</p>
+  <p class="text-body-sm leading-relaxed text-royal-800">
+    Précisez les prénoms et dates de naissance pour obtenir une lecture divinatoire plus détaillée.
+  </p>
+</div>`;
+    UV.majCredits();
+  }
+
+  /* --- Démarrage -------------------------------------------------------------------- */
+  rendreFil();
+  rendreListe();
+  rendreProfil();
+
+  // Sur mobile, la liste s'affiche seulement si aucune conversation n'est ciblée
+  if (!demande && window.innerWidth < 1024) {
+    const liste = el('#colonne-liste');
+    liste.classList.remove('hidden');
+    liste.classList.add('flex', 'px-4', 'py-4');
+    // Les 2 rem de py-4 sont retranchés de la vue application, sinon la page
+    // déborde de 32 px : sur iOS, ce débord suffit à faire glisser tout le bloc.
+    liste.style.setProperty('--uv-app-marge', '2rem');
+    el('#colonne-fil').classList.add('hidden', 'lg:flex');
+  }
+
+  // Pas de focus automatique sur mobile : il ouvre le clavier (ou déclenche un
+  // défilement de révélation) avant même que l'utilisateur ait lu la page.
+  if (window.matchMedia('(min-width: 1024px)').matches) saisie.focus({ preventScroll: true });
+
+  // Promo clients VERT : proposée à l'ouverture du tchat, une fois par session.
+  // Après paiement, « Reprendre » ramène à cette conversation.
+  UV.modales.promoVert.proposer({ retour: v.id });
+})();
+</script>
+</body>
+</html>

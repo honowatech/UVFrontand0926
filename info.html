@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Information | unevoyante.fr</title>
+<meta name="description" content="Page d'information unevoyante.fr.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
+<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ice">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre></uv-header>
+<div id="ariane"></div>
+
+<main id="contenu" class="flex-1">
+  <div class="shell grid gap-10 py-10 lg:grid-cols-[1fr_320px] lg:py-16">
+
+    <article>
+      <span class="eyebrow" id="categorie">Information</span>
+      <h1 class="mb-4 mt-2 text-h-xl-m sm:text-h-lg lg:text-h-xl" id="titre">Information</h1>
+      <p class="lede mb-8" id="chapeau"></p>
+
+      <div class="card-pad mb-8 border-royal-200 bg-tint">
+        <p class="flex items-start gap-3 text-body-md leading-relaxed text-royal-800">
+          <span class="material-symbols-outlined shrink-0 text-[22px] text-royal" aria-hidden="true">construction</span>
+          <span>
+            <strong class="font-semibold text-navy">Hors périmètre de cette V1.</strong>
+            Cette maquette couvre le parcours de consultation complet : accueil, catalogue, fiche
+            praticien, tchat, crédits, inscription et compte. Le contenu détaillé de cette page sera
+            rédigé lors d'une itération ultérieure.
+          </span>
+        </p>
+      </div>
+
+      <div class="prose-uv" id="apercu"></div>
+
+      <div class="mt-10 rounded-3xl bg-white p-8 shadow-card">
+        <h2 class="mb-2 text-h-md">Poursuivre votre visite</h2>
+        <p class="mb-6 text-body-md text-muted">
+          Aucune impasse : voici les parcours entièrement fonctionnels de cette maquette.
+        </p>
+        <div class="grid gap-3 sm:grid-cols-2" id="parcours"></div>
+      </div>
+    </article>
+
+    <aside class="lg:sticky lg:top-24 lg:self-start">
+      <div class="card-pad">
+        <p class="mb-4 text-label-lg font-bold text-navy">Autres pages d'information</p>
+        <nav class="flex flex-col gap-1" id="autres" aria-label="Autres pages d'information"></nav>
+      </div>
+
+      <div class="card-pad mt-4">
+        <p class="mb-2 flex items-center gap-2 text-label-lg font-bold text-navy">
+          <span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">support_agent</span>
+          Service client
+        </p>
+        <p class="mb-3 text-body-sm leading-relaxed text-muted">
+          Disponible 7j/7 et 24h/24, réponse sous deux heures en moyenne.
+        </p>
+        <p class="text-body-sm text-muted">
+          <a href="tel:+33900000000" class="font-medium text-royal underline underline-offset-2">09 00 00 00 00</a><br>
+          contact@unevoyante.fr
+        </p>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<uv-footer></uv-footer>
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script>
+(function () {
+  'use strict';
+  const { el, icone, filAriane } = UV;
+
+  /* Chaque sujet reste une destination réelle, jamais un lien mort. */
+  const SUJETS = {
+    'mentions-legales': ['Légal', 'Mentions légales',
+      'Éditeur, hébergeur, directeur de publication et coordonnées de la société exploitant unevoyante.fr.',
+      ['Identité de l’éditeur et numéro RCS', 'Coordonnées de l’hébergeur', 'Directeur de la publication', 'Propriété intellectuelle des contenus', 'Médiateur de la consommation']],
+    'cgv': ['Légal', 'Conditions générales de vente',
+      'Règles d’achat et d’utilisation des crédits, droit de rétractation et conditions de remboursement.',
+      ['Objet et champ d’application', 'Achat et validité des crédits', 'Absence d’abonnement et de reconduction', 'Droit de rétractation de 14 jours', 'Réclamations et remboursements']],
+    'confidentialite': ['Légal', 'Politique de confidentialité',
+      'Données collectées, finalités, durées de conservation et exercice de vos droits RGPD.',
+      ['Données collectées et finalités', 'Base légale des traitements', 'Durées de conservation', 'Vos droits : accès, rectification, effacement', 'Contact du délégué à la protection des données']],
+    'charte': ['Éthique', 'Charte déontologique',
+      'Les engagements que chaque praticien signe avant d’être référencé sur la plateforme.',
+      ['Interdiction du diagnostic médical et psychologique', 'Interdiction des pronostics de jeux d’argent', 'Absence de pression et de relance commerciale', 'Refus des consultations de mineurs', 'Procédure de signalement et de suspension']],
+    'cookies': ['Légal', 'Gestion des cookies',
+      'Cookies strictement nécessaires, mesure d’audience facultative et modification de vos choix.',
+      ['Cookies nécessaires au fonctionnement', 'Mesure d’audience anonyme, désactivée par défaut', 'Absence de cookies publicitaires', 'Modifier vos préférences à tout moment']],
+    'contact': ['Support', 'Nous contacter',
+      'Service client joignable 7j/7 et 24h/24, par téléphone ou par courriel.',
+      ['Formulaire de contact', 'Assistance sur un paiement ou un remboursement', 'Signaler un praticien', 'Demande presse ou partenariat']],
+    'journal': ['Éditorial', 'Journal ésotérique',
+      'Articles de fond sur le tarot, l’astrologie, la numérologie et la pratique de la guidance.',
+      ['Comprendre les arcanes du Tarot de Marseille', 'Ce que les nœuds lunaires racontent', 'Numérologie : lire ses cycles personnels', 'Reconnaître une pratique éthique']],
+    'partenaire': ['Recrutement', 'Devenir praticien partenaire',
+      'Processus de candidature, consultation test anonyme et conditions de rémunération.',
+      ['Critères de sélection', 'Déroulé de la consultation test', 'Signature de la charte déontologique', 'Rémunération et rythme de versement']],
+  };
+
+  const cle = UV.param('sujet');
+  const s = SUJETS[cle] || ['Information', 'Page introuvable',
+    'Cette adresse ne correspond à aucune page de la maquette. Voici par où continuer.',
+    []];
+
+  document.title = `${s[1]} | unevoyante.fr`;
+  el('#categorie').textContent = s[0];
+  el('#titre').textContent = s[1];
+  el('#chapeau').textContent = s[2];
+  el('#ariane').innerHTML = filAriane([['Accueil', 'index.html'], [s[1]]]);
+
+  el('#apercu').innerHTML = s[3].length
+    ? `<h2>Ce que cette page contiendra</h2><ul>${s[3].map((p) => `<li>${p}</li>`).join('')}</ul>`
+    : '';
+
+  el('#parcours').innerHTML = [
+    ['index.html', 'home', 'Accueil', 'Le parcours complet depuis la page d’accueil'],
+    ['voyants.html', 'person_search', 'Catalogue', 'Les 24 praticiens, filtres et recherche actifs'],
+    ['tchat.html', 'forum', 'Tchat', 'Conversation réelle, débit de crédits inclus'],
+    ['credits.html', 'monetization_on', 'Crédits', 'Packs, paiement simulé et rechargement'],
+  ].map((p) => `
+    <a href="${p[0]}" class="flex items-center gap-3 rounded-md border border-line bg-white p-4 transition-colors hover:bg-ice">
+      ${icone(p[1], 'text-[24px] text-royal shrink-0')}
+      <span><strong class="block text-label-md text-navy">${p[2]}</strong>
+        <span class="text-body-sm text-muted">${p[3]}</span></span>
+    </a>`).join('');
+
+  el('#autres').innerHTML = Object.entries(SUJETS)
+    .filter(([k]) => k !== cle)
+    .map(([k, v]) => `
+      <a href="info.html?sujet=${k}" class="flex items-center justify-between gap-2 rounded px-3 py-2.5 text-label-md text-navy transition-colors hover:bg-ice">
+        ${v[1]} ${icone('chevron_right', 'text-[18px] text-muted')}
+      </a>`).join('');
+})();
+</script>
+</body>
+</html>

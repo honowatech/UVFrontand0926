@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Questions fréquentes | unevoyante.fr</title>
+<meta name="description" content="Toutes les réponses sur le fonctionnement, les crédits, la confidentialité, la sélection des praticiens et votre compte unevoyante.fr.">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
+<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ice">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre></uv-header>
+<div id="ariane"></div>
+
+<main id="contenu" class="flex-1">
+
+  <section class="bg-white">
+    <div class="shell py-6 lg:py-10">
+      <div class="max-w-3xl">
+        <span class="eyebrow">Aide &amp; support</span>
+        <h1 class="mb-4 mt-2 text-h-xl-m sm:text-h-lg lg:text-h-xl">Questions fréquentes</h1>
+        <p class="lede">
+          Tout ce que vous devez savoir avant, pendant et après votre consultation de voyance par tchat.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pt-6 lg:pt-10">
+    <div class="shell grid gap-10 lg:grid-cols-[240px_1fr]">
+
+      <!-- Sommaire — min-w-0 : la barre de catégories déroulante ne doit pas
+           élargir la colonne de grille au-delà de l'écran (défilement horizontal). -->
+      <aside class="min-w-0 lg:sticky lg:top-24 lg:self-start">
+        <p class="mb-3 text-label-sm uppercase tracking-wider text-muted">Catégories</p>
+        <nav class="scroll-x gap-2 no-scrollbar lg:flex-col lg:gap-1 lg:overflow-visible" id="categories" aria-label="Catégories de la FAQ"></nav>
+      </aside>
+
+      <!-- Questions -->
+      <div>
+        <div class="flex flex-col gap-3" id="liste"></div>
+
+        <div class="mt-10 rounded-3xl bg-white p-8 text-center shadow-card">
+          <span class="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-full bg-tint">
+            <span class="material-symbols-outlined text-[28px] text-royal" aria-hidden="true">support_agent</span>
+          </span>
+          <h2 class="mb-2 text-h-md">Vous n'avez pas trouvé votre réponse ?</h2>
+          <p class="mx-auto mb-6 max-w-lg text-body-md leading-relaxed text-muted">
+            Notre service client répond 7j/7 et 24h/24, en moins de deux heures en moyenne.
+          </p>
+          <div class="flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <a href="info.html?sujet=contact" class="btn-royal">Nous écrire</a>
+            <a href="tel:+33900000000" class="btn-ghost">09 00 00 00 00</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<uv-footer></uv-footer>
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = UV_DATA, { el, els, accordeon, filAriane, echapper } = UV;
+
+  el('#ariane').innerHTML = filAriane([['Accueil', 'index.html'], ['FAQ']]);
+
+  const CATS = ['Toutes', ...Array.from(new Set(D.FAQ.map((f) => f.cat)))];
+  let cat = 'Toutes';
+
+  el('#categories').innerHTML = CATS.map((c) => `
+    <button type="button" class="chip shrink-0 lg:w-full lg:justify-start" data-cat="${c}" aria-pressed="${c === cat}">${c}</button>`).join('');
+
+  function rendre() {
+    const liste = D.FAQ.filter((f) => cat === 'Toutes' || f.cat === cat);
+    el('#liste').innerHTML = accordeon(liste, { premierOuvert: true });
+  }
+
+  els('[data-cat]').forEach((b) => b.addEventListener('click', () => {
+    cat = b.dataset.cat;
+    els('[data-cat]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    rendre();
+  }));
+
+  rendre();
+})();
+</script>
+</body>
+</html>

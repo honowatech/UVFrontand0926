@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Tarifs &amp; packs de crédits | unevoyante.fr</title>
+<meta name="description" content="Nos tarifs en toute transparence : 1 crédit = 1 message envoyé, packs de 2 à 55 crédits, sans abonnement ni date d'expiration.">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
+<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ice">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre></uv-header>
+<div id="ariane"></div>
+
+<main id="contenu" class="flex-1">
+
+  <section class="bg-white">
+    <div class="shell py-12 lg:py-16">
+      <div class="max-w-3xl">
+        <span class="eyebrow">Tarifs</span>
+        <h1 class="mb-4 mt-2 text-h-xl-m sm:text-h-lg lg:text-h-xl">
+          Un prix par message, et rien d'autre
+        </h1>
+        <p class="lede">
+          Pas d'abonnement, pas de minute facturée, pas de frais de dossier. Vous achetez des crédits,
+          un crédit correspond à un message que vous envoyez, et vos crédits n'expirent jamais.
+        </p>
+      </div>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-3" id="principes"></div>
+    </div>
+  </section>
+
+  <!-- Packs -->
+  <section class="section">
+    <div class="shell">
+      <div class="mb-8 flex flex-wrap items-end justify-between gap-3">
+        <h2 class="text-h-lg">Nos packs de crédits</h2>
+        <p class="text-body-sm text-muted">Prix TTC · TVA 20 % incluse</p>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5" id="packs"></div>
+      <p class="mt-6 text-center text-body-sm text-muted">
+        Vous ne savez pas quel pack choisir ? Le pack Certitude couvre une consultation complète
+        avec relances, c'est le choix de 6 clients sur 10.
+      </p>
+    </div>
+  </section>
+
+  <!-- Simulateur : trouve le bon pack -->
+  <section class="pb-12 lg:pb-20">
+    <div class="shell">
+      <div class="rounded-3xl bg-white p-6 shadow-card sm:p-10 lg:p-12">
+        <div class="mb-8 max-w-2xl">
+          <h2 class="mb-3 text-h-lg">Combien vais-je dépenser ?</h2>
+          <p class="text-body-md leading-relaxed text-muted">
+            Estimez votre budget selon le nombre de questions que vous comptez poser et le tarif du
+            praticien choisi. Aucune donnée n'est transmise : le calcul se fait dans votre navigateur.
+          </p>
+        </div>
+
+        <div class="grid gap-8 lg:grid-cols-[1fr_320px]">
+          <div class="flex flex-col gap-6">
+            <div>
+              <label class="label flex items-baseline justify-between" for="questions">
+                <span>Nombre de questions à poser</span>
+                <strong class="font-display text-h-md text-royal" id="questions-valeur">5</strong>
+              </label>
+              <input type="range" id="questions" min="1" max="30" value="5"
+                     class="h-2 w-full cursor-pointer appearance-none rounded-full bg-line accent-royal">
+              <div class="mt-1 flex justify-between text-body-sm text-muted"><span>1</span><span>30</span></div>
+            </div>
+
+            <fieldset>
+              <legend class="label">Tarif du praticien</legend>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" class="chip" data-cout="1" aria-pressed="true">1 crédit / message</button>
+                <button type="button" class="chip" data-cout="2" aria-pressed="false">2 crédits / message</button>
+                <button type="button" class="chip" data-cout="3" aria-pressed="false">3 crédits / message</button>
+              </div>
+              <p class="hint">La majorité des praticiens facturent 1 crédit. Les lectures longues montent à 2 ou 3.</p>
+            </fieldset>
+          </div>
+
+          <aside class="card bg-ice/60 p-6">
+            <p class="text-label-sm uppercase tracking-wider text-muted">Il vous faut</p>
+            <p class="font-display text-h-xl font-bold text-navy"><span id="res-credits">5</span> crédits</p>
+            <hr class="rule my-4">
+            <p class="text-label-sm uppercase tracking-wider text-muted">Pack conseillé</p>
+            <p class="mb-1 text-h-md font-bold text-navy" id="res-pack">Prévision</p>
+            <p class="mb-4 text-body-md text-muted"><span id="res-prix">9,99 €</span> · <span id="res-unite">1,67 €</span> par message</p>
+            <a href="credits.html?pack=prevision" class="btn-gold w-full" id="choisir-pack">Choisir ce pack</a>
+            <p class="mt-3 text-center text-body-sm text-muted">3 crédits offerts à l'inscription</p>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparaison honnête -->
+  <section class="pb-12 lg:pb-20">
+    <div class="shell">
+      <h2 class="mb-6 text-h-lg">Pourquoi facturer au message plutôt qu'à la minute ?</h2>
+      <div class="grid gap-6 lg:grid-cols-2">
+        <div class="card-pad">
+          <p class="mb-3 flex items-center gap-2 text-label-lg font-bold text-navy">
+            <span class="material-symbols-outlined text-[22px] text-muted" aria-hidden="true">timer</span>
+            La facturation à la minute
+          </p>
+          <p class="text-body-md leading-relaxed text-muted">
+            Elle vous met sous pression : vous écrivez vite, vous relisez mal, vous n'osez pas
+            réfléchir avant de répondre. Le coût final est imprévisible et dépend autant de votre
+            débit de frappe que de la qualité de la consultation.
+          </p>
+        </div>
+        <div class="card-pad border-royal-200 bg-tint">
+          <p class="mb-3 flex items-center gap-2 text-label-lg font-bold text-navy">
+            <span class="material-symbols-outlined text-[22px] text-royal" aria-hidden="true">mail</span>
+            Notre facturation au message
+          </p>
+          <p class="text-body-md leading-relaxed text-royal-800">
+            Vous connaissez le prix avant d'envoyer. Vous prenez le temps de formuler, vous refermez
+            la page pour réfléchir, vous revenez le lendemain. La réponse du praticien, même longue,
+            ne vous coûte rien de plus.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ tarifs -->
+  <section class="pb-16 lg:pb-24">
+    <div class="shell">
+      <h2 class="mb-6 text-h-lg">Questions sur les tarifs</h2>
+      <div class="flex flex-col gap-3" id="faq"></div>
+      <p class="mt-8 text-center text-body-md text-muted">
+        Une autre question ? <a href="faq.html" class="font-medium text-royal underline underline-offset-2">Consultez la FAQ complète</a>
+        ou <a href="info.html?sujet=contact" class="font-medium text-royal underline underline-offset-2">contactez-nous</a>.
+      </p>
+    </div>
+  </section>
+</main>
+
+<uv-footer></uv-footer>
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script>
+(function () {
+  'use strict';
+  const D = UV_DATA, { el, els, icone, euro, accordeon, filAriane } = UV;
+
+  el('#ariane').innerHTML = filAriane([['Accueil', 'index.html'], ['Tarifs']]);
+
+  el('#principes').innerHTML = [
+    ['sell', '1 crédit = 1 message', 'Seuls vos messages sont facturés. Les réponses du praticien sont gratuites, quelle que soit leur longueur.'],
+    ['event_busy', 'Aucune expiration', 'Vos crédits restent acquis indéfiniment. Aucun abonnement, aucun prélèvement automatique.'],
+    ['savings', 'Satisfait ou remboursé', 'Les crédits non utilisés sont remboursables sous 14 jours, sans justification.'],
+  ].map((p) => `
+    <div class="card-pad">
+      <span class="mb-3 grid h-11 w-11 place-items-center rounded-full bg-ice">${icone(p[0], 'text-[22px] text-royal')}</span>
+      <h2 class="mb-1 text-label-lg text-navy">${p[1]}</h2>
+      <p class="text-body-sm leading-relaxed text-muted">${p[2]}</p>
+    </div>`).join('');
+
+  /* --- Packs ---------------------------------------------------------------- */
+  el('#packs').innerHTML = D.PACKS.map((p) => `
+    <div class="relative pt-3">
+      ${p.badge ? `<span class="absolute left-1/2 top-0 z-10 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-label-sm font-semibold ${
+        p.populaire ? 'bg-gold-cta text-navy' : 'bg-navy text-white'}">${p.badge}</span>` : ''}
+      <div class="flex h-full flex-col rounded-lg border-2 p-5 ${p.populaire ? 'border-gold bg-gold-50' : 'border-line bg-white'}">
+        <p class="mb-4 text-label-sm uppercase tracking-wider ${p.populaire ? 'text-gold-800' : 'text-muted'}">${p.nom}</p>
+        <p class="mb-4 flex items-baseline gap-2 border-b border-line pb-4">
+          <span class="font-display text-[32px] font-bold leading-none text-navy">${p.credits}</span>
+          <span class="text-body-md text-muted">crédits</span>
+        </p>
+        <p class="text-h-md font-bold text-navy">${euro(p.prix)}</p>
+        <p class="text-body-sm text-muted">${euro(p.prix / p.credits)} / message</p>
+        ${p.bonus ? `<p class="mt-2"><span class="forfait-bonus ${p.populaire ? 'bg-white' : ''}">+${p.bonus}&nbsp;% crédits</span></p>` : ''}
+        <div class="mt-auto pt-5">
+          <a href="credits.html?pack=${p.id}" class="${p.populaire ? 'btn-gold' : 'btn-ghost'} w-full">Choisir</a>
+        </div>
+      </div>
+    </div>`).join('');
+
+  /* --- Simulateur ------------------------------------------------------------ */
+  let cout = 1;
+  const curseur = el('#questions');
+
+  function calculer() {
+    const q = +curseur.value;
+    const besoin = q * cout;
+    el('#questions-valeur').textContent = q;
+    el('#res-credits').textContent = besoin;
+
+    // Plus petit pack couvrant le besoin, sinon le plus grand
+    const tries = D.PACKS.slice().sort((a, b) => a.credits - b.credits);
+    const pack = tries.find((p) => p.credits >= besoin) || tries[tries.length - 1];
+
+    el('#res-pack').textContent = pack.nom;
+    el('#res-prix').textContent = euro(pack.prix);
+    el('#res-unite').textContent = euro(pack.prix / pack.credits * cout);
+
+    // Le pack conseillé n'est mémorisé qu'en arrivant sur la page Crédits
+    el('#choisir-pack').href = `credits.html?pack=${pack.id}`;
+  }
+
+  curseur.addEventListener('input', calculer);
+  els('[data-cout]').forEach((b) => b.addEventListener('click', () => {
+    cout = +b.dataset.cout;
+    els('[data-cout]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    calculer();
+  }));
+  calculer();
+
+  /* --- FAQ ------------------------------------------------------------------- */
+  el('#faq').innerHTML = accordeon(D.FAQ.filter((f) => f.cat === 'Crédits'));
+})();
+</script>
+</body>
+</html>

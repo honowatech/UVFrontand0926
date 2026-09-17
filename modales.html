@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Modales | unevoyante.fr</title>
+<meta name="description" content="Catalogue des modales du site, pour les consulter une à une pendant le développement.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
+<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ice">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre></uv-header>
+<div id="ariane"></div>
+
+<main id="contenu" class="flex-1">
+
+  <section class="bg-white">
+    <div class="shell py-12 lg:py-16">
+      <div class="max-w-3xl">
+        <span class="eyebrow">Outil de développement</span>
+        <h1 class="mb-4 mt-2 text-h-xl-m sm:text-h-lg lg:text-h-xl">Modales</h1>
+        <p class="lede">
+          Toutes les modales du site, réunies ici pour être consultées une à une.
+          Chaque bouton ouvre la modale qui porte son nom.
+        </p>
+        <p class="mt-3 text-body-sm text-muted">
+          Lien direct vers une modale : <code class="rounded bg-ice px-1.5 py-0.5 font-semibold text-navy">modales.html?ouvrir=promo-vert</code>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3" id="modales"></div>
+    </div>
+  </section>
+</main>
+
+<uv-footer></uv-footer>
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script>
+(function () {
+  'use strict';
+  const { el, els, icone, toast, filAriane } = UV;
+
+  el('#ariane').innerHTML = filAriane([['Accueil', 'index.html'], ['Modales']]);
+
+  /* Une entrée par modale. `ouvrir` reste vide tant que la modale n'est pas conçue ;
+     `declencheur` indique où elle apparaît d'elle-même sur le site. */
+  const MODALES = [
+    {
+      id: 'forfaits', label: 'Liste des forfaits',
+      declencheur: 'Pastille crédits de l’en-tête · toutes les pages',
+      ouvrir: () => UV.modales.forfaits.ouvrir(),
+    },
+    {
+      id: 'promo-vert', label: 'Promo pour les clients VERT',
+      declencheur: 'Ouverture du tchat · une fois par session',
+      ouvrir: () => UV.modales.promoVert.ouvrir(),
+    },
+    { id: 'promo-credits-num-adresse', label: 'Promo pour crédits vs Num + Adresse' },
+    {
+      id: 'upsell', label: 'Upsell · +20 crédits en plus',
+      declencheur: 'Validation d’une offre promo ou d’un pack depuis une modale',
+      // Exemple : proposé en plus du Pack Certitude
+      ouvrir: () => UV.modales.upsell.ouvrir({ achat: { libelle: 'votre Pack Certitude', lien: 'credits.html?pack=certitude' } }),
+    },
+  ];
+
+  el('#modales').innerHTML = MODALES.map((m) => `
+    <div>
+      <button type="button" data-modale="${m.id}" class="btn-ghost w-full justify-between whitespace-normal py-3 text-left"
+              aria-describedby="modale-${m.id}-info">
+        ${m.label} ${icone('open_in_new', 'text-[20px] shrink-0')}
+      </button>
+      <p id="modale-${m.id}-info" class="mt-2 flex items-center gap-1.5 px-5 text-body-sm text-muted">
+        ${m.ouvrir
+          ? `${icone('bolt', 'text-[16px] text-gold')} ${m.declencheur}`
+          : `${icone('construction', 'text-[16px]')} À concevoir`}
+      </p>
+    </div>`).join('');
+
+  els('[data-modale]').forEach((b) => b.addEventListener('click', () => {
+    const m = MODALES.find((x) => x.id === b.dataset.modale);
+    if (m.ouvrir) return m.ouvrir();
+    toast(`« ${m.label} » : modale pas encore conçue.`, { icone: 'construction' });
+  }));
+
+  // Lien direct vers une modale : modales.html?ouvrir=promo-vert
+  const directe = MODALES.find((m) => m.id === UV.param('ouvrir'));
+  if (directe && directe.ouvrir) directe.ouvrir();
+})();
+</script>
+</body>
+</html>

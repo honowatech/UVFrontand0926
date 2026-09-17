@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Audit du thème — fuites de lumière & contrastes</title>
+<style>body{font:13px system-ui;margin:0}iframe{width:1280px;height:900px;border:0;position:absolute;left:-4000px}</style>
+</head>
+<body>
+<pre id="sortie">Audit en cours…</pre>
+<script>
+/* Outil de contrôle du thème — ouvrir http://localhost:5173/scripts/audit-theme.html
+   Charge chaque page du site dans une iframe (même origine), applique le thème
+   demandé, puis relève :
+   • les « fuites de lumière » : un fond clair resté clair en mode nuit ;
+   • les contrastes texte/fond sous le seuil AA (4,5:1, ou 3:1 pour les grands
+     titres), en tenant compte de l'empilement des fonds semi-transparents.
+   Exemptions : éléments volontairement estompés (aria-disabled), texte en
+   dégradé, et plaques de marque (data-uv-blanc). Le bilan complet reste dans
+   window.UV_BILAN. */
+const PAGES = ['/index.html','/voyants.html','/voyant.html','/tchat.html','/credits.html','/tarifs.html',
+  '/compte.html','/connexion.html','/inscription.html','/faq.html','/info.html','/comment-ca-marche.html',
+  '/modales.html','/modales.html?ouvrir=promo-vert','/modales.html?ouvrir=forfaits','/modales.html?ouvrir=upsell',
+  '/credits.html?offre=vert','/credits.html?pack=certitude&complement=plus20'];
+
+function auditer(doc, win, sombre) {
+  const lin = (c) => { c /= 255; return c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); };
+  const L = (c) => .2126 * lin(c.r) + .7152 * lin(c.g) + .0722 * lin(c.b);
+  const parse = (s) => { const m = (s || '').match(/[\d.]+/g); return m && m.length >= 3 ? { r: +m[0], g: +m[1], b: +m[2], a: m.length > 3 ? +m[3] : 1 } : null; };
+  const over = (f, b) => ({ r: f.r * f.a + b.r * (1 - f.a), g: f.g * f.a + b.g * (1 - f.a), b: f.b * f.a + b.b * (1 - f.a), a: 1 });
+  const ratio = (f, b) => { const a = L(f), c = L(b); return (Math.max(a, c) + .05) / (Math.min(a, c) + .05); };
+  const nom = (e) => e.tagName.toLowerCase() + '.' + String(e.className || '').split(/\s+/).filter(Boolean).slice(0, 3).join('.');
+  const fond = (e) => {
+    let n = e;
+    while (n && n !== doc.documentElement) {
+      const c = parse(win.getComputedStyle(n).backgroundColor);
+      if (c && c.a > .99) return c;
+      if (c && c.a > 0) return over(c, fond(n.parentElement || doc.body));
+      n = n.parentElement;
+    }
+    return parse(win.getComputedStyle(doc.body).backgroundColor) || { r: 255, g: 255, b: 255, a: 1 };
+  };
+  /* Exemptions : éléments volontairement estompés (liens désactivés) et texte
+     en dégradé (couleur transparente + background-clip). */
+  const exempt = (e) => e.closest('[aria-disabled="true"]') || e.closest('[data-uv-blanc]')
+    || /text-gradient-gold/.test(String(e.className || ''));
+  /* Un texte posé sur un dégradé (bouton or, section nuit) n'a pas de couleur
+     de fond unique : le ratio n'y veut rien dire, on ne le mesure pas. */
+  const surDegrade = (e) => {
+    let n = e;
+    while (n && n !== doc.documentElement) {
+      const bi = win.getComputedStyle(n).backgroundImage;
+      if (bi && bi !== 'none' && bi.indexOf('gradient') >= 0) return true;
+      n = n.parentElement;
+    }
+    return false;
+  };
+
+  const fuites = [], faibles = [];
+  doc.querySelectorAll('body *').forEach((e) => {
+    const st = win.getComputedStyle(e);
+    if (st.display === 'none' || st.visibility === 'hidden' || !e.getClientRects().length) return;
+    const r = e.getBoundingClientRect();
+    if (r.width * r.height < 600) return;
+
+    if (sombre) {
+      const bg = parse(st.backgroundColor);
+      if (bg && bg.a > .85 && L(bg) > .45 && !e.closest('[data-uv-blanc]')
+          && !/gold|white\/|bg-white\//.test(String(e.className || '')))
+        fuites.push(nom(e) + ' → ' + st.backgroundColor);
+      const bi = st.backgroundImage;
+      if (bi && bi !== 'none' && /255,\s*255,\s*255/.test(bi) && !/gradient-gold|gold-cta/.test(String(e.className || '')))
+        fuites.push(nom(e) + ' (image) → ' + bi.slice(0, 60));
+    }
+
+    const t = (e.textContent || '').trim();
+    if (t && e.children.length === 0 && t.length > 1 && !exempt(e) && !surDegrade(e)) {
+      const fg = parse(st.color); if (!fg) return;
+      const eff = fond(e);
+      const c = ratio(fg.a < 1 ? over(fg, eff) : fg, eff);
+      const px = parseFloat(st.fontSize), gras = parseInt(st.fontWeight) >= 700;
+      const seuil = (px >= 24 || (px >= 18.66 && gras)) ? 3 : 4.5;
+      if (c < seuil && st.opacity !== '0') faibles.push(nom(e) + ' « ' + t.slice(0, 24) + ' » ' + c.toFixed(2) + '/' + seuil);
+    }
+  });
+  return { fuites, faibles };
+}
+
+function charger(page) {
+  return new Promise((ok) => {
+    const f = document.createElement('iframe');
+    f.src = page;
+    f.onload = () => setTimeout(() => ok(f), 1400);
+    document.body.appendChild(f);
+  });
+}
+
+(async () => {
+  const sortie = document.getElementById('sortie');
+  const bilan = {};
+  for (const theme of ['clair', 'nuit']) {
+    localStorage.setItem('unevoyante.theme', theme);
+    for (const page of PAGES) {
+      const f = await charger(page);
+      const d = f.contentDocument, w = f.contentWindow;
+      d.documentElement.classList.toggle('dark', theme === 'nuit');
+      await new Promise((r) => setTimeout(r, 250));
+      const res = auditer(d, w, theme === 'nuit');
+      bilan[theme + ' · ' + page] = res;
+      f.remove();
+    }
+  }
+  window.UV_BILAN = bilan;
+  sortie.textContent = JSON.stringify(bilan, null, 1);
+})();
+</script>
+</body>
+</html>
