@@ -704,6 +704,17 @@
 </a>`;
   }
 
+  /** Pièce d'or frappée du bonus d'un pack (« +67 % offerts ») — modale des
+      forfaits, pages Crédits et Tarifs. Décorative : fournir à côté le texte
+      équivalent pour les lecteurs d'écran. `eclat` : reflet périodique, réservé
+      au pack mis en avant. */
+  function piece(bonus, eclat) {
+    return `<span class="forfait-piece${bonus >= 100 ? ' forfait-piece-long' : ''}${eclat ? ' forfait-piece-eclat' : ''}" aria-hidden="true">
+      <span class="forfait-piece-valeur"><span class="forfait-piece-signe">+</span>${bonus}<span class="forfait-piece-pourcent">%</span></span>
+      <span class="forfait-piece-mention">offerts</span>
+    </span>`;
+  }
+
   /** Accordéon accessible. */
   // name commun : ouvrir une question referme les autres du même groupe (accordéon exclusif natif)
   let nbAccordeons = 0;
@@ -954,7 +965,7 @@
   global.UV = {
     Store, toast, el, els, icone, etoiles, monogramme, euro, nombre, note, heure,
     param, echapper, STATUTS, carteVoyant, ligneVoyant, accordeon, filAriane,
-    majCredits, pageCourante, logo,
+    majCredits, pageCourante, logo, piece,
     theme: { courant: themeCourant, basculer: basculerTheme, appliquer: appliquerTheme },
   };
 })(window);

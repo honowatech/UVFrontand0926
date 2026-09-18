@@ -184,7 +184,15 @@ consultable depuis `modales.html`.
   il mène simplement à la page Crédits.
 - **Contenu** : le solde (« Il vous reste 2 crédits », ton d'alerte à zéro), puis les 4 packs de
   `UV_DATA.PACKS` hors offre d'essai — nom, bonus, crédits, coût par message **calculé**
-  (prix ÷ crédits, jamais saisi) et prix. Le pack `populaire` est cerclé d'or.
+  (prix ÷ crédits, jamais saisi) et prix.
+- **Direction visuelle** : l'or est la matière des crédits. Jeton d'or portant le solde sous une
+  lueur champagne et un fragment de la constellation du site ; une pièce d'or par pack, frappée
+  de son bonus (chiffre en vedette, « + » et « % » en exposant, mention « offerts », grènetis),
+  sur un bloc au gris doux de la charte ; pack `populaire` sur fond champagne, liseré en dégradé
+  or, halo et éclat qui traverse sa pièce toutes les 4 s (sauf mouvement réduit). Tout le
+  reste reste sobre (surface, encre marine) pour que l'or porte seul l'envie. Les lignes entrent
+  en cascade (sauf mouvement réduit). En nuit, les pièces gardent leur encre marine, la lueur
+  est plus retenue et la constellation plus présente.
 - **Choix d'un pack** : chaque ligne propose l'upsell, puis mène au paiement, pack présélectionné :
   `credits.html?pack=<id>`, plus `&retour=<praticien>` depuis le tchat. La page Crédits mémorise
   le pack, le retire de l'adresse, le confirme et descend jusqu'au bouton « Payer ». La page
@@ -193,6 +201,12 @@ consultable depuis `modales.html`.
   Évidence 15 crédits 19,99 € (+50 %), Certitude 25 crédits 29,99 € (+67 %, populaire),
   Résolution 55 crédits 49,99 € (+120 %), plus l'offre d'essai (2 crédits, 4,99 €). Le bonus est
   calculé sur le tarif de base d'environ 2 € le crédit.
+- **Même vocabulaire partout** : la pièce d'or est un composant partagé, `UV.piece(bonus, eclat)`
+  (`app.js`), utilisé par la modale, les cartes de la page Crédits (packs et offre spéciale) et
+  celles de la page Tarifs ; `.carte-or` (`input.css`) habille le pack mis en avant. Sur Tarifs,
+  les 4 packs occupent la grille — nom en capitales dorées, volume en vedette, pièce du bonus,
+  accroche « Jusqu'à +120 % de crédits offerts » calculée sur la grille, entrée en cascade — et
+  l'offre d'essai, moins avantageuse, passe en lien discret sous la grille, comme sur Crédits.
 
 ### Upsell — offre complémentaire
 

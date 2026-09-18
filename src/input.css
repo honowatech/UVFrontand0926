@@ -381,6 +381,28 @@
     --tint-hi: #FBE9EE; --tint-lo: #FDF4F6;
     --tint-line: #F1D3DB; --tint-chip: #F7DCE3; --tint-ink: #9A3A56;
   }
+  /* Nuit — la carte d'honneur : marine de la charte, halo d'or en coin.
+     Reste sombre dans les deux thèmes, donc encre claire en dur. */
+  .tint-nuit {
+    --tint-hi: #1F3C88; --tint-lo: #0F1F4B;
+    --tint-line: #1F3C88; --tint-chip: rgb(255 255 255 / .1); --tint-ink: #F0D48A;
+    --tint-chip-edge: .14;
+    background-image:
+      radial-gradient(circle at 100% 0%, rgb(201 162 74 / .32) 0%, transparent 58%),
+      linear-gradient(155deg, var(--tint-hi) 0%, var(--tint-lo) 72%);
+    color: #fff;
+  }
+
+  /* Filigrane : grande icône inclinée dans le coin bas-droit d'une .card-tint,
+     dans l'encre de la teinte. Le contenu frère doit être en `relative`. */
+  .card-tint:has(> .tint-mark) { @apply overflow-hidden; }
+  .tint-mark {
+    @apply pointer-events-none absolute -bottom-8 -right-6 select-none leading-none;
+    font-size: 128px;
+    color: var(--tint-ink);
+    opacity: .13;
+    transform: rotate(-14deg);
+  }
 
   /* --- Tuiles de synthèse (chiffres clés) ----------------------------------
      À poser sur une .card-tint. Le chiffre occupe toujours la droite :
@@ -597,32 +619,133 @@
   }
 
   /* --- Liste des forfaits --------------------------------------------------
-     Un pack = une ligne entièrement cliquable, qui mène au paiement. */
-  .forfaits-solde {
-    @apply inline-flex min-w-0 items-center gap-1.5 rounded-full bg-gold-100 py-1.5 pl-2 pr-3 text-label-md text-gold-800;
+     L'or est la matière des crédits : jeton du solde en tête, une pièce par
+     pack (son bonus), liseré en dégradé or sur le pack populaire. Le reste
+     reste sobre — surface claire, encre marine — pour que l'or porte seul
+     l'envie. Un pack = une ligne entièrement cliquable, qui mène au paiement. */
+  .forfaits-entete {
+    @apply relative isolate px-6 pb-1 pt-6 text-center sm:px-8;
   }
-  /* Solde nul : ton d'alerte, dérivé du jeton de statut « occupé ». */
-  .forfaits-solde-vide {
-    background-color: rgb(var(--uv-busy) / var(--uv-badge-a, .16));
-    color: rgb(var(--uv-badge-busy));
+  /* Lueur champagne tombant du haut, derrière le jeton */
+  .forfaits-entete::before {
+    content: '';
+    @apply pointer-events-none absolute inset-x-0 top-0 -z-10 h-52;
+    background: radial-gradient(70% 100% at 50% 0%, rgb(var(--uv-gold) / var(--forfaits-lueur, .22)), transparent 72%);
+  }
+  /* Jeton : une pièce d'or frappée, qui porte le solde */
+  .forfaits-jeton {
+    @apply mx-auto grid h-[52px] w-[52px] place-items-center rounded-full font-display text-[22px] font-black leading-none text-navy;
+    background-image: var(--uv-grad-gold-cta);
+    box-shadow: inset 0 0 0 3px rgb(255 255 255 / .38), inset 0 -3px 6px rgb(133 91 0 / .28), var(--uv-sh-gold);
+  }
+  .forfaits-solde { @apply mt-3 text-label-md text-gold-800; }
+  /* Solde nul : jeton éteint, texte au ton d'alerte (jeton de statut « occupé ») */
+  .forfaits-jeton-vide {
+    @apply bg-ice text-muted;
+    background-image: none;
+    box-shadow: inset 0 0 0 2px rgb(var(--uv-busy) / .55);
+  }
+  .forfaits-solde-vide { color: rgb(var(--uv-badge-busy)); }
+
+  /* Entrée en cascade des packs (désactivée si le mouvement est réduit) */
+  .forfait-ligne {
+    @apply relative;
+    animation: uv-forfait-entree .45s cubic-bezier(.22, .61, .36, 1) backwards;
+    animation-delay: calc(90ms + var(--i, 0) * 55ms);
   }
   .forfait {
-    @apply flex items-center gap-3 rounded-lg border border-line py-3.5 pl-4 pr-3 transition-all duration-200
-           hover:border-royal-200 hover:shadow-card active:scale-[0.99];
-    background-color: rgb(var(--uv-surface));
+    @apply flex items-center gap-3 rounded-lg border border-line py-2.5 pl-3 pr-4 max-[359px]:gap-2 max-[359px]:pl-2.5 max-[359px]:pr-3 transition-all duration-200
+           hover:-translate-y-0.5 hover:border-gold/60 hover:shadow-lift active:translate-y-0 active:scale-[0.99];
+    /* Gris doux de la charte (glace) : détache chaque pack de la surface,
+       en clair comme en nuit, sans alourdir. */
+    background-color: rgb(var(--uv-soft));
   }
-  /* Pack populaire : filet doré doublé sans décaler la ligne (ombre, pas bordure). */
-  .forfait-populaire {
-    @apply border-gold pt-4 hover:border-gold;
-    box-shadow: 0 0 0 1px rgb(var(--uv-gold)), var(--uv-sh-gold);
+  /* Carte dorée — le pack mis en avant, partout (modale, Tarifs) : liseré en
+     dégradé or (bordure transparente sur fond doré), fond champagne, halo. */
+  .carte-or {
+    border: 2px solid transparent;
+    background: linear-gradient(rgb(var(--uv-gold-bg-50)), rgb(var(--uv-gold-bg-50))) padding-box,
+                var(--uv-grad-gold-cta) border-box;
+    box-shadow: var(--uv-sh-gold);
   }
-  .forfait-bonus {
-    @apply inline-flex items-center whitespace-nowrap rounded-full bg-gold-100 px-2 py-0.5 text-label-sm font-bold text-gold-800;
+  .carte-or:hover { border-color: transparent; }
+  .forfait-populaire { @apply carte-or pt-4; }
+  /* Pièce d'or : le bonus du pack, frappé comme une vraie pièce.
+       ┌ grènetis (anneau pointillé) ┐
+       │   ⁺67%   ← chiffre en vedette, signe et % en exposant
+       │  OFFERTS ← mention gravée
+     Le pack populaire reçoit un halo et un éclat qui la traverse par moments. */
+  .forfait-piece {
+    @apply relative flex h-14 w-14 shrink-0 flex-col items-center justify-center overflow-hidden rounded-full
+           font-display leading-none text-navy max-[359px]:h-[50px] max-[359px]:w-[50px];
+    background-image: var(--uv-grad-gold-cta);
+    box-shadow: inset 0 0 0 2px rgb(255 255 255 / .4), inset 0 -3px 6px rgb(133 91 0 / .28);
+  }
+  .forfait-piece::before {
+    content: '';
+    @apply pointer-events-none absolute inset-[4px] rounded-full;
+    border: 1px dashed rgb(133 91 0 / .32);
+  }
+  /* Équilibre vertical, mesuré sur les métriques de Nunito : la boîte d'une
+     ligne réserve ~0,14 em sous la ligne de base (jambages absents des
+     chiffres). On la neutralise, sinon la mention flotte à ~7 px des
+     chiffres ; l'ensemble est ensuite remonté d'1 px (centrage optique :
+     la masse est en haut). */
+  .forfait-piece { padding-bottom: 2px; }
+  .forfait-piece-valeur {
+    @apply relative flex items-start font-black text-[22px] max-[359px]:text-[19px];
+    letter-spacing: -0.045em;
+    margin-bottom: -0.14em;
+    text-shadow: 0 1px 0 rgb(255 255 255 / .35);
+  }
+  .forfait-piece-long .forfait-piece-valeur { @apply text-[16px] max-[359px]:text-[14px]; }
+  .forfait-piece-long :is(.forfait-piece-signe, .forfait-piece-pourcent) { @apply mt-[1px] text-[9.5px] max-[359px]:text-[9px]; }
+  .forfait-piece-long .forfait-piece-signe { margin-top: 0; }
+  .forfait-piece-signe,
+  .forfait-piece-pourcent { @apply mt-[2px] text-[11px] font-extrabold max-[359px]:text-[10px]; letter-spacing: 0; }
+  .forfait-piece-signe { margin-right: 1px; margin-top: 1px; } /* le « + » est centré plus bas que le « % » : on le remonte */
+  .forfait-piece-pourcent { margin-left: 1px; }
+  .forfait-piece-mention {
+    @apply relative mt-[2px] text-[6px] font-extrabold uppercase;
+    letter-spacing: .14em;
+    padding-left: .14em; /* compense l'approche ajoutée après la dernière lettre */
+    opacity: .88;
+  }
+  /* Pièce du pack mis en avant (UV.piece(bonus, true)) : halo et éclat */
+  .forfait-piece-eclat {
+    box-shadow: inset 0 0 0 2px rgb(255 255 255 / .4), inset 0 -3px 6px rgb(133 91 0 / .28), var(--uv-sh-gold);
+  }
+  .forfait-piece-eclat::after {
+    content: '';
+    @apply pointer-events-none absolute inset-0;
+    background: linear-gradient(115deg, transparent 32%, rgb(255 255 255 / .7) 50%, transparent 68%);
+    transform: translateX(-130%);
+    animation: uv-eclat 4.2s ease-in-out 1s infinite;
+  }
+  /* Option 2 : la pièce porte le nombre de crédits, mention « crédits » dessous
+     un peu plus lisible que « offerts » (le mot est plus court). */
+  .forfait-piece-credits .forfait-piece-valeur { @apply text-[24px] max-[359px]:text-[21px]; }
+  .forfait-piece-credits .forfait-piece-mention { @apply text-[7px]; letter-spacing: .1em; padding-left: .1em; }
+  /* Bonus sous le prix : vert des statuts, lisible dans les deux thèmes. */
+  .forfait-offert {
+    @apply mt-0.5 block whitespace-nowrap text-body-sm font-bold;
+    color: rgb(var(--uv-badge-online));
   }
   .forfait-badge {
     @apply absolute -top-2.5 left-4 z-10 inline-flex items-center whitespace-nowrap rounded-full bg-gold-cta px-2.5 py-0.5
-           text-label-sm font-bold text-navy;
+           text-label-sm font-bold text-navy shadow-sm;
   }
+  /* --- Cartes de packs (page Tarifs) ---------------------------------------
+     Même vocabulaire que la modale des forfaits : nom en capitales dorées,
+     volume en vedette, pièce d'or du bonus, carte dorée pour le populaire. */
+  .pack-carte {
+    @apply relative flex h-full flex-col rounded-2xl border border-line p-5 shadow-card transition-all duration-200
+           hover:-translate-y-1 hover:border-gold/60 hover:shadow-lift;
+    background-color: rgb(var(--uv-surface));
+  }
+  /* .pack-carte vient après .carte-or : sans ceci, son filet gris écraserait le liseré doré. */
+  .pack-carte.carte-or,
+  .pack-carte.carte-or:hover { border: 2px solid transparent; }
 
   /* --- Upsell (offre complémentaire) ---------------------------------------
      Même famille que la promo : en-tête nuit (.promo-entete), valeur en or. */
@@ -747,6 +870,19 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
 @keyframes uv-voile-entree { from { opacity: 0; } }
 @keyframes uv-voile-sortie { to { opacity: 0; } }
 @keyframes uv-battement { 50% { transform: scale(1.18); } }
+@keyframes uv-forfait-entree { from { opacity: 0; transform: translateY(10px); } }
+/* Éclat sur la pièce du pack populaire : un passage, puis une longue pause. */
+@keyframes uv-eclat {
+  0%, 62% { transform: translateX(-130%); }
+  86%, 100% { transform: translateX(130%); }
+}
+/* Le réglage global ne raccourcit que la durée : le délai de la cascade, lui,
+   laisserait les lignes invisibles un instant ; l'éclat, lui, n'a pas lieu d'être. */
+@media (prefers-reduced-motion: reduce) {
+  .forfait-ligne,
+  .forfait-piece-eclat::after { animation: none; }
+  .forfait-piece-eclat::after { display: none; }
+}
 
 /* ==========================================================================
    COUCHE NUIT — les cas que la bascule de palette ne couvre pas
@@ -813,6 +949,12 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
   --tint-hi: #2E1C24; --tint-lo: #22161C;
   --tint-line: #55313E; --tint-chip: #3C2430; --tint-ink: #EDA3B8;
 }
+/* La nuit remonte d'un cran (royal-500 → navy-700) pour se détacher du sol. */
+.dark .tint-nuit {
+  --tint-hi: #2F52A5; --tint-lo: #16295E;
+  --tint-line: #3A61BC; --tint-chip: rgb(255 255 255 / .1); --tint-ink: #F0D48A;
+  --tint-chip-edge: .14;
+}
 
 /* La constellation n'est plus un ornement discret : c'est le ciel. */
 .dark [data-uv-ciel] { opacity: .28; }
@@ -827,6 +969,12 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
 }
 /* Sur un ciel plus profond, la lueur dorée pleine virerait au brun. */
 .dark .promo-lueur { opacity: .5; }
+
+/* Liste des forfaits : l'or reste l'or (encre marine sur les pièces, comme sur
+   les boutons dorés), lueur plus retenue et constellation plus présente. */
+.dark :is(.forfaits-jeton, .forfait-piece) { --uv-ink: 15 31 75; }
+.dark .forfaits-entete { --forfaits-lueur: .11; }
+.dark .forfaits-entete > svg { opacity: .3; }
 
 /* ==========================================================================
    TERRAIN TACTILE — particularités d'iOS (Safari et WebView in-app)

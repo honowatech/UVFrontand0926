@@ -111,13 +111,9 @@
             <div class="relative flex-1">
               <!-- enterkeyhint : la touche « Envoyer » du clavier iOS, cohérente
                    avec la touche Entrée gérée plus bas. -->
-              <textarea id="saisie" rows="1" class="field max-h-32 resize-none py-3 pr-24"
+              <textarea id="saisie" rows="1" class="field max-h-32 resize-none py-3"
                         placeholder="Posez votre question…"
                         enterkeyhint="send" autocapitalize="sentences" autocomplete="off"></textarea>
-              <span class="pointer-events-none absolute right-3 top-1/2 inline-flex -translate-y-1/2 items-center gap-1 rounded-full bg-gold-100 px-2.5 py-1 text-label-sm text-gold-800">
-                <span class="material-symbols-outlined text-[14px]" aria-hidden="true">monetization_on</span>
-                <span id="cout-pill">1 crédit</span>
-              </span>
             </div>
             <button type="submit" id="envoyer" class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gold-cta text-navy shadow-gold transition-all hover:brightness-105 active:scale-95 disabled:opacity-50" aria-label="Envoyer le message">
               <span class="material-symbols-outlined text-[22px]" aria-hidden="true">send</span>
@@ -125,9 +121,6 @@
           </form>
 
           <div id="note-saisie" class="mt-2 flex items-start justify-center gap-1">
-            <p class="text-center text-body-sm text-muted">
-              Un crédit n'est débité qu'à l'envoi effectif du message. Échanges protégés par le secret professionnel.
-            </p>
             <button type="button" class="shrink-0 rounded-full p-0.5 text-muted transition-colors hover:bg-ice hover:text-navy" id="fermer-note" aria-label="Masquer cette information">
               <span class="material-symbols-outlined text-[16px]" aria-hidden="true">close</span>
             </button>
@@ -195,14 +188,10 @@
 </div>
 <a href="voyant.html?id=${v.id}" class="btn-link shrink-0 max-sm:hidden">
   Voir la fiche ${icone('open_in_new', 'text-[16px]')}
-</a>
-<a href="credits.html" class="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-line bg-ice px-3 py-1.5 text-label-sm sm:hidden">
-  ${icone('monetization_on', 'text-[16px] text-gold')}<span data-uv-credits>0</span>
 </a>`;
 
   /* --- Bandeau d'information ------------------------------------------------- */
   el('#cout-message').textContent = `${COUT} crédit${COUT > 1 ? 's' : ''}`;
-  el('#cout-pill').textContent = `${COUT} crédit${COUT > 1 ? 's' : ''}`;
   if (Store.all.astuces.bandeauTchat) el('#bandeau-info').classList.add('hidden');
   el('#fermer-bandeau').addEventListener('click', () => {
     el('#bandeau-info').classList.add('hidden');

@@ -294,10 +294,11 @@
   <button type="button" role="radio" aria-checked="${actif}" data-pack="offre" ${offreUtilisee ? 'disabled' : ''}
           class="flex w-full flex-col gap-4 rounded-lg border-2 p-5 pt-6 text-left transition-all sm:flex-row sm:items-center sm:gap-6 ${cadre}">
     <span class="flex min-w-0 flex-1 items-center gap-4">
-      <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gold-100">${icone('redeem', 'text-[24px] text-gold-800')}</span>
+      ${UV.piece(OFFRE.bonus, !offreUtilisee)}
       <span class="min-w-0">
         <span class="block text-label-sm uppercase tracking-wider text-gold-800">${OFFRE.nom}</span>
-        <span class="mt-1 block text-body-sm text-muted">${OFFRE.bonus}&nbsp;% de crédits en plus · ${euro(OFFRE.prix / OFFRE.credits)} / message</span>
+        <span class="mt-1 block text-body-sm text-muted">${euro(OFFRE.prix / OFFRE.credits)} / message</span>
+        <span class="sr-only">, ${OFFRE.bonus} % de crédits offerts</span>
       </span>
     </span>
     <span class="flex items-baseline justify-between gap-6 border-t border-line pt-4 sm:border-0 sm:pt-0">
@@ -323,26 +324,26 @@
   <button type="button" role="radio" aria-checked="${actif}" data-pack="${p.id}"
           class="flex w-full flex-col rounded-lg border-2 p-5 text-left transition-all ${
             actif ? 'border-gold bg-gold-50 shadow-gold' : 'border-line bg-white hover:border-royal-200 hover:shadow-card'}">
-    <span class="mb-4 flex items-start justify-between">
-      <span class="text-label-sm uppercase tracking-wider ${actif ? 'text-gold-800' : 'text-muted'}">${p.nom}</span>
-      ${actif ? `<span class="grid h-6 w-6 place-items-center rounded-full bg-gold text-white">
-        <span class="material-symbols-outlined text-[16px]" aria-hidden="true">check</span></span>` : ''}
-    </span>
-    <!-- Crédits et prix sur une seule ligne : volume à gauche, montant à droite -->
-    <span class="mb-3 flex items-baseline justify-between gap-2 border-b border-line pb-3">
-      <span class="flex items-baseline gap-1.5 whitespace-nowrap">
-        <span class="font-display text-[30px] font-bold leading-none text-navy">${p.credits}</span>
-        <span class="text-body-md text-muted">crédits</span>
+    <!-- Nom et volume à gauche, pièce d'or du bonus à droite (comme dans la
+         modale des forfaits) ; la coche de sélection passe dans le bouton. -->
+    <span class="mb-3 flex items-center justify-between gap-3 border-b border-line pb-3">
+      <span class="min-w-0">
+        <span class="block text-label-sm uppercase tracking-wider ${actif ? 'text-gold-800' : 'text-muted'}">${p.nom}</span>
+        <span class="mt-2 flex items-baseline gap-1.5 whitespace-nowrap">
+          <span class="font-display text-[30px] font-bold leading-none text-navy">${p.credits}</span>
+          <span class="text-body-md text-muted">crédits</span>
+        </span>
       </span>
+      ${p.bonus ? UV.piece(p.bonus, p.populaire) : ''}
+    </span>
+    <span class="flex flex-wrap items-baseline justify-between gap-2">
       <span class="whitespace-nowrap font-display text-h-md font-bold leading-none text-navy">${euro(p.prix)}</span>
+      <span class="text-body-sm text-muted">${euro(p.prix / p.credits)} / message</span>
     </span>
-    <span class="flex flex-wrap items-center justify-between gap-2 text-body-sm text-muted">
-      <span>${euro(p.prix / p.credits)} / message</span>
-      ${p.bonus ? `<span class="forfait-bonus ${actif ? 'bg-white' : ''}">+${p.bonus}&nbsp;% crédits</span>` : ''}
-    </span>
-    <span class="mt-5 flex min-h-[44px] w-full items-center justify-center rounded-full px-4 text-label-md font-semibold ${
+    ${p.bonus ? `<span class="sr-only">, ${p.bonus} % de crédits offerts</span>` : ''}
+    <span class="mt-5 flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-full px-4 text-label-md font-semibold ${
       actif ? 'bg-gold-cta text-navy' : 'border border-line text-royal'}">
-      ${actif ? 'Pack sélectionné' : 'Sélectionner'}
+      ${actif ? `${icone('check', 'text-[18px]')} Pack sélectionné` : 'Sélectionner'}
     </span>
   </button>
 </div>`;

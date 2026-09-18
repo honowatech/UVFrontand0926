@@ -111,10 +111,10 @@
     return { dialogue, panneau, fermer };
   }
 
-  /** Constellation de l'en-tête nuit : même motif que le ciel de l'accueil. */
-  function ciel() {
+  /** Constellation : même motif que le ciel de l'accueil (opacité au choix). */
+  function ciel(opacite) {
     return `
-<svg aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 h-full w-full text-gold opacity-40"
+<svg aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 h-full w-full text-gold ${opacite || 'opacity-40'}"
      viewBox="0 0 400 240" fill="none" preserveAspectRatio="xMidYMid slice">
   <circle cx="36" cy="44" r="1.5" fill="currentColor"/><circle cx="88" cy="92" r="2" fill="currentColor"/>
   <circle cx="58" cy="176" r="1" fill="currentColor"/><circle cx="104" cy="214" r="1.5" fill="currentColor"/>
@@ -327,24 +327,53 @@
       ? 'Vous n’avez plus de crédits'
       : `Il vous reste <strong class="font-extrabold">${n} crédit${n > 1 ? 's' : ''}</strong>`);
 
-    function ligne(p, retour) {
+    /* Une ligne : pièce d'or (bonus) · crédits et nom · prix et coût par message.
+       Lecture vocale : « 25 crédits, Certitude, pack populaire, 67 % de crédits
+       en plus, 29,99 €, soit 1,20 € par message ». */
+    function ligne(p, retour, i) {
       return `
-<li class="relative">
+<li class="forfait-ligne" style="--i: ${i}">
   ${p.badge ? `<span class="forfait-badge" aria-hidden="true">${p.badge}</span>` : ''}
   <a href="credits.html?pack=${p.id}${retour}" class="forfait${p.populaire ? ' forfait-populaire' : ''}" data-pack="${p.id}">
+    ${p.bonus ? global.UV.piece(p.bonus, p.populaire) : ''}
     <span class="min-w-0 flex-1">
-      <span class="flex flex-wrap items-center gap-x-2 gap-y-1">
-        <span class="font-display text-label-lg font-extrabold text-navy">${p.nom}</span>
-        ${p.bonus ? `<span class="forfait-bonus">+${insecable(`${p.bonus} %`)} crédits</span>` : ''}
-        ${p.populaire ? '<span class="sr-only">, pack populaire</span>' : ''}
-      </span>
-      <span class="mt-1 block text-body-sm text-muted">
-        <strong class="font-semibold text-navy">${p.credits} crédits</strong>
-        · soit ${insecable(euro(p.prix / p.credits))}<span aria-hidden="true"> / </span><span class="sr-only"> par </span>message
+      <span class="block font-display text-h-sm font-extrabold leading-tight text-navy max-[359px]:text-[16px]">${p.credits} crédits</span>
+      <span class="mt-0.5 block text-label-sm uppercase tracking-wider text-gold-800">${p.nom}</span>
+      <span class="sr-only">${p.populaire ? ', pack populaire' : ''}${p.bonus ? `, ${p.bonus} % de crédits offerts` : ''}</span>
+    </span>
+    <span class="shrink-0 text-right">
+      <span class="block whitespace-nowrap font-display text-h-sm font-extrabold leading-tight text-navy">${insecable(euro(p.prix))}</span>
+      <span class="mt-0.5 block whitespace-nowrap text-body-sm text-muted">
+        <span class="sr-only">soit </span>${insecable(euro(p.prix / p.credits))}<span aria-hidden="true"> / </span><span class="sr-only"> par </span>message
       </span>
     </span>
-    <span class="whitespace-nowrap font-display text-h-sm font-extrabold text-navy">${insecable(euro(p.prix))}</span>
-    ${icone('chevron_right', 'text-[20px] shrink-0 text-muted')}
+  </a>
+</li>`;
+    }
+
+    /* Option 2 : pièce d'or portant les crédits · nom en vedette et coût par
+       message · prix et bonus en vert. Lecture vocale : « Certitude, pack
+       populaire, 25 crédits, 1,20 € par message, 29,99 €, 67 % de crédits offerts ». */
+    function ligneOption2(p, retour, i) {
+      return `
+<li class="forfait-ligne" style="--i: ${i}">
+  ${p.badge ? `<span class="forfait-badge" aria-hidden="true">${p.badge}</span>` : ''}
+  <a href="credits.html?pack=${p.id}${retour}" class="forfait${p.populaire ? ' forfait-populaire' : ''}" data-pack="${p.id}">
+    <span class="forfait-piece forfait-piece-credits${p.credits >= 100 ? ' forfait-piece-long' : ''}${p.populaire ? ' forfait-piece-eclat' : ''}" aria-hidden="true">
+      <span class="forfait-piece-valeur">${p.credits}</span>
+      <span class="forfait-piece-mention">crédits</span>
+    </span>
+    <span class="min-w-0 flex-1">
+      <span class="block font-display text-h-md font-extrabold leading-tight text-navy max-[359px]:text-[18px]">${p.nom}</span>
+      <span class="sr-only">${p.populaire ? ', pack populaire' : ''}, ${p.credits} crédits, soit </span>
+      <span class="mt-0.5 block whitespace-nowrap text-body-sm text-muted">
+        ${insecable(euro(p.prix / p.credits))}<span aria-hidden="true"> / </span><span class="sr-only"> par </span>message
+      </span>
+    </span>
+    <span class="shrink-0 text-right">
+      <span class="block whitespace-nowrap font-display text-h-sm font-extrabold leading-tight text-navy">${insecable(euro(p.prix))}</span>
+      ${p.bonus ? `<span class="forfait-offert"><span aria-hidden="true">+</span>${p.bonus}${insecable(' %')} offerts<span class="sr-only"> en crédits</span></span>` : ''}
+    </span>
   </a>
 </li>`;
     }
@@ -364,22 +393,20 @@
         classe: 'modale-forfaits',
         contenu: `
 <div class="modale-panneau" tabindex="-1">
-  <div class="px-6 pt-5 sm:px-8 sm:pt-6">
-    <div class="flex items-center justify-between gap-3">
-      <p id="forfaits-solde" class="forfaits-solde${n === 0 ? ' forfaits-solde-vide' : ''}">
-        ${icone('monetization_on', 'text-[18px]')}
-        <span>${solde(n)}</span>
-      </p>
-      <button type="button" class="-mr-2 grid h-10 w-10 shrink-0 place-items-center rounded-full text-muted transition-colors hover:bg-ice hover:text-navy" data-fermer aria-label="Fermer">
-        ${icone('close', 'text-[22px]')}
-      </button>
-    </div>
-    <h2 id="forfaits-titre" class="mt-4 text-h-lg-m">Rechargez vos crédits</h2>
-    <p id="forfaits-description" class="mt-1 text-body-md text-muted">Poursuivez votre consultation sans interruption</p>
+  <!-- En-tête : lueur champagne, jeton d'or portant le solde -->
+  <div class="forfaits-entete">
+    ${ciel('opacity-20')}
+    <button type="button" class="absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full text-muted transition-colors hover:bg-ice hover:text-navy" data-fermer aria-label="Fermer">
+      ${icone('close', 'text-[22px]')}
+    </button>
+    <p class="forfaits-jeton${n === 0 ? ' forfaits-jeton-vide' : ''}" aria-hidden="true">${n}</p>
+    <p id="forfaits-solde" class="forfaits-solde${n === 0 ? ' forfaits-solde-vide' : ''}">${solde(n)}</p>
+    <h2 id="forfaits-titre" class="mt-1 text-h-lg-m">Rechargez vos crédits</h2>
+    <p id="forfaits-description" class="mx-auto mt-1 max-w-xs text-body-md text-muted">Poursuivez votre consultation sans interruption</p>
   </div>
 
-  <ul class="mt-6 flex flex-col gap-3 px-6 sm:px-8" role="list" aria-label="Packs de crédits">
-    ${PACKS.map((p) => ligne(p, retour)).join('')}
+  <ul class="mt-5 flex flex-col gap-3 px-6 sm:px-8" role="list" aria-label="Packs de crédits">
+    ${PACKS.map((p, i) => (opts.option === 2 ? ligneOption2 : ligne)(p, retour, i)).join('')}
   </ul>
 
   <p class="modale-pied flex items-center justify-center gap-1.5 text-body-sm text-muted">
