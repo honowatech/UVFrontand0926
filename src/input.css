@@ -76,6 +76,9 @@
     --uv-online: 34 197 94;
     --uv-busy: 245 158 11;
     --uv-offline: 154 163 181;
+    /* Rouge de sortie : assez clair pour rester sobre, assez dense pour
+       passer le contraste AA sur une surface claire (4,6:1). */
+    --uv-sortie: 207 68 68;        /* #CF4444 */
 
     /* Ombres --------------------------------------------------------- */
     --uv-sh-card: 0 4px 16px rgb(15 31 75 / .06);
@@ -168,6 +171,7 @@
     --uv-online: 74 222 128;
     --uv-busy: 251 191 36;
     --uv-offline: 122 133 158;
+    --uv-sortie: 242 150 150;      /* #F29696 — le rouge s'éclaircit la nuit */
     --uv-scroll: 44 58 104;
     --uv-badge-a: .18;
     --uv-badge-online: 134 239 172;
@@ -733,6 +737,13 @@
     .forfait-piece-xl { @apply h-[58px] w-[58px]; }
     .forfait-piece-xl .forfait-piece-valeur { @apply text-[25px]; }
   }
+  /* Déconnexion, en pied du menu du profil : icône et libellé en rouge, le
+     survol posant un voile de la même encre plutôt que le gris habituel. */
+  .menu-sortie {
+    color: rgb(var(--uv-sortie));
+  }
+  .menu-sortie:hover { background-color: rgb(var(--uv-sortie) / .1); }
+
   /* Bonus sous le prix : vert des statuts, lisible dans les deux thèmes. */
   .forfait-offert {
     @apply mt-0.5 block whitespace-nowrap text-body-sm font-bold;

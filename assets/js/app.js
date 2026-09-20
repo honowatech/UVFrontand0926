@@ -440,12 +440,17 @@
 
       <div data-uv-auth class="flex items-center gap-2 sm:gap-3"></div>
 
+      <!-- order-last : le burger ferme la barre sur mobile ; au-dessus de
+           1024 px il disparaît et c'est le menu du profil qui la ferme. -->
       <button type="button" data-uv-burger
-              class="grid h-10 w-10 place-items-center rounded-full transition-colors lg:hidden
+              class="order-last grid h-10 w-10 place-items-center rounded-full transition-colors lg:hidden
                      ${sombre ? 'hover:bg-white/10' : 'hover:bg-ice'}"
               aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="uv-drawer">
         ${icone('menu', 'text-[24px]')}
       </button>
+
+      <!-- Menu du profil : dernier de la barre, rien ne se place après lui -->
+      <div data-uv-profil class="flex items-center"></div>
     </div>
   </div>
 </header>
@@ -523,40 +528,59 @@
     }
   }
 
-  function majAuth() {
-    const sombre = !!el('uv-header[sombre]');
-    els('[data-uv-auth]').forEach((zone) => {
-      if (Store.connecte) {
-        const c = Store.compte;
-        zone.innerHTML = `
+  /* Menu du profil, à droite de l'en-tête web. Présent connecté comme
+     déconnecté (maquette) : la pastille porte l'initiale du prénom quand le
+     compte existe, une silhouette sinon. Quatre entrées, pas plus — le reste
+     du compte s'atteint depuis la page profil. */
+  const LIENS_PROFIL = [
+    ['person', 'Mon profil', 'compte.html'],
+    ['forum', 'Mes tchats', 'tchat.html'],
+    ['help', 'Aide', 'contact.html'],
+  ];
+
+  function menuProfil(sombre, c) {
+    const pastille = c
+      ? `<span class="grid h-9 w-9 place-items-center rounded-full bg-royal font-display text-label-lg text-white">${echapper(c.prenom[0].toUpperCase())}</span>`
+      : `<span class="grid h-9 w-9 place-items-center rounded-full ${sombre ? 'bg-white/15 text-white' : 'bg-ice text-royal'}">${icone('person', 'text-[22px]')}</span>`;
+    return `
 <div class="relative" data-uv-menu>
   <button type="button" class="flex items-center gap-2 rounded-full py-1 pl-1 pr-2 transition-colors ${sombre ? 'hover:bg-white/10' : 'hover:bg-ice'}"
-          aria-haspopup="true" aria-expanded="false">
-    <span class="grid h-9 w-9 place-items-center rounded-full bg-royal font-display text-label-lg text-white">${echapper(c.prenom[0].toUpperCase())}</span>
-    <span class="hidden text-label-md sm:inline">${echapper(c.prenom)}</span>
+          aria-haspopup="true" aria-expanded="false" aria-label="Mon profil">
+    ${pastille}
+    ${c ? `<span class="hidden text-label-md sm:inline">${echapper(c.prenom)}</span>` : ''}
     ${icone('expand_more', 'text-[18px] hidden sm:inline')}
   </button>
   <div class="absolute right-0 top-full mt-2 hidden w-60 overflow-hidden rounded-lg border border-line bg-white p-1.5 text-navy shadow-lift" data-uv-menu-panel>
-    <a href="compte.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice">${icone('person', 'text-[20px] text-royal')} Mon compte</a>
-    <a href="tchat.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice">${icone('forum', 'text-[20px] text-royal')} Mes tchats</a>
-    <a href="credits.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice">${icone('monetization_on', 'text-[20px] text-gold')} Mes crédits</a>
-    <a href="compte.html#favoris" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice">${icone('favorite', 'text-[20px] text-royal')} Mes favoris</a>
+    ${LIENS_PROFIL.map(([ic, label, href]) => `
+    <a href="${href}" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice">${icone(ic, 'text-[20px] text-royal')} ${label}</a>`).join('')}
     <hr class="rule my-1.5">
-    <button type="button" data-uv-logout class="flex w-full items-center gap-3 rounded px-3 py-2.5 text-left text-label-md text-muted hover:bg-ice">${icone('logout', 'text-[20px]')} Se déconnecter</button>
+    <button type="button" data-uv-logout class="menu-sortie flex w-full items-center gap-3 rounded px-3 py-2.5 text-left text-label-md">${icone('logout', 'text-[20px]')} Se déconnecter</button>
   </div>
 </div>`;
-      } else {
-        zone.innerHTML = `
+  }
+
+  function majAuth() {
+    const sombre = !!el('uv-header[sombre]');
+    // Le menu ferme la barre ; déconnecté, il s'efface sous 640 px pour ne pas
+    // serrer les boutons d'accès (le tiroir mobile porte les mêmes liens).
+    els('[data-uv-profil]').forEach((zone) => {
+      zone.innerHTML = Store.connecte
+        ? menuProfil(sombre, Store.compte)
+        : `<span class="hidden sm:block">${menuProfil(sombre, null)}</span>`;
+    });
+
+    els('[data-uv-auth]').forEach((zone) => {
+      zone.innerHTML = Store.connecte ? '' : `
 <a href="connexion.html?next=${encodeURIComponent(pageCourante() + location.search)}"
    class="hidden whitespace-nowrap px-2 py-2 text-label-md font-bold transition-colors md:inline-flex ${sombre ? 'text-white/80 hover:text-gold' : 'text-navy/75 hover:text-royal'}">Se connecter</a>
 <a href="inscription.html?next=${encodeURIComponent(pageCourante() + location.search)}"
    class="btn-gold btn-sm max-[359px]:px-3 sm:min-h-[42px]">S'inscrire<span class="hidden xl:inline"> · 3 crédits offerts</span></a>`;
-      }
     });
 
     els('[data-uv-auth-drawer]').forEach((zone) => {
       zone.innerHTML = Store.connecte
-        ? `<a href="compte.html" class="btn-ghost w-full">Mon compte</a>
+        ? `<a href="compte.html" class="btn-ghost w-full">Mon profil</a>
+           <a href="contact.html" class="btn-ghost w-full">Aide</a>
            <button type="button" data-uv-logout class="btn-quiet w-full">Se déconnecter</button>`
         : `<a href="inscription.html" class="btn-gold w-full">S'inscrire · 3 crédits offerts</a>
            <a href="connexion.html" class="btn-ghost w-full">Se connecter</a>`;
