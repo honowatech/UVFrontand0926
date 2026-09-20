@@ -390,6 +390,11 @@
   .tint-nuit {
     --tint-hi: #1F3C88; --tint-lo: #0F1F4B;
     --tint-line: #1F3C88; --tint-chip: rgb(255 255 255 / .1); --tint-ink: #F0D48A;
+  /* Azur — identité du praticien : le bleu de la charte, en pastel */
+  .tint-azur {
+    --tint-hi: #E1EAFB; --tint-lo: #F0F4FD;
+    --tint-line: #CDDAF4; --tint-chip: #D7E2F8; --tint-ink: #1F3C88;
+  }
     --tint-chip-edge: .14;
     background-image:
       radial-gradient(circle at 100% 0%, rgb(201 162 74 / .32) 0%, transparent 58%),
@@ -760,7 +765,7 @@
      offerts, liseré doré sur le palier visé : la fidélité est faite de la
      même matière que les crédits, rien de neuf n'est introduit. */
   .fidelite-declencheur {
-    @apply flex min-h-[44px] w-full items-center gap-2.5 rounded-md px-1.5 py-1.5 text-left transition-colors hover:bg-ice;
+    @apply flex min-h-[44px] w-full items-center gap-2.5 rounded-md px-1.5 py-1.5 text-left transition-colors hover:bg-tint;
   }
   /* Clavier ouvert : la hauteur revient à la saisie, la fidélité attendra. */
   html.uv-clavier .fidelite-declencheur { display: none; }
@@ -771,7 +776,7 @@
   /* La jauge est pleine et se rétracte par transform : aucun recalcul de mise
      en page à chaque message, et la reprise après un palier reste fluide. */
   .fidelite-jauge {
-    @apply block h-full w-full origin-left rounded-full bg-gold-cta transition-transform duration-500;
+    @apply block h-full w-full origin-left rounded-full bg-royal transition-transform duration-500;
     transform: scaleX(0);
   }
   .fidelite-palier {
@@ -1007,6 +1012,10 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
 /* La constellation n'est plus un ornement discret : c'est le ciel. */
 .dark [data-uv-ciel] { opacity: .28; }
 
+.dark .tint-azur {
+  --tint-hi: #182747; --tint-lo: #121D38;
+  --tint-line: #2B4178; --tint-chip: #1F315B; --tint-ink: #9DB8F4;
+}
 /* Modales : voile plus dense (le sol est déjà sombre) et liseré de lumière,
    sans quoi le panneau se fondrait dans le voile. */
 .dark .modale::backdrop { background: rgb(2 5 14 / .72); }

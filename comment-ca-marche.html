@@ -22,14 +22,32 @@
 
 <main id="contenu" class="flex-1">
 
-  <section class="bg-white">
+  <!-- ======================================================================
+       BANNIÈRE — la nuit de la charte, comme la carte d'honneur des Tarifs et
+       les pages Contact et Voyants : dégradé marine et halo d'or en coin
+       viennent de `.tint-nuit`, une constellation en trois temps — comme les trois étapes — passe par-dessus.
+       Sombre dans les deux thèmes : son encre claire est donc posée en dur.
+       ====================================================================== -->
+  <section class="tint-nuit relative overflow-hidden">
+    <!-- Tracé doré, identique jour et nuit : le ciel de la bannière ne change pas -->
+    <svg aria-hidden="true" class="pointer-events-none absolute inset-0 h-full w-full text-gold opacity-40"
+         viewBox="0 0 1200 260" fill="none" preserveAspectRatio="xMidYMid slice">
+      <circle cx="40" cy="50" r="1" fill="currentColor"/><circle cx="150" cy="24" r="1.5" fill="currentColor"/><circle cx="90" cy="230" r="1" fill="currentColor"/><circle cx="300" cy="244" r="1.5" fill="currentColor"/><circle cx="460" cy="20" r="1" fill="currentColor"/>
+      <circle cx="800" cy="210" r="2" fill="currentColor"/><circle cx="859" cy="150" r="1.5" fill="currentColor"/><circle cx="924" cy="180" r="2.5" fill="currentColor"/><circle cx="982" cy="100" r="2" fill="currentColor"/><circle cx="1047" cy="130" r="2.5" fill="currentColor"/>
+      <circle cx="1099" cy="50" r="2" fill="currentColor"/><circle cx="1158" cy="80" r="2.5" fill="currentColor"/><circle cx="1125" cy="220" r="1" fill="currentColor"/><circle cx="1177" cy="170" r="1.5" fill="currentColor"/><circle cx="956" cy="30" r="1" fill="currentColor"/>
+      <path d="M40 50 L150 24 M800 210 L859 150 L924 180 M924 180 L982 100 L1047 130 M1047 130 L1099 50 L1158 80"
+            stroke="currentColor" stroke-dasharray="3 3" stroke-width=".75"/>
+    </svg>
+    <!-- Filigrane : seulement là où la colonne de texte laisse le coin libre -->
+    <span class="material-symbols-outlined tint-mark hidden lg:block" aria-hidden="true">forum</span>
+
     <div class="shell py-12 lg:py-16">
-      <div class="max-w-3xl">
-        <span class="eyebrow">Fonctionnement</span>
-        <h1 class="mb-4 mt-2 text-h-xl-m sm:text-h-lg lg:text-h-xl">
+      <div class="relative max-w-3xl">
+        <span class="eyebrow text-gold-300">Fonctionnement</span>
+        <h1 class="mb-4 mt-2 text-h-xl-m text-white sm:text-h-lg lg:text-h-xl">
           Une consultation, du premier message à la réponse
         </h1>
-        <p class="lede">
+        <p class="lede text-white/75">
           unevoyante.fr fonctionne à l'unité : vous payez le message que vous envoyez, jamais le temps
           passé. Pas d'abonnement, pas de compteur qui tourne, pas de rappel commercial. Voici le
           déroulé complet, sans zone d'ombre.

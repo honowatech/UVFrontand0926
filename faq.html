@@ -22,12 +22,30 @@
 
 <main id="contenu" class="flex-1">
 
-  <section class="bg-white">
+  <!-- ======================================================================
+       BANNIÈRE — la nuit de la charte, comme la carte d'honneur des Tarifs et
+       les pages Contact et Voyants : dégradé marine et halo d'or en coin
+       viennent de `.tint-nuit`, une constellation au tracé doré passe par-dessus.
+       Sombre dans les deux thèmes : son encre claire est donc posée en dur.
+       ====================================================================== -->
+  <section class="tint-nuit relative overflow-hidden">
+    <!-- Tracé doré, identique jour et nuit : le ciel de la bannière ne change pas -->
+    <svg aria-hidden="true" class="pointer-events-none absolute inset-0 h-full w-full text-gold opacity-40"
+         viewBox="0 0 1200 260" fill="none" preserveAspectRatio="xMidYMid slice">
+      <circle cx="50" cy="200" r="1" fill="currentColor"/><circle cx="120" cy="120" r="1.5" fill="currentColor"/><circle cx="210" cy="228" r="1" fill="currentColor"/><circle cx="380" cy="30" r="1" fill="currentColor"/><circle cx="520" cy="222" r="1.5" fill="currentColor"/>
+      <circle cx="640" cy="70" r="2" fill="currentColor"/><circle cx="720" cy="30" r="1.5" fill="currentColor"/><circle cx="800" cy="84" r="2.5" fill="currentColor"/><circle cx="780" cy="160" r="2" fill="currentColor"/><circle cx="700" cy="190" r="1.5" fill="currentColor"/>
+      <circle cx="900" cy="40" r="1" fill="currentColor"/><circle cx="960" cy="150" r="2" fill="currentColor"/><circle cx="1050" cy="90" r="2.5" fill="currentColor"/><circle cx="1130" cy="180" r="1.5" fill="currentColor"/><circle cx="1170" cy="40" r="1" fill="currentColor"/>
+      <path d="M120 120 L50 200 M640 70 L720 30 L800 84 L780 160 L700 190 M780 160 L960 150 L1050 90 L1170 40 M1050 90 L1130 180"
+            stroke="currentColor" stroke-dasharray="3 3" stroke-width=".75"/>
+    </svg>
+    <!-- Filigrane : seulement là où la colonne de texte laisse le coin libre -->
+    <span class="material-symbols-outlined tint-mark hidden lg:block" aria-hidden="true">contact_support</span>
+
     <div class="shell py-6 lg:py-10">
-      <div class="max-w-3xl">
-        <span class="eyebrow">Aide &amp; support</span>
-        <h1 class="mb-4 mt-2 text-h-xl-m sm:text-h-lg lg:text-h-xl">Questions fréquentes</h1>
-        <p class="lede">
+      <div class="relative max-w-3xl">
+        <span class="eyebrow text-gold-300">Aide &amp; support</span>
+        <h1 class="mb-4 mt-2 text-h-xl-m text-white sm:text-h-lg lg:text-h-xl">Questions fréquentes</h1>
+        <p class="lede text-white/75">
           Tout ce que vous devez savoir avant, pendant et après votre consultation de voyance par tchat.
         </p>
       </div>

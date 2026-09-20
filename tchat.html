@@ -29,7 +29,7 @@
          ================================================================== -->
     <aside id="colonne-liste" class="hidden min-w-0 flex-col lg:flex">
       <div class="card app-view flex flex-col overflow-hidden lg:sticky lg:top-24">
-        <div class="border-b border-line p-4">
+        <div class="border-b border-line bg-ice p-4">
           <div class="mb-3 flex items-center justify-between">
             <h1 class="text-h-md">Mes tchats</h1>
             <span class="badge bg-tint text-royal" id="nb-conversations">0</span>
@@ -43,8 +43,8 @@
 
         <div class="flex-1 overflow-y-auto p-2" id="liste-conversations"></div>
 
-        <div class="border-t border-line p-4">
-          <a href="voyants.html" class="btn-quiet btn-sm w-full">
+        <div class="border-t border-line bg-ice p-4">
+          <a href="voyants.html" class="btn-ghost btn-sm w-full">
             <span class="material-symbols-outlined text-[18px]" aria-hidden="true">add</span>
             Nouvelle consultation
           </a>
@@ -63,7 +63,7 @@
       <div class="card app-view flex flex-col overflow-hidden rounded-none border-x-0 lg:rounded-lg lg:border-x">
 
         <!-- Entête de conversation -->
-        <header class="flex items-center gap-3 border-b border-line bg-white p-3 sm:p-4" id="entete-conv"></header>
+        <header class="flex items-center gap-3 border-b border-line bg-ice p-3 sm:p-4" id="entete-conv"></header>
 
         <!-- Bandeau d'information, refermable -->
         <div id="bandeau-info" class="flex items-start gap-3 border-b border-line bg-tint px-4 py-3">
@@ -100,10 +100,10 @@
         </div>
 
         <!-- Zone de saisie -->
-        <footer class="border-t border-line bg-white p-3 sm:p-4">
+        <footer class="border-t border-line bg-ice p-3 sm:p-4">
           <!-- Fidélité : progression vers le prochain palier, détaillée en modale -->
           <button type="button" id="fidelite" class="fidelite-declencheur mb-3" aria-haspopup="dialog" aria-describedby="fidelite-detail">
-            <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-gold-100 text-gold-800" aria-hidden="true"><span class="material-symbols-outlined text-[16px]">redeem</span></span>
+            <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-tint text-royal" aria-hidden="true"><span class="material-symbols-outlined text-[16px]">redeem</span></span>
             <span class="min-w-0 flex-1">
               <span class="block truncate text-body-sm text-muted" id="fidelite-texte"></span>
               <span class="fidelite-rail mt-1" id="fidelite-rail" role="progressbar" aria-label="Progression vers le prochain palier de fidélité" aria-valuemin="0" aria-valuemax="10" aria-valuenow="2" aria-valuetext=""><span class="fidelite-jauge" id="fidelite-jauge"></span></span>
@@ -126,12 +126,6 @@
               <span class="material-symbols-outlined text-[22px]" aria-hidden="true">send</span>
             </button>
           </form>
-
-          <div id="note-saisie" class="mt-2 flex items-start justify-center gap-1">
-            <button type="button" class="shrink-0 rounded-full p-0.5 text-muted transition-colors hover:bg-ice hover:text-navy" id="fermer-note" aria-label="Masquer cette information">
-              <span class="material-symbols-outlined text-[16px]" aria-hidden="true">close</span>
-            </button>
-          </div>
         </footer>
       </div>
     </section>
@@ -180,7 +174,7 @@
 
   /* --- Entête de conversation ------------------------------------------------ */
   el('#entete-conv').innerHTML = `
-<a href="tchat.html" class="grid h-10 w-10 shrink-0 place-items-center rounded-full text-royal transition-colors hover:bg-ice lg:hidden" aria-label="Retour à mes tchats">
+<a href="tchat.html" class="grid h-10 w-10 shrink-0 place-items-center rounded-full text-royal transition-colors hover:bg-tint lg:hidden" aria-label="Retour à mes tchats">
   ${icone('arrow_back', 'text-[22px]')}
 </a>
 <a href="voyant.html?id=${v.id}" class="shrink-0">${monogramme(v, 'h-11 w-11 text-label-lg')}</a>
@@ -203,11 +197,6 @@
   el('#fermer-bandeau').addEventListener('click', () => {
     el('#bandeau-info').classList.add('hidden');
     Store.set({ astuces: { ...Store.all.astuces, bandeauTchat: true } });
-  });
-  if (Store.all.astuces.noteSaisie) el('#note-saisie').classList.add('hidden');
-  el('#fermer-note').addEventListener('click', () => {
-    el('#note-saisie').classList.add('hidden');
-    Store.set({ astuces: { ...Store.all.astuces, noteSaisie: true } });
   });
 
   /* --- Rendu du fil ---------------------------------------------------------- */
@@ -395,7 +384,7 @@
     const zone = el('#colonne-profil');
     if (!zone) return;
     zone.innerHTML = `
-<div class="card-pad text-center">
+<div class="card-tint tint-azur p-5 text-center sm:p-6">
   <div class="mb-3 flex justify-center">${monogramme(v, 'h-20 w-20 text-[28px]')}</div>
   <h2 class="text-h-md"><a href="voyant.html?id=${v.id}" class="hover:text-royal">${v.prenom}</a></h2>
   ${v.top ? `<p class="mt-2"><span class="badge bg-gold-cta text-navy">${icone('star', 'icon-fill text-[14px]')} TOP VOYANTE</span></p>` : ''}
@@ -404,32 +393,15 @@
     <span class="text-muted">(${nombre(v.avis)} avis)</span>
   </p>
   <div class="mt-4 flex flex-wrap justify-center gap-2">
-    ${v.tags.slice(0, 3).map((t) => `<span class="tag bg-tint text-royal">${t}</span>`).join('')}
+    ${v.tags.slice(0, 3).map((t) => `<span class="tag bg-white text-royal">${t}</span>`).join('')}
   </div>
   <p class="quote mt-5 italic text-muted">« ${echapper(v.accroche)} »</p>
   <a href="voyant.html?id=${v.id}" class="btn-link mt-4 justify-center">Voir la fiche complète</a>
 </div>
 
-<div class="card-pad">
-  <p class="mb-3 flex items-center gap-2 text-label-lg font-bold text-navy">
-    <span class="grid h-9 w-9 place-items-center rounded-full bg-gold-100">${icone('account_balance_wallet', 'text-[20px] text-gold-800')}</span>
-    Mes crédits
-  </p>
-  <p class="flex items-baseline justify-between">
-    <span class="font-display text-h-lg font-bold text-navy"><span data-uv-credits>0</span> crédit<span data-uv-credits-s></span></span>
-    <span class="flex items-center gap-1 text-body-sm ${Store.credits >= COUT ? 'text-online' : 'text-busy'}">
-      <span class="${Store.credits >= COUT ? 'dot-online' : 'dot-busy'}"></span>
-      ${Store.credits >= COUT ? 'Actif' : 'À recharger'}
-    </span>
-  </p>
-  <a href="credits.html" class="btn-gold mt-4 w-full">
-    ${icone('add_circle', 'text-[20px]')} Recharger mon solde</a>
-  <p class="mt-3 text-center text-body-sm text-muted">Packs sans engagement dès 4,99 €</p>
-</div>
-
-<div class="card-pad">
+<div class="card-tint tint-amethyste p-5 sm:p-6">
   <p class="mb-2 flex items-center gap-2 text-label-lg font-bold text-navy">
-    ${icone('shield', 'text-[20px] text-royal')} Confidentialité &amp; charte
+    <span class="tint-chip h-9 w-9">${icone('shield', 'text-[20px]')}</span> Confidentialité &amp; charte
   </p>
   <p class="text-body-sm leading-relaxed text-muted">
     Vos échanges sont protégés par le secret professionnel et anonymisés.
