@@ -22,14 +22,39 @@
 
 <main id="contenu" class="flex-1">
 
-  <section class="bg-white">
+  <!-- ======================================================================
+       BANNIÈRE — la nuit de la charte, comme la carte d'honneur des Tarifs et
+       la page Contact : dégradé marine et halo d'or en coin viennent de
+       `.tint-nuit`, une constellation au tracé doré passe par-dessus. Sombre
+       dans les deux thèmes : son encre claire est donc posée en dur.
+       ====================================================================== -->
+  <section class="tint-nuit relative overflow-hidden">
+    <!-- Tracé doré, identique jour et nuit : le ciel de la bannière ne change pas -->
+    <svg aria-hidden="true" class="pointer-events-none absolute inset-0 h-full w-full text-gold opacity-40"
+         viewBox="0 0 1200 260" fill="none" preserveAspectRatio="xMidYMid slice">
+      <circle cx="36" cy="64" r="1" fill="currentColor"/><circle cx="110" cy="28" r="1.5" fill="currentColor"/>
+      <circle cx="170" cy="210" r="1" fill="currentColor"/><circle cx="330" cy="232" r="1.5" fill="currentColor"/>
+      <circle cx="420" cy="22" r="1" fill="currentColor"/><circle cx="610" cy="40" r="1.5" fill="currentColor"/>
+      <circle cx="690" cy="120" r="2" fill="currentColor"/><circle cx="770" cy="60" r="2.5" fill="currentColor"/>
+      <circle cx="840" cy="170" r="1.5" fill="currentColor"/><circle cx="930" cy="90" r="2" fill="currentColor"/>
+      <circle cx="980" cy="214" r="1" fill="currentColor"/><circle cx="1030" cy="30" r="1.5" fill="currentColor"/>
+      <circle cx="1090" cy="150" r="2.5" fill="currentColor"/><circle cx="1160" cy="70" r="1.5" fill="currentColor"/>
+      <path d="M36 64 L110 28 M610 40 L770 60 L690 120 L840 170 L930 90 L770 60
+               M930 90 L1030 30 L1160 70 L1090 150 L930 90 M840 170 L980 214"
+            stroke="currentColor" stroke-dasharray="3 3" stroke-width=".75"/>
+    </svg>
+    <!-- Filigrane : seulement là où la colonne de texte laisse le coin libre -->
+    <span class="material-symbols-outlined tint-mark hidden lg:block" aria-hidden="true">auto_awesome</span>
+
     <div class="shell py-10 lg:py-14">
-      <span class="eyebrow">Catalogue des praticiens</span>
-      <h1 class="mb-3 mt-2 text-h-xl-m sm:text-h-lg lg:text-h-xl">Nos voyants &amp; médiums</h1>
-      <p class="lede max-w-2xl">
-        24 praticiens sélectionnés après consultation test anonyme et signature de notre charte
-        déontologique. Chaque profil affiche son tarif, sa disponibilité réelle et l'intégralité de ses avis.
-      </p>
+      <div class="relative max-w-3xl">
+        <span class="eyebrow text-gold-300">Catalogue des praticiens</span>
+        <h1 class="mb-3 mt-2 text-h-xl-m text-white sm:text-h-lg lg:text-h-xl">Nos voyants &amp; médiums</h1>
+        <p class="lede max-w-2xl text-white/75">
+          24 praticiens sélectionnés après consultation test anonyme et signature de notre charte
+          déontologique. Chaque profil affiche son tarif, sa disponibilité réelle et l'intégralité de ses avis.
+        </p>
+      </div>
     </div>
   </section>
 
