@@ -508,7 +508,119 @@
     return { ouvrir };
   })();
 
+  /* ==========================================================================
+     5. PALIERS DE FIDÉLITÉ
+     Ouverte par la barre de progression du pied du tchat. Elle ne vend rien :
+     elle montre ce qui est acquis, le palier en cours et la règle qui poursuit
+     au-delà du dernier palier listé. Les crédits offerts tombent d'eux-mêmes
+     dans le solde au franchissement — aucun bouton à venir chercher ici.
+     ========================================================================== */
+  const fidelite = (() => {
+    const F = global.UV.fidelite;
+    const REC = D.PALIER_RECURRENT;
+
+    const credits = (n) => insecable(`${n} crédit${n > 1 ? 's' : ''}`);
+
+    /** Pièce d'or des forfaits, frappée des crédits qu'offre le palier. */
+    const piece = (n) => `
+    <span class="forfait-piece forfait-piece-credits" aria-hidden="true">
+      <span class="forfait-piece-valeur">${n}</span>
+      <span class="forfait-piece-mention">offert${n > 1 ? 's' : ''}</span>
+    </span>`;
+
+    /** Même gabarit que la pièce, pour que les lignes restent alignées. */
+    const pastille = (contenu) => `
+    <span class="grid h-14 w-14 shrink-0 place-items-center max-[359px]:h-[50px] max-[359px]:w-[50px]" aria-hidden="true">${contenu}</span>`;
+
+    /* Une ligne : pièce d'or (pastille verte si le palier est acquis) · le
+       palier nommé par son seuil · la règle rappelée dessous · le restant à
+       consommer sur le palier en cours. Lecture vocale : « palier atteint,
+       Palier 30 crédits, 30 crédits consommés, +3 crédits ». */
+    function ligne(p, restant) {
+      const obtenu = p.etat === 'obtenu';
+      const actuel = p.etat === 'actuel';
+      return `
+<li class="fidelite-palier${obtenu ? ' fidelite-palier-obtenu' : ''}${actuel ? ' fidelite-palier-actuel' : ''}">
+  ${obtenu ? pastille(icone('check_circle', 'text-[28px] text-online')) : piece(p.credits)}
+  <span class="min-w-0 flex-1">
+    <span class="sr-only">${obtenu ? 'palier atteint, ' : ''}</span>
+    <span class="block font-display text-label-lg font-extrabold text-navy">Palier ${credits(p.seuil)}</span>
+    <span class="mt-0.5 block text-body-sm text-muted">${credits(p.seuil)} consommés · +${credits(p.credits)}</span>
+  </span>
+  ${obtenu ? '<span class="badge-online shrink-0">Obtenu</span>' : ''}
+  ${actuel ? `<span class="shrink-0 whitespace-nowrap text-label-sm font-bold text-gold-800">Plus que ${restant}</span>` : ''}
+</li>`;
+    }
+
+    /* La règle qui ne s'arrête jamais. Tant que les paliers listés courent,
+       elle se lit comme une promesse ; une fois en zone récurrente, elle
+       devient le palier en cours et prend le liseré doré. */
+    function ligneRecurrente(e) {
+      return `
+<li class="fidelite-palier${e.recurrent ? ' fidelite-palier-actuel' : ''}">
+  ${pastille(icone('autorenew', 'text-[26px] text-muted'))}
+  <span class="min-w-0 flex-1">
+    ${e.recurrent ? `<span class="block font-display text-label-lg font-extrabold text-navy">Palier ${credits(e.seuil)}</span>` : ''}
+    <span class="${e.recurrent ? 'mt-0.5 block text-body-sm text-muted' : 'block text-body-md text-navy'}">
+      Puis +${credits(REC.credits)} tous les ${credits(REC.pas)} consommés
+    </span>
+  </span>
+  ${e.recurrent ? `<span class="shrink-0 whitespace-nowrap text-label-sm font-bold text-gold-800">Plus que ${e.restant}</span>` : ''}
+</li>`;
+    }
+
+    function ouvrir() {
+      const { Store } = global.UV;
+      const e = F.etat(Store.consommes);
+      const l = F.libelles(Store.consommes);
+
+      const m = modale({
+        titre: 'fidelite-titre',
+        description: 'fidelite-etat fidelite-description',
+        classe: 'modale-fidelite',
+        contenu: `
+<div class="modale-panneau" tabindex="-1">
+  <!-- En-tête : même lueur champagne que les forfaits, l'or étant la matière des crédits -->
+  <div class="fidelite-entete">
+    ${ciel('opacity-20')}
+    <button type="button" class="absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full text-muted transition-colors hover:bg-ice hover:text-navy" data-fermer aria-label="Fermer">
+      ${icone('close', 'text-[22px]')}
+    </button>
+    <p id="fidelite-etat" class="text-label-md text-gold-800">Vous avez consommé ${credits(e.consommes)}</p>
+    <h2 id="fidelite-titre" class="mt-1 text-h-lg-m">Vos paliers de fidélité</h2>
+    <p id="fidelite-description" class="mx-auto mt-1 max-w-xs text-body-md text-muted">
+      Chaque palier franchi ajoute des crédits à votre solde, automatiquement.
+    </p>
+  </div>
+
+  <!-- Palier en cours : la phrase d'abord, la jauge en écho (elle n'ajoute rien à dire) -->
+  <div class="mx-6 mt-5 rounded-lg border border-line bg-ice px-4 py-3.5 sm:mx-8">
+    <p class="text-body-sm leading-relaxed text-muted">${l.longue}</p>
+    <span class="fidelite-rail mt-2.5" aria-hidden="true">
+      <span class="fidelite-jauge" style="transform: scaleX(${e.progression})"></span>
+    </span>
+  </div>
+
+  <ul class="mt-4 flex flex-col gap-3 px-6 sm:px-8" role="list" aria-label="Paliers de fidélité">
+    ${F.liste(e.consommes).map((p) => ligne(p, e.restant)).join('')}
+    ${ligneRecurrente(e)}
+  </ul>
+
+  <p class="modale-pied flex items-center justify-center gap-1.5 text-body-sm text-muted">
+    ${icone('redeem', 'text-[16px] text-gold')} Crédits ajoutés automatiquement · Sans date d’expiration
+  </p>
+</div>`,
+      });
+      if (!m) return null;
+
+      el('[data-fermer]', m.panneau).addEventListener('click', () => m.fermer('fermer'));
+      return m;
+    }
+
+    return { ouvrir };
+  })();
+
   /* --- API publique -------------------------------------------------------- */
   global.UV.modale = modale;
-  global.UV.modales = { promoVert, forfaits, upsell };
+  global.UV.modales = { promoVert, forfaits, upsell, fidelite };
 })(window);

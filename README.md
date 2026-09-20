@@ -51,7 +51,7 @@ index.html, voyants.html, …     Pages (une par vue)
 src/input.css                   Source Tailwind : base, composants, utilitaires
 tailwind.config.js              Tokens issus de DESIGN.md
 assets/css/app.css              CSS compilé
-assets/js/data.js               Données : 24 praticiens, packs, offres ciblées, compléments, avis, FAQ
+assets/js/data.js               Données : 24 praticiens, packs, paliers de fidélité, offres ciblées, compléments, avis, FAQ
 assets/js/app.js                Magasin d'état, en-tête / pied / barre d'onglets, composants
 assets/js/modales.js            Socle des modales et catalogue (chargé par toutes les pages, après app.js)
 scripts/serve.js                Serveur de développement
@@ -225,6 +225,30 @@ TVA et total recalculés). Il suit tout changement de pack (« compatible tous p
 d'un clic** et ne s'achète qu'une fois : il quitte l'adresse au paiement. Contenu dans
 `UV_DATA.COMPLEMENTS.plus20`. Les achats lancés directement depuis les pages Crédits et Tarifs
 ne déclenchent pas l'upsell.
+
+### Paliers de fidélité
+
+- **Déclenchement** : la barre de progression du pied du tchat, sous la zone de saisie
+  (« Plus que 5 messages avant +3 crédits offerts », les crédits restants étant convertis en
+  messages au tarif du praticien courant). Elle s'efface quand le clavier est ouvert, où la
+  hauteur revient à la saisie.
+- **Grille** : 10 crédits consommés → +1 crédit offert, 30 → +3, 60 → +5, 100 → +7, 150 → +10,
+  puis **+10 tous les 50 crédits consommés**, sans fin. Les paliers se lisent sur les crédits
+  **consommés**, cumulés depuis toujours : le compteur n'est jamais remis à zéro, et la barre ne
+  montre que la progression **dans le palier en cours**.
+- **Versement automatique** : `Store.consommer(n)` (`app.js`) débite le message, détecte le
+  palier franchi et crédite la récompense en une seule écriture — rien à réclamer. Le tchat
+  annonce le palier (jauge pleine, libellé « Palier atteint · +3 crédits offerts », notification
+  dorée) pendant 2,2 s, puis l'affichage se recale sur le palier suivant. Aucune modale ni
+  confettis : la récompense se constate, elle n'interrompt pas la consultation.
+- **Contenu** dans `UV_DATA.PALIERS` et `UV_DATA.PALIER_RECURRENT` ; toute la lecture (palier
+  visé, restant, progression, libellés) passe par `UV.fidelite` (`app.js`), partagé par le tchat
+  et la modale.
+- **Modale « Vos paliers de fidélité »** : les cinq paliers listés, chacun avec son état — acquis
+  (pastille verte, badge « Obtenu »), palier visé (liseré doré des packs mis en avant, « Plus que
+  5 »), à venir — puis la règle récurrente en dernière ligne. La pièce d'or des forfaits est
+  reprise telle quelle, frappée des crédits offerts : la fidélité est de la même matière que les
+  crédits. Pas de bouton d'achat.
 
 ## Compléments apportés aux maquettes
 

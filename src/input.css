@@ -612,7 +612,7 @@
     }
     .modale.est-sortante { animation: uv-modale-sortie .2s ease-in both; }
     .modale-pied { @apply px-8 pb-5; }
-    .modale-forfaits, .modale-upsell { max-width: 440px; }
+    .modale-forfaits, .modale-upsell, .modale-fidelite { max-width: 440px; }
   }
   @media (max-height: 520px) {
     .modale { max-height: calc(100dvh - 24px); }
@@ -623,11 +623,13 @@
      en dégradé or sur le pack populaire. Le reste reste sobre — surface claire,
      encre marine — pour que l'or porte seul l'envie. Un pack = une ligne
      entièrement cliquable, qui mène au paiement. */
-  .forfaits-entete {
+  .forfaits-entete,
+  .fidelite-entete {
     @apply relative isolate px-6 pb-1 pt-6 text-center sm:px-8;
   }
   /* Lueur champagne tombant du haut, derrière le titre */
-  .forfaits-entete::before {
+  .forfaits-entete::before,
+  .fidelite-entete::before {
     content: '';
     @apply pointer-events-none absolute inset-x-0 top-0 -z-10 h-52;
     background: radial-gradient(70% 100% at 50% 0%, rgb(var(--uv-gold) / var(--forfaits-lueur, .22)), transparent 72%);
@@ -736,6 +738,36 @@
     @apply absolute -top-2.5 left-4 z-10 inline-flex items-center whitespace-nowrap rounded-full bg-gold-cta px-2.5 py-0.5
            text-label-sm font-bold text-navy shadow-sm;
   }
+  /* --- Fidélité ------------------------------------------------------------
+     Les crédits consommés ouvrent des paliers. Le pied du tchat n'en montre
+     qu'une ligne : le palier en cours, l'or marquant la part parcourue. La
+     modale reprend le vocabulaire des forfaits — pièce d'or des crédits
+     offerts, liseré doré sur le palier visé : la fidélité est faite de la
+     même matière que les crédits, rien de neuf n'est introduit. */
+  .fidelite-declencheur {
+    @apply flex min-h-[44px] w-full items-center gap-2.5 rounded-md px-1.5 py-1.5 text-left transition-colors hover:bg-ice;
+  }
+  /* Clavier ouvert : la hauteur revient à la saisie, la fidélité attendra. */
+  html.uv-clavier .fidelite-declencheur { display: none; }
+  .fidelite-rail {
+    @apply relative block h-1.5 w-full overflow-hidden rounded-full;
+    background-color: rgb(var(--uv-line));
+  }
+  /* La jauge est pleine et se rétracte par transform : aucun recalcul de mise
+     en page à chaque message, et la reprise après un palier reste fluide. */
+  .fidelite-jauge {
+    @apply block h-full w-full origin-left rounded-full bg-gold-cta transition-transform duration-500;
+    transform: scaleX(0);
+  }
+  .fidelite-palier {
+    @apply flex items-center gap-3 rounded-lg border border-line py-2.5 pl-3 pr-4;
+    background-color: rgb(var(--uv-soft));
+  }
+  /* Palier visé : le liseré doré des packs mis en avant, sans rien d'autre. */
+  .fidelite-palier-actuel { @apply carte-or; }
+  /* Palier acquis : la ligne s'efface, la pastille verte suffit à la dire. */
+  .fidelite-palier-obtenu { @apply border-line bg-transparent; }
+
   /* --- Cartes de packs (page Tarifs) ---------------------------------------
      Même vocabulaire que la modale des forfaits : nom en capitales dorées,
      volume en vedette, pièce d'or du bonus, carte dorée pour le populaire. */
@@ -974,8 +1006,8 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
 /* Liste des forfaits : l'or reste l'or (encre marine sur les pièces, comme sur
    les boutons dorés), lueur plus retenue et constellation plus présente. */
 .dark .forfait-piece { --uv-ink: 15 31 75; }
-.dark .forfaits-entete { --forfaits-lueur: .11; }
-.dark .forfaits-entete > svg { opacity: .3; }
+.dark :is(.forfaits-entete, .fidelite-entete) { --forfaits-lueur: .11; }
+.dark :is(.forfaits-entete, .fidelite-entete) > svg { opacity: .3; }
 
 /* ==========================================================================
    TERRAIN TACTILE — particularités d'iOS (Safari et WebView in-app)

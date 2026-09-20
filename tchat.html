@@ -101,10 +101,17 @@
 
         <!-- Zone de saisie -->
         <footer class="border-t border-line bg-white p-3 sm:p-4">
-          <div class="mb-3 flex items-center gap-2 overflow-x-auto no-scrollbar">
-            <span class="shrink-0 text-label-sm uppercase tracking-wider text-muted">Thèmes :</span>
-            <div class="flex gap-2" id="themes"></div>
-          </div>
+          <!-- Fidélité : progression vers le prochain palier, détaillée en modale -->
+          <button type="button" id="fidelite" class="fidelite-declencheur mb-3" aria-haspopup="dialog" aria-describedby="fidelite-detail">
+            <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-gold-100 text-gold-800" aria-hidden="true"><span class="material-symbols-outlined text-[16px]">redeem</span></span>
+            <span class="min-w-0 flex-1">
+              <span class="block truncate text-body-sm text-muted" id="fidelite-texte"></span>
+              <span class="fidelite-rail mt-1" id="fidelite-rail" role="progressbar" aria-label="Progression vers le prochain palier de fidélité" aria-valuemin="0" aria-valuemax="10" aria-valuenow="2" aria-valuetext=""><span class="fidelite-jauge" id="fidelite-jauge"></span></span>
+            </span>
+            <span class="material-symbols-outlined shrink-0 text-[18px] text-muted" aria-hidden="true">chevron_right</span>
+            <span class="sr-only">Voir tous les paliers de fidélité</span>
+          </button>
+          <p id="fidelite-detail" class="sr-only"></p>
 
           <form id="formulaire" class="flex items-end gap-2">
             <label for="saisie" class="sr-only">Votre message</label>
@@ -149,7 +156,7 @@
 (function () {
   'use strict';
   const D = UV_DATA;
-  const { el, els, icone, etoiles, monogramme, note, nombre, heure, Store, toast, echapper, STATUTS, ligneVoyant } = UV;
+  const { el, icone, etoiles, monogramme, note, nombre, heure, Store, toast, echapper, STATUTS, ligneVoyant } = UV;
 
   /* --- Praticien courant ---------------------------------------------------- */
   const demande = UV.param('voyant');
@@ -268,6 +275,7 @@
     el('#texte-solde').textContent = Store.credits === 0
       ? `${v.prenom} vous attend : rechargez pour recevoir sa réponse.`
       : `Il vous reste ${Store.credits} crédit${Store.credits > 1 ? 's' : ''}, or un message chez ${v.prenom} en coûte ${COUT}.`;
+    majFidelite();
     rendreProfil();
   }
   document.addEventListener('uv:etat', majSolde);
@@ -287,10 +295,23 @@
     const texte = saisie.value.trim();
     if (!texte) { saisie.focus(); return; }
 
-    if (!Store.debiter(COUT)) {
+    const palier = Store.consommer(COUT);
+    if (palier === false) {
       toast('Solde insuffisant : rechargez pour envoyer ce message.', { ton: 'alerte', icone: 'monetization_on', action: 'Recharger', href: 'credits.html' });
       majSolde();
       return;
+    }
+
+    // Palier franchi : la jauge se remplit, le libellé annonce la récompense —
+    // déjà versée au solde — et l'affichage se recale seul après 2,2 s.
+    if (palier) {
+      const offert = `+${palier.credits} crédit${palier.credits > 1 ? 's' : ''} offert${palier.credits > 1 ? 's' : ''}`;
+      celebration = true;
+      el('#fidelite-jauge').style.transform = 'scaleX(1)';
+      el('#fidelite-texte').textContent = `Palier atteint · ${offert}`;
+      toast(`Palier atteint : ${palier.credits} crédit${palier.credits > 1 ? 's' : ''} offert${palier.credits > 1 ? 's' : ''}. Nouveau solde : ${Store.credits}.`,
+        { ton: 'or', icone: 'auto_awesome', duree: 5000 });
+      setTimeout(() => { celebration = false; majFidelite(); }, 2200);
     }
 
     Store.ajouterMessage(v.id, { de: 'moi', texte, t: Date.now() });
@@ -315,15 +336,29 @@
     }, 700);
   });
 
-  /* --- Thèmes : pré-remplissent la saisie -------------------------------------- */
-  el('#themes').innerHTML = D.THEMES_TCHAT
-    .map((t) => `<button type="button" class="chip shrink-0" data-theme="${t}">${t}</button>`).join('');
-  els('[data-theme]').forEach((b) => b.addEventListener('click', () => {
-    saisie.value = D.AMORCES[b.dataset.theme] || '';
-    saisie.focus();
-    saisie.dispatchEvent(new Event('input'));
-    saisie.setSelectionRange(saisie.value.length, saisie.value.length);
-  }));
+  /* --- Fidélité ------------------------------------------------------------------
+     La barre ne montre que le palier en cours : ce qui est déjà acquis n'a plus
+     à être parcouru. Au franchissement, l'affichage se fige quelques secondes
+     sur la récompense (`celebration`) avant de se recaler sur le palier suivant. */
+  let celebration = false;
+
+  function majFidelite() {
+    if (celebration) return;
+    const e = UV.fidelite.etat(Store.consommes);
+    const l = UV.fidelite.libelles(Store.consommes, COUT);
+    const rail = el('#fidelite-rail');
+    el('#fidelite-texte').textContent = l.court;
+    el('#fidelite-detail').textContent = l.longue;
+    el('#fidelite').title = l.longue;
+    rail.setAttribute('aria-valuemin', e.precedent);
+    rail.setAttribute('aria-valuemax', e.seuil);
+    rail.setAttribute('aria-valuenow', e.consommes);
+    rail.setAttribute('aria-valuetext', l.longue);
+    el('#fidelite-jauge').style.transform = `scaleX(${e.progression})`;
+  }
+  el('#fidelite').addEventListener('click', () => {
+    if (UV.modales.fidelite) UV.modales.fidelite.ouvrir();
+  });
 
   /* --- Liste des conversations --------------------------------------------------- */
   function conversationsOuvertes() {
@@ -415,6 +450,7 @@
   rendreFil();
   rendreListe();
   rendreProfil();
+  majFidelite();
 
   // Sur mobile, la liste s'affiche seulement si aucune conversation n'est ciblée
   if (!demande && window.innerWidth < 1024) {

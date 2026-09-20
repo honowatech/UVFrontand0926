@@ -32,6 +32,8 @@
   function etatInitial() {
     return {
       credits: 3,
+      consommes: 2,                     // crédits consommés depuis toujours (jamais remis à zéro) :
+                                        // deux messages déjà envoyés dans la conversation de démonstration
       compte: null,                     // { prenom, email } — facultatif, jamais bloquant
       favoris: [],
       conversations: conversationDemo(), // { [voyantId]: { messages:[], nonLus:number, maj:number } }
@@ -66,9 +68,87 @@
     document.dispatchEvent(new CustomEvent('uv:etat', { detail: etat }));
   }
 
+  /* --- Paliers de fidélité -------------------------------------------------
+     Les paliers se lisent sur les crédits CONSOMMÉS (D.PALIERS, puis la règle
+     récurrente sans fin) : rien à réclamer, la récompense tombe dans le solde
+     au franchissement. Défini avant le magasin, qui s'en sert pour créditer.
+     Tout part d'`etat(consommes)` : le palier visé, le précédent — la barre
+     du tchat ne montre que la part parcourue DANS le palier en cours. */
+  const fidelite = (() => {
+    const DERNIER = D.PALIERS[D.PALIERS.length - 1];
+
+    /** « 5 crédits » ne se coupe jamais en fin de ligne. */
+    const credits = (n) => `${n} crédit${n > 1 ? 's' : ''}`;
+
+    function etat(consommes) {
+      const n = Math.max(0, consommes || 0);
+      const suivant = D.PALIERS.find((p) => p.seuil > n);
+      // Au-delà du dernier palier listé : le palier en cours est le prochain
+      // multiple du pas, à partir de ce dernier seuil (150, 200, 250…).
+      const franchis = suivant ? 0 : Math.floor((n - DERNIER.seuil) / D.PALIER_RECURRENT.pas);
+      const precedent = suivant
+        ? (D.PALIERS[D.PALIERS.indexOf(suivant) - 1] || { seuil: 0 }).seuil
+        : DERNIER.seuil + franchis * D.PALIER_RECURRENT.pas;
+      const seuil = suivant ? suivant.seuil : precedent + D.PALIER_RECURRENT.pas;
+      return {
+        consommes: n,
+        precedent,
+        seuil,
+        recompense: suivant ? suivant.credits : D.PALIER_RECURRENT.credits,
+        restant: seuil - n,
+        progression: (n - precedent) / (seuil - precedent),
+        recurrent: !suivant,
+      };
+    }
+
+    /** Les paliers listés, chacun avec son état : 'obtenu' | 'actuel' | 'avenir'. */
+    function liste(consommes) {
+      const e = etat(consommes);
+      return D.PALIERS.map((p) => ({
+        ...p,
+        etat: p.seuil <= e.consommes ? 'obtenu' : p.seuil === e.seuil ? 'actuel' : 'avenir',
+      }));
+    }
+
+    /** Le palier franchi en passant de `avant` à `apres` crédits consommés,
+        zone récurrente comprise, ou null. */
+    function franchi(avant, apres) {
+      const palier = D.PALIERS.find((p) => p.seuil > avant && p.seuil <= apres);
+      if (palier) return { seuil: palier.seuil, credits: palier.credits };
+      const pas = D.PALIER_RECURRENT.pas;
+      const rang = Math.floor(Math.max(avant - DERNIER.seuil, 0) / pas) + 1;
+      const seuil = DERNIER.seuil + rang * pas;
+      if (seuil > avant && seuil <= apres) return { seuil, credits: D.PALIER_RECURRENT.credits };
+      return null;
+    }
+
+    /** Deux formulations du même état : `court` s'affiche, `longue` se lit
+        (lecteurs d'écran, infobulle) et détaille la récompense attendue. */
+    function libelles(consommes, cout = 1) {
+      const e = etat(consommes);
+      // Le court compte en messages : `cout` est le prix d'un message, en
+      // crédits, chez le praticien courant.
+      const messages = Math.ceil(e.restant / Math.max(1, cout));
+      const offert = `+${credits(e.recompense)} offert${e.recompense > 1 ? 's' : ''}`;
+      const court = e.consommes === 0
+        ? `Fidélité : ${offert} dès ${credits(e.seuil)} consommés`
+        : messages === 1
+          ? `Plus qu’1 message avant ${offert}`
+          : `Plus que ${messages} messages avant ${offert}`;
+      return {
+        court,
+        longue: `${credits(e.restant)} restant à consommer pour atteindre le palier de ${credits(e.seuil)} `
+          + `consommés et toucher une récompense de ${credits(e.recompense)}.`,
+      };
+    }
+
+    return { etat, liste, franchi, libelles };
+  })();
+
   const Store = {
     get all() { return etat; },
     get credits() { return etat.credits; },
+    get consommes() { return etat.consommes; },
     get compte() { return etat.compte; },
     get connecte() { return !!etat.compte; },
 
@@ -77,7 +157,20 @@
     crediter(n) { etat.credits = Math.max(0, etat.credits + n); ecrire(); return etat.credits; },
     debiter(n) {
       if (etat.credits < n) return false;
-      etat.credits -= n; ecrire(); return true;
+      etat.credits -= n; etat.consommes += n; ecrire(); return true;
+    },
+    /** Débit d'une consultation, récompense de fidélité comprise : renvoie le
+        palier franchi ({ seuil, credits }), null si aucun, false si le solde
+        ne suffit pas. Une seule écriture : l'appelant voit le solde définitif. */
+    consommer(n) {
+      if (etat.credits < n) return false;
+      const avant = etat.consommes;
+      etat.credits -= n;
+      etat.consommes = avant + n;
+      const palier = fidelite.franchi(avant, etat.consommes);
+      if (palier) etat.credits += palier.credits;
+      ecrire();
+      return palier;
     },
 
     connexion(compte) {
@@ -963,7 +1056,7 @@
 
   /* --- API publique -------------------------------------------------------- */
   global.UV = {
-    Store, toast, el, els, icone, etoiles, monogramme, euro, nombre, note, heure,
+    Store, fidelite, toast, el, els, icone, etoiles, monogramme, euro, nombre, note, heure,
     param, echapper, STATUTS, carteVoyant, ligneVoyant, accordeon, filAriane,
     majCredits, pageCourante, logo, piece,
     theme: { courant: themeCourant, basculer: basculerTheme, appliquer: appliquerTheme },

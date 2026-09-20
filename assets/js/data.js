@@ -522,6 +522,20 @@
     { id: 'resolution', nom: 'Résolution', credits: 55, prix: 49.99, bonus: 120, badge: null },
   ];
 
+  /* --- Paliers de fidélité -------------------------------------------------
+     Récompensent les crédits CONSOMMÉS, cumulés depuis toujours : le compteur
+     n'est jamais remis à zéro et les crédits offerts sont versés au solde dès
+     le palier franchi. Au-delà du dernier palier listé, la règle continue
+     d'elle-même, sans fin : +10 crédits tous les 50 crédits consommés. */
+  const PALIERS = [
+    { seuil: 10, credits: 1 },
+    { seuil: 30, credits: 3 },
+    { seuil: 60, credits: 5 },
+    { seuil: 100, credits: 7 },
+    { seuil: 150, credits: 10 },
+  ];
+  const PALIER_RECURRENT = { pas: 50, credits: 10 };
+
   /* --- Offres ciblées ------------------------------------------------------
      Proposées dans une modale (assets/js/modales.js), jamais listées avec les
      packs publics. Le segment du client (VERT…) sera attribué par le
@@ -633,16 +647,6 @@
     { valeur: '2 min', libelle: 'Délai moyen de réponse' },
   ];
 
-  const THEMES_TCHAT = ['Amour', 'Travail', 'Argent', 'Famille', 'Avenir'];
-
-  const AMORCES = {
-    Amour: 'Bonjour, j’aimerais savoir ce que vous voyez concernant ma situation sentimentale…',
-    Travail: 'Bonjour, j’hésite sur une décision professionnelle importante. Qu’est-ce que vous percevez ?',
-    Argent: 'Bonjour, j’ai une question financière qui me préoccupe en ce moment…',
-    Famille: 'Bonjour, il y a une tension familiale que je n’arrive pas à dénouer…',
-    Avenir: 'Bonjour, qu’est-ce que vous voyez venir pour moi dans les prochains mois ?',
-  };
-
   /* --- Conversation de démonstration avec Claire ---------------------------
      Cinq messages échangés (3 de Claire, 2 de l'utilisateur).
      `ilYA` = minutes avant l'ouverture de la page.
@@ -671,8 +675,8 @@
   }
 
   global.UV_DATA = {
-    SPECIALITES, VOYANTS, PACKS, OFFRES, COMPLEMENTS, FAQ, ETAPES, CONFIANCE, STATS,
-    THEMES_TCHAT, AMORCES, JOURS, DEMO_TCHAT, avisDe,
+    SPECIALITES, VOYANTS, PACKS, PALIERS, PALIER_RECURRENT, OFFRES, COMPLEMENTS,
+    FAQ, ETAPES, CONFIANCE, STATS, JOURS, DEMO_TCHAT, avisDe,
     byId: (id) => VOYANTS.find((v) => v.id === id) || null,
   };
 })(window);
