@@ -37,8 +37,9 @@ Puis ouvrir <http://localhost:5173>.
 | `compte.html` | *ajout* — cible de l'onglet « Compte » de la barre mobile |
 | `tarifs.html`, `faq.html` | *ajouts* — cibles des liens du menu principal |
 | `comment-ca-marche.html` | *ajout* — lien du pied de page (retiré du menu principal) |
+| `contact.html` | *ajout* — formulaire de contact (envoi simulé), lien « Nous contacter » du pied de page. Le motif s'ouvre sur l'invite « Motif de votre demande » et doit être choisi avant l'envoi ; il reste présélectionnable : `contact.html?motif=paiement` (`general`, `paiement`, `praticien`, `presse`). Une valeur inconnue laisse l'invite en place |
 | `modales.html` | *outil de développement* — un bouton par modale du site, pour les consulter une à une (lien « Modales » du tiroir mobile et du pied de page). Lien direct : `modales.html?ouvrir=promo-vert`, `?ouvrir=forfaits`, `?ouvrir=upsell` |
-| `info.html?sujet=…` | Destination unique des pages secondaires hors périmètre V1 (mentions légales, CGV, confidentialité, charte, cookies, contact, journal, partenaire) |
+| `info.html?sujet=…` | Destination unique des pages secondaires hors périmètre V1 (mentions légales, CGV, confidentialité, charte, cookies, journal, partenaire) |
 
 Chaque vue mobile et sa variante desktop ont été **fusionnées en une seule page responsive**
 plutôt que dupliquées, la maquette mobile servant de base et la maquette desktop de cible
@@ -273,8 +274,8 @@ tienne debout :
 ## Limites connues
 
 - Données et paiement **simulés** : aucun appel réseau, aucune donnée transmise.
-  La page de paiement l'indique explicitement à l'utilisateur.
-- Les pages secondaires (mentions légales, CGV, confidentialité, charte, cookies, contact,
+  La page de paiement et le formulaire de contact l'indiquent explicitement à l'utilisateur.
+- Les pages secondaires (mentions légales, CGV, confidentialité, charte, cookies,
   journal, partenaire) redirigent vers `info.html`, qui annonce le périmètre V1 et propose
   la suite de la navigation. Contenus à rédiger lors d'une prochaine itération.
 - Icônes Material Symbols et police Nunito chargées depuis Google Fonts :

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Nous contacter | unevoyante.fr</title>
+<meta name="description" content="Écrivez au service client unevoyante.fr&nbsp;: question générale, paiement ou remboursement, signalement d'un praticien, presse ou partenariat. Réponse en moins de deux heures en moyenne.">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
+<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ice">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre></uv-header>
+<div id="ariane"></div>
+
+<main id="contenu" class="flex-1">
+
+  <!-- ======================================================================
+       BANNIÈRE — la nuit de la charte, comme la carte d'honneur des Tarifs :
+       dégradé marine et halo d'or en coin viennent de `.tint-nuit`, la
+       constellation de l'accueil passe par-dessus, le filigrane du service
+       client occupe le coin bas. La bannière est sombre dans les deux
+       thèmes : son encre claire est donc posée en dur, comme sur cette carte.
+       ====================================================================== -->
+  <section class="tint-nuit relative overflow-hidden">
+    <!-- Tracé doré, identique jour et nuit : le ciel de la bannière ne change pas -->
+    <svg aria-hidden="true" class="pointer-events-none absolute inset-0 h-full w-full text-gold opacity-40"
+         viewBox="0 0 1200 260" fill="none" preserveAspectRatio="xMidYMid slice">
+      <circle cx="60" cy="40" r="1.5" fill="currentColor"/><circle cx="128" cy="86" r="2" fill="currentColor"/>
+      <circle cx="196" cy="36" r="1" fill="currentColor"/><circle cx="44" cy="150" r="1" fill="currentColor"/>
+      <circle cx="96" cy="196" r="1.5" fill="currentColor"/><circle cx="470" cy="28" r="1.5" fill="currentColor"/>
+      <circle cx="560" cy="96" r="1" fill="currentColor"/><circle cx="700" cy="52" r="2.5" fill="currentColor"/>
+      <circle cx="760" cy="196" r="1" fill="currentColor"/><circle cx="790" cy="140" r="1.5" fill="currentColor"/>
+      <circle cx="880" cy="36" r="1.5" fill="currentColor"/><circle cx="900" cy="220" r="2" fill="currentColor"/>
+      <circle cx="960" cy="110" r="2" fill="currentColor"/><circle cx="1040" cy="44" r="1" fill="currentColor"/>
+      <circle cx="1060" cy="200" r="1.5" fill="currentColor"/><circle cx="1120" cy="96" r="2.5" fill="currentColor"/>
+      <path d="M60 40 L128 86 L196 36 M96 196 L44 150 M470 28 L560 96 L700 52 M700 52 L790 140 L960 110
+               M700 52 L880 36 M1120 96 L1060 200 L900 220"
+            stroke="currentColor" stroke-dasharray="3 3" stroke-width=".75"/>
+    </svg>
+    <!-- Filigrane : seulement là où la colonne de texte laisse le coin libre -->
+    <span class="material-symbols-outlined tint-mark hidden lg:block" aria-hidden="true">support_agent</span>
+
+    <div class="shell py-10 lg:py-14">
+      <div class="relative max-w-3xl">
+        <span class="eyebrow text-gold-300">Support</span>
+        <h1 class="mb-4 mt-2 text-h-xl-m text-white sm:text-h-lg lg:text-h-xl">Nous contacter</h1>
+        <p class="lede text-white/75">
+          Le service client lit chaque message, 7j/7 et 24h/24. Comptez deux heures en moyenne pour
+          la réponse, un peu plus aux heures chargées.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pt-8 lg:pt-12">
+    <div class="shell grid gap-8 lg:grid-cols-[1fr_320px] lg:gap-10">
+
+      <!-- ==================================================================
+           FORMULAIRE — envoi simulé, aucune donnée n'est transmise
+           ================================================================== -->
+      <div>
+        <!-- Les libellés quittent l'écran mais restent dans le document
+             (`sr-only`) : chaque champ garde son nom pour les lecteurs
+             d'écran, et l'invite le porte pour les yeux. -->
+        <form id="formulaire" class="card flex flex-col gap-4 p-6 sm:p-8" novalidate>
+
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label class="sr-only" for="prenom">Prénom</label>
+              <input id="prenom" class="field" placeholder="Votre prénom" autocomplete="given-name">
+            </div>
+            <div>
+              <label class="sr-only" for="email">Adresse e-mail</label>
+              <input id="email" type="email" class="field" placeholder="Votre adresse e-mail" autocomplete="email">
+            </div>
+          </div>
+
+          <div>
+            <label class="sr-only" for="motif">Motif de votre demande</label>
+            <!-- La première option est l'invite : choisie d'office, absente de
+                 la liste déroulée, impossible à reprendre. `required` n'arrête
+                 rien (le formulaire est `novalidate`, la vérification reste en
+                 JavaScript) : il annonce le champ comme obligatoire et offre la
+                 prise `:invalid` qui met l'invite à l'encre des autres champs. -->
+            <select id="motif" class="field" required>
+              <option value="" disabled selected hidden>Motif de votre demande</option>
+              <option value="general">Question générale</option>
+              <option value="paiement">Paiement ou remboursement</option>
+              <option value="praticien">Signaler un praticien</option>
+              <option value="presse">Presse ou partenariat</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="sr-only" for="message">Votre message</label>
+            <textarea id="message" class="field" rows="7" data-aide="message-aide"
+                      aria-describedby="message-aide"
+                      placeholder="Votre message, en quelques lignes…"></textarea>
+            <span class="hint" id="message-aide">
+              Ne nous transmettez ni numéro de carte ni mot de passe&nbsp;: nous ne les demandons jamais.
+            </span>
+          </div>
+
+          <p id="erreur" class="hidden rounded-md bg-red-50 p-3 text-body-sm text-red-700" role="alert"></p>
+
+          <button type="submit" id="envoyer" class="btn-royal btn-lg w-full">Envoyer mon message</button>
+
+          <p class="text-body-sm leading-relaxed text-muted">
+            Vos coordonnées servent uniquement à vous répondre. Aucune relance commerciale, aucune
+            revente&nbsp;: voir la
+            <a href="info.html?sujet=confidentialite" class="font-medium text-royal underline underline-offset-2">politique de confidentialité</a>.
+          </p>
+        </form>
+
+        <!-- Confirmation : remplace le formulaire, avec une sortie. La sauge
+             des garanties (page Tarifs) dit la chose faite, sans un mot de plus. -->
+        <div id="confirmation" class="card-tint tint-sauge hidden p-6 text-center sm:p-8">
+          <span class="tint-chip mx-auto mb-4 h-14 w-14">
+            <span class="material-symbols-outlined text-[28px]" aria-hidden="true">mark_email_read</span>
+          </span>
+          <h2 class="mb-2 text-h-md outline-none" id="confirmation-titre" tabindex="-1">Votre message est parti</h2>
+          <p class="mx-auto mb-6 max-w-lg text-body-md leading-relaxed text-muted">
+            Nous répondons à <strong class="font-semibold text-navy" id="confirmation-email"></strong>,
+            en moins de deux heures en moyenne. Inutile de renvoyer votre demande.
+          </p>
+          <a href="faq.html" class="btn-ghost">Consulter la FAQ</a>
+          <p class="mt-6 text-body-sm text-muted">
+            Maquette de démonstration&nbsp;: aucune donnée n'est transmise ni conservée.
+          </p>
+        </div>
+      </div>
+
+      <!-- ==================================================================
+           ACCÈS DIRECTS — la réponse est peut-être déjà quelque part.
+           Trois teintes de la charte, dans leur sens d'origine : la sauge
+           vérifie, l'améthyste protège l'intime, le champagne dit la
+           disponibilité. Même anatomie que les cartes des Tarifs — pastille
+           assortie, encre de la teinte.
+           ================================================================== -->
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <p class="mb-3 text-label-sm uppercase tracking-wider text-muted">Accès directs</p>
+        <div class="flex flex-col gap-3">
+
+          <a href="faq.html" class="card-tint card-hover tint-sauge flex items-center gap-4 p-4">
+            <span class="tint-chip h-11 w-11 shrink-0">
+              <span class="material-symbols-outlined text-[22px]" aria-hidden="true">help</span>
+            </span>
+            <span><strong class="block text-label-md text-navy">Questions fréquentes</strong>
+              <span class="text-body-sm text-muted">La réponse y est peut-être déjà</span></span>
+          </a>
+
+          <a href="mailto:contact@unevoyante.fr" class="card-tint card-hover tint-amethyste flex items-center gap-4 p-4">
+            <span class="tint-chip h-11 w-11 shrink-0">
+              <span class="material-symbols-outlined text-[22px]" aria-hidden="true">mail</span>
+            </span>
+            <span class="min-w-0"><strong class="block break-words text-label-md text-navy">contact@unevoyante.fr</strong>
+              <span class="text-body-sm text-muted">Depuis votre propre messagerie</span></span>
+          </a>
+
+          <a href="tel:+33900000000" class="card-tint card-hover tint-champagne flex items-center gap-4 p-4">
+            <span class="tint-chip h-11 w-11 shrink-0">
+              <span class="material-symbols-outlined text-[22px]" aria-hidden="true">call</span>
+            </span>
+            <span><strong class="block text-label-md text-navy">09 00 00 00 00</strong>
+              <span class="text-body-sm text-muted">Service client 7j/7 et 24h/24</span></span>
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<uv-footer></uv-footer>
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script>
+(function () {
+  'use strict';
+  const { el, icone, filAriane, Store, toast } = UV;
+
+  el('#ariane').innerHTML = filAriane([['Accueil', 'index.html'], ['Nous contacter']]);
+
+  /* --- Pré-remplissage : pratique si l'on est connecté, jamais exigé --------- */
+  const compte = Store.compte;
+  if (compte) {
+    el('#prenom').value = compte.prenom || '';
+    el('#email').value = compte.email || '';
+  }
+
+  /* --- Motif porté par l'adresse (contact.html?motif=paiement) ---------------
+     Un motif inconnu ne choisit rien : l'invite reste en place, et c'est à la
+     personne de trancher. */
+  const motif = UV.param('motif');
+  const champMotif = el('#motif');
+  if (motif) {
+    // Comparaison sur les options existantes : jamais de sélecteur construit
+    // à partir de l'adresse.
+    const attendue = Array.from(champMotif.options).find((o) => o.value === motif);
+    if (attendue) champMotif.value = attendue.value;
+  }
+
+  /* --- Erreurs : un seul encart, relié au champ fautif ------------------------ */
+  const erreur = el('#erreur');
+  let fautif = null;
+
+  function oublier() {
+    erreur.classList.add('hidden');
+    if (!fautif) return;
+    fautif.removeAttribute('aria-invalid');
+    if (fautif.dataset.aide) fautif.setAttribute('aria-describedby', fautif.dataset.aide);
+    else fautif.removeAttribute('aria-describedby');
+    fautif = null;
+  }
+
+  function dire(message, champ) {
+    erreur.textContent = message;
+    erreur.classList.remove('hidden');
+    champ.setAttribute('aria-invalid', 'true');
+    champ.setAttribute('aria-describedby', champ.dataset.aide ? `erreur ${champ.dataset.aide}` : 'erreur');
+    fautif = champ;
+    champ.focus();
+  }
+
+  /* --- Envoi simulé : site statique, rien ne part nulle part ------------------ */
+  el('#formulaire').addEventListener('submit', (e) => {
+    e.preventDefault();
+    oublier();
+
+    const prenom = el('#prenom').value.trim();
+    const email = el('#email').value.trim();
+    const message = el('#message').value.trim();
+
+    if (!prenom) return dire('Indiquez un prénom, pour savoir comment vous appeler.', el('#prenom'));
+    if (!/^\S+@\S+\.\S+$/.test(email)) return dire('Cette adresse e-mail semble incomplète.', el('#email'));
+    if (!champMotif.value) return dire('Choisissez le motif de votre demande.', champMotif);
+    if (message.length < 10) return dire('Décrivez votre demande en quelques mots.', el('#message'));
+
+    const bouton = el('#envoyer');
+    bouton.disabled = true;
+    bouton.innerHTML = `${icone('progress_activity', 'animate-spin text-[20px]')} Envoi en cours…`;
+
+    setTimeout(() => {
+      el('#formulaire').classList.add('hidden');
+      el('#confirmation-email').textContent = email;
+      el('#confirmation').classList.remove('hidden');
+      el('#confirmation-titre').focus();
+      toast('Message envoyé (démonstration).', { icone: 'mark_email_read' });
+    }, 900);
+  });
+})();
+</script>
+</body>
+</html>

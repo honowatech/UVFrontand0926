@@ -613,6 +613,7 @@
         ['Tarifs & packs', 'tarifs.html'],
         ['Journal ésotérique', 'info.html?sujet=journal'],
         ['Devenir praticien partenaire', 'info.html?sujet=partenaire'],
+        ['Nous contacter', 'contact.html'],
       ],
     },
     {
@@ -642,7 +643,7 @@
         <ul class="flex flex-col gap-2 text-body-sm text-white/80">
           <li class="flex items-center gap-2">${icone('support_agent', 'text-[16px] text-gold')}<span class="font-semibold text-white">Service client 7j/7 · 24h/24</span></li>
           <li class="flex items-center gap-2">${icone('call', 'text-[16px] text-gold')}<a href="tel:+33900000000" class="hover:text-gold">09 00 00 00 00</a></li>
-          <li class="flex items-center gap-2">${icone('mail', 'text-[16px] text-gold')}<a href="info.html?sujet=contact" class="hover:text-gold">contact@unevoyante.fr</a></li>
+          <li class="flex items-center gap-2">${icone('mail', 'text-[16px] text-gold')}<a href="contact.html" class="hover:text-gold">contact@unevoyante.fr</a></li>
         </ul>
       </div>
       ${COLONNES.map((c) => `
