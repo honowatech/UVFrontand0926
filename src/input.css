@@ -619,32 +619,22 @@
   }
 
   /* --- Liste des forfaits --------------------------------------------------
-     L'or est la matière des crédits : jeton du solde en tête, une pièce par
-     pack (son bonus), liseré en dégradé or sur le pack populaire. Le reste
-     reste sobre — surface claire, encre marine — pour que l'or porte seul
-     l'envie. Un pack = une ligne entièrement cliquable, qui mène au paiement. */
+     L'or est la matière des crédits : une pièce par pack (ses crédits), liseré
+     en dégradé or sur le pack populaire. Le reste reste sobre — surface claire,
+     encre marine — pour que l'or porte seul l'envie. Un pack = une ligne
+     entièrement cliquable, qui mène au paiement. */
   .forfaits-entete {
     @apply relative isolate px-6 pb-1 pt-6 text-center sm:px-8;
   }
-  /* Lueur champagne tombant du haut, derrière le jeton */
+  /* Lueur champagne tombant du haut, derrière le titre */
   .forfaits-entete::before {
     content: '';
     @apply pointer-events-none absolute inset-x-0 top-0 -z-10 h-52;
     background: radial-gradient(70% 100% at 50% 0%, rgb(var(--uv-gold) / var(--forfaits-lueur, .22)), transparent 72%);
   }
-  /* Jeton : une pièce d'or frappée, qui porte le solde */
-  .forfaits-jeton {
-    @apply mx-auto grid h-[52px] w-[52px] place-items-center rounded-full font-display text-[22px] font-black leading-none text-navy;
-    background-image: var(--uv-grad-gold-cta);
-    box-shadow: inset 0 0 0 3px rgb(255 255 255 / .38), inset 0 -3px 6px rgb(133 91 0 / .28), var(--uv-sh-gold);
-  }
-  .forfaits-solde { @apply mt-3 text-label-md text-gold-800; }
-  /* Solde nul : jeton éteint, texte au ton d'alerte (jeton de statut « occupé ») */
-  .forfaits-jeton-vide {
-    @apply bg-ice text-muted;
-    background-image: none;
-    box-shadow: inset 0 0 0 2px rgb(var(--uv-busy) / .55);
-  }
+  /* Le solde s'annonce en toutes lettres : pas de jeton chiffré au-dessus. */
+  .forfaits-solde { @apply text-label-md text-gold-800; }
+  /* Solde nul : texte au ton d'alerte (jeton de statut « occupé ») */
   .forfaits-solde-vide { color: rgb(var(--uv-badge-busy)); }
 
   /* Entrée en cascade des packs (désactivée si le mouvement est réduit) */
@@ -726,6 +716,17 @@
      un peu plus lisible que « offerts » (le mot est plus court). */
   .forfait-piece-credits .forfait-piece-valeur { @apply text-[24px] max-[359px]:text-[21px]; }
   .forfait-piece-credits .forfait-piece-mention { @apply text-[7px]; letter-spacing: .1em; padding-left: .1em; }
+  /* Grande pièce : pages Tarifs et Crédits, où la carte laisse plus de place
+     qu'une ligne de liste. */
+  .forfait-piece-xl { @apply h-[68px] w-[68px] max-[359px]:h-[61px] max-[359px]:w-[61px]; }
+  .forfait-piece-xl .forfait-piece-valeur { @apply text-[31px] max-[359px]:text-[27px]; }
+  .forfait-piece-xl .forfait-piece-mention { @apply mt-[3px] text-[8.5px]; }
+  /* Entre 1024 et 1280 px, les quatre packs tiennent sur une ligne : la pièce
+     se resserre pour laisser respirer le nom du pack à côté d'elle. */
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .forfait-piece-xl { @apply h-[58px] w-[58px]; }
+    .forfait-piece-xl .forfait-piece-valeur { @apply text-[25px]; }
+  }
   /* Bonus sous le prix : vert des statuts, lisible dans les deux thèmes. */
   .forfait-offert {
     @apply mt-0.5 block whitespace-nowrap text-body-sm font-bold;
@@ -972,7 +973,7 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
 
 /* Liste des forfaits : l'or reste l'or (encre marine sur les pièces, comme sur
    les boutons dorés), lueur plus retenue et constellation plus présente. */
-.dark :is(.forfaits-jeton, .forfait-piece) { --uv-ink: 15 31 75; }
+.dark .forfait-piece { --uv-ink: 15 31 75; }
 .dark .forfaits-entete { --forfaits-lueur: .11; }
 .dark .forfaits-entete > svg { opacity: .3; }
 

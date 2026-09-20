@@ -294,19 +294,19 @@
   <button type="button" role="radio" aria-checked="${actif}" data-pack="offre" ${offreUtilisee ? 'disabled' : ''}
           class="flex w-full flex-col gap-4 rounded-lg border-2 p-5 pt-6 text-left transition-all sm:flex-row sm:items-center sm:gap-6 ${cadre}">
     <span class="flex min-w-0 flex-1 items-center gap-4">
-      ${UV.piece(OFFRE.bonus, !offreUtilisee)}
+      <span class="forfait-piece forfait-piece-credits forfait-piece-xl${OFFRE.credits >= 100 ? ' forfait-piece-long' : ''}${offreUtilisee ? '' : ' forfait-piece-eclat'}" aria-hidden="true">
+        <span class="forfait-piece-valeur">${OFFRE.credits}</span>
+        <span class="forfait-piece-mention">crédits</span>
+      </span>
       <span class="min-w-0">
-        <span class="block text-label-sm uppercase tracking-wider text-gold-800">${OFFRE.nom}</span>
+        <span class="block font-display text-h-md font-extrabold leading-tight text-navy">${OFFRE.nom}</span>
         <span class="mt-1 block text-body-sm text-muted">${euro(OFFRE.prix / OFFRE.credits)} / message</span>
-        <span class="sr-only">, ${OFFRE.bonus} % de crédits offerts</span>
+        <span class="sr-only">, ${OFFRE.credits} crédits, ${OFFRE.bonus} % de crédits offerts</span>
       </span>
     </span>
-    <span class="flex items-baseline justify-between gap-6 border-t border-line pt-4 sm:border-0 sm:pt-0">
-      <span class="flex items-baseline gap-1.5 whitespace-nowrap">
-        <span class="font-display text-[30px] font-bold leading-none text-navy">${OFFRE.credits}</span>
-        <span class="text-body-md text-muted">crédits</span>
-      </span>
+    <span class="flex items-baseline justify-between gap-6 border-t border-line pt-4 sm:block sm:border-0 sm:pt-0 sm:text-right">
       <span class="whitespace-nowrap font-display text-h-md font-bold leading-none text-navy">${euro(OFFRE.prix)}</span>
+      <span class="forfait-offert" aria-hidden="true">+${OFFRE.bonus}&nbsp;% offerts</span>
     </span>
     <span class="flex min-h-[44px] shrink-0 items-center justify-center gap-1.5 rounded-full px-5 text-label-md font-semibold sm:w-48 ${
       actif ? 'bg-gold-cta text-navy' : offreUtilisee ? 'bg-ice text-muted' : 'border border-line text-royal'}">${pastille}</span>
@@ -324,23 +324,21 @@
   <button type="button" role="radio" aria-checked="${actif}" data-pack="${p.id}"
           class="flex w-full flex-col rounded-lg border-2 p-5 text-left transition-all ${
             actif ? 'border-gold bg-gold-50 shadow-gold' : 'border-line bg-white hover:border-royal-200 hover:shadow-card'}">
-    <!-- Nom et volume à gauche, pièce d'or du bonus à droite (comme dans la
+    <!-- Pièce d'or portant les crédits, nom en vedette à côté (comme dans la
          modale des forfaits) ; la coche de sélection passe dans le bouton. -->
-    <span class="mb-3 flex items-center justify-between gap-3 border-b border-line pb-3">
-      <span class="min-w-0">
-        <span class="block text-label-sm uppercase tracking-wider ${actif ? 'text-gold-800' : 'text-muted'}">${p.nom}</span>
-        <span class="mt-2 flex items-baseline gap-1.5 whitespace-nowrap">
-          <span class="font-display text-[30px] font-bold leading-none text-navy">${p.credits}</span>
-          <span class="text-body-md text-muted">crédits</span>
-        </span>
+    <span class="mb-3 flex items-center gap-4 border-b border-line pb-3">
+      <span class="forfait-piece forfait-piece-credits forfait-piece-xl${p.credits >= 100 ? ' forfait-piece-long' : ''}${p.populaire ? ' forfait-piece-eclat' : ''}" aria-hidden="true">
+        <span class="forfait-piece-valeur">${p.credits}</span>
+        <span class="forfait-piece-mention">crédits</span>
       </span>
-      ${p.bonus ? UV.piece(p.bonus, p.populaire) : ''}
+      <span class="min-w-0 font-display text-h-md font-extrabold leading-tight text-navy lg:text-[19px] xl:text-h-md">${p.nom}</span>
     </span>
     <span class="flex flex-wrap items-baseline justify-between gap-2">
       <span class="whitespace-nowrap font-display text-h-md font-bold leading-none text-navy">${euro(p.prix)}</span>
       <span class="text-body-sm text-muted">${euro(p.prix / p.credits)} / message</span>
     </span>
-    ${p.bonus ? `<span class="sr-only">, ${p.bonus} % de crédits offerts</span>` : ''}
+    ${p.bonus ? `<span class="forfait-offert" aria-hidden="true">+${p.bonus}&nbsp;% offerts</span>` : ''}
+    <span class="sr-only">, ${p.credits} crédits${p.bonus ? `, ${p.bonus} % de crédits offerts` : ''}</span>
     <span class="mt-5 flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-full px-4 text-label-md font-semibold ${
       actif ? 'bg-gold-cta text-navy' : 'border border-line text-royal'}">
       ${actif ? `${icone('check', 'text-[18px]')} Pack sélectionné` : 'Sélectionner'}

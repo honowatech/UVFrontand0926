@@ -198,20 +198,18 @@
     <div class="relative pt-3" data-reveal style="animation-delay: ${i * 70}ms">
       ${p.badge ? `<span class="absolute left-1/2 top-0 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-gold-cta px-3 py-1 text-label-sm font-bold text-navy shadow-sm">${p.badge}</span>` : ''}
       <div class="pack-carte ${p.populaire ? 'carte-or' : ''}">
-        <div class="flex items-start justify-between gap-3">
-          <div class="min-w-0 pt-1">
-            <p class="text-label-sm uppercase tracking-wider text-gold-800">${p.nom}</p>
-            <p class="mt-2 flex items-baseline gap-1.5 whitespace-nowrap">
-              <span class="font-display text-[40px] font-black leading-none tracking-tight text-navy">${p.credits}</span>
-              <span class="text-body-md font-semibold text-muted">crédits</span>
-            </p>
-          </div>
-          ${p.bonus ? UV.piece(p.bonus, p.populaire) : ''}
+        <div class="flex items-center gap-4">
+          <span class="forfait-piece forfait-piece-credits forfait-piece-xl${p.credits >= 100 ? ' forfait-piece-long' : ''}${p.populaire ? ' forfait-piece-eclat' : ''}" aria-hidden="true">
+            <span class="forfait-piece-valeur">${p.credits}</span>
+            <span class="forfait-piece-mention">crédits</span>
+          </span>
+          <p class="min-w-0 font-display text-h-md font-extrabold leading-tight text-navy lg:text-[19px] xl:text-h-md">${p.nom}</p>
         </div>
-        ${p.bonus ? `<p class="sr-only">${p.bonus} % de crédits offerts</p>` : ''}
+        <p class="sr-only">${p.credits} crédits${p.bonus ? `, ${p.bonus} % de crédits offerts` : ''}</p>
         <div class="mt-5 border-t border-line pt-4">
           <p class="font-display text-h-md font-extrabold text-navy">${euro(p.prix)}</p>
           <p class="text-body-sm text-muted">soit ${euro(p.prix / p.credits)} / message</p>
+          ${p.bonus ? `<p class="forfait-offert" aria-hidden="true">+${p.bonus}&nbsp;% offerts</p>` : ''}
         </div>
         <div class="mt-auto pt-5">
           <a href="credits.html?pack=${p.id}" class="${p.populaire ? 'btn-gold' : 'btn-ghost'} w-full">Choisir</a>
