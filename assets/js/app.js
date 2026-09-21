@@ -29,11 +29,18 @@
     return { claire: { messages, nonLus: 0, maj: messages[messages.length - 1].t } };
   }
 
+  /** Nombre de messages envoyés par le visiteur, toutes conversations confondues. */
+  function messagesEnvoyes(conversations) {
+    return Object.values(conversations || {})
+      .reduce((n, c) => n + ((c && c.messages) || []).filter((m) => m.de === 'moi').length, 0);
+  }
+
   function etatInitial() {
     return {
       credits: 3,
       consommes: 2,                     // crédits consommés depuis toujours (jamais remis à zéro) :
                                         // deux messages déjà envoyés dans la conversation de démonstration
+      points: 2,                        // un point par message envoyé, quel que soit son coût en crédits
       compte: null,                     // { prenom, email } — facultatif, jamais bloquant
       favoris: [],
       conversations: conversationDemo(), // { [voyantId]: { messages:[], nonLus:number, maj:number } }
@@ -48,11 +55,14 @@
     try {
       const brut = localStorage.getItem(CLE);
       if (!brut) return etatInitial();
-      const lu = { ...etatInitial(), ...JSON.parse(brut) };
+      const enregistre = JSON.parse(brut);
+      const lu = { ...etatInitial(), ...enregistre };
       // Les anciennes lignes « crédit débité » ne sont plus affichées dans le fil.
       Object.values(lu.conversations || {}).forEach((c) => {
         if (c && Array.isArray(c.messages)) c.messages = c.messages.filter((m) => m.de !== 'systeme');
       });
+      // État d'avant les points : on les reconstitue depuis les messages envoyés.
+      if (enregistre.points === undefined) lu.points = messagesEnvoyes(lu.conversations);
       return lu;
     } catch (e) {
       return etatInitial();
@@ -149,6 +159,7 @@
     get all() { return etat; },
     get credits() { return etat.credits; },
     get consommes() { return etat.consommes; },
+    get points() { return etat.points; },
     get compte() { return etat.compte; },
     get connecte() { return !!etat.compte; },
 
@@ -199,6 +210,8 @@
       const c = Store.conversation(id);
       c.messages.push(msg);
       c.maj = Date.now();
+      // Un message envoyé = un point, quel que soit le tarif du praticien.
+      if (msg.de === 'moi') etat.points += 1;
       ecrire();
       return c;
     },

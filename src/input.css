@@ -380,21 +380,26 @@
     --tint-hi: #F8EED9; --tint-lo: #FCF7EB;
     --tint-line: #EFDFBE; --tint-chip: #F5E7CB; --tint-ink: #8A6A20;
   }
+  /* Ciel — fidélité & points accumulés (le bleu de la charte, éclairci) */
+  .tint-ciel {
+    --tint-hi: #E3ECFA; --tint-lo: #F2F6FD;
+    --tint-line: #CEDCF3; --tint-chip: #DBE6F8; --tint-ink: #2F52A5;
+  }
   /* Rose poudré — attachement & favoris */
   .tint-rose {
     --tint-hi: #FBE9EE; --tint-lo: #FDF4F6;
     --tint-line: #F1D3DB; --tint-chip: #F7DCE3; --tint-ink: #9A3A56;
+  }
+  /* Azur — identité du praticien : le bleu de la charte, en pastel */
+  .tint-azur {
+    --tint-hi: #E1EAFB; --tint-lo: #F0F4FD;
+    --tint-line: #CDDAF4; --tint-chip: #D7E2F8; --tint-ink: #1F3C88;
   }
   /* Nuit — la carte d'honneur : marine de la charte, halo d'or en coin.
      Reste sombre dans les deux thèmes, donc encre claire en dur. */
   .tint-nuit {
     --tint-hi: #1F3C88; --tint-lo: #0F1F4B;
     --tint-line: #1F3C88; --tint-chip: rgb(255 255 255 / .1); --tint-ink: #F0D48A;
-  /* Azur — identité du praticien : le bleu de la charte, en pastel */
-  .tint-azur {
-    --tint-hi: #E1EAFB; --tint-lo: #F0F4FD;
-    --tint-line: #CDDAF4; --tint-chip: #D7E2F8; --tint-ink: #1F3C88;
-  }
     --tint-chip-edge: .14;
     background-image:
       radial-gradient(circle at 100% 0%, rgb(201 162 74 / .32) 0%, transparent 58%),
@@ -998,11 +1003,19 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
   --tint-hi: #2B2416; --tint-lo: #201C13;
   --tint-line: #4D3F22; --tint-chip: #372E1B; --tint-ink: #E8C67B;
 }
+.dark .tint-ciel {
+  --tint-hi: #1A2B52; --tint-lo: #141F3D;
+  --tint-line: #2E4879; --tint-chip: #203358; --tint-ink: #9DB3E8;
+}
 .dark .tint-rose {
   --tint-hi: #2E1C24; --tint-lo: #22161C;
   --tint-line: #55313E; --tint-chip: #3C2430; --tint-ink: #EDA3B8;
 }
 /* La nuit remonte d'un cran (royal-500 → navy-700) pour se détacher du sol. */
+.dark .tint-azur {
+  --tint-hi: #182747; --tint-lo: #121D38;
+  --tint-line: #2B4178; --tint-chip: #1F315B; --tint-ink: #9DB8F4;
+}
 .dark .tint-nuit {
   --tint-hi: #2F52A5; --tint-lo: #16295E;
   --tint-line: #3A61BC; --tint-chip: rgb(255 255 255 / .1); --tint-ink: #F0D48A;
@@ -1012,10 +1025,6 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
 /* La constellation n'est plus un ornement discret : c'est le ciel. */
 .dark [data-uv-ciel] { opacity: .28; }
 
-.dark .tint-azur {
-  --tint-hi: #182747; --tint-lo: #121D38;
-  --tint-line: #2B4178; --tint-chip: #1F315B; --tint-ink: #9DB8F4;
-}
 /* Modales : voile plus dense (le sol est déjà sombre) et liseré de lumière,
    sans quoi le panneau se fondrait dans le voile. */
 .dark .modale::backdrop { background: rgb(2 5 14 / .72); }

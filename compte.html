@@ -61,7 +61,7 @@
     </header>
 
     <!-- Cartes de synthèse -->
-    <div class="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" id="synthese"></div>
+    <div class="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5" id="synthese"></div>
 
     <!-- Onglets -->
     <div class="mb-6 border-b border-line">
@@ -229,6 +229,7 @@
       ['monetization_on', 'tint-champagne', 'Solde de crédits', `${Store.credits}`, Store.credits > 0 ? 'Prêt à consulter' : 'Rechargez pour continuer'],
       ['forum', 'tint-amethyste', 'Conversations', `${convs.length}`, 'Historique conservé'],
       ['send', 'tint-sauge', 'Messages envoyés', `${messages}`, 'Depuis cet appareil'],
+      ['stars', 'tint-ciel', 'Points de fidélité', `${Store.points}`, '1 point par message envoyé'],
       ['favorite', 'tint-rose', 'Praticiens favoris', `${Store.all.favoris.length}`, 'Accès rapide'],
     ];
     el('#synthese').innerHTML = cartes.map((c) => `
