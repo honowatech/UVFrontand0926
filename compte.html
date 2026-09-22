@@ -90,19 +90,25 @@
 
       <div class="card-pad min-w-0 lg:col-span-2">
         <h2 class="mb-4 text-h-md">Vos raccourcis</h2>
+        <!-- Chaque raccourci reprend la teinte de son univers (mêmes teintes
+             que les cartes de synthèse) ; la flèche avance au survol. -->
         <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <a href="tchat.html" class="flex items-center gap-3 rounded-md border border-line p-4 transition-colors hover:bg-ice">
-            <span class="material-symbols-outlined text-[24px] text-royal" aria-hidden="true">forum</span>
-            <span class="text-label-md text-navy">Mes tchats</span></a>
-          <a href="credits.html" class="flex items-center gap-3 rounded-md border border-line p-4 transition-colors hover:bg-ice">
-            <span class="material-symbols-outlined text-[24px] text-gold" aria-hidden="true">monetization_on</span>
-            <span class="text-label-md text-navy">Recharger</span></a>
-          <a href="faq.html" class="flex items-center gap-3 rounded-md border border-line p-4 transition-colors hover:bg-ice">
-            <span class="material-symbols-outlined text-[24px] text-royal" aria-hidden="true">help</span>
-            <span class="text-label-md text-navy">Aide &amp; FAQ</span></a>
-          <a href="contact.html" class="flex items-center gap-3 rounded-md border border-line p-4 transition-colors hover:bg-ice">
-            <span class="material-symbols-outlined text-[24px] text-royal" aria-hidden="true">support_agent</span>
-            <span class="text-label-md text-navy">Nous écrire</span></a>
+          <a href="tchat.html" class="raccourci card-tint tint-amethyste">
+            <span class="tint-chip h-11 w-11"><span class="material-symbols-outlined text-[22px]" aria-hidden="true">forum</span></span>
+            <span class="raccourci-label">Mes tchats</span>
+            <span class="material-symbols-outlined raccourci-fleche" aria-hidden="true">arrow_forward</span></a>
+          <a href="credits.html" class="raccourci card-tint tint-champagne">
+            <span class="tint-chip h-11 w-11"><span class="material-symbols-outlined text-[22px]" aria-hidden="true">monetization_on</span></span>
+            <span class="raccourci-label">Recharger</span>
+            <span class="material-symbols-outlined raccourci-fleche" aria-hidden="true">arrow_forward</span></a>
+          <a href="faq.html" class="raccourci card-tint tint-ciel">
+            <span class="tint-chip h-11 w-11"><span class="material-symbols-outlined text-[22px]" aria-hidden="true">help</span></span>
+            <span class="raccourci-label">Aide &amp; FAQ</span>
+            <span class="material-symbols-outlined raccourci-fleche" aria-hidden="true">arrow_forward</span></a>
+          <a href="contact.html" class="raccourci card-tint tint-rose">
+            <span class="tint-chip h-11 w-11"><span class="material-symbols-outlined text-[22px]" aria-hidden="true">support_agent</span></span>
+            <span class="raccourci-label">Nous écrire</span>
+            <span class="material-symbols-outlined raccourci-fleche" aria-hidden="true">arrow_forward</span></a>
         </div>
       </div>
     </section>

@@ -418,6 +418,20 @@
     transform: rotate(-14deg);
   }
 
+  /* --- Raccourcis (page Compte) -----------------------------------------------
+     À poser sur une .card-tint : pastille, libellé, et une flèche à l'encre de
+     la teinte qui avance au survol pendant que la tuile se soulève. */
+  .raccourci {
+    @apply flex items-center gap-3 p-3.5 transition-all duration-200
+           hover:-translate-y-0.5 hover:shadow-lift active:translate-y-0;
+  }
+  .raccourci-label { @apply min-w-0 flex-1 text-label-md font-bold text-navy; }
+  .raccourci-fleche {
+    @apply shrink-0 text-[18px] opacity-60 transition-all duration-200;
+    color: var(--tint-ink);
+  }
+  .raccourci:hover .raccourci-fleche { @apply translate-x-0.5 opacity-100; }
+
   /* --- Tuiles de synthèse (chiffres clés) ----------------------------------
      À poser sur une .card-tint. Le chiffre occupe toujours la droite :
      - mobile/tablette (tuile large) : une seule ligne
