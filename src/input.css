@@ -830,6 +830,34 @@
   .carte-agent :is(.badge-online, .badge-busy, .badge-offline) { background-color: rgb(var(--uv-surface)); }
   .carte-agent .border-line { border-color: rgb(var(--agent-filet)); }
 
+  /* --- Bandeau des chiffres clés (accueil) ---------------------------------
+     Un balayage de bleus de la charte, du royal lumineux au marine profond,
+     relevé par deux lueurs : bleu en haut à gauche, or en bas à droite. Le
+     même dans les deux thèmes — c'est déjà de la nuit. */
+  .stats-aurore {
+    @apply relative isolate overflow-hidden;
+    background:
+      radial-gradient(55% 140% at 0% 0%, rgb(91 123 196 / .55), transparent 62%),
+      radial-gradient(45% 130% at 100% 100%, rgb(201 162 74 / .2), transparent 60%),
+      linear-gradient(110deg, #2F52A5 0%, #1F3C88 32%, #122760 62%, #0B1738 100%);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .1), inset 0 -1px 0 rgb(0 0 0 / .25);
+  }
+  /* Voile de lumière qui traverse le bandeau en diagonale */
+  .stats-aurore::before {
+    content: '';
+    @apply pointer-events-none absolute inset-0 -z-10;
+    background: linear-gradient(115deg, transparent 30%, rgb(255 255 255 / .06) 45%, transparent 60%);
+  }
+  /* Grand écran : filets verticaux en fondu entre les chiffres */
+  @media (min-width: 1024px) {
+    .stats-liste > div { @apply relative px-6; }
+    .stats-liste > div + div::before {
+      content: '';
+      @apply absolute inset-y-1 left-0 w-px;
+      background: linear-gradient(transparent, rgb(255 255 255 / .22), transparent);
+    }
+  }
+
   /* --- Upsell (offre complémentaire) ---------------------------------------
      Même famille que la promo : en-tête nuit (.promo-entete), valeur en or. */
   .upsell-valeur {
