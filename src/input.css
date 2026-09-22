@@ -805,6 +805,31 @@
   .pack-carte.carte-or,
   .pack-carte.carte-or:hover { border: 2px solid transparent; }
 
+  /* --- Cartes praticiens de l'accueil (carte-agent) ------------------------
+     Bandeau nuit en tête, halo d'or en coin, que le portrait chevauche ; le
+     corps prend un bleu glacier de la charte plutôt que le blanc, pour que la
+     grille n'éblouisse plus. Posée après .card, qu'elle surcharge. */
+  .carte-agent {
+    --agent-bandeau: 60px;
+    --agent-nuit-hi: #1F3C88; --agent-nuit-lo: #0F1F4B;
+    --agent-corps-hi: 228 236 250; --agent-corps-lo: 239 244 253; --agent-filet: 211 222 244;
+    background:
+      radial-gradient(140px 60px at 100% 0, rgb(201 162 74 / .3), transparent) top / 100% var(--agent-bandeau) no-repeat,
+      linear-gradient(155deg, var(--agent-nuit-hi), var(--agent-nuit-lo)) top / 100% var(--agent-bandeau) no-repeat,
+      linear-gradient(180deg, rgb(var(--agent-corps-hi)), rgb(var(--agent-corps-lo)));
+    border-color: rgb(var(--agent-filet));
+  }
+  /* Le portrait se détache du bandeau par un liseré de la couleur du corps. */
+  .carte-agent .monogram {
+    box-shadow: 0 0 0 3px rgb(var(--agent-corps-hi)),
+                inset 0 0 0 1.5px rgb(var(--uv-surface)),
+                inset 0 -8px 18px rgb(31 60 136 / .06);
+  }
+  /* Posés sur le bandeau, les badges de statut prennent un fond plein : leur
+     voile coloré habituel disparaîtrait dans le bleu nuit. */
+  .carte-agent :is(.badge-online, .badge-busy, .badge-offline) { background-color: rgb(var(--uv-surface)); }
+  .carte-agent .border-line { border-color: rgb(var(--agent-filet)); }
+
   /* --- Upsell (offre complémentaire) ---------------------------------------
      Même famille que la promo : en-tête nuit (.promo-entete), valeur en or. */
   .upsell-valeur {
@@ -1002,6 +1027,12 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
 .dark .tint-champagne {
   --tint-hi: #2B2416; --tint-lo: #201C13;
   --tint-line: #4D3F22; --tint-chip: #372E1B; --tint-ink: #E8C67B;
+}
+/* Cartes praticiens de l'accueil : le bandeau remonte d'un cran pour se
+   détacher du sol, le corps reprend les surfaces nuit. */
+.dark .carte-agent {
+  --agent-nuit-hi: #2F52A5; --agent-nuit-lo: #16295E;
+  --agent-corps-hi: 26 37 71; --agent-corps-lo: 18 28 59; --agent-filet: 42 54 97;
 }
 .dark .tint-ciel {
   --tint-hi: #1A2B52; --tint-lo: #141F3D;

@@ -759,7 +759,8 @@
      7. FABRIQUES DE COMPOSANTS
      ========================================================================== */
 
-  /** Carte praticien — utilisée sur l'accueil, le catalogue et les favoris. */
+  /** Carte praticien — utilisée sur l'accueil, le catalogue et les favoris.
+      `options.classe` ajoute une variante de présentation (ex. carte-agent). */
   function carteVoyant(v, options) {
     const o = options || {};
     const st = STATUTS[v.statut];
@@ -773,7 +774,7 @@
       : `<button type="button" class="btn-ghost w-full" data-uv-notifier="${v.id}">Me prévenir quand disponible</button>`;
 
     return `
-<article class="card-pad card-hover flex min-w-0 flex-col" data-voyant="${v.id}"
+<article class="card-pad card-hover flex min-w-0 flex-col${o.classe ? ` ${o.classe}` : ''}" data-voyant="${v.id}"
          data-statut="${v.statut}" data-note="${v.note}" data-avis="${v.avis}" data-credits="${v.credits}"
          data-specialites="${v.specialites.join(' ')}" data-nom="${v.prenom.toLowerCase()} ${v.titre.toLowerCase()}">
   <div class="mb-4 flex items-start justify-between gap-3">

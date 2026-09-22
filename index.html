@@ -283,7 +283,7 @@
 
   function rendre() {
     const liste = selection().slice(0, 6);
-    el('#grille').innerHTML = liste.map((v) => carteVoyant(v)).join('');
+    el('#grille').innerHTML = liste.map((v) => carteVoyant(v, { classe: 'carte-agent' })).join('');
     el('#vide').classList.toggle('hidden', liste.length > 0);
     el('#grille').classList.toggle('hidden', liste.length === 0);
   }
