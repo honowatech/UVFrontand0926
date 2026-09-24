@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr" data-statique>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Information | unevoyante.fr</title>
+<meta name="description" content="Page d'information unevoyante.fr.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ground">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre></uv-header>
+<div id="ariane"></div>
+
+<main id="contenu" class="flex-1">
+  <div class="shell grid gap-10 py-10 lg:grid-cols-[1fr_320px] lg:py-16">
+
+    <article>
+      <span class="eyebrow" id="categorie">Information</span>
+      <h1 class="mb-4 mt-2 text-h-xl-m sm:text-h-lg lg:text-h-xl" id="titre">Information</h1>
+      <p class="lede mb-8" id="chapeau"></p>
+
+      <div class="card-pad mb-8 border-royal-200 bg-tint">
+        <p class="flex items-start gap-3 text-body-md leading-relaxed text-royal-800">
+          <span class="material-symbols-outlined shrink-0 text-[22px] text-royal" aria-hidden="true">construction</span>
+          <span>
+            <strong class="font-semibold text-navy">Hors périmètre de cette V1.</strong>
+            Cette maquette couvre le parcours de consultation complet : accueil, catalogue, fiche
+            praticien, tchat, crédits, inscription et compte. Le contenu détaillé de cette page sera
+            rédigé lors d'une itération ultérieure.
+          </span>
+        </p>
+      </div>
+
+      <div class="prose-uv" id="apercu"></div>
+
+      <div class="mt-10 rounded-3xl bg-surface p-8 shadow-card">
+        <h2 class="mb-2 text-h-md">Poursuivre votre visite</h2>
+        <p class="mb-6 text-body-md text-muted">
+          Aucune impasse : voici les parcours entièrement fonctionnels de cette maquette.
+        </p>
+        <div class="grid gap-3 sm:grid-cols-2" id="parcours"></div>
+      </div>
+    </article>
+
+    <aside class="lg:sticky lg:top-24 lg:self-start">
+      <div class="card-pad">
+        <p class="mb-4 text-label-lg font-bold text-navy">Autres pages d'information</p>
+        <nav class="flex flex-col gap-1" id="autres" aria-label="Autres pages d'information"></nav>
+      </div>
+
+      <div class="card-pad mt-4">
+        <p class="mb-2 flex items-center gap-2 text-label-lg font-bold text-navy">
+          <span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">support_agent</span>
+          Service client
+        </p>
+        <p class="mb-3 text-body-sm leading-relaxed text-muted">
+          Disponible 7j/7 et 24h/24, réponse sous deux heures en moyenne.
+        </p>
+        <p class="text-body-sm text-muted">
+          <a href="tel:+33900000000" class="font-medium text-royal underline underline-offset-2">09 00 00 00 00</a><br>
+          <a href="contact.html" class="font-medium text-royal underline underline-offset-2">contact@unevoyante.fr</a>
+        </p>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<uv-footer></uv-footer>
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script src="assets/js/pages/info.js"></script>
+</body>
+</html>

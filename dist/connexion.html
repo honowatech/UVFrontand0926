@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr" data-statique>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Se connecter | unevoyante.fr</title>
+<meta name="description" content="Accédez à votre espace membre : solde de crédits, historique de vos consultations et praticiens favoris.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ground">
+<a href="#contenu" class="skip-link">Aller au formulaire</a>
+<uv-header sombre></uv-header>
+
+<main id="contenu" class="flex flex-1 items-center">
+  <div class="shell w-full py-10 lg:py-16">
+    <div class="mx-auto w-full max-w-md">
+
+      <div class="mb-8 text-center">
+        <span class="mx-auto mb-5 grid h-16 w-16 place-items-center rounded-full bg-tint">
+          <span class="material-symbols-outlined text-[30px] text-royal" aria-hidden="true">lock_open</span>
+        </span>
+        <h1 class="text-h-xl-m sm:text-h-lg">Content de vous revoir</h1>
+      </div>
+
+      <form id="formulaire" class="card flex flex-col gap-5 p-6 sm:p-8" novalidate>
+        <!-- Connexion sociale : proposée en premier, avant la saisie -->
+        <div class="grid grid-cols-2 gap-3" role="group" aria-label="Continuer avec Google ou Apple">
+          <button type="button" class="btn-quiet w-full" data-sso="Google"
+                  aria-label="Continuer avec Google" title="Continuer avec Google">
+            <svg class="h-5 w-5" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.8-6.8C35.6 2.4 30.2 0 24 0 14.6 0 6.4 5.4 2.5 13.2l7.9 6.2C12.3 13.2 17.7 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.1 24.6c0-1.6-.1-3.1-.4-4.6H24v9.1h12.4c-.5 2.9-2.2 5.3-4.7 7l7.6 5.9c4.4-4.1 6.8-10.1 6.8-17.4z"/>
+              <path fill="#FBBC05" d="M10.4 28.6c-.5-1.4-.8-2.9-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C.9 16.4 0 20.1 0 24s.9 7.6 2.5 10.8l7.9-6.2z"/>
+              <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.8 2.3-8.3 2.3-6.3 0-11.7-3.7-13.6-9.9l-7.9 6.2C6.4 42.6 14.6 48 24 48z"/>
+            </svg>
+          </button>
+          <button type="button" class="btn-quiet w-full" data-sso="Apple"
+                  aria-label="Continuer avec Apple" title="Continuer avec Apple">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.05 12.54c-.02-2.2 1.8-3.26 1.88-3.31-1.02-1.5-2.61-1.7-3.18-1.72-1.35-.14-2.64.8-3.33.8-.69 0-1.75-.78-2.87-.76-1.48.02-2.84.86-3.6 2.18-1.53 2.66-.39 6.6 1.1 8.76.73 1.06 1.6 2.25 2.74 2.2 1.1-.04 1.51-.71 2.84-.71 1.33 0 1.7.71 2.86.69 1.18-.02 1.93-1.08 2.65-2.14.83-1.22 1.18-2.41 1.2-2.47-.03-.01-2.29-.88-2.29-3.52zM14.9 5.6c.6-.74 1.01-1.76.9-2.78-.87.04-1.93.58-2.56 1.31-.56.65-1.05 1.69-.92 2.69.97.07 1.96-.49 2.58-1.22z"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3 text-body-sm text-muted">
+          <span class="h-px flex-1 bg-line"></span>
+          <span class="whitespace-nowrap">Ou, connectez-vous par e-mail</span>
+          <span class="h-px flex-1 bg-line"></span>
+        </div>
+
+        <!-- Champs sans libellé visible : le texte indicatif en tient lieu (d'où
+             son contraste plein), les libellés restent lus par les lecteurs d'écran. -->
+        <div class="flex flex-col gap-3">
+          <div>
+            <label class="sr-only" for="email">Adresse e-mail</label>
+            <input id="email" type="email" class="field placeholder:text-muted" placeholder="Adresse e-mail" autocomplete="email" required>
+          </div>
+
+          <div>
+            <label class="sr-only" for="motdepasse">Mot de passe</label>
+            <div class="relative">
+              <input id="motdepasse" type="password" class="field pr-12 placeholder:text-muted" placeholder="Mot de passe" autocomplete="current-password" required>
+              <button type="button" id="voir" class="absolute right-2 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full text-muted transition-colors hover:bg-ice" aria-label="Afficher le mot de passe">
+                <span class="material-symbols-outlined text-[20px]" aria-hidden="true">visibility</span>
+              </button>
+            </div>
+            <p class="mt-2 text-right">
+              <button type="button" id="oubli" class="text-body-sm text-royal underline underline-offset-2">Mot de passe oublié ?</button>
+            </p>
+          </div>
+        </div>
+
+        <label class="flex cursor-pointer items-center gap-3">
+          <input type="checkbox" id="memoriser" class="check" checked>
+          <span class="text-body-sm text-muted">Rester connecté sur cet appareil</span>
+        </label>
+
+        <p id="erreur" class="hidden rounded-md bg-red-50 p-3 text-body-sm text-red-700" role="alert"></p>
+
+        <button type="submit" class="btn-royal btn-lg w-full">Se connecter</button>
+
+        <p class="text-center text-body-md text-muted">
+          Pas encore de compte ?
+          <a href="inscription.html" id="lien-inscription" class="font-semibold text-royal underline underline-offset-2">S'inscrire · 3 crédits offerts</a>
+        </p>
+      </form>
+
+      <!-- Sortie de secours : personne ne reste coincé sur cet écran -->
+      <div class="mt-6 rounded-lg border border-line bg-surface p-5 text-center">
+        <p class="text-body-sm leading-relaxed text-muted">
+          La connexion n'est jamais obligatoire pour consulter le site.
+          <a href="voyants.html" class="font-medium text-royal underline underline-offset-2">Parcourir les praticiens</a>
+          ou <a href="tchat.html" class="font-medium text-royal underline underline-offset-2">ouvrir un tchat</a> reste possible sans compte.
+        </p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script src="assets/js/pages/connexion.js"></script>
+</body>
+</html>

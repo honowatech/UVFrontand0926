@@ -1,0 +1,21 @@
+# =============================================================================
+# unevoyante.fr — à la racine du dépôt
+# Ne sert QUE si l'hébergement publie la racine du dépôt (git pull dans le
+# dossier web) au lieu du dossier dist/. Tout est alors servi depuis dist/, la
+# version publiée : les sources, les scripts de build et le dépôt git (.git)
+# restent inaccessibles depuis le web.
+# Si le dossier web de l'hébergement pointe déjà sur dist/, ce fichier est
+# simplement ignoré.
+# =============================================================================
+
+Options -Indexes
+ErrorDocument 404 /404.html
+
+# Filet de sécurité, même sans mod_rewrite : jamais de .git ni de sources.
+RedirectMatch 404 ^/(\.git|src|scripts|node_modules)(/|$)
+RedirectMatch 404 ^/(package(-lock)?\.json|tailwind\.config\.js|README\.md|\.gitignore)$
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(.*)$ dist/$1 [L]
+</IfModule>

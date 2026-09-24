@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="fr" data-statique=""><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Créer mon compte · 3 crédits offerts | unevoyante.fr</title>
+<meta name="description" content="Créez votre compte discret en 30 secondes et recevez 3 crédits offerts. Aucun abonnement, aucune carte bancaire demandée.">
+<link rel="canonical" href="https://unevoyante.fr/inscription.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="unevoyante.fr">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Créer mon compte · 3 crédits offerts">
+<meta property="og:description" content="Créez votre compte discret en 30 secondes et recevez 3 crédits offerts. Aucun abonnement, aucune carte bancaire demandée.">
+<meta property="og:url" content="https://unevoyante.fr/inscription.html">
+<meta property="og:image" content="https://unevoyante.fr/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="unevoyante.fr — voyance par tchat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ground">
+<a href="#contenu" class="skip-link">Aller au formulaire</a>
+<uv-header sombre="">
+<header class="fixed inset-x-0 top-0 z-50 border-b bg-navy text-white border-navy-600 backdrop-blur-xl pt-safe" data-uv-header="">
+  <div class="shell flex h-16 items-center justify-between gap-2 min-[360px]:gap-3 sm:gap-4 lg:h-18">
+
+    <a href="index.html" class="uv-logo text-[20px] sm:text-[22px] lg:text-[24px]" aria-label="unevoyante.fr — accueil">
+      <span aria-hidden="true" class="uv-sigle sm:hidden">U<span class="uv-logo-v">V<i class="uv-flag"></i></span></span>
+         <span aria-hidden="true" class="hidden sm:inline">unevoyan<span class="uv-logo-t">t<i class="uv-flag"></i></span>e.fr</span>
+    </a>
+
+    <nav class="hidden items-center gap-5 lg:flex xl:gap-7" aria-label="Navigation principale">
+      
+        <a href="voyants.html" class="whitespace-nowrap text-label-md font-bold transition-colors text-white/80 hover:text-gold">Voyants</a>
+        <a href="tarifs.html" class="whitespace-nowrap text-label-md font-bold transition-colors text-white/80 hover:text-gold">Tarifs</a>
+        <a href="faq.html" class="whitespace-nowrap text-label-md font-bold transition-colors text-white/80 hover:text-gold">FAQ</a>
+    </nav>
+
+    <div class="flex items-center gap-1 min-[360px]:gap-2 sm:gap-3">
+      <button type="button" data-uv-theme="" class="grid h-10 w-10 shrink-0 place-items-center rounded-full transition-colors
+                   hover:bg-white/10" aria-label="Passer en mode nuit" title="Passer en mode nuit"><span class="material-symbols-outlined text-[22px]" aria-hidden="true">dark_mode</span></button>
+
+      <!-- Solde + recharge : ouvre la modale « Liste des forfaits » (modales.js),
+           sinon mène à la page Crédits. Sur mobile, l'icône et le chiffre seuls. -->
+      <a href="credits.html" data-uv-forfaits="" aria-haspopup="dialog" class="inline-flex h-9 shrink-0 items-center gap-1 whitespace-nowrap rounded-full border pl-2 pr-2.5 text-label-sm font-bold transition-colors sm:gap-1.5 sm:px-3
+                border-white/15 bg-white/10 text-white hover:bg-white/20" title="Recharger mes crédits">
+        <span class="material-symbols-outlined text-[18px] text-gold" aria-hidden="true">monetization_on</span>
+        <span class="sr-only">Recharger mes crédits, solde actuel :</span>
+        <span><span data-uv-credits="">3</span><span class="max-sm:sr-only">&nbsp;crédit<span data-uv-credits-s="">s</span></span></span>
+      </a>
+
+      <div data-uv-auth="" class="flex items-center gap-2 sm:gap-3">
+<a href="connexion.html?next=inscription.html" class="hidden whitespace-nowrap px-2 py-2 text-label-md font-bold transition-colors md:inline-flex text-white/80 hover:text-gold">Se connecter</a>
+<a href="inscription.html?next=inscription.html" class="btn-gold btn-sm max-[359px]:px-3 sm:min-h-[42px]">S'inscrire<span class="hidden xl:inline"> · 3 crédits offerts</span></a></div>
+
+      <!-- order-last : le burger ferme la barre sur mobile ; au-dessus de
+           1024 px il disparaît et c'est le menu du profil qui la ferme. -->
+      <button type="button" data-uv-burger="" class="order-last grid h-10 w-10 place-items-center rounded-full transition-colors lg:hidden
+                     hover:bg-white/10" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="uv-drawer">
+        <span class="material-symbols-outlined text-[24px]" aria-hidden="true">menu</span>
+      </button>
+
+      <!-- Menu du profil : dernier de la barre, rien ne se place après lui -->
+      <div data-uv-profil="" class="flex items-center"><span class="hidden sm:block">
+<div class="relative" data-uv-menu="">
+  <button type="button" class="flex items-center gap-2 rounded-full py-1 pl-1 pr-2 transition-colors hover:bg-white/10" aria-haspopup="true" aria-expanded="false" aria-label="Mon profil">
+    <span class="grid h-9 w-9 place-items-center rounded-full bg-white/15 text-white"><span class="material-symbols-outlined text-[22px]" aria-hidden="true">person</span></span>
+    
+    <span class="material-symbols-outlined text-[18px] hidden sm:inline" aria-hidden="true">expand_more</span>
+  </button>
+  <div class="absolute right-0 top-full mt-2 hidden w-60 overflow-hidden rounded-lg border border-line bg-surface p-1.5 text-navy shadow-lift" data-uv-menu-panel="">
+    
+    <a href="compte.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">person</span> Mon profil</a>
+    <a href="tchat.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">forum</span> Mes tchats</a>
+    <a href="contact.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">help</span> Aide</a>
+    <hr class="rule my-1.5">
+    <button type="button" data-uv-logout="" class="menu-sortie flex w-full items-center gap-3 rounded px-3 py-2.5 text-left text-label-md"><span class="material-symbols-outlined text-[20px]" aria-hidden="true">logout</span> Se déconnecter</button>
+  </div>
+</div></span></div>
+    </div>
+  </div>
+</header>
+
+<!-- Tiroir mobile : se referme au clic extérieur, à Échap et à la navigation -->
+<div id="uv-drawer" class="fixed inset-0 z-[60] hidden lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="absolute inset-0 bg-navy/40 backdrop-blur-sm" data-uv-drawer-close=""></div>
+  <nav class="absolute inset-y-0 right-0 flex w-[min(86vw,340px)] animate-slide-left flex-col gap-1 overflow-y-auto bg-surface p-5 shadow-lift pt-safe">
+    <div class="mb-2 flex items-center justify-between">
+      <a href="index.html" class="uv-logo text-[20px]" aria-label="unevoyante.fr — accueil">
+      <span aria-hidden="true">unevoyan<span class="uv-logo-t">t<i class="uv-flag"></i></span>e.fr</span>
+    </a>
+      <button type="button" data-uv-drawer-close="" class="grid h-10 w-10 place-items-center rounded-full hover:bg-ice" aria-label="Fermer le menu">
+        <span class="material-symbols-outlined text-[22px]" aria-hidden="true">close</span>
+      </button>
+    </div>
+    
+      <a href="voyants.html" class="flex items-center justify-between rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice">
+        Voyants <span class="material-symbols-outlined text-[20px] text-muted" aria-hidden="true">chevron_right</span>
+      </a>
+      <a href="tarifs.html" class="flex items-center justify-between rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice">
+        Tarifs <span class="material-symbols-outlined text-[20px] text-muted" aria-hidden="true">chevron_right</span>
+      </a>
+      <a href="faq.html" class="flex items-center justify-between rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice">
+        FAQ <span class="material-symbols-outlined text-[20px] text-muted" aria-hidden="true">chevron_right</span>
+      </a>
+    <hr class="rule my-3">
+    <a href="tchat.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">forum</span> Mes tchats</a>
+    <a href="credits.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-gold" aria-hidden="true">monetization_on</span> Mes crédits</a>
+    <a href="compte.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">person</span> Mon compte</a>
+    <hr class="rule my-3">
+    <a href="modales.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">web_asset</span> Modales</a>
+    <div class="flex flex-col gap-2 pt-4" data-uv-auth-drawer=""><a href="inscription.html" class="btn-gold w-full">S'inscrire · 3 crédits offerts</a>
+           <a href="connexion.html" class="btn-ghost w-full">Se connecter</a></div>
+  </nav>
+</div>
+
+<div class="h-16 lg:h-18" aria-hidden="true"></div></uv-header>
+
+<main id="contenu" class="flex-1">
+  <div class="shell grid items-start gap-10 py-8 lg:grid-cols-2 lg:gap-16 lg:py-16">
+
+    <!-- ==================================================================
+         COLONNE GAUCHE — argumentaire (visible dès le mobile, en haut)
+         ================================================================== -->
+    <section class="order-1 lg:order-2 lg:sticky lg:top-24">
+      <div class="relative overflow-hidden rounded-2xl bg-night p-6 text-white sm:p-8 lg:p-10">
+        <div aria-hidden="true" class="pointer-events-none absolute inset-0 opacity-25">
+          <svg viewBox="0 0 400 300" class="h-full w-full text-gold-300" fill="none">
+            <path d="M30 60L140 120L250 40L370 100" stroke="currentColor" stroke-dasharray="3 5"></path>
+            <path d="M60 240L170 190L300 250" stroke="currentColor" stroke-dasharray="3 5"></path>
+            <circle cx="30" cy="60" r="2.5" fill="currentColor"></circle><circle cx="140" cy="120" r="3" fill="currentColor"></circle>
+            <circle cx="250" cy="40" r="2" fill="currentColor"></circle><circle cx="370" cy="100" r="3" fill="currentColor"></circle>
+            <circle cx="170" cy="190" r="2.5" fill="currentColor"></circle><circle cx="300" cy="250" r="2" fill="currentColor"></circle>
+          </svg>
+        </div>
+
+        <div class="relative">
+          <h2 class="text-center text-h-md text-white lg:mb-3 lg:text-h-lg">
+            3 crédits offerts pour commencer
+          </h2>
+          <!-- Argumentaire détaillé : desktop uniquement (mobile = message court) -->
+          <p class="hidden text-center text-body-md leading-relaxed text-white/75 lg:mb-8 lg:block">
+            Soit trois questions posées au praticien de votre choix, sans aucune carte bancaire
+            et sans engagement.
+          </p>
+
+          <ul class="hidden space-y-4 lg:block">
+            <li class="flex gap-3">
+              <span class="material-symbols-outlined shrink-0 text-[22px] text-gold-300" aria-hidden="true">lock</span>
+              <span><strong class="block text-label-md text-white">Compte discret</strong>
+                <span class="text-body-sm text-white/70">Un prénom suffit. Les praticiens ne voient jamais votre e-mail.</span></span>
+            </li>
+            <li class="flex gap-3">
+              <span class="material-symbols-outlined shrink-0 text-[22px] text-gold-300" aria-hidden="true">block</span>
+              <span><strong class="block text-label-md text-white">Sans abonnement</strong>
+                <span class="text-body-sm text-white/70">Aucun prélèvement automatique, aucune relance commerciale.</span></span>
+            </li>
+            <li class="flex gap-3">
+              <span class="material-symbols-outlined shrink-0 text-[22px] text-gold-300" aria-hidden="true">schedule</span>
+              <span><strong class="block text-label-md text-white">Crédits sans expiration</strong>
+                <span class="text-body-sm text-white/70">Utilisez-les aujourd'hui ou dans six mois, ils restent acquis.</span></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="hidden text-center text-body-sm text-muted lg:mt-5 lg:block lg:text-left">
+        Vous préférez regarder d'abord ?
+        <a href="voyants.html" class="font-medium text-royal underline underline-offset-2">Parcourez les 24 praticiens</a>
+        — la création de compte n'est jamais obligatoire pour naviguer.
+      </p>
+    </section>
+
+    <!-- ==================================================================
+         COLONNE DROITE — formulaire
+         ================================================================== -->
+    <section class="order-2 lg:order-1">
+      <!-- Mobile : titre centré et réduit (18px au lieu de 30px) ; desktop inchangé -->
+      <h1 class="mb-6 text-center text-h-sm lg:mb-2 lg:text-left lg:text-h-lg">Créez votre compte en 30 secondes</h1>
+      <!-- Sous-titre : desktop uniquement -->
+      <p class="lede hidden lg:mb-8 lg:block">Aucun abonnement. Vos 3 crédits sont ajoutés immédiatement.</p>
+
+      <form id="formulaire" class="card flex flex-col gap-5 p-6 sm:p-8" novalidate="">
+        <!-- Connexion sociale : proposée en premier, avant la saisie -->
+        <div class="grid grid-cols-2 gap-3" role="group" aria-label="Continuer avec Google ou Apple">
+          <button type="button" class="btn-quiet w-full" data-sso="Google" aria-label="Continuer avec Google" title="Continuer avec Google">
+            <svg class="h-5 w-5" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.8-6.8C35.6 2.4 30.2 0 24 0 14.6 0 6.4 5.4 2.5 13.2l7.9 6.2C12.3 13.2 17.7 9.5 24 9.5z"></path>
+              <path fill="#4285F4" d="M46.1 24.6c0-1.6-.1-3.1-.4-4.6H24v9.1h12.4c-.5 2.9-2.2 5.3-4.7 7l7.6 5.9c4.4-4.1 6.8-10.1 6.8-17.4z"></path>
+              <path fill="#FBBC05" d="M10.4 28.6c-.5-1.4-.8-2.9-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C.9 16.4 0 20.1 0 24s.9 7.6 2.5 10.8l7.9-6.2z"></path>
+              <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.8 2.3-8.3 2.3-6.3 0-11.7-3.7-13.6-9.9l-7.9 6.2C6.4 42.6 14.6 48 24 48z"></path>
+            </svg>
+          </button>
+          <button type="button" class="btn-quiet w-full" data-sso="Apple" aria-label="Continuer avec Apple" title="Continuer avec Apple">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.05 12.54c-.02-2.2 1.8-3.26 1.88-3.31-1.02-1.5-2.61-1.7-3.18-1.72-1.35-.14-2.64.8-3.33.8-.69 0-1.75-.78-2.87-.76-1.48.02-2.84.86-3.6 2.18-1.53 2.66-.39 6.6 1.1 8.76.73 1.06 1.6 2.25 2.74 2.2 1.1-.04 1.51-.71 2.84-.71 1.33 0 1.7.71 2.86.69 1.18-.02 1.93-1.08 2.65-2.14.83-1.22 1.18-2.41 1.2-2.47-.03-.01-2.29-.88-2.29-3.52zM14.9 5.6c.6-.74 1.01-1.76.9-2.78-.87.04-1.93.58-2.56 1.31-.56.65-1.05 1.69-.92 2.69.97.07 1.96-.49 2.58-1.22z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3 text-body-sm text-muted">
+          <span class="h-px flex-1 bg-line"></span>
+          <span class="whitespace-nowrap">Ou, remplissez ce formulaire</span>
+          <span class="h-px flex-1 bg-line"></span>
+        </div>
+
+        <!-- Champs sans libellé visible : le texte indicatif en tient lieu (d'où
+             son contraste plein), les libellés restent lus par les lecteurs d'écran. -->
+        <div class="flex flex-col gap-3">
+          <div>
+            <label class="sr-only" for="prenom">Prénom ou pseudonyme</label>
+            <input id="prenom" class="field placeholder:text-muted" placeholder="Prénom ou pseudonyme" autocomplete="given-name" required="">
+          </div>
+
+          <div>
+            <label class="sr-only" for="email">Adresse e-mail</label>
+            <input id="email" type="email" class="field placeholder:text-muted" placeholder="Adresse e-mail" autocomplete="email" required="">
+          </div>
+
+          <div>
+            <label class="sr-only" for="motdepasse">Mot de passe</label>
+            <div class="relative">
+              <input id="motdepasse" type="password" class="field pr-12 placeholder:text-muted" placeholder="Mot de passe" autocomplete="new-password" aria-describedby="regle-mdp" required="">
+              <button type="button" id="voir" class="absolute right-2 top-1/2 grid h-9 w-9 -translate-y-1/2 place-items-center rounded-full text-muted transition-colors hover:bg-ice" aria-label="Afficher le mot de passe">
+                <span class="material-symbols-outlined text-[20px]" aria-hidden="true">visibility</span>
+              </button>
+            </div>
+            <!-- Robustesse + règle : la règle reste visible pendant la saisie,
+                 contrairement au texte indicatif qui disparaît. -->
+            <div class="mt-2 flex items-center gap-3">
+              <div class="flex flex-1 gap-1" aria-hidden="true">
+                <span class="h-1 flex-1 rounded-full bg-line" data-force=""></span>
+                <span class="h-1 flex-1 rounded-full bg-line" data-force=""></span>
+                <span class="h-1 flex-1 rounded-full bg-line" data-force=""></span>
+              </div>
+              <p id="regle-mdp" class="shrink-0 text-body-sm text-muted">8 caractères minimum</p>
+            </div>
+          </div>
+        </div>
+
+        <label class="flex cursor-pointer items-start gap-3">
+          <input type="checkbox" id="majeur" class="check mt-0.5">
+          <span class="text-body-sm leading-relaxed text-muted">
+            Je certifie être majeur(e) et j'accepte les
+            <a href="info.html?sujet=cgv" class="font-medium text-royal underline underline-offset-2">CGV</a>
+            ainsi que la
+            <a href="info.html?sujet=confidentialite" class="font-medium text-royal underline underline-offset-2">politique de confidentialité</a>.
+          </span>
+        </label>
+
+        <p id="erreur" class="hidden rounded-md bg-red-50 p-3 text-body-sm text-red-700" role="alert"></p>
+
+        <button type="submit" class="btn-gold btn-lg w-full">Créer mon compte · 3 crédits offerts</button>
+
+        <p class="text-center text-body-md text-muted">
+          Déjà inscrit(e) ?
+          <a href="connexion.html?next=compte.html" id="lien-connexion" class="font-semibold text-royal underline underline-offset-2">Se connecter</a>
+        </p>
+      </form>
+
+      <p class="mt-6 flex items-center justify-center gap-2 text-body-sm text-muted">
+        <span class="material-symbols-outlined text-[18px] text-royal" aria-hidden="true">shield</span>
+        Anonymat garanti · Paiement sécurisé · Sans engagement
+      </p>
+    </section>
+  </div>
+</main>
+
+<uv-tabbar>
+<!-- L'espace réservé inclut l'encoche du bas (iPhone), sinon le contenu passe dessous. -->
+<div class="h-[var(--tabbar-total)] lg:hidden" aria-hidden="true" data-uv-tabbar-espace=""></div>
+<nav class="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 pb-safe backdrop-blur-xl shadow-bar lg:hidden" aria-label="Navigation rapide" data-uv-tabbar="">
+  <ul class="mx-auto flex max-w-md items-stretch justify-around px-2">
+    <li class="flex-1">
+        <a href="index.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">home</span>
+          <span class="text-label-sm ">Accueil</span>
+        </a></li><li class="flex-1">
+        <a href="tchat.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">forum</span>
+          <span class="text-label-sm ">Mes tchats</span>
+        </a></li><li class="flex-1">
+        <a href="credits.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">monetization_on</span>
+          <span class="text-label-sm ">Crédits</span>
+        </a></li><li class="flex-1">
+        <a href="compte.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">person</span>
+          <span class="text-label-sm ">Compte</span>
+        </a></li>
+  </ul>
+</nav></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script src="assets/js/pages/inscription.js"></script>
+
+
+</body></html>

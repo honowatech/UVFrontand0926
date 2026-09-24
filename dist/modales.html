@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr" data-statique>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Modales | unevoyante.fr</title>
+<meta name="description" content="Catalogue des modales du site, pour les consulter une à une pendant le développement.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ground">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre></uv-header>
+<div id="ariane"></div>
+
+<main id="contenu" class="flex-1">
+
+  <section class="bg-surface">
+    <div class="shell py-12 lg:py-16">
+      <div class="max-w-3xl">
+        <span class="eyebrow">Outil de développement</span>
+        <h1 class="mb-4 mt-2 text-h-xl-m sm:text-h-lg lg:text-h-xl">Modales</h1>
+        <p class="lede">
+          Toutes les modales du site, réunies ici pour être consultées une à une.
+          Chaque bouton ouvre la modale qui porte son nom.
+        </p>
+        <p class="mt-3 text-body-sm text-muted">
+          Lien direct vers une modale : <code class="rounded bg-ice px-1.5 py-0.5 font-semibold text-navy">modales.html?ouvrir=promo-vert</code>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3" id="modales"></div>
+    </div>
+  </section>
+</main>
+
+<uv-footer></uv-footer>
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script src="assets/js/pages/modales.js"></script>
+</body>
+</html>

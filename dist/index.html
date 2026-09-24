@@ -1,0 +1,787 @@
+<!DOCTYPE html><html lang="fr" data-statique=""><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>unevoyante.fr — Voyance par tchat, des réponses claires en toute confiance</title>
+<meta name="description" content="Échangez par tchat avec des voyants et médiums vérifiés. 1 message = 1 crédit, sans abonnement, 7j/7 et 24h/24. 3 crédits offerts à l'inscription.">
+<link rel="canonical" href="https://unevoyante.fr/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="unevoyante.fr">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="unevoyante.fr — Voyance par tchat, des réponses claires en toute confiance">
+<meta property="og:description" content="Échangez par tchat avec des voyants et médiums vérifiés. 1 message = 1 crédit, sans abonnement, 7j/7 et 24h/24. 3 crédits offerts à l'inscription.">
+<meta property="og:url" content="https://unevoyante.fr/">
+<meta property="og:image" content="https://unevoyante.fr/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="unevoyante.fr — voyance par tchat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="stylesheet" href="assets/css/app.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://unevoyante.fr/#organisation",
+      "name": "unevoyante.fr",
+      "url": "https://unevoyante.fr/",
+      "logo": "https://unevoyante.fr/assets/img/icon-512.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "url": "https://unevoyante.fr/contact.html",
+        "availableLanguage": "French"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://unevoyante.fr/#site",
+      "name": "unevoyante.fr",
+      "url": "https://unevoyante.fr/",
+      "inLanguage": "fr-FR",
+      "publisher": { "@id": "https://unevoyante.fr/#organisation" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": { "@type": "EntryPoint", "urlTemplate": "https://unevoyante.fr/voyants.html?q={search_term_string}" },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
+</script>
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ground">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre="">
+<header class="fixed inset-x-0 top-0 z-50 border-b bg-navy text-white border-navy-600 backdrop-blur-xl pt-safe" data-uv-header="">
+  <div class="shell flex h-16 items-center justify-between gap-2 min-[360px]:gap-3 sm:gap-4 lg:h-18">
+
+    <a href="index.html" class="uv-logo text-[20px] sm:text-[22px] lg:text-[24px]" aria-label="unevoyante.fr — accueil">
+      <span aria-hidden="true" class="uv-sigle sm:hidden">U<span class="uv-logo-v">V<i class="uv-flag"></i></span></span>
+         <span aria-hidden="true" class="hidden sm:inline">unevoyan<span class="uv-logo-t">t<i class="uv-flag"></i></span>e.fr</span>
+    </a>
+
+    <nav class="hidden items-center gap-5 lg:flex xl:gap-7" aria-label="Navigation principale">
+      
+        <a href="voyants.html" class="whitespace-nowrap text-label-md font-bold transition-colors text-white/80 hover:text-gold">Voyants</a>
+        <a href="tarifs.html" class="whitespace-nowrap text-label-md font-bold transition-colors text-white/80 hover:text-gold">Tarifs</a>
+        <a href="faq.html" class="whitespace-nowrap text-label-md font-bold transition-colors text-white/80 hover:text-gold">FAQ</a>
+    </nav>
+
+    <div class="flex items-center gap-1 min-[360px]:gap-2 sm:gap-3">
+      <button type="button" data-uv-theme="" class="grid h-10 w-10 shrink-0 place-items-center rounded-full transition-colors
+                   hover:bg-white/10" aria-label="Passer en mode nuit" title="Passer en mode nuit"><span class="material-symbols-outlined text-[22px]" aria-hidden="true">dark_mode</span></button>
+
+      <!-- Solde + recharge : ouvre la modale « Liste des forfaits » (modales.js),
+           sinon mène à la page Crédits. Sur mobile, l'icône et le chiffre seuls. -->
+      <a href="credits.html" data-uv-forfaits="" aria-haspopup="dialog" class="inline-flex h-9 shrink-0 items-center gap-1 whitespace-nowrap rounded-full border pl-2 pr-2.5 text-label-sm font-bold transition-colors sm:gap-1.5 sm:px-3
+                border-white/15 bg-white/10 text-white hover:bg-white/20" title="Recharger mes crédits">
+        <span class="material-symbols-outlined text-[18px] text-gold" aria-hidden="true">monetization_on</span>
+        <span class="sr-only">Recharger mes crédits, solde actuel :</span>
+        <span><span data-uv-credits="">3</span><span class="max-sm:sr-only">&nbsp;crédit<span data-uv-credits-s="">s</span></span></span>
+      </a>
+
+      <div data-uv-auth="" class="flex items-center gap-2 sm:gap-3">
+<a href="connexion.html?next=index.html" class="hidden whitespace-nowrap px-2 py-2 text-label-md font-bold transition-colors md:inline-flex text-white/80 hover:text-gold">Se connecter</a>
+<a href="inscription.html?next=index.html" class="btn-gold btn-sm max-[359px]:px-3 sm:min-h-[42px]">S'inscrire<span class="hidden xl:inline"> · 3 crédits offerts</span></a></div>
+
+      <!-- order-last : le burger ferme la barre sur mobile ; au-dessus de
+           1024 px il disparaît et c'est le menu du profil qui la ferme. -->
+      <button type="button" data-uv-burger="" class="order-last grid h-10 w-10 place-items-center rounded-full transition-colors lg:hidden
+                     hover:bg-white/10" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="uv-drawer">
+        <span class="material-symbols-outlined text-[24px]" aria-hidden="true">menu</span>
+      </button>
+
+      <!-- Menu du profil : dernier de la barre, rien ne se place après lui -->
+      <div data-uv-profil="" class="flex items-center"><span class="hidden sm:block">
+<div class="relative" data-uv-menu="">
+  <button type="button" class="flex items-center gap-2 rounded-full py-1 pl-1 pr-2 transition-colors hover:bg-white/10" aria-haspopup="true" aria-expanded="false" aria-label="Mon profil">
+    <span class="grid h-9 w-9 place-items-center rounded-full bg-white/15 text-white"><span class="material-symbols-outlined text-[22px]" aria-hidden="true">person</span></span>
+    
+    <span class="material-symbols-outlined text-[18px] hidden sm:inline" aria-hidden="true">expand_more</span>
+  </button>
+  <div class="absolute right-0 top-full mt-2 hidden w-60 overflow-hidden rounded-lg border border-line bg-surface p-1.5 text-navy shadow-lift" data-uv-menu-panel="">
+    
+    <a href="compte.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">person</span> Mon profil</a>
+    <a href="tchat.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">forum</span> Mes tchats</a>
+    <a href="contact.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">help</span> Aide</a>
+    <hr class="rule my-1.5">
+    <button type="button" data-uv-logout="" class="menu-sortie flex w-full items-center gap-3 rounded px-3 py-2.5 text-left text-label-md"><span class="material-symbols-outlined text-[20px]" aria-hidden="true">logout</span> Se déconnecter</button>
+  </div>
+</div></span></div>
+    </div>
+  </div>
+</header>
+
+<!-- Tiroir mobile : se referme au clic extérieur, à Échap et à la navigation -->
+<div id="uv-drawer" class="fixed inset-0 z-[60] hidden lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="absolute inset-0 bg-navy/40 backdrop-blur-sm" data-uv-drawer-close=""></div>
+  <nav class="absolute inset-y-0 right-0 flex w-[min(86vw,340px)] animate-slide-left flex-col gap-1 overflow-y-auto bg-surface p-5 shadow-lift pt-safe">
+    <div class="mb-2 flex items-center justify-between">
+      <a href="index.html" class="uv-logo text-[20px]" aria-label="unevoyante.fr — accueil">
+      <span aria-hidden="true">unevoyan<span class="uv-logo-t">t<i class="uv-flag"></i></span>e.fr</span>
+    </a>
+      <button type="button" data-uv-drawer-close="" class="grid h-10 w-10 place-items-center rounded-full hover:bg-ice" aria-label="Fermer le menu">
+        <span class="material-symbols-outlined text-[22px]" aria-hidden="true">close</span>
+      </button>
+    </div>
+    
+      <a href="voyants.html" class="flex items-center justify-between rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice">
+        Voyants <span class="material-symbols-outlined text-[20px] text-muted" aria-hidden="true">chevron_right</span>
+      </a>
+      <a href="tarifs.html" class="flex items-center justify-between rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice">
+        Tarifs <span class="material-symbols-outlined text-[20px] text-muted" aria-hidden="true">chevron_right</span>
+      </a>
+      <a href="faq.html" class="flex items-center justify-between rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice">
+        FAQ <span class="material-symbols-outlined text-[20px] text-muted" aria-hidden="true">chevron_right</span>
+      </a>
+    <hr class="rule my-3">
+    <a href="tchat.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">forum</span> Mes tchats</a>
+    <a href="credits.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-gold" aria-hidden="true">monetization_on</span> Mes crédits</a>
+    <a href="compte.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">person</span> Mon compte</a>
+    <hr class="rule my-3">
+    <a href="modales.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">web_asset</span> Modales</a>
+    <div class="flex flex-col gap-2 pt-4" data-uv-auth-drawer=""><a href="inscription.html" class="btn-gold w-full">S'inscrire · 3 crédits offerts</a>
+           <a href="connexion.html" class="btn-ghost w-full">Se connecter</a></div>
+  </nav>
+</div>
+
+<div class="h-16 lg:h-18" aria-hidden="true"></div></uv-header>
+
+<main id="contenu" class="flex-1">
+
+  <!-- ======================================================================
+       HERO
+       ====================================================================== -->
+  <section class="relative overflow-hidden bg-surface">
+    <!-- Constellation discrète le jour, franchement présente la nuit -->
+    <div aria-hidden="true" data-uv-ciel="" class="pointer-events-none absolute inset-0 opacity-[0.10] transition-opacity duration-500">
+      <svg class="h-full w-full text-gold" viewBox="0 0 390 280" fill="none" preserveAspectRatio="xMidYMid slice">
+        <circle cx="48" cy="38" r="1.5" fill="currentColor"></circle><circle cx="112" cy="74" r="2" fill="currentColor"></circle>
+        <circle cx="168" cy="32" r="1" fill="currentColor"></circle><circle cx="280" cy="54" r="2.5" fill="currentColor"></circle>
+        <circle cx="340" cy="24" r="1.5" fill="currentColor"></circle><circle cx="320" cy="110" r="1.5" fill="currentColor"></circle>
+        <circle cx="230" cy="120" r="2" fill="currentColor"></circle><circle cx="82" cy="145" r="1.5" fill="currentColor"></circle>
+        <circle cx="140" cy="210" r="2" fill="currentColor"></circle><circle cx="35" cy="240" r="1" fill="currentColor"></circle>
+        <circle cx="330" cy="225" r="2.5" fill="currentColor"></circle>
+        <path d="M48 38 L112 74 L168 32 M280 54 L320 110 L230 120 M82 145 L140 210 M280 54 L340 24" stroke="currentColor" stroke-dasharray="3 3" stroke-width=".75"></path>
+      </svg>
+    </div>
+
+    <div class="shell relative grid items-center gap-12 py-12 lg:grid-cols-[55%_1fr] lg:py-20">
+      <div class="text-center lg:text-left">
+        <span class="eyebrow">Voyance par tchat · 7j/7 · 24h/24</span>
+        <h1 class="mt-3 text-h-xl-m sm:text-h-xl lg:text-h-2xl">
+          Des réponses claires,<br class="hidden sm:block"> en toute confiance
+        </h1>
+        <p class="lede mx-auto mt-4 max-w-xl lg:mx-0">
+          Consultez des voyantes et médiums sélectionnés avec soin. Réponses immédiates par écrit,
+          sans engagement ni abonnement. 1 message = 1 crédit, sans limite de temps.
+        </p>
+
+        <div class="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center lg:justify-start">
+          <a href="inscription.html" class="btn-gold btn-lg">
+            3 questions offertes · Commencer
+            <span class="material-symbols-outlined icon-fill text-[20px]" aria-hidden="true">auto_awesome</span>
+          </a>
+          <a href="#catalogue" class="btn-ghost btn-lg">Voir les voyants</a>
+        </div>
+
+        <ul class="mt-8 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 border-t border-line pt-6 text-body-sm text-muted lg:justify-start">
+          <li class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined icon-fill text-[18px] text-gold" aria-hidden="true">star</span>
+            <strong class="font-semibold text-navy">4,8/5</strong> · Avis vérifiés Trustpilot
+          </li>
+          <li aria-hidden="true" class="text-line">·</li>
+          <li class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[18px] text-royal" aria-hidden="true">verified_user</span>
+            50 000+ consultations
+          </li>
+          <li aria-hidden="true" class="hidden text-line sm:block">·</li>
+          <li class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[18px] text-royal" aria-hidden="true">lock</span>
+            Anonymat garanti
+          </li>
+        </ul>
+      </div>
+
+      <!-- Illustration -->
+      <div class="hidden justify-center lg:flex">
+        <div class="relative aspect-[4/5] w-full max-w-[420px] overflow-hidden rounded-2xl bg-royal-50 p-8">
+          <div class="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-tint blur-2xl"></div>
+          <svg class="relative h-full w-full" viewBox="0 0 360 440" fill="none" aria-hidden="true">
+            <!-- Les attributs fill/stroke restent le repli ; le style, lui, suit
+                 les jetons du thème (l'or et le tracé doré sont identiques jour et nuit). -->
+            <circle cx="180" cy="210" r="145" stroke="#E4E9F4" style="stroke:rgb(var(--uv-line))" stroke-dasharray="4 4" stroke-width="1.5"></circle>
+            <circle cx="180" cy="210" r="115" stroke="#C9A24A" stroke-opacity=".35" stroke-width="1.2"></circle>
+            <circle cx="180" cy="210" r="85" stroke="#1F3C88" style="stroke:rgb(var(--uv-royal))" stroke-opacity=".25" stroke-width="1"></circle>
+            <g transform="translate(115,120)">
+              <rect width="130" height="200" rx="10" fill="#fff" stroke="#E4E9F4" style="fill:rgb(var(--uv-surface));stroke:rgb(var(--uv-line))" stroke-width="1.5"></rect>
+              <rect x="8" y="8" width="114" height="184" rx="6" fill="none" stroke="#C9A24A" stroke-opacity=".5"></rect>
+              <circle cx="65" cy="100" r="32" fill="#FAF8FF" stroke="#1F3C88" style="fill:rgb(var(--uv-soft));stroke:rgb(var(--uv-royal))" stroke-width="1.2"></circle>
+              <path d="M60 84c-9 0-15 8-15 16s6 16 15 16c-6-4-8-11-8-16s2-12 8-16z" fill="#C9A24A"></path>
+              <circle cx="68" cy="100" r="4" fill="#1F3C88" style="fill:rgb(var(--uv-royal))"></circle>
+              <g stroke="#C9A24A" stroke-linecap="round" stroke-width="1.5">
+                <line x1="65" y1="58" x2="65" y2="64"></line><line x1="65" y1="136" x2="65" y2="142"></line>
+                <line x1="23" y1="100" x2="29" y2="100"></line><line x1="101" y1="100" x2="107" y2="100"></line>
+              </g>
+            </g>
+            <g fill="#C9A24A">
+              <path d="M70 100l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"></path>
+              <path d="M295 130l1.5 5 5 1.5-5 1.5-1.5 5-1.5-5-5-1.5 5-1.5z"></path>
+              <path d="M85 320l1.5 5 5 1.5-5 1.5-1.5 5-1.5-5-5-1.5 5-1.5z"></path>
+              <path d="M275 300l2 5 5 1.5-5 1.5-2 5-2-5-5-1.5 5-1.5z"></path>
+            </g>
+            <path d="M70 108L115 140M245 150L295 136.5M85 326.5L120 300M240 310L275 306.5" stroke="#1F3C88" style="stroke:rgb(var(--uv-royal))" stroke-dasharray="2 3" stroke-opacity=".3"></path>
+            <circle cx="280" cy="210" r="4" fill="#D8B45A"></circle>
+            <circle cx="80" cy="210" r="3" fill="#1F3C88" style="fill:rgb(var(--uv-royal))"></circle>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       REPRENDRE UNE CONVERSATION (affiché uniquement s'il y en a)
+       ====================================================================== -->
+  <section id="reprendre" class="border-y border-line bg-surface">
+    <div class="shell py-6">
+      <div class="mb-3 flex items-center justify-between gap-4">
+        <h2 class="text-h-sm">Reprendre où vous en étiez</h2>
+        <a href="tchat.html" class="btn-link shrink-0 whitespace-nowrap">Tous mes tchats
+          <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span></a>
+      </div>
+      <div class="scroll-x gap-3 pb-2" id="reprendre-liste"><a href="tchat.html?voyant=claire" class="card flex w-[260px] shrink-0 items-center gap-3 p-3 transition-colors hover:bg-ice">
+        <span class="monogram h-11 w-11 text-label-lg" aria-hidden="true">C<img src="assets/img/voyants/claire.webp" alt="" width="288" height="288" loading="lazy" decoding="async" class="monogram-photo" onerror="this.remove()"><span class="monogram-status bg-online"></span></span>
+        <span class="min-w-0">
+          <span class="block truncate font-display text-label-lg font-semibold">Claire</span>
+          <span class="block truncate text-body-sm text-muted">L’Étoile sort en position de futur proche : ce que vous croyez perdu revient sous une autre forme. Ne forcez rien avant la fin du mois.</span>
+        </span>
+      </a></div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       CATALOGUE
+       ====================================================================== -->
+  <section id="catalogue" class="section bg-ice">
+    <div class="shell">
+
+      <!-- Filtres -->
+      <div class="mb-6 flex flex-col gap-4 border-b border-line pb-5 lg:flex-row lg:items-center lg:justify-between">
+        <div class="scroll-x gap-2 pb-1 no-scrollbar" role="group" aria-label="Filtrer les praticiens" id="filtres">
+    <button type="button" class="chip" data-f="tous" aria-pressed="true">
+      Tous
+    </button>
+    <button type="button" class="chip" data-f="en-ligne" aria-pressed="false">
+      <span class="dot-online"></span>En ligne
+    </button>
+    <button type="button" class="chip" data-f="amour" aria-pressed="false">
+      Amour
+    </button>
+    <button type="button" class="chip" data-f="tarot" aria-pressed="false">
+      Tarot
+    </button>
+    <button type="button" class="chip" data-f="pendule" aria-pressed="false">
+      Pendule
+    </button>
+    <button type="button" class="chip" data-f="runes" aria-pressed="false">
+      Runes
+    </button>
+    <button type="button" class="chip" data-f="voyance-pure" aria-pressed="false">
+      Voyance pure
+    </button>
+    <button type="button" class="chip" data-f="astrologie" aria-pressed="false">
+      Astrologie
+    </button>
+    <button type="button" class="chip" data-f="1-credit" aria-pressed="false">
+      1 crédit
+    </button></div>
+        <label class="flex shrink-0 items-center gap-2 text-body-sm text-muted">
+          <span class="whitespace-nowrap">Trier par</span>
+          <select id="tri" class="field min-h-[42px] w-auto py-0 pr-9 text-label-md">
+            <option value="dispo">Disponibilité</option>
+            <option value="note">Meilleures notes</option>
+            <option value="avis">Nombre d'avis</option>
+            <option value="prix">Prix croissant</option>
+          </select>
+        </label>
+      </div>
+
+      <!-- Titre de section -->
+      <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <h2 class="text-h-lg-m sm:text-h-lg">Disponibles maintenant</h2>
+          <span class="badge-online">
+            <span class="dot-online animate-pulse"></span>
+            <span id="nb-en-ligne">17</span> voyants en ligne
+          </span>
+        </div>
+        <p class="flex items-center gap-1.5 text-body-sm text-muted">
+          <span class="material-symbols-outlined text-[16px] text-royal" aria-hidden="true">schedule</span>
+          Temps de réponse moyen : <strong class="font-semibold text-navy">2 min</strong>
+        </p>
+      </div>
+
+      <!-- Grille -->
+      <div id="grille" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+<article class="card-pad card-hover flex min-w-0 flex-col carte-agent" data-voyant="claire" data-statut="online" data-note="4.9" data-avis="104" data-credits="1" data-specialites="tarot numerologie amour famille travail" data-nom="claire tarologue &amp; numérologue">
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <a href="voyant-claire.html" class="shrink-0" aria-label="Voir la fiche de Claire">
+      <span class="monogram h-16 w-16 text-h-md" aria-hidden="true">C<img src="assets/img/voyants/claire.webp" alt="" width="288" height="288" loading="lazy" decoding="async" class="monogram-photo" onerror="this.remove()"><span class="monogram-status bg-online"></span></span>
+    </a>
+    <span class="badge-top"><span class="material-symbols-outlined icon-fill text-[14px] text-gold" aria-hidden="true">star</span> TOP VOYANTE</span>
+  </div>
+
+  <h3 class="text-h-md"><a href="voyant-claire.html" class="hover:text-royal">Claire</a></h3>
+  <p class="mb-3 text-body-sm text-muted">Tarologue &amp; Numérologue</p>
+
+  <div class="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
+    <a href="voyant-claire.html#avis" class="flex items-center gap-1 hover:underline">
+      <span class="material-symbols-outlined icon-fill text-[16px] text-gold" aria-hidden="true">star</span>
+      <span class="text-label-md">4,9</span>
+      <span class="text-body-sm text-muted">(104)</span>
+    </a>
+    <span class="inline-flex items-center gap-1 rounded-full bg-ice px-2.5 py-1 text-label-sm">
+      <span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">monetization_on</span> 1 crédit / msg
+    </span>
+  </div>
+
+  
+
+  <p class="mb-4 line-clamp-2 text-body-sm leading-relaxed text-muted">Tarot, intuition et ressentis pour éclairer votre avenir sentimental, familial ou professionnel.</p>
+
+  <div class="mb-5 flex flex-wrap gap-2">
+    <span class="tag">Tarot</span><span class="tag">Numérologie</span>
+  </div>
+
+  <div class="mt-auto flex flex-col gap-2">
+    <a href="tchat.html?voyant=claire" class="btn-gold w-full">Commencer la discussion</a>
+    <a href="voyant-claire.html" class="btn-link justify-center">Voir la fiche <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span></a>
+  </div>
+</article>
+<article class="card-pad card-hover flex min-w-0 flex-col carte-agent" data-voyant="karine" data-statut="online" data-note="4.9" data-avis="118" data-credits="1" data-specialites="tarot amour travail" data-nom="karine tarologue · intuition &amp; flashs">
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <a href="voyant-karine.html" class="shrink-0" aria-label="Voir la fiche de Karine">
+      <span class="monogram h-16 w-16 text-h-md" aria-hidden="true">K<img src="assets/img/voyants/karine.webp" alt="" width="288" height="288" loading="lazy" decoding="async" class="monogram-photo" onerror="this.remove()"><span class="monogram-status bg-online"></span></span>
+    </a>
+    <span class="badge-top"><span class="material-symbols-outlined icon-fill text-[14px] text-gold" aria-hidden="true">star</span> TOP VOYANTE</span>
+  </div>
+
+  <h3 class="text-h-md"><a href="voyant-karine.html" class="hover:text-royal">Karine</a></h3>
+  <p class="mb-3 text-body-sm text-muted">Tarologue · Intuition &amp; flashs</p>
+
+  <div class="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
+    <a href="voyant-karine.html#avis" class="flex items-center gap-1 hover:underline">
+      <span class="material-symbols-outlined icon-fill text-[16px] text-gold" aria-hidden="true">star</span>
+      <span class="text-label-md">4,9</span>
+      <span class="text-body-sm text-muted">(118)</span>
+    </a>
+    <span class="inline-flex items-center gap-1 rounded-full bg-ice px-2.5 py-1 text-label-sm">
+      <span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">monetization_on</span> 1 crédit / msg
+    </span>
+  </div>
+
+  
+
+  <p class="mb-4 line-clamp-2 text-body-sm leading-relaxed text-muted">Intuition, cartes et flashs depuis plus de 21 ans. Je prends le temps d’écouter avant de répondre.</p>
+
+  <div class="mb-5 flex flex-wrap gap-2">
+    <span class="tag">Tarot</span><span class="tag">Amour &amp; relations</span>
+  </div>
+
+  <div class="mt-auto flex flex-col gap-2">
+    <a href="tchat.html?voyant=karine" class="btn-gold w-full">Commencer la discussion</a>
+    <a href="voyant-karine.html" class="btn-link justify-center">Voir la fiche <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span></a>
+  </div>
+</article>
+<article class="card-pad card-hover flex min-w-0 flex-col carte-agent" data-voyant="marc" data-statut="online" data-note="4.9" data-avis="231" data-credits="1" data-specialites="amour famille travail astrologie" data-nom="marc voyant · tarot, flashs &amp; intuition">
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <a href="voyant-marc.html" class="shrink-0" aria-label="Voir la fiche de Marc">
+      <span class="monogram h-16 w-16 text-h-md" aria-hidden="true">M<img src="assets/img/voyants/marc.webp" alt="" width="288" height="288" loading="lazy" decoding="async" class="monogram-photo" onerror="this.remove()"><span class="monogram-status bg-online"></span></span>
+    </a>
+    <span class="badge-online"><span class="dot-online"></span> En ligne</span>
+  </div>
+
+  <h3 class="text-h-md"><a href="voyant-marc.html" class="hover:text-royal">Marc</a></h3>
+  <p class="mb-3 text-body-sm text-muted">Voyant · Tarot, flashs &amp; intuition</p>
+
+  <div class="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
+    <a href="voyant-marc.html#avis" class="flex items-center gap-1 hover:underline">
+      <span class="material-symbols-outlined icon-fill text-[16px] text-gold" aria-hidden="true">star</span>
+      <span class="text-label-md">4,9</span>
+      <span class="text-body-sm text-muted">(231)</span>
+    </a>
+    <span class="inline-flex items-center gap-1 rounded-full bg-ice px-2.5 py-1 text-label-sm">
+      <span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">monetization_on</span> 1 crédit / msg
+    </span>
+  </div>
+
+  
+
+  <p class="mb-4 line-clamp-2 text-body-sm leading-relaxed text-muted">25 ans de tarot, de flashs et d’intuition, avec zéro compromis sur la vérité.</p>
+
+  <div class="mb-5 flex flex-wrap gap-2">
+    <span class="tag">Amour &amp; relations</span><span class="tag">Décisions de vie</span>
+  </div>
+
+  <div class="mt-auto flex flex-col gap-2">
+    <a href="tchat.html?voyant=marc" class="btn-gold w-full">Commencer la discussion</a>
+    <a href="voyant-marc.html" class="btn-link justify-center">Voir la fiche <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span></a>
+  </div>
+</article>
+<article class="card-pad card-hover flex min-w-0 flex-col carte-agent" data-voyant="aurelie" data-statut="online" data-note="4.9" data-avis="112" data-credits="1" data-specialites="amour astrologie voyance-pure" data-nom="aurelie voyante · astrologie &amp; ressenti pur">
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <a href="voyant-aurelie.html" class="shrink-0" aria-label="Voir la fiche de Aurelie">
+      <span class="monogram h-16 w-16 text-h-md" aria-hidden="true">A<img src="assets/img/voyants/aurelie.webp" alt="" width="288" height="288" loading="lazy" decoding="async" class="monogram-photo" onerror="this.remove()"><span class="monogram-status bg-online"></span></span>
+    </a>
+    <span class="badge-online"><span class="dot-online"></span> En ligne</span>
+  </div>
+
+  <h3 class="text-h-md"><a href="voyant-aurelie.html" class="hover:text-royal">Aurelie</a></h3>
+  <p class="mb-3 text-body-sm text-muted">Voyante · Astrologie &amp; ressenti pur</p>
+
+  <div class="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
+    <a href="voyant-aurelie.html#avis" class="flex items-center gap-1 hover:underline">
+      <span class="material-symbols-outlined icon-fill text-[16px] text-gold" aria-hidden="true">star</span>
+      <span class="text-label-md">4,9</span>
+      <span class="text-body-sm text-muted">(112)</span>
+    </a>
+    <span class="inline-flex items-center gap-1 rounded-full bg-ice px-2.5 py-1 text-label-sm">
+      <span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">monetization_on</span> 1 crédit / msg
+    </span>
+  </div>
+
+  
+
+  <p class="mb-4 line-clamp-2 text-body-sm leading-relaxed text-muted">Depuis 17 ans, j’accompagne les périodes de doute, de séparation et de grands changements.</p>
+
+  <div class="mb-5 flex flex-wrap gap-2">
+    <span class="tag">Amour &amp; relations</span><span class="tag">Astrologie</span>
+  </div>
+
+  <div class="mt-auto flex flex-col gap-2">
+    <a href="tchat.html?voyant=aurelie" class="btn-gold w-full">Commencer la discussion</a>
+    <a href="voyant-aurelie.html" class="btn-link justify-center">Voir la fiche <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span></a>
+  </div>
+</article>
+<article class="card-pad card-hover flex min-w-0 flex-col carte-agent" data-voyant="julie" data-statut="online" data-note="4.9" data-avis="96" data-credits="1" data-specialites="amour numerologie voyance-pure" data-nom="julie voyante · spécialiste amour">
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <a href="voyant-julie.html" class="shrink-0" aria-label="Voir la fiche de Julie">
+      <span class="monogram h-16 w-16 text-h-md" aria-hidden="true">J<img src="assets/img/voyants/julie.webp" alt="" width="288" height="288" loading="lazy" decoding="async" class="monogram-photo" onerror="this.remove()"><span class="monogram-status bg-online"></span></span>
+    </a>
+    <span class="badge-online"><span class="dot-online"></span> En ligne</span>
+  </div>
+
+  <h3 class="text-h-md"><a href="voyant-julie.html" class="hover:text-royal">Julie</a></h3>
+  <p class="mb-3 text-body-sm text-muted">Voyante · Spécialiste amour</p>
+
+  <div class="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
+    <a href="voyant-julie.html#avis" class="flex items-center gap-1 hover:underline">
+      <span class="material-symbols-outlined icon-fill text-[16px] text-gold" aria-hidden="true">star</span>
+      <span class="text-label-md">4,9</span>
+      <span class="text-body-sm text-muted">(96)</span>
+    </a>
+    <span class="inline-flex items-center gap-1 rounded-full bg-ice px-2.5 py-1 text-label-sm">
+      <span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">monetization_on</span> 1 crédit / msg
+    </span>
+  </div>
+
+  <p class="mb-3"><span class="badge-promo"><span class="material-symbols-outlined text-[14px]" aria-hidden="true">stars</span> Offre découverte</span></p>
+
+  <p class="mb-4 line-clamp-2 text-body-sm leading-relaxed text-muted">Experte du domaine sentimental : ici, pas de bla-bla inutile.</p>
+
+  <div class="mb-5 flex flex-wrap gap-2">
+    <span class="tag">Amour &amp; relations</span><span class="tag">Numérologie</span>
+  </div>
+
+  <div class="mt-auto flex flex-col gap-2">
+    <a href="tchat.html?voyant=julie" class="btn-gold w-full">Commencer la discussion</a>
+    <a href="voyant-julie.html" class="btn-link justify-center">Voir la fiche <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span></a>
+  </div>
+</article>
+<article class="card-pad card-hover flex min-w-0 flex-col carte-agent" data-voyant="alex" data-statut="online" data-note="4.9" data-avis="18" data-credits="1" data-specialites="amour voyance-pure astrologie famille travail" data-nom="alex voyant · expert des relations amoureuses">
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <a href="voyant-alex.html" class="shrink-0" aria-label="Voir la fiche de Alex">
+      <span class="monogram h-16 w-16 text-h-md" aria-hidden="true">A<img src="assets/img/voyants/alex.webp" alt="" width="288" height="288" loading="lazy" decoding="async" class="monogram-photo" onerror="this.remove()"><span class="monogram-status bg-online"></span></span>
+    </a>
+    <span class="badge-online"><span class="dot-online"></span> En ligne</span>
+  </div>
+
+  <h3 class="text-h-md"><a href="voyant-alex.html" class="hover:text-royal">Alex</a></h3>
+  <p class="mb-3 text-body-sm text-muted">Voyant · Expert des relations amoureuses</p>
+
+  <div class="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
+    <a href="voyant-alex.html#avis" class="flex items-center gap-1 hover:underline">
+      <span class="material-symbols-outlined icon-fill text-[16px] text-gold" aria-hidden="true">star</span>
+      <span class="text-label-md">4,9</span>
+      <span class="text-body-sm text-muted">(18)</span>
+    </a>
+    <span class="inline-flex items-center gap-1 rounded-full bg-ice px-2.5 py-1 text-label-sm">
+      <span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">monetization_on</span> 1 crédit / msg
+    </span>
+  </div>
+
+  
+
+  <p class="mb-4 line-clamp-2 text-body-sm leading-relaxed text-muted">Expert des problématiques amoureuses depuis plus de 20 ans : avec moi, du vrai, du concret.</p>
+
+  <div class="mb-5 flex flex-wrap gap-2">
+    <span class="tag">Amour &amp; relations</span><span class="tag">Décisions de vie</span>
+  </div>
+
+  <div class="mt-auto flex flex-col gap-2">
+    <a href="tchat.html?voyant=alex" class="btn-gold w-full">Commencer la discussion</a>
+    <a href="voyant-alex.html" class="btn-link justify-center">Voir la fiche <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span></a>
+  </div>
+</article></div>
+
+      <p id="vide" class="hidden card-pad my-8 text-center text-body-md text-muted">
+        Aucun praticien ne correspond à ce filtre pour le moment.
+        <button type="button" class="btn-link" id="reset-filtres">Réinitialiser les filtres</button>
+      </p>
+
+      <div class="mt-10 flex justify-center">
+        <a href="voyants.html" class="btn-ghost btn-lg">Voir tous les voyants (24)</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       COMMENT ÇA MARCHE
+       ====================================================================== -->
+  <section class="bg-ice pb-12 lg:pb-20">
+    <div class="shell">
+      <div class="rounded-3xl bg-surface px-6 py-12 shadow-card sm:px-10 lg:px-12 lg:py-16">
+        <div class="mx-auto mb-10 max-w-xl text-center">
+          <span class="eyebrow">Fonctionnement simple</span>
+          <h2 class="mt-2 text-h-lg">Comment ça marche ?</h2>
+        </div>
+        <ol class="grid gap-6 lg:grid-cols-3" id="etapes">
+    <li class="card-pad flex flex-col" data-reveal="">
+      <span class="mb-5 grid h-12 w-12 place-items-center rounded-full bg-gold-soft font-display text-h-sm font-bold text-navy shadow-sm">1</span>
+      <h3 class="mb-2 text-h-sm">Choisissez votre voyante</h3>
+      <p class="text-body-md leading-relaxed text-muted">Parcourez les profils vérifiés, lisez les avis clients et découvrez leurs spécialités selon votre besoin.</p>
+    </li>
+    <li class="card-pad flex flex-col" data-reveal="">
+      <span class="mb-5 grid h-12 w-12 place-items-center rounded-full bg-gold-soft font-display text-h-sm font-bold text-navy shadow-sm">2</span>
+      <h3 class="mb-2 text-h-sm">Posez votre question par écrit</h3>
+      <p class="text-body-md leading-relaxed text-muted">Rédigez votre message à votre rythme. Aucun appel téléphonique, discrétion et anonymat 100 % garantis.</p>
+    </li>
+    <li class="card-pad flex flex-col" data-reveal="">
+      <span class="mb-5 grid h-12 w-12 place-items-center rounded-full bg-gold-soft font-display text-h-sm font-bold text-navy shadow-sm">3</span>
+      <h3 class="mb-2 text-h-sm">Recevez une réponse personnalisée</h3>
+      <p class="text-body-md leading-relaxed text-muted">Votre voyante vous répond en direct sous quelques minutes avec une guidance précise et bienveillante.</p>
+    </li></ol>
+        <p class="mt-8 text-center text-body-sm text-muted">
+          3 crédits offerts à l'inscription, sans engagement et sans carte bancaire.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       STATISTIQUES
+       ====================================================================== -->
+  <section class="stats-aurore py-14 text-white lg:py-16">
+    <div class="shell">
+      <dl class="stats-liste grid grid-cols-2 gap-8 text-center lg:grid-cols-4 lg:gap-0" id="stats">
+    <div data-reveal="">
+      <dt class="text-gradient-gold font-display text-[36px] font-extrabold leading-tight tracking-tight lg:text-[44px]">50 000+</dt>
+      <dd class="mt-1 text-body-sm font-semibold text-white/75">Consultations réalisées</dd>
+    </div>
+    <div data-reveal="">
+      <dt class="text-gradient-gold font-display text-[36px] font-extrabold leading-tight tracking-tight lg:text-[44px]">4,8 / 5</dt>
+      <dd class="mt-1 text-body-sm font-semibold text-white/75">Note moyenne (Trustpilot)</dd>
+    </div>
+    <div data-reveal="">
+      <dt class="text-gradient-gold font-display text-[36px] font-extrabold leading-tight tracking-tight lg:text-[44px]">98 %</dt>
+      <dd class="mt-1 text-body-sm font-semibold text-white/75">Clients satisfaits</dd>
+    </div>
+    <div data-reveal="">
+      <dt class="text-gradient-gold font-display text-[36px] font-extrabold leading-tight tracking-tight lg:text-[44px]">2 min</dt>
+      <dd class="mt-1 text-body-sm font-semibold text-white/75">Délai moyen de réponse</dd>
+    </div></dl>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       CONFIANCE
+       ====================================================================== -->
+  <section class="section bg-ice">
+    <div class="shell">
+      <h2 class="mb-10 text-center text-h-lg">Pourquoi nous faire confiance ?</h2>
+      <div class="grid gap-6 lg:grid-cols-3" id="confiance">
+    <article class="card-tint card-hover tint-sauge flex flex-col items-start p-8" data-reveal="">
+      <span class="tint-chip mb-6 h-14 w-14"><span class="material-symbols-outlined text-[30px]" aria-hidden="true">verified_user</span></span>
+      <h3 class="mb-2 text-h-sm">Praticiens rigoureusement testés</h3>
+      <p class="text-body-md leading-relaxed text-muted">Moins de 5 % des candidats sont retenus après tests anonymes et validation déontologique.</p>
+    </article>
+    <article class="card-tint card-hover tint-amethyste flex flex-col items-start p-8" data-reveal="">
+      <span class="tint-chip mb-6 h-14 w-14"><span class="material-symbols-outlined text-[30px]" aria-hidden="true">lock</span></span>
+      <h3 class="mb-2 text-h-sm">Confidentialité &amp; anonymat total</h3>
+      <p class="text-body-md leading-relaxed text-muted">Vos échanges sont strictement chiffrés et privés. Aucune donnée personnelle n’est partagée.</p>
+    </article>
+    <article class="card-tint card-hover tint-champagne flex flex-col items-start p-8" data-reveal="">
+      <span class="tint-chip mb-6 h-14 w-14"><span class="material-symbols-outlined text-[30px]" aria-hidden="true">credit_card</span></span>
+      <h3 class="mb-2 text-h-sm">Sans engagement ni abonnement</h3>
+      <p class="text-body-md leading-relaxed text-muted">Vous ne payez qu’à la question envoyée. Les crédits n’expirent jamais, sans frais cachés.</p>
+    </article></div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       FAQ
+       ====================================================================== -->
+  <section class="bg-ice pb-16 lg:pb-24">
+    <div class="shell">
+      <div class="grid gap-10 rounded-3xl bg-surface p-6 shadow-card sm:p-10 lg:grid-cols-[35%_1fr] lg:p-12">
+        <div>
+          <span class="eyebrow">Aide &amp; support</span>
+          <h2 class="mb-4 mt-2 text-h-lg">Questions fréquentes</h2>
+          <p class="mb-6 text-body-md leading-relaxed text-muted">
+            Tout ce que vous devez savoir avant de débuter votre consultation de voyance par tchat.
+          </p>
+          <a href="faq.html" class="btn-link group">
+            Consulter toute la FAQ
+            <span class="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1" aria-hidden="true">arrow_forward</span>
+          </a>
+        </div>
+        <div class="flex flex-col gap-3" id="faq">
+<details class="accordeon group card overflow-hidden" name="accordeon-1" open="">
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-label-lg text-navy marker:hidden hover:bg-ice/60 group-open:bg-navy group-open:text-white dark:group-open:bg-royal">
+    <span class="font-display text-h-sm font-semibold">Comment se déroule une consultation par tchat ?</span>
+    <span class="material-symbols-outlined shrink-0 text-[22px] text-royal transition-transform group-open:rotate-180 group-open:text-white" aria-hidden="true">expand_more</span>
+  </summary>
+  <div class="border-t border-line px-5 pb-5 pt-4 text-body-md leading-relaxed text-muted">Vous choisissez votre praticien, vous écrivez votre question et vous échangez en direct par message écrit. Vous conservez l’historique complet de la conversation pour relire vos prédictions quand vous le souhaitez, sans limite de durée.</div>
+</details>
+<details class="accordeon group card overflow-hidden" name="accordeon-1">
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-label-lg text-navy marker:hidden hover:bg-ice/60 group-open:bg-navy group-open:text-white dark:group-open:bg-royal">
+    <span class="font-display text-h-sm font-semibold">Qu’est-ce qu’un crédit ?</span>
+    <span class="material-symbols-outlined shrink-0 text-[22px] text-royal transition-transform group-open:rotate-180 group-open:text-white" aria-hidden="true">expand_more</span>
+  </summary>
+  <div class="border-t border-line px-5 pb-5 pt-4 text-body-md leading-relaxed text-muted">Un crédit correspond à un message que vous envoyez. Vous ne payez pas au temps passé : posez votre question, refermez la conversation et revenez quand vous voulez. Les réponses du praticien ne sont jamais facturées.</div>
+</details>
+<details class="accordeon group card overflow-hidden" name="accordeon-1">
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-label-lg text-navy marker:hidden hover:bg-ice/60 group-open:bg-navy group-open:text-white dark:group-open:bg-royal">
+    <span class="font-display text-h-sm font-semibold">Combien coûte un message ?</span>
+    <span class="material-symbols-outlined shrink-0 text-[22px] text-royal transition-transform group-open:rotate-180 group-open:text-white" aria-hidden="true">expand_more</span>
+  </summary>
+  <div class="border-t border-line px-5 pb-5 pt-4 text-body-md leading-relaxed text-muted">La majorité des praticiens facturent 1 crédit par message. Les lectures longues (bilan complet, astrologie karmique, numérologie détaillée) peuvent coûter 2 ou 3 crédits : le tarif est toujours affiché sur la fiche du praticien et rappelé dans la zone de saisie avant l’envoi.</div>
+</details>
+<details class="accordeon group card overflow-hidden" name="accordeon-1">
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-label-lg text-navy marker:hidden hover:bg-ice/60 group-open:bg-navy group-open:text-white dark:group-open:bg-royal">
+    <span class="font-display text-h-sm font-semibold">Mes crédits expirent-ils ?</span>
+    <span class="material-symbols-outlined shrink-0 text-[22px] text-royal transition-transform group-open:rotate-180 group-open:text-white" aria-hidden="true">expand_more</span>
+  </summary>
+  <div class="border-t border-line px-5 pb-5 pt-4 text-body-md leading-relaxed text-muted">Non. Vos crédits n’ont aucune date d’expiration et il n’existe aucun abonnement ni prélèvement automatique sur unevoyante.fr. Vous rechargez uniquement quand vous en avez envie.</div>
+</details></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<uv-footer>
+<footer class="mt-auto bg-navy text-white">
+  <div class="shell py-14 lg:py-16">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <p class="mb-3"><a href="index.html" class="uv-logo text-[22px]" aria-label="unevoyante.fr — accueil">
+      <span aria-hidden="true">unevoyan<span class="uv-logo-t">t<i class="uv-flag"></i></span>e.fr</span>
+    </a></p>
+        <p class="mb-6 max-w-xs text-body-sm leading-relaxed text-white/70">
+          Sanctuaire confidentiel de voyance et de guidance par tchat, 7j/7 et 24h/24.
+          Écoute bienveillante, éthique et clarté immédiate.
+        </p>
+        <ul class="flex flex-col gap-2 text-body-sm text-white/80">
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">support_agent</span><span class="font-semibold text-white">Service client 7j/7 · 24h/24</span></li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">call</span><a href="tel:+33900000000" class="hover:text-gold">09 00 00 00 00</a></li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">mail</span><a href="contact.html" class="hover:text-gold">contact@unevoyante.fr</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="mb-4 font-sans text-label-lg font-bold text-white">Voyance</h4>
+        <ul class="space-y-2.5 text-body-sm text-white/70">
+          <li><a href="voyants.html" class="transition-colors hover:text-gold">Voyance par tchat</a></li><li><a href="voyants.html?specialite=tarot" class="transition-colors hover:text-gold">Tarot de Marseille</a></li><li><a href="voyants.html?specialite=astrologie" class="transition-colors hover:text-gold">Astrologie amoureuse</a></li><li><a href="voyants.html?specialite=voyance-pure" class="transition-colors hover:text-gold">Médiums purs</a></li><li><a href="voyants.html?specialite=numerologie" class="transition-colors hover:text-gold">Numérologie</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="mb-4 font-sans text-label-lg font-bold text-white">Informations</h4>
+        <ul class="space-y-2.5 text-body-sm text-white/70">
+          <li><a href="comment-ca-marche.html" class="transition-colors hover:text-gold">Comment ça marche</a></li><li><a href="tarifs.html" class="transition-colors hover:text-gold">Tarifs &amp; packs</a></li><li><a href="info.html?sujet=journal" class="transition-colors hover:text-gold">Journal ésotérique</a></li><li><a href="info.html?sujet=partenaire" class="transition-colors hover:text-gold">Devenir praticien partenaire</a></li><li><a href="contact.html" class="transition-colors hover:text-gold">Nous contacter</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="mb-4 font-sans text-label-lg font-bold text-white">Légal</h4>
+        <ul class="space-y-2.5 text-body-sm text-white/70">
+          <li><a href="info.html?sujet=mentions-legales" class="transition-colors hover:text-gold">Mentions légales</a></li><li><a href="info.html?sujet=cgv" class="transition-colors hover:text-gold">Conditions générales (CGV)</a></li><li><a href="info.html?sujet=confidentialite" class="transition-colors hover:text-gold">Politique de confidentialité</a></li><li><a href="info.html?sujet=charte" class="transition-colors hover:text-gold">Charte déontologique</a></li><li><a href="info.html?sujet=cookies" class="transition-colors hover:text-gold">Gestion des cookies</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col gap-5 border-t border-white/10 pt-8 text-body-sm text-white/70 lg:flex-row lg:items-center lg:justify-between">
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
+        <p>© 2026 unevoyante.fr — Tous droits réservés. Éthique et sérénité garanties.</p>
+        <a href="modales.html" class="flex items-center gap-1.5 transition-colors hover:text-gold"><span class="material-symbols-outlined text-[16px]" aria-hidden="true">web_asset</span> Modales</a>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="flex items-center gap-1.5 font-semibold text-white"><span class="material-symbols-outlined text-[18px] text-online" aria-hidden="true">verified</span> Paiement 100 % sécurisé</span>
+        <span class="flex flex-wrap items-center gap-2 text-label-sm">
+          <span class="rounded bg-white/10 px-2 py-1">VISA</span><span class="rounded bg-white/10 px-2 py-1">Mastercard</span><span class="rounded bg-white/10 px-2 py-1">Apple Pay</span><span class="rounded bg-white/10 px-2 py-1">PayPal</span>
+          <span class="flex items-center gap-1 rounded bg-white/10 px-2 py-1"><span class="material-symbols-outlined text-[12px]" aria-hidden="true">lock</span> SSL 256-bit</span>
+        </span>
+      </div>
+    </div>
+
+    <p class="mt-6 text-body-sm text-white/55">
+      Service de divertissement et de guidance réservé aux personnes majeures. Nos praticiens ne délivrent
+      aucun diagnostic ni traitement : une consultation de voyance ne remplace jamais un avis médical,
+      psychologique, juridique ou financier.
+    </p>
+  </div>
+</footer></uv-footer>
+<uv-tabbar>
+<!-- L'espace réservé inclut l'encoche du bas (iPhone), sinon le contenu passe dessous. -->
+<div class="h-[var(--tabbar-total)] lg:hidden" aria-hidden="true" data-uv-tabbar-espace=""></div>
+<nav class="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 pb-safe backdrop-blur-xl shadow-bar lg:hidden" aria-label="Navigation rapide" data-uv-tabbar="">
+  <ul class="mx-auto flex max-w-md items-stretch justify-around px-2">
+    <li class="flex-1">
+        <a href="index.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-royal" aria-current="page">
+          
+          <span class="material-symbols-outlined text-[22px] icon-fill" aria-hidden="true">home</span>
+          <span class="text-label-sm font-semibold">Accueil</span>
+        </a></li><li class="flex-1">
+        <a href="tchat.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">forum</span>
+          <span class="text-label-sm ">Mes tchats</span>
+        </a></li><li class="flex-1">
+        <a href="credits.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">monetization_on</span>
+          <span class="text-label-sm ">Crédits</span>
+        </a></li><li class="flex-1">
+        <a href="compte.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">person</span>
+          <span class="text-label-sm ">Compte</span>
+        </a></li>
+  </ul>
+</nav></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script src="assets/js/pages/index.js"></script>
+
+
+</body></html>

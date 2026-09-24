@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr" data-statique>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Mes tchats | unevoyante.fr</title>
+<meta name="description" content="Votre consultation de voyance par tchat : échanges chiffrés, 1 crédit par message envoyé, sans limite de temps.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ground">
+<a href="#fil" class="skip-link">Aller à la conversation</a>
+<uv-header sombre></uv-header>
+
+<main class="flex-1">
+  <div class="mx-auto grid w-full max-w-[1440px] gap-5 py-0 lg:grid-cols-[280px_1fr] lg:px-6 lg:py-6 xl:grid-cols-[300px_1fr_320px] xl:px-8 2xl:grid-cols-[320px_1fr_340px]">
+
+    <!-- ==================================================================
+         COLONNE 1 — LISTE DES CONVERSATIONS
+         Masquée sur mobile lorsqu'une conversation est ouverte, mais toujours
+         accessible via le bouton « retour ». Aucun cul-de-sac.
+         ================================================================== -->
+    <aside id="colonne-liste" class="hidden min-w-0 flex-col lg:flex">
+      <div class="card app-view flex flex-col overflow-hidden lg:sticky lg:top-24">
+        <div class="border-b border-line bg-ice p-4">
+          <div class="mb-3 flex items-center justify-between">
+            <h1 class="text-h-md">Mes tchats</h1>
+            <span class="badge bg-tint text-royal" id="nb-conversations">0</span>
+          </div>
+          <div class="relative">
+            <span class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-muted" aria-hidden="true">search</span>
+            <input type="search" id="recherche-conv" class="field min-h-[42px] pl-10 text-body-md"
+                   placeholder="Rechercher un voyant" aria-label="Rechercher un voyant">
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-2" id="liste-conversations"></div>
+
+        <div class="border-t border-line bg-ice p-4">
+          <a href="voyants.html" class="btn-ghost btn-sm w-full">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">add</span>
+            Nouvelle consultation
+          </a>
+          <p class="mt-3 flex items-center justify-center gap-1.5 text-body-sm text-muted">
+            <span class="material-symbols-outlined text-[14px] text-online" aria-hidden="true">lock</span>
+            Chiffrement de bout en bout
+          </p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ==================================================================
+         COLONNE 2 — FIL DE DISCUSSION
+         ================================================================== -->
+    <section id="colonne-fil" class="flex min-w-0 flex-col">
+      <div class="card app-view flex flex-col overflow-hidden rounded-none border-x-0 lg:rounded-lg lg:border-x">
+
+        <!-- Entête de conversation -->
+        <header class="flex items-center gap-3 border-b border-line bg-ice p-3 sm:p-4" id="entete-conv"></header>
+
+        <!-- Bandeau d'information, refermable -->
+        <div id="bandeau-info" class="flex items-start gap-3 border-b border-line bg-tint px-4 py-3">
+          <span class="material-symbols-outlined mt-0.5 shrink-0 text-[20px] text-royal" aria-hidden="true">info</span>
+          <p class="flex-1 text-body-sm leading-relaxed text-royal-800">
+            Chaque message envoyé coûte <strong id="cout-message">1 crédit</strong>. Aucune limite de temps :
+            refermez la conversation et revenez quand vous voulez.
+          </p>
+          <button type="button" class="shrink-0 rounded-full p-1 text-royal transition-colors hover:bg-surface/60" id="fermer-bandeau" aria-label="Masquer ce message">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">close</span>
+          </button>
+        </div>
+
+        <!-- Fil -->
+        <div id="fil" class="flex-1 space-y-4 overflow-y-auto bg-ice/40 p-4 sm:p-6" tabindex="0" aria-live="polite" aria-label="Messages de la conversation"></div>
+
+        <!-- Encart solde épuisé (n'empêche jamais de naviguer) -->
+        <div id="encart-solde" class="hidden border-t border-line bg-gold-50 p-4">
+          <div class="mx-auto flex max-w-lg flex-col items-center gap-3 rounded-lg border border-gold bg-surface p-5 text-center">
+            <p class="flex items-center gap-2 font-display text-h-sm font-bold text-navy">
+              <span class="material-symbols-outlined text-[22px] text-gold" aria-hidden="true">monetization_on</span>
+              Vous n'avez plus de crédits
+            </p>
+            <p class="text-body-sm text-muted" id="texte-solde"></p>
+            <a href="credits.html" class="btn-gold w-full sm:w-auto">
+              <span class="material-symbols-outlined text-[20px]" aria-hidden="true">add_circle</span>
+              Recharger · dès 4,99 €
+            </a>
+            <p class="text-body-sm text-muted">
+              Vous pouvez aussi <a href="voyants.html" class="font-medium text-royal underline underline-offset-2">parcourir les autres praticiens</a>
+              ou <a href="index.html" class="font-medium text-royal underline underline-offset-2">revenir à l'accueil</a> : rien n'est bloqué.
+            </p>
+          </div>
+        </div>
+
+        <!-- Zone de saisie -->
+        <footer class="border-t border-line bg-ice p-3 sm:p-4">
+          <!-- Fidélité : progression vers le prochain palier, détaillée en modale -->
+          <button type="button" id="fidelite" class="fidelite-declencheur mb-3" aria-haspopup="dialog" aria-describedby="fidelite-detail">
+            <span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-tint text-royal" aria-hidden="true"><span class="material-symbols-outlined text-[16px]">redeem</span></span>
+            <span class="min-w-0 flex-1">
+              <span class="block truncate text-body-sm text-muted" id="fidelite-texte"></span>
+              <span class="fidelite-rail mt-1" id="fidelite-rail" role="progressbar" aria-label="Progression vers le prochain palier de fidélité" aria-valuemin="0" aria-valuemax="10" aria-valuenow="2" aria-valuetext=""><span class="fidelite-jauge" id="fidelite-jauge"></span></span>
+            </span>
+            <span class="material-symbols-outlined shrink-0 text-[18px] text-muted" aria-hidden="true">chevron_right</span>
+            <span class="sr-only">Voir tous les paliers de fidélité</span>
+          </button>
+          <p id="fidelite-detail" class="sr-only"></p>
+
+          <form id="formulaire" class="flex items-end gap-2">
+            <label for="saisie" class="sr-only">Votre message</label>
+            <div class="relative flex-1">
+              <!-- enterkeyhint : la touche « Envoyer » du clavier iOS, cohérente
+                   avec la touche Entrée gérée plus bas. -->
+              <textarea id="saisie" rows="1" class="field max-h-32 resize-none py-3"
+                        placeholder="Posez votre question…"
+                        enterkeyhint="send" autocapitalize="sentences" autocomplete="off"></textarea>
+            </div>
+            <button type="submit" id="envoyer" class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gold-cta text-navy shadow-gold transition-all hover:brightness-105 active:scale-95 disabled:opacity-50" aria-label="Envoyer le message">
+              <span class="material-symbols-outlined text-[22px]" aria-hidden="true">send</span>
+            </button>
+          </form>
+        </footer>
+      </div>
+    </section>
+
+    <!-- ==================================================================
+         COLONNE 3 — PROFIL & SOLDE (desktop)
+         ================================================================== -->
+    <aside class="hidden min-w-0 xl:block">
+      <div class="sticky top-24 flex flex-col gap-4" id="colonne-profil"></div>
+    </aside>
+  </div>
+</main>
+
+<!-- Vue application sur mobile : pas de pied de page sous le tchat, il reste accessible depuis la barre d'onglets. -->
+<uv-footer class="hidden lg:block"></uv-footer>
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script src="assets/js/pages/tchat.js"></script>
+</body>
+</html>

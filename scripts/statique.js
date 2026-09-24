@@ -9,12 +9,16 @@
      avec l'état du visiteur (crédits, favoris…) ;
    - une page par praticien, voyant-<id>.html, pré-rendue de même ;
    - les autres pages (compte, tchat, crédits…) telles quelles ;
-   - assets/, robots.txt, sitemap.xml, manifest.webmanifest.
+   - assets/, robots.txt, sitemap.xml, manifest.webmanifest, et .htaccess
+     (copie de src/dist.htaccess : configuration Apache du serveur).
    Toutes les pages de dist/ portent data-statique sur <html> : les liens vers
    les fiches y visent voyant-<id>.html (UV.lienVoyant).
 
    Le dossier du projet reste la version de développement, rendue en JS et
-   ouvrable par double-clic. dist/ n'est pas versionné : il se reconstruit. */
+   ouvrable par double-clic. dist/ EST versionné : le serveur se met à jour par
+   git pull, sans étape de build. Relancer npm run statique avant chaque commit
+   qui touche au site. La sortie est déterministe : sans changement de source,
+   aucun fichier de dist/ ne change. */
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
@@ -48,6 +52,8 @@ async function rendre(source, url) {
   w.matchMedia = (media) => ({ matches: false, media, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {} });
   w.scrollTo = () => {};
   w.HTMLElement.prototype.scrollIntoView = () => {};
+  // Signale aux scripts qu'ils figent la page : rien qui dépende de l'instant.
+  w.UV_PRERENDU = true;
 
   // <html> reçoit au chargement des classes et variables propres à l'écran
   // du visiteur (thème, hauteur visible…) : on rendra l'original.
@@ -85,6 +91,7 @@ async function rendre(source, url) {
   fs.rmSync(DIST, { recursive: true, force: true });
   fs.mkdirSync(DIST);
   for (const c of COPIES) fs.cpSync(path.join(RACINE, c), path.join(DIST, c), { recursive: true });
+  fs.copyFileSync(path.join(RACINE, 'src/dist.htaccess'), path.join(DIST, '.htaccess'));
 
   const pages = fs.readdirSync(RACINE).filter((f) => f.endsWith('.html'));
   for (const f of pages) {

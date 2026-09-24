@@ -50,11 +50,36 @@ les pages de `dist/` portent `data-statique` sur `<html>`, ce qui fait pointer l
 les fiches pré-générées (`UV.lienVoyant()` dans `app.js` : **à utiliser pour tout nouveau lien
 vers une fiche**).
 
-`dist/` n'est pas versionné. Chez l'hébergeur (Netlify, Vercel, Cloudflare Pages…) :
-commande de build **`npm ci && npm run statique`**, dossier publié **`dist`**, page
-d'erreur **`404.html`**. Un script de page qui **ajoute** un élément au lieu de remplacer un
-contenu doit vérifier qu'il n'existe pas déjà (voir `#ld-faq` dans `faq.js`) : dans `dist/`,
-il s'exécute sur une page déjà rendue.
+Un script de page qui **ajoute** un élément au lieu de remplacer un contenu doit vérifier
+qu'il n'existe pas déjà (voir `#ld-faq` dans `faq.js`) : dans `dist/`, il s'exécute sur une
+page déjà rendue. De même, rien de ce qui dépend de l'instant (jour, heure) ne doit être figé
+au pré-rendu : `window.UV_PRERENDU` le signale aux scripts (voir les horaires de `voyant.js`).
+
+### Déploiement (git pull sur l'hébergement mutualisé)
+
+Le serveur se met à jour par `git pull`, sans étape de build : **`dist/` est versionné**, comme
+`assets/css/app.css`, `sitemap.xml` et les polices. Avant chaque commit qui touche au site :
+
+```bash
+npm run statique        # CSS, sitemap.xml et dist/
+git add -A && git commit
+```
+
+La construction est déterministe : sans changement de source, elle ne modifie aucun fichier.
+Un `git status` propre après `npm run statique` garantit donc que `dist/` est à jour.
+
+Deux configurations d'hébergement fonctionnent (serveur Apache ou LiteSpeed, `.htaccess` actifs),
+toutes deux testées sur Apache 2.4 :
+
+| Dossier web de l'hébergement | Ce qui se passe |
+| --- | --- |
+| **`dist/`** (recommandé, si l'hébergeur permet de le choisir) | `dist/.htaccess` s'applique : page 404, compression, cache, en-têtes de sécurité |
+| **La racine du dépôt** | Le `.htaccess` racine sert tout depuis `dist/` : les adresses publiques restent `/`, `/voyant-claire.html`… Les sources, les scripts de build, `package.json` et le dépôt `.git` répondent 404 |
+
+`dist/.htaccess` est généré à partir de `src/dist.htaccess` : c'est ce dernier qu'il faut
+modifier. Il suppose le site servi à la racine du domaine (`ErrorDocument 404 /404.html`).
+Cache : HTML, CSS, JS et polices sont revalidés à chaque visite (noms de fichiers sans
+empreinte : une mise en ligne doit atteindre les visiteurs immédiatement) ; images 30 jours.
 
 ## Pages
 

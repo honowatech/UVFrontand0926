@@ -1,0 +1,504 @@
+<!DOCTYPE html><html lang="fr" data-statique=""><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Tarifs &amp; packs de crédits | unevoyante.fr</title>
+<meta name="description" content="Nos tarifs en toute transparence : 1 crédit = 1 message envoyé, packs de 2 à 55 crédits, sans abonnement ni date d'expiration.">
+<link rel="canonical" href="https://unevoyante.fr/tarifs.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="unevoyante.fr">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Tarifs &amp; packs de crédits">
+<meta property="og:description" content="Nos tarifs en toute transparence : 1 crédit = 1 message envoyé, packs de 2 à 55 crédits, sans abonnement ni date d'expiration.">
+<meta property="og:url" content="https://unevoyante.fr/tarifs.html">
+<meta property="og:image" content="https://unevoyante.fr/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="unevoyante.fr — voyance par tchat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ground">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre="">
+<header class="fixed inset-x-0 top-0 z-50 border-b bg-navy text-white border-navy-600 backdrop-blur-xl pt-safe" data-uv-header="">
+  <div class="shell flex h-16 items-center justify-between gap-2 min-[360px]:gap-3 sm:gap-4 lg:h-18">
+
+    <a href="index.html" class="uv-logo text-[20px] sm:text-[22px] lg:text-[24px]" aria-label="unevoyante.fr — accueil">
+      <span aria-hidden="true" class="uv-sigle sm:hidden">U<span class="uv-logo-v">V<i class="uv-flag"></i></span></span>
+         <span aria-hidden="true" class="hidden sm:inline">unevoyan<span class="uv-logo-t">t<i class="uv-flag"></i></span>e.fr</span>
+    </a>
+
+    <nav class="hidden items-center gap-5 lg:flex xl:gap-7" aria-label="Navigation principale">
+      
+        <a href="voyants.html" class="whitespace-nowrap text-label-md font-bold transition-colors text-white/80 hover:text-gold">Voyants</a>
+        <a href="tarifs.html" class="whitespace-nowrap text-label-md font-bold transition-colors text-gold" aria-current="page">Tarifs</a>
+        <a href="faq.html" class="whitespace-nowrap text-label-md font-bold transition-colors text-white/80 hover:text-gold">FAQ</a>
+    </nav>
+
+    <div class="flex items-center gap-1 min-[360px]:gap-2 sm:gap-3">
+      <button type="button" data-uv-theme="" class="grid h-10 w-10 shrink-0 place-items-center rounded-full transition-colors
+                   hover:bg-white/10" aria-label="Passer en mode nuit" title="Passer en mode nuit"><span class="material-symbols-outlined text-[22px]" aria-hidden="true">dark_mode</span></button>
+
+      <!-- Solde + recharge : ouvre la modale « Liste des forfaits » (modales.js),
+           sinon mène à la page Crédits. Sur mobile, l'icône et le chiffre seuls. -->
+      <a href="credits.html" data-uv-forfaits="" aria-haspopup="dialog" class="inline-flex h-9 shrink-0 items-center gap-1 whitespace-nowrap rounded-full border pl-2 pr-2.5 text-label-sm font-bold transition-colors sm:gap-1.5 sm:px-3
+                border-white/15 bg-white/10 text-white hover:bg-white/20" title="Recharger mes crédits">
+        <span class="material-symbols-outlined text-[18px] text-gold" aria-hidden="true">monetization_on</span>
+        <span class="sr-only">Recharger mes crédits, solde actuel :</span>
+        <span><span data-uv-credits="">3</span><span class="max-sm:sr-only">&nbsp;crédit<span data-uv-credits-s="">s</span></span></span>
+      </a>
+
+      <div data-uv-auth="" class="flex items-center gap-2 sm:gap-3">
+<a href="connexion.html?next=tarifs.html" class="hidden whitespace-nowrap px-2 py-2 text-label-md font-bold transition-colors md:inline-flex text-white/80 hover:text-gold">Se connecter</a>
+<a href="inscription.html?next=tarifs.html" class="btn-gold btn-sm max-[359px]:px-3 sm:min-h-[42px]">S'inscrire<span class="hidden xl:inline"> · 3 crédits offerts</span></a></div>
+
+      <!-- order-last : le burger ferme la barre sur mobile ; au-dessus de
+           1024 px il disparaît et c'est le menu du profil qui la ferme. -->
+      <button type="button" data-uv-burger="" class="order-last grid h-10 w-10 place-items-center rounded-full transition-colors lg:hidden
+                     hover:bg-white/10" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="uv-drawer">
+        <span class="material-symbols-outlined text-[24px]" aria-hidden="true">menu</span>
+      </button>
+
+      <!-- Menu du profil : dernier de la barre, rien ne se place après lui -->
+      <div data-uv-profil="" class="flex items-center"><span class="hidden sm:block">
+<div class="relative" data-uv-menu="">
+  <button type="button" class="flex items-center gap-2 rounded-full py-1 pl-1 pr-2 transition-colors hover:bg-white/10" aria-haspopup="true" aria-expanded="false" aria-label="Mon profil">
+    <span class="grid h-9 w-9 place-items-center rounded-full bg-white/15 text-white"><span class="material-symbols-outlined text-[22px]" aria-hidden="true">person</span></span>
+    
+    <span class="material-symbols-outlined text-[18px] hidden sm:inline" aria-hidden="true">expand_more</span>
+  </button>
+  <div class="absolute right-0 top-full mt-2 hidden w-60 overflow-hidden rounded-lg border border-line bg-surface p-1.5 text-navy shadow-lift" data-uv-menu-panel="">
+    
+    <a href="compte.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">person</span> Mon profil</a>
+    <a href="tchat.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">forum</span> Mes tchats</a>
+    <a href="contact.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">help</span> Aide</a>
+    <hr class="rule my-1.5">
+    <button type="button" data-uv-logout="" class="menu-sortie flex w-full items-center gap-3 rounded px-3 py-2.5 text-left text-label-md"><span class="material-symbols-outlined text-[20px]" aria-hidden="true">logout</span> Se déconnecter</button>
+  </div>
+</div></span></div>
+    </div>
+  </div>
+</header>
+
+<!-- Tiroir mobile : se referme au clic extérieur, à Échap et à la navigation -->
+<div id="uv-drawer" class="fixed inset-0 z-[60] hidden lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="absolute inset-0 bg-navy/40 backdrop-blur-sm" data-uv-drawer-close=""></div>
+  <nav class="absolute inset-y-0 right-0 flex w-[min(86vw,340px)] animate-slide-left flex-col gap-1 overflow-y-auto bg-surface p-5 shadow-lift pt-safe">
+    <div class="mb-2 flex items-center justify-between">
+      <a href="index.html" class="uv-logo text-[20px]" aria-label="unevoyante.fr — accueil">
+      <span aria-hidden="true">unevoyan<span class="uv-logo-t">t<i class="uv-flag"></i></span>e.fr</span>
+    </a>
+      <button type="button" data-uv-drawer-close="" class="grid h-10 w-10 place-items-center rounded-full hover:bg-ice" aria-label="Fermer le menu">
+        <span class="material-symbols-outlined text-[22px]" aria-hidden="true">close</span>
+      </button>
+    </div>
+    
+      <a href="voyants.html" class="flex items-center justify-between rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice">
+        Voyants <span class="material-symbols-outlined text-[20px] text-muted" aria-hidden="true">chevron_right</span>
+      </a>
+      <a href="tarifs.html" class="flex items-center justify-between rounded-md px-3 py-3 text-label-lg bg-tint text-royal">
+        Tarifs <span class="material-symbols-outlined text-[20px] text-muted" aria-hidden="true">chevron_right</span>
+      </a>
+      <a href="faq.html" class="flex items-center justify-between rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice">
+        FAQ <span class="material-symbols-outlined text-[20px] text-muted" aria-hidden="true">chevron_right</span>
+      </a>
+    <hr class="rule my-3">
+    <a href="tchat.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">forum</span> Mes tchats</a>
+    <a href="credits.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-gold" aria-hidden="true">monetization_on</span> Mes crédits</a>
+    <a href="compte.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">person</span> Mon compte</a>
+    <hr class="rule my-3">
+    <a href="modales.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">web_asset</span> Modales</a>
+    <div class="flex flex-col gap-2 pt-4" data-uv-auth-drawer=""><a href="inscription.html" class="btn-gold w-full">S'inscrire · 3 crédits offerts</a>
+           <a href="connexion.html" class="btn-ghost w-full">Se connecter</a></div>
+  </nav>
+</div>
+
+<div class="h-16 lg:h-18" aria-hidden="true"></div></uv-header>
+<div id="ariane">
+<nav aria-label="Fil d'Ariane" class="border-b border-line bg-ice">
+  <ol class="shell flex items-center gap-2 overflow-x-auto py-3 text-body-sm text-muted no-scrollbar">
+    <li class="flex shrink-0 items-center gap-2">
+        <span class="material-symbols-outlined text-[16px]" aria-hidden="true">home</span>
+        <a href="index.html" class="hover:text-royal hover:underline">Accueil</a>
+             <span class="material-symbols-outlined text-[16px] text-line" aria-hidden="true">chevron_right</span>
+      </li><li class="flex shrink-0 items-center gap-2">
+        
+        <span class="font-medium text-navy" aria-current="page">Tarifs</span>
+      </li>
+  </ol>
+</nav></div>
+
+<main id="contenu" class="flex-1">
+
+  <section class="bg-surface">
+    <div class="shell py-12 lg:py-16">
+      <div class="max-w-3xl">
+        <span class="eyebrow">Tarifs</span>
+        <h1 class="mb-4 mt-2 text-h-xl-m sm:text-h-lg lg:text-h-xl">
+          Un prix par message, et rien d'autre
+        </h1>
+        <p class="lede">
+          Pas d'abonnement, pas de minute facturée, pas de frais de dossier. Vous achetez des crédits,
+          un crédit correspond à un message que vous envoyez, et vos crédits n'expirent jamais.
+        </p>
+      </div>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-3" id="principes">
+    <div class="card-tint tint-nuit p-5 sm:p-6">
+      <span class="material-symbols-outlined tint-mark" aria-hidden="true">sell</span>
+      <div class="relative">
+        <span class="tint-chip mb-4 h-12 w-12"><span class="material-symbols-outlined text-[24px]" aria-hidden="true">sell</span></span>
+        <h2 class="mb-1 text-label-lg text-white">1 crédit = 1 message</h2>
+        <p class="text-body-sm leading-relaxed text-white/75">Seuls vos messages sont facturés. Les réponses du praticien sont gratuites, quelle que soit leur longueur.</p>
+      </div>
+    </div>
+    <div class="card-tint tint-champagne p-5 sm:p-6">
+      <span class="material-symbols-outlined tint-mark" aria-hidden="true">event_busy</span>
+      <div class="relative">
+        <span class="tint-chip mb-4 h-12 w-12"><span class="material-symbols-outlined text-[24px]" aria-hidden="true">event_busy</span></span>
+        <h2 class="mb-1 text-label-lg text-navy">Aucune expiration</h2>
+        <p class="text-body-sm leading-relaxed text-muted">Vos crédits restent acquis indéfiniment. Aucun abonnement, aucun prélèvement automatique.</p>
+      </div>
+    </div>
+    <div class="card-tint tint-sauge p-5 sm:p-6">
+      <span class="material-symbols-outlined tint-mark" aria-hidden="true">savings</span>
+      <div class="relative">
+        <span class="tint-chip mb-4 h-12 w-12"><span class="material-symbols-outlined text-[24px]" aria-hidden="true">savings</span></span>
+        <h2 class="mb-1 text-label-lg text-navy">Satisfait ou remboursé</h2>
+        <p class="text-body-sm leading-relaxed text-muted">Les crédits non utilisés sont remboursables sous 14 jours, sans justification.</p>
+      </div>
+    </div></div>
+    </div>
+  </section>
+
+  <!-- Packs -->
+  <section class="section">
+    <div class="shell">
+      <div class="mb-8 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h2 class="text-h-lg">Nos packs de crédits</h2>
+          <!-- Accroche calculée : le plus fort bonus de la grille -->
+          <p id="packs-accroche" class="mt-3 inline-flex items-center gap-1.5 rounded-full bg-gold-100 py-1.5 pl-2.5 pr-3.5 text-label-md font-bold text-gold-800"><span class="material-symbols-outlined text-[18px]" aria-hidden="true">stars</span> Jusqu’à +120&nbsp;% de crédits offerts</p>
+        </div>
+        <p class="text-body-sm text-muted">Prix TTC · TVA 20 % incluse</p>
+      </div>
+      <div class="grid gap-4 pt-1 sm:grid-cols-2 lg:grid-cols-4" id="packs">
+    <div class="relative pt-3" data-reveal="" style="animation-delay: 0ms">
+      
+      <div class="pack-carte ">
+        <div class="flex items-center gap-4">
+          <span class="forfait-piece forfait-piece-credits forfait-piece-xl" aria-hidden="true">
+            <span class="forfait-piece-valeur">6</span>
+            <span class="forfait-piece-mention">crédits</span>
+          </span>
+          <p class="min-w-0 font-display text-h-md font-extrabold leading-tight text-navy lg:text-[19px] xl:text-h-md">Prévision</p>
+        </div>
+        <p class="sr-only">6 crédits, 20 % de crédits offerts</p>
+        <div class="mt-5 border-t border-line pt-4">
+          <p class="font-display text-h-md font-extrabold text-navy">9,99 €</p>
+          <p class="text-body-sm text-muted">soit 1,67 € / message</p>
+          <p class="forfait-offert" aria-hidden="true">+20&nbsp;% offerts</p>
+        </div>
+        <div class="mt-auto pt-5">
+          <a href="credits.html?pack=prevision" class="btn-ghost w-full">Choisir</a>
+        </div>
+      </div>
+    </div>
+    <div class="relative pt-3" data-reveal="" style="animation-delay: 70ms">
+      
+      <div class="pack-carte ">
+        <div class="flex items-center gap-4">
+          <span class="forfait-piece forfait-piece-credits forfait-piece-xl" aria-hidden="true">
+            <span class="forfait-piece-valeur">15</span>
+            <span class="forfait-piece-mention">crédits</span>
+          </span>
+          <p class="min-w-0 font-display text-h-md font-extrabold leading-tight text-navy lg:text-[19px] xl:text-h-md">Évidence</p>
+        </div>
+        <p class="sr-only">15 crédits, 50 % de crédits offerts</p>
+        <div class="mt-5 border-t border-line pt-4">
+          <p class="font-display text-h-md font-extrabold text-navy">19,99 €</p>
+          <p class="text-body-sm text-muted">soit 1,33 € / message</p>
+          <p class="forfait-offert" aria-hidden="true">+50&nbsp;% offerts</p>
+        </div>
+        <div class="mt-auto pt-5">
+          <a href="credits.html?pack=evidence" class="btn-ghost w-full">Choisir</a>
+        </div>
+      </div>
+    </div>
+    <div class="relative pt-3" data-reveal="" style="animation-delay: 140ms">
+      <span class="absolute left-1/2 top-0 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-gold-cta px-3 py-1 text-label-sm font-bold text-navy shadow-sm">★ Populaire</span>
+      <div class="pack-carte carte-or">
+        <div class="flex items-center gap-4">
+          <span class="forfait-piece forfait-piece-credits forfait-piece-xl forfait-piece-eclat" aria-hidden="true">
+            <span class="forfait-piece-valeur">25</span>
+            <span class="forfait-piece-mention">crédits</span>
+          </span>
+          <p class="min-w-0 font-display text-h-md font-extrabold leading-tight text-navy lg:text-[19px] xl:text-h-md">Certitude</p>
+        </div>
+        <p class="sr-only">25 crédits, 67 % de crédits offerts</p>
+        <div class="mt-5 border-t border-line pt-4">
+          <p class="font-display text-h-md font-extrabold text-navy">29,99 €</p>
+          <p class="text-body-sm text-muted">soit 1,20 € / message</p>
+          <p class="forfait-offert" aria-hidden="true">+67&nbsp;% offerts</p>
+        </div>
+        <div class="mt-auto pt-5">
+          <a href="credits.html?pack=certitude" class="btn-gold w-full">Choisir</a>
+        </div>
+      </div>
+    </div>
+    <div class="relative pt-3" data-reveal="" style="animation-delay: 210ms">
+      
+      <div class="pack-carte ">
+        <div class="flex items-center gap-4">
+          <span class="forfait-piece forfait-piece-credits forfait-piece-xl" aria-hidden="true">
+            <span class="forfait-piece-valeur">55</span>
+            <span class="forfait-piece-mention">crédits</span>
+          </span>
+          <p class="min-w-0 font-display text-h-md font-extrabold leading-tight text-navy lg:text-[19px] xl:text-h-md">Résolution</p>
+        </div>
+        <p class="sr-only">55 crédits, 120 % de crédits offerts</p>
+        <div class="mt-5 border-t border-line pt-4">
+          <p class="font-display text-h-md font-extrabold text-navy">49,99 €</p>
+          <p class="text-body-sm text-muted">soit 0,91 € / message</p>
+          <p class="forfait-offert" aria-hidden="true">+120&nbsp;% offerts</p>
+        </div>
+        <div class="mt-auto pt-5">
+          <a href="credits.html?pack=resolution" class="btn-ghost w-full">Choisir</a>
+        </div>
+      </div>
+    </div></div>
+      <!-- L'offre d'essai, moins avantageuse, reste accessible sans concurrencer les packs -->
+      <p class="mt-6 text-center" id="essai"><a href="credits.html?pack=essai" class="btn-link">
+    Offre d’essai · 2 crédits pour 4,99 € <span class="material-symbols-outlined text-[16px]" aria-hidden="true">chevron_right</span></a></p>
+      <p class="mt-6 text-center text-body-sm text-muted">
+        Vous ne savez pas quel pack choisir ? Le pack Certitude couvre une consultation complète
+        avec relances, c'est le choix de 6 clients sur 10.
+      </p>
+    </div>
+  </section>
+
+  <!-- Simulateur : trouve le bon pack (masqué : retirer « hidden » pour le réafficher) -->
+  <section class="hidden pb-12 lg:pb-20">
+    <div class="shell">
+      <div class="rounded-3xl bg-surface p-6 shadow-card sm:p-10 lg:p-12">
+        <div class="mb-8 max-w-2xl">
+          <h2 class="mb-3 text-h-lg">Combien vais-je dépenser ?</h2>
+          <p class="text-body-md leading-relaxed text-muted">
+            Estimez votre budget selon le nombre de questions que vous comptez poser et le tarif du
+            praticien choisi. Aucune donnée n'est transmise : le calcul se fait dans votre navigateur.
+          </p>
+        </div>
+
+        <div class="grid gap-8 lg:grid-cols-[1fr_320px]">
+          <div class="flex flex-col gap-6">
+            <div>
+              <label class="label flex items-baseline justify-between" for="questions">
+                <span>Nombre de questions à poser</span>
+                <strong class="font-display text-h-md text-royal" id="questions-valeur">5</strong>
+              </label>
+              <input type="range" id="questions" min="1" max="30" value="5" class="h-2 w-full cursor-pointer appearance-none rounded-full bg-line accent-royal">
+              <div class="mt-1 flex justify-between text-body-sm text-muted"><span>1</span><span>30</span></div>
+            </div>
+
+            <fieldset>
+              <legend class="label">Tarif du praticien</legend>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" class="chip" data-cout="1" aria-pressed="true">1 crédit / message</button>
+                <button type="button" class="chip" data-cout="2" aria-pressed="false">2 crédits / message</button>
+                <button type="button" class="chip" data-cout="3" aria-pressed="false">3 crédits / message</button>
+              </div>
+              <p class="hint">La majorité des praticiens facturent 1 crédit. Les lectures longues montent à 2 ou 3.</p>
+            </fieldset>
+          </div>
+
+          <aside class="card bg-ice/60 p-6">
+            <p class="text-label-sm uppercase tracking-wider text-muted">Il vous faut</p>
+            <p class="font-display text-h-xl font-bold text-navy"><span id="res-credits">5</span> crédits</p>
+            <hr class="rule my-4">
+            <p class="text-label-sm uppercase tracking-wider text-muted">Pack conseillé</p>
+            <p class="mb-1 text-h-md font-bold text-navy" id="res-pack">Prévision</p>
+            <p class="mb-4 text-body-md text-muted"><span id="res-prix">9,99 €</span> · <span id="res-unite">1,67 €</span> par message</p>
+            <a href="credits.html?pack=prevision" class="btn-gold w-full" id="choisir-pack">Choisir ce pack</a>
+            <p class="mt-3 text-center text-body-sm text-muted">3 crédits offerts à l'inscription</p>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparaison honnête -->
+  <section class="pb-12 lg:pb-20">
+    <div class="shell">
+      <h2 class="mb-6 text-h-lg">Pourquoi facturer au message plutôt qu'à la minute ?</h2>
+      <div class="grid gap-6 lg:grid-cols-2">
+        <div class="card-pad">
+          <p class="mb-3 flex items-center gap-2 text-label-lg font-bold text-navy">
+            <span class="material-symbols-outlined text-[22px] text-muted" aria-hidden="true">timer</span>
+            La facturation à la minute
+          </p>
+          <p class="text-body-md leading-relaxed text-muted">
+            Elle vous met sous pression : vous écrivez vite, vous relisez mal, vous n'osez pas
+            réfléchir avant de répondre. Le coût final est imprévisible et dépend autant de votre
+            débit de frappe que de la qualité de la consultation.
+          </p>
+        </div>
+        <div class="card-pad border-royal-200 bg-tint">
+          <p class="mb-3 flex items-center gap-2 text-label-lg font-bold text-navy">
+            <span class="material-symbols-outlined text-[22px] text-royal" aria-hidden="true">mail</span>
+            Notre facturation au message
+          </p>
+          <p class="text-body-md leading-relaxed text-royal-800">
+            Vous connaissez le prix avant d'envoyer. Vous prenez le temps de formuler, vous refermez
+            la page pour réfléchir, vous revenez le lendemain. La réponse du praticien, même longue,
+            ne vous coûte rien de plus.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ tarifs -->
+  <section class="pb-16 lg:pb-24">
+    <div class="shell">
+      <h2 class="mb-6 text-h-lg">Questions sur les tarifs</h2>
+      <div class="flex flex-col gap-3" id="faq">
+<details class="accordeon group card overflow-hidden" name="accordeon-1" open="">
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-label-lg text-navy marker:hidden hover:bg-ice/60 group-open:bg-navy group-open:text-white dark:group-open:bg-royal">
+    <span class="font-display text-h-sm font-semibold">Qu’est-ce qu’un crédit ?</span>
+    <span class="material-symbols-outlined shrink-0 text-[22px] text-royal transition-transform group-open:rotate-180 group-open:text-white" aria-hidden="true">expand_more</span>
+  </summary>
+  <div class="border-t border-line px-5 pb-5 pt-4 text-body-md leading-relaxed text-muted">Un crédit correspond à un message que vous envoyez. Vous ne payez pas au temps passé : posez votre question, refermez la conversation et revenez quand vous voulez. Les réponses du praticien ne sont jamais facturées.</div>
+</details>
+<details class="accordeon group card overflow-hidden" name="accordeon-1">
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-label-lg text-navy marker:hidden hover:bg-ice/60 group-open:bg-navy group-open:text-white dark:group-open:bg-royal">
+    <span class="font-display text-h-sm font-semibold">Combien coûte un message ?</span>
+    <span class="material-symbols-outlined shrink-0 text-[22px] text-royal transition-transform group-open:rotate-180 group-open:text-white" aria-hidden="true">expand_more</span>
+  </summary>
+  <div class="border-t border-line px-5 pb-5 pt-4 text-body-md leading-relaxed text-muted">La majorité des praticiens facturent 1 crédit par message. Les lectures longues (bilan complet, astrologie karmique, numérologie détaillée) peuvent coûter 2 ou 3 crédits : le tarif est toujours affiché sur la fiche du praticien et rappelé dans la zone de saisie avant l’envoi.</div>
+</details>
+<details class="accordeon group card overflow-hidden" name="accordeon-1">
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-label-lg text-navy marker:hidden hover:bg-ice/60 group-open:bg-navy group-open:text-white dark:group-open:bg-royal">
+    <span class="font-display text-h-sm font-semibold">Mes crédits expirent-ils ?</span>
+    <span class="material-symbols-outlined shrink-0 text-[22px] text-royal transition-transform group-open:rotate-180 group-open:text-white" aria-hidden="true">expand_more</span>
+  </summary>
+  <div class="border-t border-line px-5 pb-5 pt-4 text-body-md leading-relaxed text-muted">Non. Vos crédits n’ont aucune date d’expiration et il n’existe aucun abonnement ni prélèvement automatique sur unevoyante.fr. Vous rechargez uniquement quand vous en avez envie.</div>
+</details>
+<details class="accordeon group card overflow-hidden" name="accordeon-1">
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-label-lg text-navy marker:hidden hover:bg-ice/60 group-open:bg-navy group-open:text-white dark:group-open:bg-royal">
+    <span class="font-display text-h-sm font-semibold">Comment acheter des crédits ?</span>
+    <span class="material-symbols-outlined shrink-0 text-[22px] text-royal transition-transform group-open:rotate-180 group-open:text-white" aria-hidden="true">expand_more</span>
+  </summary>
+  <div class="border-t border-line px-5 pb-5 pt-4 text-body-md leading-relaxed text-muted">Rendez-vous sur la page Crédits, choisissez votre pack, puis réglez par carte bancaire, Apple Pay ou PayPal. Les crédits sont disponibles immédiatement après le paiement, y compris au milieu d’une conversation en cours.</div>
+</details></div>
+      <p class="mt-8 text-center text-body-md text-muted">
+        Une autre question ? <a href="faq.html" class="font-medium text-royal underline underline-offset-2">Consultez la FAQ complète</a>
+        ou <a href="contact.html" class="font-medium text-royal underline underline-offset-2">contactez-nous</a>.
+      </p>
+    </div>
+  </section>
+</main>
+
+<uv-footer>
+<footer class="mt-auto bg-navy text-white">
+  <div class="shell py-14 lg:py-16">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <p class="mb-3"><a href="index.html" class="uv-logo text-[22px]" aria-label="unevoyante.fr — accueil">
+      <span aria-hidden="true">unevoyan<span class="uv-logo-t">t<i class="uv-flag"></i></span>e.fr</span>
+    </a></p>
+        <p class="mb-6 max-w-xs text-body-sm leading-relaxed text-white/70">
+          Sanctuaire confidentiel de voyance et de guidance par tchat, 7j/7 et 24h/24.
+          Écoute bienveillante, éthique et clarté immédiate.
+        </p>
+        <ul class="flex flex-col gap-2 text-body-sm text-white/80">
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">support_agent</span><span class="font-semibold text-white">Service client 7j/7 · 24h/24</span></li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">call</span><a href="tel:+33900000000" class="hover:text-gold">09 00 00 00 00</a></li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">mail</span><a href="contact.html" class="hover:text-gold">contact@unevoyante.fr</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="mb-4 font-sans text-label-lg font-bold text-white">Voyance</h4>
+        <ul class="space-y-2.5 text-body-sm text-white/70">
+          <li><a href="voyants.html" class="transition-colors hover:text-gold">Voyance par tchat</a></li><li><a href="voyants.html?specialite=tarot" class="transition-colors hover:text-gold">Tarot de Marseille</a></li><li><a href="voyants.html?specialite=astrologie" class="transition-colors hover:text-gold">Astrologie amoureuse</a></li><li><a href="voyants.html?specialite=voyance-pure" class="transition-colors hover:text-gold">Médiums purs</a></li><li><a href="voyants.html?specialite=numerologie" class="transition-colors hover:text-gold">Numérologie</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="mb-4 font-sans text-label-lg font-bold text-white">Informations</h4>
+        <ul class="space-y-2.5 text-body-sm text-white/70">
+          <li><a href="comment-ca-marche.html" class="transition-colors hover:text-gold">Comment ça marche</a></li><li><a href="tarifs.html" class="transition-colors hover:text-gold">Tarifs &amp; packs</a></li><li><a href="info.html?sujet=journal" class="transition-colors hover:text-gold">Journal ésotérique</a></li><li><a href="info.html?sujet=partenaire" class="transition-colors hover:text-gold">Devenir praticien partenaire</a></li><li><a href="contact.html" class="transition-colors hover:text-gold">Nous contacter</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="mb-4 font-sans text-label-lg font-bold text-white">Légal</h4>
+        <ul class="space-y-2.5 text-body-sm text-white/70">
+          <li><a href="info.html?sujet=mentions-legales" class="transition-colors hover:text-gold">Mentions légales</a></li><li><a href="info.html?sujet=cgv" class="transition-colors hover:text-gold">Conditions générales (CGV)</a></li><li><a href="info.html?sujet=confidentialite" class="transition-colors hover:text-gold">Politique de confidentialité</a></li><li><a href="info.html?sujet=charte" class="transition-colors hover:text-gold">Charte déontologique</a></li><li><a href="info.html?sujet=cookies" class="transition-colors hover:text-gold">Gestion des cookies</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col gap-5 border-t border-white/10 pt-8 text-body-sm text-white/70 lg:flex-row lg:items-center lg:justify-between">
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
+        <p>© 2026 unevoyante.fr — Tous droits réservés. Éthique et sérénité garanties.</p>
+        <a href="modales.html" class="flex items-center gap-1.5 transition-colors hover:text-gold"><span class="material-symbols-outlined text-[16px]" aria-hidden="true">web_asset</span> Modales</a>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="flex items-center gap-1.5 font-semibold text-white"><span class="material-symbols-outlined text-[18px] text-online" aria-hidden="true">verified</span> Paiement 100 % sécurisé</span>
+        <span class="flex flex-wrap items-center gap-2 text-label-sm">
+          <span class="rounded bg-white/10 px-2 py-1">VISA</span><span class="rounded bg-white/10 px-2 py-1">Mastercard</span><span class="rounded bg-white/10 px-2 py-1">Apple Pay</span><span class="rounded bg-white/10 px-2 py-1">PayPal</span>
+          <span class="flex items-center gap-1 rounded bg-white/10 px-2 py-1"><span class="material-symbols-outlined text-[12px]" aria-hidden="true">lock</span> SSL 256-bit</span>
+        </span>
+      </div>
+    </div>
+
+    <p class="mt-6 text-body-sm text-white/55">
+      Service de divertissement et de guidance réservé aux personnes majeures. Nos praticiens ne délivrent
+      aucun diagnostic ni traitement : une consultation de voyance ne remplace jamais un avis médical,
+      psychologique, juridique ou financier.
+    </p>
+  </div>
+</footer></uv-footer>
+<uv-tabbar>
+<!-- L'espace réservé inclut l'encoche du bas (iPhone), sinon le contenu passe dessous. -->
+<div class="h-[var(--tabbar-total)] lg:hidden" aria-hidden="true" data-uv-tabbar-espace=""></div>
+<nav class="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 pb-safe backdrop-blur-xl shadow-bar lg:hidden" aria-label="Navigation rapide" data-uv-tabbar="">
+  <ul class="mx-auto flex max-w-md items-stretch justify-around px-2">
+    <li class="flex-1">
+        <a href="index.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">home</span>
+          <span class="text-label-sm ">Accueil</span>
+        </a></li><li class="flex-1">
+        <a href="tchat.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">forum</span>
+          <span class="text-label-sm ">Mes tchats</span>
+        </a></li><li class="flex-1">
+        <a href="credits.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">monetization_on</span>
+          <span class="text-label-sm ">Crédits</span>
+        </a></li><li class="flex-1">
+        <a href="compte.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">person</span>
+          <span class="text-label-sm ">Compte</span>
+        </a></li>
+  </ul>
+</nav></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script src="assets/js/pages/tarifs.js"></script>
+
+
+</body></html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr" data-statique>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Fiche praticien | unevoyante.fr</title>
+<meta name="description" content="Découvrez le parcours, les spécialités, les horaires et les avis vérifiés de votre praticien avant de démarrer votre consultation par tchat.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="unevoyante.fr">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Fiche praticien">
+<meta property="og:description" content="Découvrez le parcours, les spécialités, les horaires et les avis vérifiés de votre praticien avant de démarrer votre consultation par tchat.">
+<meta property="og:image" content="https://unevoyante.fr/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="unevoyante.fr — voyance par tchat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ground" style="--uv-bar: 66px">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre></uv-header>
+<div id="ariane" class="hidden lg:block"></div>
+
+<main id="contenu" class="flex-1 pb-24 lg:pb-0">
+
+  <!-- ======================================================================
+       BANDEAU MOBILE (repris de la maquette mobile)
+       ====================================================================== -->
+  <section class="relative overflow-hidden bg-night pb-16 pt-8 text-white lg:hidden" id="entete-mobile"></section>
+
+  <div class="shell grid gap-6 py-6 lg:grid-cols-[1fr_360px] lg:py-10">
+
+    <div class="flex flex-col gap-6">
+      <!-- Entête desktop : carte d'honneur en nuit, pendant du bandeau mobile -->
+      <section class="card-tint tint-nuit hidden overflow-hidden p-6 lg:block" id="entete-desktop"></section>
+
+      <!-- Chiffres clés (mobile : chevauche le bandeau) -->
+      <section class="relative z-10 -mt-20 lg:hidden">
+        <div class="shell">
+          <dl class="card grid grid-cols-3 divide-x divide-line p-4 text-center" id="chiffres"></dl>
+        </div>
+      </section>
+
+      <!-- Statut + tarif (mobile) -->
+      <section class="lg:hidden" id="statut-mobile"></section>
+
+      <!-- Onglets — sur les très petits écrans (< 330 px) la rangée défile
+           horizontalement au lieu d'élargir la page. -->
+      <div class="sticky top-16 z-20 -mx-4 overflow-x-auto bg-ice/95 px-4 py-2 backdrop-blur no-scrollbar lg:top-18 lg:mx-0 lg:overflow-visible lg:px-0">
+        <div class="flex w-max min-w-full gap-1 rounded-full bg-tint p-1 lg:inline-flex lg:w-auto lg:min-w-0" role="tablist" aria-label="Sections du profil">
+          <button role="tab" class="pill-tab" data-onglet="apropos" aria-selected="true">À propos</button>
+          <button role="tab" class="pill-tab" data-onglet="avis" aria-selected="false">Avis <span class="count" id="nb-avis">0</span></button>
+          <button role="tab" class="pill-tab" data-onglet="dispo" aria-selected="false">Disponibilités</button>
+        </div>
+      </div>
+
+      <!-- Panneau : à propos -->
+      <section id="panneau-apropos" role="tabpanel" class="flex flex-col gap-6">
+        <div class="card-tint tint-sauge p-5 sm:p-6">
+          <h2 class="mb-4 text-h-md">Mes spécialités</h2>
+          <div class="flex flex-wrap gap-2" id="specialites"></div>
+        </div>
+
+        <div class="card-pad">
+          <h2 class="mb-4 text-h-md">Qui suis-je ?</h2>
+          <div class="space-y-4 text-body-lg leading-relaxed text-muted" id="bio"></div>
+          <button type="button" class="btn-link mt-4" id="lire-suite">
+            Lire la suite <span class="material-symbols-outlined text-[18px]" aria-hidden="true">expand_more</span>
+          </button>
+          <p class="mt-5 flex items-center gap-1.5 border-t border-line pt-4 text-body-sm text-muted" id="mention-photo"></p>
+        </div>
+
+        <div class="card-tint tint-amethyste p-5 sm:p-6">
+          <h2 class="mb-2 text-h-md">Ma façon de travailler</h2>
+          <p class="quote mb-5 border-l-2 border-gold pl-4 italic" id="accroche"></p>
+          <ul class="grid gap-4 sm:grid-cols-2" id="engagements"></ul>
+        </div>
+      </section>
+
+      <!-- Panneau : avis -->
+      <section id="panneau-avis" role="tabpanel" class="hidden flex-col gap-6">
+        <div class="card-pad">
+          <div class="mb-5 flex flex-wrap items-end justify-between gap-4 border-b border-line pb-5">
+            <div>
+              <h2 class="text-h-md">Derniers avis</h2>
+              <p class="text-body-sm text-muted" id="avis-sous-titre"></p>
+            </div>
+            <div class="text-right">
+              <p class="font-display text-h-lg font-bold leading-none text-navy" id="avis-note"></p>
+              <div id="avis-etoiles" class="mt-1"></div>
+            </div>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2" id="avis-liste"></div>
+        </div>
+      </section>
+
+      <!-- Panneau : disponibilités -->
+      <section id="panneau-dispo" role="tabpanel" class="hidden flex-col gap-6">
+        <div class="card-pad">
+          <div class="mb-5 flex flex-wrap items-center justify-between gap-2">
+            <h2 class="text-h-md">Mes horaires cette semaine</h2>
+            <span class="text-body-sm text-muted">Heure de Paris (UTC+2)</span>
+          </div>
+          <ul class="divide-y divide-line" id="horaires"></ul>
+          <p class="mt-5 rounded-md bg-ice p-4 text-body-sm leading-relaxed text-muted">
+            Hors de ces créneaux, vous pouvez tout de même écrire : votre message est conservé et
+            reçoit une réponse au retour en ligne du praticien. Aucun crédit n'est perdu.
+          </p>
+        </div>
+      </section>
+
+      <!-- Praticiens proches -->
+      <section class="mt-2">
+        <h2 class="mb-4 text-h-md">Praticiens aux spécialités proches</h2>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" id="similaires"></div>
+      </section>
+    </div>
+
+    <!-- ====================================================================
+         COLONNE DE DROITE (desktop)
+         ==================================================================== -->
+    <aside class="hidden lg:block">
+      <div class="sticky top-24 flex flex-col gap-4" id="aside"></div>
+    </aside>
+  </div>
+</main>
+
+<!-- Barre d'action mobile -->
+<div class="fixed inset-x-0 bottom-[var(--tabbar-total)] z-40 border-t border-line bg-surface/95 px-4 py-3 shadow-bar backdrop-blur-xl lg:hidden" id="barre-mobile"></div>
+
+<uv-footer></uv-footer>
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script src="assets/js/pages/voyant.js"></script>
+</body>
+</html>

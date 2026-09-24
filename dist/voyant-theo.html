@@ -1,0 +1,700 @@
+<!DOCTYPE html><html lang="fr" data-statique=""><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Théo — Runologue · Décisions rapides | unevoyante.fr</title>
+<meta name="description" content="Théo, Runologue · Décisions rapides : Tirage à trois runes pour trancher rapidement une hésitation. Consultation par tchat, 1 crédit par message.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="unevoyante.fr">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Théo — Runologue · Décisions rapides">
+<meta property="og:description" content="Théo, Runologue · Décisions rapides : Tirage à trois runes pour trancher rapidement une hésitation. Consultation par tchat, 1 crédit par message.">
+<meta property="og:image" content="https://unevoyante.fr/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="unevoyante.fr — voyance par tchat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin="">
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
+<link rel="canonical" href="https://unevoyante.fr/voyant-theo.html"><meta property="og:url" content="https://unevoyante.fr/voyant-theo.html"></head>
+<body data-voyant="theo" class="flex min-h-screen flex-col bg-ground" style="--uv-bar: 66px">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre="">
+<header class="fixed inset-x-0 top-0 z-50 border-b bg-navy text-white border-navy-600 backdrop-blur-xl pt-safe" data-uv-header="">
+  <div class="shell flex h-16 items-center justify-between gap-2 min-[360px]:gap-3 sm:gap-4 lg:h-18">
+
+    <a href="index.html" class="uv-logo text-[20px] sm:text-[22px] lg:text-[24px]" aria-label="unevoyante.fr — accueil">
+      <span aria-hidden="true" class="uv-sigle sm:hidden">U<span class="uv-logo-v">V<i class="uv-flag"></i></span></span>
+         <span aria-hidden="true" class="hidden sm:inline">unevoyan<span class="uv-logo-t">t<i class="uv-flag"></i></span>e.fr</span>
+    </a>
+
+    <nav class="hidden items-center gap-5 lg:flex xl:gap-7" aria-label="Navigation principale">
+      
+        <a href="voyants.html" class="whitespace-nowrap text-label-md font-bold transition-colors text-gold" aria-current="page">Voyants</a>
+        <a href="tarifs.html" class="whitespace-nowrap text-label-md font-bold transition-colors text-white/80 hover:text-gold">Tarifs</a>
+        <a href="faq.html" class="whitespace-nowrap text-label-md font-bold transition-colors text-white/80 hover:text-gold">FAQ</a>
+    </nav>
+
+    <div class="flex items-center gap-1 min-[360px]:gap-2 sm:gap-3">
+      <button type="button" data-uv-theme="" class="grid h-10 w-10 shrink-0 place-items-center rounded-full transition-colors
+                   hover:bg-white/10" aria-label="Passer en mode nuit" title="Passer en mode nuit"><span class="material-symbols-outlined text-[22px]" aria-hidden="true">dark_mode</span></button>
+
+      <!-- Solde + recharge : ouvre la modale « Liste des forfaits » (modales.js),
+           sinon mène à la page Crédits. Sur mobile, l'icône et le chiffre seuls. -->
+      <a href="credits.html" data-uv-forfaits="" aria-haspopup="dialog" class="inline-flex h-9 shrink-0 items-center gap-1 whitespace-nowrap rounded-full border pl-2 pr-2.5 text-label-sm font-bold transition-colors sm:gap-1.5 sm:px-3
+                border-white/15 bg-white/10 text-white hover:bg-white/20" title="Recharger mes crédits">
+        <span class="material-symbols-outlined text-[18px] text-gold" aria-hidden="true">monetization_on</span>
+        <span class="sr-only">Recharger mes crédits, solde actuel :</span>
+        <span><span data-uv-credits="">3</span><span class="max-sm:sr-only">&nbsp;crédit<span data-uv-credits-s="">s</span></span></span>
+      </a>
+
+      <div data-uv-auth="" class="flex items-center gap-2 sm:gap-3">
+<a href="connexion.html?next=voyant-theo.html" class="hidden whitespace-nowrap px-2 py-2 text-label-md font-bold transition-colors md:inline-flex text-white/80 hover:text-gold">Se connecter</a>
+<a href="inscription.html?next=voyant-theo.html" class="btn-gold btn-sm max-[359px]:px-3 sm:min-h-[42px]">S'inscrire<span class="hidden xl:inline"> · 3 crédits offerts</span></a></div>
+
+      <!-- order-last : le burger ferme la barre sur mobile ; au-dessus de
+           1024 px il disparaît et c'est le menu du profil qui la ferme. -->
+      <button type="button" data-uv-burger="" class="order-last grid h-10 w-10 place-items-center rounded-full transition-colors lg:hidden
+                     hover:bg-white/10" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="uv-drawer">
+        <span class="material-symbols-outlined text-[24px]" aria-hidden="true">menu</span>
+      </button>
+
+      <!-- Menu du profil : dernier de la barre, rien ne se place après lui -->
+      <div data-uv-profil="" class="flex items-center"><span class="hidden sm:block">
+<div class="relative" data-uv-menu="">
+  <button type="button" class="flex items-center gap-2 rounded-full py-1 pl-1 pr-2 transition-colors hover:bg-white/10" aria-haspopup="true" aria-expanded="false" aria-label="Mon profil">
+    <span class="grid h-9 w-9 place-items-center rounded-full bg-white/15 text-white"><span class="material-symbols-outlined text-[22px]" aria-hidden="true">person</span></span>
+    
+    <span class="material-symbols-outlined text-[18px] hidden sm:inline" aria-hidden="true">expand_more</span>
+  </button>
+  <div class="absolute right-0 top-full mt-2 hidden w-60 overflow-hidden rounded-lg border border-line bg-surface p-1.5 text-navy shadow-lift" data-uv-menu-panel="">
+    
+    <a href="compte.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">person</span> Mon profil</a>
+    <a href="tchat.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">forum</span> Mes tchats</a>
+    <a href="contact.html" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">help</span> Aide</a>
+    <hr class="rule my-1.5">
+    <button type="button" data-uv-logout="" class="menu-sortie flex w-full items-center gap-3 rounded px-3 py-2.5 text-left text-label-md"><span class="material-symbols-outlined text-[20px]" aria-hidden="true">logout</span> Se déconnecter</button>
+  </div>
+</div></span></div>
+    </div>
+  </div>
+</header>
+
+<!-- Tiroir mobile : se referme au clic extérieur, à Échap et à la navigation -->
+<div id="uv-drawer" class="fixed inset-0 z-[60] hidden lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="absolute inset-0 bg-navy/40 backdrop-blur-sm" data-uv-drawer-close=""></div>
+  <nav class="absolute inset-y-0 right-0 flex w-[min(86vw,340px)] animate-slide-left flex-col gap-1 overflow-y-auto bg-surface p-5 shadow-lift pt-safe">
+    <div class="mb-2 flex items-center justify-between">
+      <a href="index.html" class="uv-logo text-[20px]" aria-label="unevoyante.fr — accueil">
+      <span aria-hidden="true">unevoyan<span class="uv-logo-t">t<i class="uv-flag"></i></span>e.fr</span>
+    </a>
+      <button type="button" data-uv-drawer-close="" class="grid h-10 w-10 place-items-center rounded-full hover:bg-ice" aria-label="Fermer le menu">
+        <span class="material-symbols-outlined text-[22px]" aria-hidden="true">close</span>
+      </button>
+    </div>
+    
+      <a href="voyants.html" class="flex items-center justify-between rounded-md px-3 py-3 text-label-lg bg-tint text-royal">
+        Voyants <span class="material-symbols-outlined text-[20px] text-muted" aria-hidden="true">chevron_right</span>
+      </a>
+      <a href="tarifs.html" class="flex items-center justify-between rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice">
+        Tarifs <span class="material-symbols-outlined text-[20px] text-muted" aria-hidden="true">chevron_right</span>
+      </a>
+      <a href="faq.html" class="flex items-center justify-between rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice">
+        FAQ <span class="material-symbols-outlined text-[20px] text-muted" aria-hidden="true">chevron_right</span>
+      </a>
+    <hr class="rule my-3">
+    <a href="tchat.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">forum</span> Mes tchats</a>
+    <a href="credits.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-gold" aria-hidden="true">monetization_on</span> Mes crédits</a>
+    <a href="compte.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">person</span> Mon compte</a>
+    <hr class="rule my-3">
+    <a href="modales.html" class="flex items-center gap-3 rounded-md px-3 py-3 text-label-lg text-navy hover:bg-ice"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">web_asset</span> Modales</a>
+    <div class="flex flex-col gap-2 pt-4" data-uv-auth-drawer=""><a href="inscription.html" class="btn-gold w-full">S'inscrire · 3 crédits offerts</a>
+           <a href="connexion.html" class="btn-ghost w-full">Se connecter</a></div>
+  </nav>
+</div>
+
+<div class="h-16 lg:h-18" aria-hidden="true"></div></uv-header>
+<div id="ariane" class="hidden lg:block">
+<nav aria-label="Fil d'Ariane" class="border-b border-line bg-ice">
+  <ol class="shell flex items-center gap-2 overflow-x-auto py-3 text-body-sm text-muted no-scrollbar">
+    <li class="flex shrink-0 items-center gap-2">
+        <span class="material-symbols-outlined text-[16px]" aria-hidden="true">home</span>
+        <a href="index.html" class="hover:text-royal hover:underline">Accueil</a>
+             <span class="material-symbols-outlined text-[16px] text-line" aria-hidden="true">chevron_right</span>
+      </li><li class="flex shrink-0 items-center gap-2">
+        
+        <a href="voyants.html" class="hover:text-royal hover:underline">Voyants</a>
+             <span class="material-symbols-outlined text-[16px] text-line" aria-hidden="true">chevron_right</span>
+      </li><li class="flex shrink-0 items-center gap-2">
+        
+        <span class="font-medium text-navy" aria-current="page">Théo</span>
+      </li>
+  </ol>
+</nav></div>
+
+<main id="contenu" class="flex-1 pb-24 lg:pb-0">
+
+  <!-- ======================================================================
+       BANDEAU MOBILE (repris de la maquette mobile)
+       ====================================================================== -->
+  <section class="relative overflow-hidden bg-night pb-16 pt-8 text-white lg:hidden" id="entete-mobile">
+<div aria-hidden="true" class="pointer-events-none absolute inset-0 opacity-20">
+  <svg viewBox="0 0 390 220" class="h-full w-full text-gold-300" fill="none">
+    <path d="M20 40L120 90L230 30L340 80" stroke="currentColor" stroke-dasharray="3 4"></path>
+    <circle cx="20" cy="40" r="2" fill="currentColor"></circle><circle cx="120" cy="90" r="2.5" fill="currentColor"></circle>
+    <circle cx="230" cy="30" r="2" fill="currentColor"></circle><circle cx="340" cy="80" r="2.5" fill="currentColor"></circle>
+  </svg>
+</div>
+<div class="shell relative flex flex-col items-center text-center">
+  <div class="mb-4 flex w-full items-center justify-between">
+    <a href="voyants.html" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20" aria-label="Retour au catalogue">
+      <span class="material-symbols-outlined text-[22px]" aria-hidden="true">arrow_back</span>
+    </a>
+    <div class="flex gap-2">
+      <button type="button" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20" data-partager="" aria-label="Partager ce profil">
+        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">ios_share</span>
+      </button>
+      <button type="button" class="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20" data-favori="" aria-label="Ajouter aux favoris">
+        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">favorite</span>
+      </button>
+    </div>
+  </div>
+  <span class="monogram h-24 w-24 text-[34px] ring-white/20" aria-hidden="true">T<span class="monogram-status bg-online"></span></span>
+  <h1 class="mt-4 text-h-lg-m text-white">Théo</h1>
+  
+  <p class="mt-2 text-body-md text-white/80">Runologue · Décisions rapides</p>
+</div></section>
+
+  <div class="shell grid gap-6 py-6 lg:grid-cols-[1fr_360px] lg:py-10">
+
+    <div class="flex flex-col gap-6">
+      <!-- Entête desktop : carte d'honneur en nuit, pendant du bandeau mobile -->
+      <section class="card-tint tint-nuit hidden overflow-hidden p-6 lg:block" id="entete-desktop">
+<svg aria-hidden="true" class="pointer-events-none absolute inset-0 h-full w-full text-gold opacity-40" viewBox="0 0 800 180" fill="none" preserveAspectRatio="xMidYMid slice">
+  <circle cx="470" cy="30" r="1.5" fill="currentColor"></circle><circle cx="560" cy="70" r="2" fill="currentColor"></circle>
+  <circle cx="640" cy="28" r="2.5" fill="currentColor"></circle><circle cx="730" cy="84" r="2" fill="currentColor"></circle>
+  <circle cx="690" cy="150" r="1.5" fill="currentColor"></circle><circle cx="770" cy="24" r="1" fill="currentColor"></circle>
+  <circle cx="420" cy="150" r="1" fill="currentColor"></circle>
+  <path d="M470 30 L560 70 L640 28 L730 84 L690 150" stroke="currentColor" stroke-dasharray="3 3" stroke-width=".75"></path>
+</svg>
+<div class="relative flex gap-6">
+  <span class="monogram h-[76px] w-[76px] text-[30px]" aria-hidden="true">T<span class="monogram-status bg-online"></span></span>
+  <div class="min-w-0 flex-1">
+    <div class="mb-1 flex flex-wrap items-center gap-3">
+      <h1 class="text-h-lg text-white">Théo</h1>
+      
+      <span class="flex items-center gap-2 text-label-md text-white"><span class="dot-online"></span> En ligne</span>
+    </div>
+    <p class="mb-3 text-body-md text-gold-300">Runologue · Décisions rapides</p>
+    <div class="mb-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-body-md text-white/75">
+      <span class="flex items-center gap-2"><span class="inline-flex items-center gap-px" role="img" aria-label="4,6 sur 5"><span class="material-symbols-outlined text-[15px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[15px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[15px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[15px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[15px] icon-fill text-gold" aria-hidden="true">star</span></span> <strong class="font-semibold text-white">4,6</strong> (290 avis)</span>
+      <span><strong class="font-semibold text-white">2 400</strong> consultations</span>
+      <span><strong class="font-semibold text-white">4 ans</strong> d'expérience</span>
+    </div>
+    <div class="flex flex-wrap gap-2"><span class="tag bg-white/10 text-white">Runes</span><span class="tag bg-white/10 text-white">Décision</span><span class="tag bg-white/10 text-white">Rapide</span></div>
+  </div>
+</div></section>
+
+      <!-- Chiffres clés (mobile : chevauche le bandeau) -->
+      <section class="relative z-10 -mt-20 lg:hidden">
+        <div class="shell">
+          <dl class="card grid grid-cols-3 divide-x divide-line p-4 text-center" id="chiffres">
+<div class="px-2"><dt class="flex items-center justify-center gap-1 text-label-lg font-bold text-navy">4,6 <span class="material-symbols-outlined icon-fill text-[16px] text-gold" aria-hidden="true">star</span></dt><dd class="text-body-sm text-muted">290 avis</dd></div>
+<div class="px-2"><dt class="text-label-lg font-bold text-navy">2 400</dt><dd class="text-body-sm text-muted">consultations</dd></div>
+<div class="px-2"><dt class="text-label-lg font-bold text-navy">4 ans</dt><dd class="text-body-sm text-muted">d'expérience</dd></div></dl>
+        </div>
+      </section>
+
+      <!-- Statut + tarif (mobile) -->
+      <section class="lg:hidden" id="statut-mobile">
+<div class="card flex flex-wrap items-center justify-between gap-x-3 gap-y-2 p-4">
+  <span class="flex flex-wrap items-center gap-x-2 gap-y-1 text-body-md">
+    <span class="flex items-center gap-2 whitespace-nowrap"><span class="dot-online"></span>
+    <strong class="font-bold text-navy">En ligne</strong></span>
+    <span class="whitespace-nowrap text-muted">· répond en 2 min env.</span>
+  </span>
+  <span class="inline-flex shrink-0 items-center gap-1 rounded-full bg-ice px-3 py-1.5 text-label-sm">
+    <span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">monetization_on</span> 1 crédit / msg
+  </span>
+</div></section>
+
+      <!-- Onglets — sur les très petits écrans (< 330 px) la rangée défile
+           horizontalement au lieu d'élargir la page. -->
+      <div class="sticky top-16 z-20 -mx-4 overflow-x-auto bg-ice/95 px-4 py-2 backdrop-blur no-scrollbar lg:top-18 lg:mx-0 lg:overflow-visible lg:px-0">
+        <div class="flex w-max min-w-full gap-1 rounded-full bg-tint p-1 lg:inline-flex lg:w-auto lg:min-w-0" role="tablist" aria-label="Sections du profil">
+          <button role="tab" class="pill-tab" data-onglet="apropos" aria-selected="true">À propos</button>
+          <button role="tab" class="pill-tab" data-onglet="avis" aria-selected="false">Avis <span class="count" id="nb-avis" aria-label="290 avis">290</span></button>
+          <button role="tab" class="pill-tab" data-onglet="dispo" aria-selected="false">Disponibilités</button>
+        </div>
+      </div>
+
+      <!-- Panneau : à propos -->
+      <section id="panneau-apropos" role="tabpanel" class="flex flex-col gap-6">
+        <div class="card-tint tint-sauge p-5 sm:p-6">
+          <h2 class="mb-4 text-h-md">Mes spécialités</h2>
+          <div class="flex flex-wrap gap-2" id="specialites"><a href="voyants.html?specialite=runes" class="chip hover:border-royal hover:bg-tint">
+      <span class="material-symbols-outlined text-[16px] text-royal" aria-hidden="true">grid_view</span>Runes</a><a href="voyants.html?specialite=travail" class="chip hover:border-royal hover:bg-tint">
+      <span class="material-symbols-outlined text-[16px] text-royal" aria-hidden="true">work</span>Travail</a></div>
+        </div>
+
+        <div class="card-pad">
+          <h2 class="mb-4 text-h-md">Qui suis-je ?</h2>
+          <div class="space-y-4 text-body-lg leading-relaxed text-muted" id="bio"><p class="" data-bio-p="">Format simple et rapide : trois runes, passé / présent / direction. Je réponds en moins de deux minutes.</p><p class="" data-bio-p="">Nouveau sur la plateforme après quatre ans de pratique en cabinet.</p><p class="hidden" data-bio-p="">Idéal pour les hésitations du quotidien plutôt que pour les grands bilans de vie.</p></div>
+          <button type="button" class="btn-link mt-4" id="lire-suite">
+            Lire la suite <span class="material-symbols-outlined text-[18px]" aria-hidden="true">expand_more</span>
+          </button>
+          
+        </div>
+
+        <div class="card-tint tint-amethyste p-5 sm:p-6">
+          <h2 class="mb-2 text-h-md">Ma façon de travailler</h2>
+          <p class="quote mb-5 border-l-2 border-gold pl-4 italic" id="accroche">« Trois runes, une direction. »</p>
+          <ul class="grid gap-4 sm:grid-cols-2" id="engagements">
+    <li class="flex gap-3">
+      <span class="tint-chip h-10 w-10 shrink-0"><span class="material-symbols-outlined text-[20px]" aria-hidden="true">verified_user</span></span>
+      <span><strong class="block text-label-md text-navy">Praticien vérifié</strong>
+        <span class="text-body-sm text-muted">Identité contrôlée et consultation test validée par notre comité.</span></span>
+    </li>
+    <li class="flex gap-3">
+      <span class="tint-chip h-10 w-10 shrink-0"><span class="material-symbols-outlined text-[20px]" aria-hidden="true">lock</span></span>
+      <span><strong class="block text-label-md text-navy">Anonymat garanti</strong>
+        <span class="text-body-sm text-muted">Ce praticien ne connaît ni votre nom, ni votre e-mail, ni vos coordonnées.</span></span>
+    </li>
+    <li class="flex gap-3">
+      <span class="tint-chip h-10 w-10 shrink-0"><span class="material-symbols-outlined text-[20px]" aria-hidden="true">schedule</span></span>
+      <span><strong class="block text-label-md text-navy">Délai de réponse</strong>
+        <span class="text-body-sm text-muted">Environ 2 min en période d'activité.</span></span>
+    </li>
+    <li class="flex gap-3">
+      <span class="tint-chip h-10 w-10 shrink-0"><span class="material-symbols-outlined text-[20px]" aria-hidden="true">gavel</span></span>
+      <span><strong class="block text-label-md text-navy">Charte déontologique</strong>
+        <span class="text-body-sm text-muted">Aucun diagnostic médical, aucune pression, aucun rappel commercial.</span></span>
+    </li></ul>
+        </div>
+      </section>
+
+      <!-- Panneau : avis -->
+      <section id="panneau-avis" role="tabpanel" class="hidden flex-col gap-6">
+        <div class="card-pad">
+          <div class="mb-5 flex flex-wrap items-end justify-between gap-4 border-b border-line pb-5">
+            <div>
+              <h2 class="text-h-md">Derniers avis</h2>
+              <p class="text-body-sm text-muted" id="avis-sous-titre">Note globale calculée sur 290 consultations certifiées.</p>
+            </div>
+            <div class="text-right">
+              <p class="font-display text-h-lg font-bold leading-none text-navy" id="avis-note">4,6 / 5</p>
+              <div id="avis-etoiles" class="mt-1"><span class="inline-flex items-center gap-px" role="img" aria-label="4,6 sur 5"><span class="material-symbols-outlined text-[15px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[15px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[15px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[15px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[15px] icon-fill text-gold" aria-hidden="true">star</span></span></div>
+            </div>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2" id="avis-liste">
+    <article class="rounded-md border border-line bg-ice/50 p-4">
+      <header class="mb-2 flex items-start justify-between gap-3">
+        <span class="flex items-center gap-2.5">
+          <span class="grid h-9 w-9 place-items-center rounded-full bg-royal font-display text-label-md text-white">K</span>
+          <span><strong class="block text-label-md text-navy">Karim</strong>
+            <span class="text-body-sm text-muted">8 septembre 2026</span></span>
+        </span>
+        <span class="inline-flex items-center gap-px" role="img" aria-label="4,0 sur 5"><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] text-line" aria-hidden="true">star</span></span>
+      </header>
+      <p class="text-body-sm italic leading-relaxed text-muted">« Guidance professionnelle très pertinente sur ma reconversion. Merci pour la clarté. »</p>
+    </article>
+    <article class="rounded-md border border-line bg-ice/50 p-4">
+      <header class="mb-2 flex items-start justify-between gap-3">
+        <span class="flex items-center gap-2.5">
+          <span class="grid h-9 w-9 place-items-center rounded-full bg-royal font-display text-label-md text-white">J</span>
+          <span><strong class="block text-label-md text-navy">Julie</strong>
+            <span class="text-body-sm text-muted">5 septembre 2026</span></span>
+        </span>
+        <span class="inline-flex items-center gap-px" role="img" aria-label="5,0 sur 5"><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span></span>
+      </header>
+      <p class="text-body-sm italic leading-relaxed text-muted">« Trois messages ont suffi pour dénouer six mois de questionnements. »</p>
+    </article>
+    <article class="rounded-md border border-line bg-ice/50 p-4">
+      <header class="mb-2 flex items-start justify-between gap-3">
+        <span class="flex items-center gap-2.5">
+          <span class="grid h-9 w-9 place-items-center rounded-full bg-royal font-display text-label-md text-white">M</span>
+          <span><strong class="block text-label-md text-navy">Marion</strong>
+            <span class="text-body-sm text-muted">2 septembre 2026</span></span>
+        </span>
+        <span class="inline-flex items-center gap-px" role="img" aria-label="5,0 sur 5"><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span></span>
+      </header>
+      <p class="text-body-sm italic leading-relaxed text-muted">« Réponses très précises et pleines de douceur. Elle a vu juste sans que je ne dise un mot. Je recommande vivement. »</p>
+    </article>
+    <article class="rounded-md border border-line bg-ice/50 p-4">
+      <header class="mb-2 flex items-start justify-between gap-3">
+        <span class="flex items-center gap-2.5">
+          <span class="grid h-9 w-9 place-items-center rounded-full bg-royal font-display text-label-md text-white">S</span>
+          <span><strong class="block text-label-md text-navy">Sophie</strong>
+            <span class="text-body-sm text-muted">29 août 2026</span></span>
+        </span>
+        <span class="inline-flex items-center gap-px" role="img" aria-label="5,0 sur 5"><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span></span>
+      </header>
+      <p class="text-body-sm italic leading-relaxed text-muted">« Elle a parfaitement cerné ma situation sentimentale. Ses conseils m’ont aidée à patienter au bon moment. »</p>
+    </article>
+    <article class="rounded-md border border-line bg-ice/50 p-4">
+      <header class="mb-2 flex items-start justify-between gap-3">
+        <span class="flex items-center gap-2.5">
+          <span class="grid h-9 w-9 place-items-center rounded-full bg-royal font-display text-label-md text-white">T</span>
+          <span><strong class="block text-label-md text-navy">Thomas</strong>
+            <span class="text-body-sm text-muted">24 août 2026</span></span>
+        </span>
+        <span class="inline-flex items-center gap-px" role="img" aria-label="5,0 sur 5"><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span></span>
+      </header>
+      <p class="text-body-sm italic leading-relaxed text-muted">« Échange direct, sans détour mais très chaleureux. Les prédictions se sont vérifiées la semaine suivante ! »</p>
+    </article>
+    <article class="rounded-md border border-line bg-ice/50 p-4">
+      <header class="mb-2 flex items-start justify-between gap-3">
+        <span class="flex items-center gap-2.5">
+          <span class="grid h-9 w-9 place-items-center rounded-full bg-royal font-display text-label-md text-white">C</span>
+          <span><strong class="block text-label-md text-navy">Camille</strong>
+            <span class="text-body-sm text-muted">19 août 2026</span></span>
+        </span>
+        <span class="inline-flex items-center gap-px" role="img" aria-label="5,0 sur 5"><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span><span class="material-symbols-outlined text-[13px] icon-fill text-gold" aria-hidden="true">star</span></span>
+      </header>
+      <p class="text-body-sm italic leading-relaxed text-muted">« Une lecture d’une grande finesse. A su apaiser mes angoisses avec beaucoup d’écoute et de bienveillance. »</p>
+    </article></div>
+        </div>
+      </section>
+
+      <!-- Panneau : disponibilités -->
+      <section id="panneau-dispo" role="tabpanel" class="hidden flex-col gap-6">
+        <div class="card-pad">
+          <div class="mb-5 flex flex-wrap items-center justify-between gap-2">
+            <h2 class="text-h-md">Mes horaires cette semaine</h2>
+            <span class="text-body-sm text-muted">Heure de Paris (UTC+2)</span>
+          </div>
+          <ul class="divide-y divide-line" id="horaires"><li class="flex items-center justify-between gap-3 px-1 py-3 ">
+      <span class="flex items-center gap-2 text-navy">
+        <span class="">Lundi</span>
+        
+      </span>
+      <span class="text-label-md text-navy">14h – 22h</span>
+    </li><li class="flex items-center justify-between gap-3 px-1 py-3 ">
+      <span class="flex items-center gap-2 text-navy">
+        <span class="">Mardi</span>
+        
+      </span>
+      <span class="text-label-md text-navy">14h – 22h</span>
+    </li><li class="flex items-center justify-between gap-3 px-1 py-3 ">
+      <span class="flex items-center gap-2 text-muted">
+        <span class="">Mercredi</span>
+        
+      </span>
+      <span class="text-body-sm italic text-muted">Indisponible</span>
+    </li><li class="flex items-center justify-between gap-3 px-1 py-3 ">
+      <span class="flex items-center gap-2 text-navy">
+        <span class="">Jeudi</span>
+        
+      </span>
+      <span class="text-label-md text-navy">17h – 2h</span>
+    </li><li class="flex items-center justify-between gap-3 px-1 py-3 ">
+      <span class="flex items-center gap-2 text-navy">
+        <span class="">Vendredi</span>
+        
+      </span>
+      <span class="text-label-md text-navy">17h – 2h</span>
+    </li><li class="flex items-center justify-between gap-3 px-1 py-3 ">
+      <span class="flex items-center gap-2 text-navy">
+        <span class="">Samedi</span>
+        
+      </span>
+      <span class="text-label-md text-navy">10h – 18h</span>
+    </li><li class="flex items-center justify-between gap-3 px-1 py-3 ">
+      <span class="flex items-center gap-2 text-muted">
+        <span class="">Dimanche</span>
+        
+      </span>
+      <span class="text-body-sm italic text-muted">Indisponible</span>
+    </li></ul>
+          <p class="mt-5 rounded-md bg-ice p-4 text-body-sm leading-relaxed text-muted">
+            Hors de ces créneaux, vous pouvez tout de même écrire : votre message est conservé et
+            reçoit une réponse au retour en ligne du praticien. Aucun crédit n'est perdu.
+          </p>
+        </div>
+      </section>
+
+      <!-- Praticiens proches -->
+      <section class="mt-2">
+        <h2 class="mb-4 text-h-md">Praticiens aux spécialités proches</h2>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" id="similaires">
+<article class="card-pad card-hover flex min-w-0 flex-col" data-voyant="claire" data-statut="online" data-note="4.9" data-avis="104" data-credits="1" data-specialites="tarot numerologie amour famille travail" data-nom="claire tarologue &amp; numérologue">
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <a href="voyant-claire.html" class="shrink-0" aria-label="Voir la fiche de Claire">
+      <span class="monogram h-16 w-16 text-h-md" aria-hidden="true">C<img src="assets/img/voyants/claire.webp" alt="" width="288" height="288" loading="lazy" decoding="async" class="monogram-photo" onerror="this.remove()"><span class="monogram-status bg-online"></span></span>
+    </a>
+    <span class="badge-top"><span class="material-symbols-outlined icon-fill text-[14px] text-gold" aria-hidden="true">star</span> TOP VOYANTE</span>
+  </div>
+
+  <h3 class="text-h-md"><a href="voyant-claire.html" class="hover:text-royal">Claire</a></h3>
+  <p class="mb-3 text-body-sm text-muted">Tarologue &amp; Numérologue</p>
+
+  <div class="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
+    <a href="voyant-claire.html#avis" class="flex items-center gap-1 hover:underline">
+      <span class="material-symbols-outlined icon-fill text-[16px] text-gold" aria-hidden="true">star</span>
+      <span class="text-label-md">4,9</span>
+      <span class="text-body-sm text-muted">(104)</span>
+    </a>
+    <span class="inline-flex items-center gap-1 rounded-full bg-ice px-2.5 py-1 text-label-sm">
+      <span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">monetization_on</span> 1 crédit / msg
+    </span>
+  </div>
+
+  
+
+  <p class="mb-4 line-clamp-2 text-body-sm leading-relaxed text-muted">Tarot, intuition et ressentis pour éclairer votre avenir sentimental, familial ou professionnel.</p>
+
+  <div class="mb-5 flex flex-wrap gap-2">
+    <span class="tag">Tarot</span><span class="tag">Numérologie</span>
+  </div>
+
+  <div class="mt-auto flex flex-col gap-2">
+    <a href="tchat.html?voyant=claire" class="btn-gold w-full">Commencer la discussion</a>
+    <a href="voyant-claire.html" class="btn-link justify-center">Voir la fiche <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span></a>
+  </div>
+</article>
+<article class="card-pad card-hover flex min-w-0 flex-col" data-voyant="karine" data-statut="online" data-note="4.9" data-avis="118" data-credits="1" data-specialites="tarot amour travail" data-nom="karine tarologue · intuition &amp; flashs">
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <a href="voyant-karine.html" class="shrink-0" aria-label="Voir la fiche de Karine">
+      <span class="monogram h-16 w-16 text-h-md" aria-hidden="true">K<img src="assets/img/voyants/karine.webp" alt="" width="288" height="288" loading="lazy" decoding="async" class="monogram-photo" onerror="this.remove()"><span class="monogram-status bg-online"></span></span>
+    </a>
+    <span class="badge-top"><span class="material-symbols-outlined icon-fill text-[14px] text-gold" aria-hidden="true">star</span> TOP VOYANTE</span>
+  </div>
+
+  <h3 class="text-h-md"><a href="voyant-karine.html" class="hover:text-royal">Karine</a></h3>
+  <p class="mb-3 text-body-sm text-muted">Tarologue · Intuition &amp; flashs</p>
+
+  <div class="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
+    <a href="voyant-karine.html#avis" class="flex items-center gap-1 hover:underline">
+      <span class="material-symbols-outlined icon-fill text-[16px] text-gold" aria-hidden="true">star</span>
+      <span class="text-label-md">4,9</span>
+      <span class="text-body-sm text-muted">(118)</span>
+    </a>
+    <span class="inline-flex items-center gap-1 rounded-full bg-ice px-2.5 py-1 text-label-sm">
+      <span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">monetization_on</span> 1 crédit / msg
+    </span>
+  </div>
+
+  
+
+  <p class="mb-4 line-clamp-2 text-body-sm leading-relaxed text-muted">Intuition, cartes et flashs depuis plus de 21 ans. Je prends le temps d’écouter avant de répondre.</p>
+
+  <div class="mb-5 flex flex-wrap gap-2">
+    <span class="tag">Tarot</span><span class="tag">Amour &amp; relations</span>
+  </div>
+
+  <div class="mt-auto flex flex-col gap-2">
+    <a href="tchat.html?voyant=karine" class="btn-gold w-full">Commencer la discussion</a>
+    <a href="voyant-karine.html" class="btn-link justify-center">Voir la fiche <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span></a>
+  </div>
+</article>
+<article class="card-pad card-hover flex min-w-0 flex-col" data-voyant="marc" data-statut="online" data-note="4.9" data-avis="231" data-credits="1" data-specialites="amour famille travail astrologie" data-nom="marc voyant · tarot, flashs &amp; intuition">
+  <div class="mb-4 flex items-start justify-between gap-3">
+    <a href="voyant-marc.html" class="shrink-0" aria-label="Voir la fiche de Marc">
+      <span class="monogram h-16 w-16 text-h-md" aria-hidden="true">M<img src="assets/img/voyants/marc.webp" alt="" width="288" height="288" loading="lazy" decoding="async" class="monogram-photo" onerror="this.remove()"><span class="monogram-status bg-online"></span></span>
+    </a>
+    <span class="badge-online"><span class="dot-online"></span> En ligne</span>
+  </div>
+
+  <h3 class="text-h-md"><a href="voyant-marc.html" class="hover:text-royal">Marc</a></h3>
+  <p class="mb-3 text-body-sm text-muted">Voyant · Tarot, flashs &amp; intuition</p>
+
+  <div class="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
+    <a href="voyant-marc.html#avis" class="flex items-center gap-1 hover:underline">
+      <span class="material-symbols-outlined icon-fill text-[16px] text-gold" aria-hidden="true">star</span>
+      <span class="text-label-md">4,9</span>
+      <span class="text-body-sm text-muted">(231)</span>
+    </a>
+    <span class="inline-flex items-center gap-1 rounded-full bg-ice px-2.5 py-1 text-label-sm">
+      <span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">monetization_on</span> 1 crédit / msg
+    </span>
+  </div>
+
+  
+
+  <p class="mb-4 line-clamp-2 text-body-sm leading-relaxed text-muted">25 ans de tarot, de flashs et d’intuition, avec zéro compromis sur la vérité.</p>
+
+  <div class="mb-5 flex flex-wrap gap-2">
+    <span class="tag">Amour &amp; relations</span><span class="tag">Décisions de vie</span>
+  </div>
+
+  <div class="mt-auto flex flex-col gap-2">
+    <a href="tchat.html?voyant=marc" class="btn-gold w-full">Commencer la discussion</a>
+    <a href="voyant-marc.html" class="btn-link justify-center">Voir la fiche <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span></a>
+  </div>
+</article></div>
+      </section>
+    </div>
+
+    <!-- ====================================================================
+         COLONNE DE DROITE (desktop)
+         ==================================================================== -->
+    <aside class="hidden lg:block">
+      <div class="sticky top-24 flex flex-col gap-4" id="aside">
+<div class="card-pad">
+  <p class="mb-4 flex items-center gap-2 text-body-md">
+    <span class="dot-online"></span><strong class="font-semibold text-navy">En ligne</strong>
+    <span class="text-muted">· répond en 2 min</span>
+  </p>
+
+  <div class="mb-4 flex items-center justify-center gap-2 rounded-md border border-line bg-ice py-4">
+    <span class="material-symbols-outlined text-[24px] text-gold" aria-hidden="true">monetization_on</span>
+    <span class="font-display text-h-md font-bold text-navy">1 crédit</span>
+    <span class="text-body-md text-muted">/ message</span>
+  </div>
+
+  <p class="mb-4 text-center"><span class="badge-promo"><span class="material-symbols-outlined text-[14px]" aria-hidden="true">stars</span> Nouveau praticien</span></p>
+
+  <div class="flex flex-col gap-2.5">
+    <a href="tchat.html?voyant=theo" class="btn-gold btn-lg w-full">
+         <span class="material-symbols-outlined text-[20px]" aria-hidden="true">chat_bubble</span> Commencer la discussion</a>
+    <button type="button" class="btn-ghost w-full" data-favori="">
+      <span class="material-symbols-outlined text-[20px] " aria-hidden="true">favorite</span>
+      <span data-favori-label="">Ajouter aux favoris</span>
+    </button>
+    
+  </div>
+
+  <ul class="mt-6 space-y-3 border-t border-line pt-5 text-body-sm text-muted">
+    <li class="flex items-center gap-2.5"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">verified_user</span> Praticien vérifié &amp; certifié</li>
+    <li class="flex items-center gap-2.5"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">lock</span> Anonymat garanti à 100 %</li>
+    <li class="flex items-center gap-2.5"><span class="material-symbols-outlined text-[20px] text-royal" aria-hidden="true">credit_card</span> Paiement sécurisé par carte</li>
+  </ul>
+
+  <p class="mt-5 rounded-md bg-gold-50 p-3 text-center text-body-sm text-gold-800">
+    <span class="material-symbols-outlined text-[16px] align-middle" aria-hidden="true">auto_awesome</span> 3 crédits offerts à l'inscription
+  </p>
+</div>
+
+<div class="card-tint tint-champagne p-5 sm:p-6">
+  <h2 class="mb-2 text-label-lg text-navy">Solde &amp; recharge</h2>
+  <p class="mb-4 text-body-sm text-muted">
+    Vous disposez de <strong class="font-semibold text-navy"><span data-uv-credits="">0</span> crédit<span data-uv-credits-s=""></span></strong>,
+    soit <strong class="font-semibold text-navy"><span id="nb-messages">3</span> message<span id="nb-messages-s">s</span></strong> chez Théo.
+  </p>
+  <a href="credits.html" class="btn-quiet w-full">Recharger mon solde</a>
+</div>
+
+<div class="card-tint tint-rose p-5 sm:p-6">
+  <p class="quote italic">« Trois runes, une direction. »</p>
+  <p class="mt-3 text-body-sm text-muted">— Théo, runologue · décisions rapides</p>
+</div></div>
+    </aside>
+  </div>
+</main>
+
+<!-- Barre d'action mobile -->
+<div class="fixed inset-x-0 bottom-[var(--tabbar-total)] z-40 border-t border-line bg-surface/95 px-4 py-3 shadow-bar backdrop-blur-xl lg:hidden" id="barre-mobile">
+<div class="flex items-center gap-3">
+  <div class="min-w-0 flex-1">
+    <p class="flex items-center gap-1.5 truncate text-label-md text-navy">
+      <span class="dot-online"></span> Théo · En ligne
+    </p>
+    <p class="text-body-sm text-muted">1 crédit / message</p>
+  </div>
+  <a href="tchat.html?voyant=theo" class="btn-gold shrink-0">
+    Discuter <span class="material-symbols-outlined text-[18px]" aria-hidden="true">chat_bubble</span>
+  </a>
+</div></div>
+
+<uv-footer>
+<footer class="mt-auto bg-navy text-white">
+  <div class="shell py-14 lg:py-16">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <p class="mb-3"><a href="index.html" class="uv-logo text-[22px]" aria-label="unevoyante.fr — accueil">
+      <span aria-hidden="true">unevoyan<span class="uv-logo-t">t<i class="uv-flag"></i></span>e.fr</span>
+    </a></p>
+        <p class="mb-6 max-w-xs text-body-sm leading-relaxed text-white/70">
+          Sanctuaire confidentiel de voyance et de guidance par tchat, 7j/7 et 24h/24.
+          Écoute bienveillante, éthique et clarté immédiate.
+        </p>
+        <ul class="flex flex-col gap-2 text-body-sm text-white/80">
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">support_agent</span><span class="font-semibold text-white">Service client 7j/7 · 24h/24</span></li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">call</span><a href="tel:+33900000000" class="hover:text-gold">09 00 00 00 00</a></li>
+          <li class="flex items-center gap-2"><span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">mail</span><a href="contact.html" class="hover:text-gold">contact@unevoyante.fr</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4 class="mb-4 font-sans text-label-lg font-bold text-white">Voyance</h4>
+        <ul class="space-y-2.5 text-body-sm text-white/70">
+          <li><a href="voyants.html" class="transition-colors hover:text-gold">Voyance par tchat</a></li><li><a href="voyants.html?specialite=tarot" class="transition-colors hover:text-gold">Tarot de Marseille</a></li><li><a href="voyants.html?specialite=astrologie" class="transition-colors hover:text-gold">Astrologie amoureuse</a></li><li><a href="voyants.html?specialite=voyance-pure" class="transition-colors hover:text-gold">Médiums purs</a></li><li><a href="voyants.html?specialite=numerologie" class="transition-colors hover:text-gold">Numérologie</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="mb-4 font-sans text-label-lg font-bold text-white">Informations</h4>
+        <ul class="space-y-2.5 text-body-sm text-white/70">
+          <li><a href="comment-ca-marche.html" class="transition-colors hover:text-gold">Comment ça marche</a></li><li><a href="tarifs.html" class="transition-colors hover:text-gold">Tarifs &amp; packs</a></li><li><a href="info.html?sujet=journal" class="transition-colors hover:text-gold">Journal ésotérique</a></li><li><a href="info.html?sujet=partenaire" class="transition-colors hover:text-gold">Devenir praticien partenaire</a></li><li><a href="contact.html" class="transition-colors hover:text-gold">Nous contacter</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="mb-4 font-sans text-label-lg font-bold text-white">Légal</h4>
+        <ul class="space-y-2.5 text-body-sm text-white/70">
+          <li><a href="info.html?sujet=mentions-legales" class="transition-colors hover:text-gold">Mentions légales</a></li><li><a href="info.html?sujet=cgv" class="transition-colors hover:text-gold">Conditions générales (CGV)</a></li><li><a href="info.html?sujet=confidentialite" class="transition-colors hover:text-gold">Politique de confidentialité</a></li><li><a href="info.html?sujet=charte" class="transition-colors hover:text-gold">Charte déontologique</a></li><li><a href="info.html?sujet=cookies" class="transition-colors hover:text-gold">Gestion des cookies</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-12 flex flex-col gap-5 border-t border-white/10 pt-8 text-body-sm text-white/70 lg:flex-row lg:items-center lg:justify-between">
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
+        <p>© 2026 unevoyante.fr — Tous droits réservés. Éthique et sérénité garanties.</p>
+        <a href="modales.html" class="flex items-center gap-1.5 transition-colors hover:text-gold"><span class="material-symbols-outlined text-[16px]" aria-hidden="true">web_asset</span> Modales</a>
+      </div>
+      <div class="flex flex-wrap items-center gap-3">
+        <span class="flex items-center gap-1.5 font-semibold text-white"><span class="material-symbols-outlined text-[18px] text-online" aria-hidden="true">verified</span> Paiement 100 % sécurisé</span>
+        <span class="flex flex-wrap items-center gap-2 text-label-sm">
+          <span class="rounded bg-white/10 px-2 py-1">VISA</span><span class="rounded bg-white/10 px-2 py-1">Mastercard</span><span class="rounded bg-white/10 px-2 py-1">Apple Pay</span><span class="rounded bg-white/10 px-2 py-1">PayPal</span>
+          <span class="flex items-center gap-1 rounded bg-white/10 px-2 py-1"><span class="material-symbols-outlined text-[12px]" aria-hidden="true">lock</span> SSL 256-bit</span>
+        </span>
+      </div>
+    </div>
+
+    <p class="mt-6 text-body-sm text-white/55">
+      Service de divertissement et de guidance réservé aux personnes majeures. Nos praticiens ne délivrent
+      aucun diagnostic ni traitement : une consultation de voyance ne remplace jamais un avis médical,
+      psychologique, juridique ou financier.
+    </p>
+  </div>
+</footer></uv-footer>
+<uv-tabbar>
+<!-- L'espace réservé inclut l'encoche du bas (iPhone), sinon le contenu passe dessous. -->
+<div class="h-[var(--tabbar-total)] lg:hidden" aria-hidden="true" data-uv-tabbar-espace=""></div>
+<nav class="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 pb-safe backdrop-blur-xl shadow-bar lg:hidden" aria-label="Navigation rapide" data-uv-tabbar="">
+  <ul class="mx-auto flex max-w-md items-stretch justify-around px-2">
+    <li class="flex-1">
+        <a href="index.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">home</span>
+          <span class="text-label-sm ">Accueil</span>
+        </a></li><li class="flex-1">
+        <a href="tchat.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">forum</span>
+          <span class="text-label-sm ">Mes tchats</span>
+        </a></li><li class="flex-1">
+        <a href="credits.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">monetization_on</span>
+          <span class="text-label-sm ">Crédits</span>
+        </a></li><li class="flex-1">
+        <a href="compte.html" class="relative flex h-[var(--tabbar-h)] flex-col items-center justify-center gap-0.5 transition-colors text-muted hover:text-navy">
+          
+          <span class="material-symbols-outlined text-[22px] " aria-hidden="true">person</span>
+          <span class="text-label-sm ">Compte</span>
+        </a></li>
+  </ul>
+</nav></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script src="assets/js/pages/voyant.js"></script>
+
+
+</body></html>

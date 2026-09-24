@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr" data-statique>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<!-- Servie pour n'importe quelle adresse inconnue, parfois profonde (/a/b/c) :
+     la base ramène feuilles, scripts et liens à la racine du site. -->
+<base href="/">
+<title>Page introuvable | unevoyante.fr</title>
+<meta name="description" content="Cette page n'existe pas ou plus. Retrouvez nos voyants, nos tarifs et nos réponses aux questions fréquentes.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ground">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre></uv-header>
+
+<main id="contenu" class="flex-1">
+  <div class="shell flex flex-col items-center py-16 text-center lg:py-24">
+    <span class="grid h-16 w-16 place-items-center rounded-full bg-tint text-royal">
+      <span class="material-symbols-outlined text-[32px]" aria-hidden="true">search_off</span>
+    </span>
+    <span class="eyebrow mt-6">Erreur 404</span>
+    <h1 class="mt-2 text-h-xl-m sm:text-h-lg lg:text-h-xl">Cette page s'est évanouie</h1>
+    <p class="lede mx-auto mt-4 max-w-xl">
+      L'adresse n'existe pas ou plus. Aucune impasse pour autant : cherchez un praticien
+      ou reprenez depuis l'une des pages ci-dessous.
+    </p>
+
+    <form action="voyants.html" method="get" role="search" class="mt-8 flex w-full max-w-md gap-2">
+      <label for="q" class="sr-only">Rechercher un praticien ou une spécialité</label>
+      <input type="search" id="q" name="q" class="field flex-1" placeholder="Tarot, amour, Claire…">
+      <button type="submit" class="btn-gold" aria-label="Rechercher">
+        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">search</span>
+      </button>
+    </form>
+
+    <nav class="mt-8 flex flex-wrap justify-center gap-3" aria-label="Pages principales">
+      <a href="index.html" class="btn-ghost">
+        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">home</span> Accueil
+      </a>
+      <a href="voyants.html" class="btn-ghost">
+        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">person_search</span> Nos voyants
+      </a>
+      <a href="tarifs.html" class="btn-ghost">
+        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">sell</span> Tarifs
+      </a>
+      <a href="faq.html" class="btn-ghost">
+        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">help</span> FAQ
+      </a>
+    </nav>
+  </div>
+</main>
+
+<uv-footer></uv-footer>
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script src="assets/js/pages/404.js"></script>
+</body>
+</html>
