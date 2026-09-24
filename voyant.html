@@ -5,12 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Fiche praticien | unevoyante.fr</title>
 <meta name="description" content="Découvrez le parcours, les spécialités, les horaires et les avis vérifiés de votre praticien avant de démarrer votre consultation par tchat.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="unevoyante.fr">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Fiche praticien">
+<meta property="og:description" content="Découvrez le parcours, les spécialités, les horaires et les avis vérifiés de votre praticien avant de démarrer votre consultation par tchat.">
+<meta property="og:image" content="https://unevoyante.fr/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="unevoyante.fr — voyance par tchat">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0F1F4B">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/app.css">
 <!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
 <script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
@@ -147,6 +157,26 @@
   }
   Store.set({ dernierVoyant: v.id });
   document.title = `${v.prenom} — ${v.titre} | unevoyante.fr`;
+
+  /* Référencement : une adresse canonique par praticien (sinon les 24 fiches
+     se confondraient en une seule), et une description qui lui est propre.
+     Posées par le script tant que les fiches ne sont pas pré-générées. */
+  const canonique = `https://unevoyante.fr/voyant.html?id=${encodeURIComponent(v.id)}`;
+  /** Balise du <head> repérée par un attribut (rel, property…), créée au besoin. */
+  const balise = (tag, attr, valeur) => {
+    let b = document.head.querySelector(`${tag}[${attr}="${valeur}"]`);
+    if (!b) {
+      b = document.head.appendChild(document.createElement(tag));
+      b.setAttribute(attr, valeur);
+    }
+    return b;
+  };
+  balise('link', 'rel', 'canonical').href = canonique;
+  balise('meta', 'property', 'og:url').content = canonique;
+  balise('meta', 'property', 'og:title').content = `${v.prenom} — ${v.titre}`;
+  const resume = `${v.prenom}, ${v.titre} : ${v.resume} Consultation par tchat, ${v.credits > 1 ? `${v.credits} crédits` : '1 crédit'} par message.`;
+  el('meta[name="description"]').content = resume;
+  balise('meta', 'property', 'og:description').content = resume;
 
   const st = STATUTS[v.statut];
   const dispo = v.statut !== 'offline';

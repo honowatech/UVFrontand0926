@@ -19,6 +19,9 @@ Puis ouvrir <http://localhost:5173>.
 | `npm run build` | Compile `src/input.css` → `assets/css/app.css` (minifié) |
 | `npm run dev` | Idem en mode surveillance, à lancer pendant le développement |
 | `npm run serve` | Serveur statique sans dépendance sur le port 5173 |
+| `npm run polices` | Télécharge Nunito et la police d'icônes réduite aux icônes du site dans `assets/fonts/` |
+| `npm run polices -- --verifier` | Échoue si une icône employée dans le code manque à la police locale |
+| `npm run sitemap` | Régénère `sitemap.xml` (pages indexables + une adresse par praticien de `data.js`) |
 
 > Le CSS compilé est versionné : le site s'ouvre aussi directement en double-cliquant
 > `index.html`, sans installation.
@@ -40,6 +43,7 @@ Puis ouvrir <http://localhost:5173>.
 | `contact.html` | *ajout* — formulaire de contact (envoi simulé), lien « Nous contacter » du pied de page. Le motif s'ouvre sur l'invite « Motif de votre demande » et doit être choisi avant l'envoi ; il reste présélectionnable : `contact.html?motif=paiement` (`general`, `paiement`, `praticien`, `presse`). Une valeur inconnue laisse l'invite en place |
 | `modales.html` | *outil de développement* — un bouton par modale du site, pour les consulter une à une (lien « Modales » du tiroir mobile et du pied de page). Lien direct : `modales.html?ouvrir=promo-vert`, `?ouvrir=forfaits`, `?ouvrir=upsell` |
 | `info.html?sujet=…` | Destination unique des pages secondaires hors périmètre V1 (mentions légales, CGV, confidentialité, charte, cookies, journal, partenaire) |
+| `404.html` | Toute adresse inconnue (servie par `scripts/serve.js`, à configurer chez l'hébergeur) : recherche et liens vers les pages principales. Son `<base href="/">` la rend valable à n'importe quelle profondeur d'adresse |
 
 Chaque vue mobile et sa variante desktop ont été **fusionnées en une seule page responsive**
 plutôt que dupliquées, la maquette mobile servant de base et la maquette desktop de cible
@@ -52,10 +56,15 @@ index.html, voyants.html, …     Pages (une par vue)
 src/input.css                   Source Tailwind : base, composants, utilitaires
 tailwind.config.js              Tokens issus de DESIGN.md
 assets/css/app.css              CSS compilé
+assets/fonts/                   Polices locales (Nunito, Material Symbols réduite) + icones.txt
 assets/js/data.js               Données : 24 praticiens, packs, paliers de fidélité, offres ciblées, compléments, avis, FAQ
 assets/js/app.js                Magasin d'état, en-tête / pied / barre d'onglets, composants
 assets/js/modales.js            Socle des modales et catalogue (chargé par toutes les pages, après app.js)
 scripts/serve.js                Serveur de développement
+scripts/polices.js              Téléchargement des polices (npm run polices)
+scripts/sitemap.js              Génération de sitemap.xml (npm run sitemap)
+robots.txt, sitemap.xml         Indexation
+manifest.webmanifest            Installation sur l'écran d'accueil (icônes dans assets/img)
 ```
 
 ## Charte graphique
@@ -271,6 +280,36 @@ tienne debout :
   révélation au défilement, notifications, lien d'évitement, focus clavier visible,
   respect de `prefers-reduced-motion`.
 
+## Performance et référencement
+
+### Polices hébergées localement
+
+Nunito et Material Symbols sont servies depuis `assets/fonts/` et **préchargées** dans le
+`<head>` de chaque page : plus aucune requête vers Google (ni connexion tierce à ouvrir avant
+le premier rendu, ni adresse IP de visiteur transmise hors du site).
+
+La police d'icônes était la version complète, tous axes variables : **4 Mo** téléchargés à
+chaque première visite, et icônes invisibles jusqu'à 3 s (`display=block`). Elle est désormais
+réduite aux icônes réellement employées et à ses seuls axes utiles (opsz 24, wght 400, GRAD 0,
+FILL 0/1) : **≈ 22 Ko**. Poids d'une première visite : environ 4 Mo → 50 à 240 Ko selon la page.
+
+⚠️ **Après l'ajout d'une icône**, relancer `npm run polices`, sans quoi son nom s'afficherait
+en toutes lettres. `npm run polices -- --verifier` le signale. Les icônes tirées des données
+(`data.js`) sont détectées comme les autres.
+
+### Indexation
+
+| Élément | Où |
+| --- | --- |
+| Adresse canonique, Open Graph, carte Twitter | `<head>` de chaque page indexable. Domaine supposé : `https://unevoyante.fr/` |
+| Fiche praticien | Canonique `voyant.html?id=…`, titre et description propres au praticien, posés par le script de la page |
+| `noindex` | `compte`, `connexion`, `tchat`, `credits`, `info`, `modales`, `404`. Ces pages ne sont **pas** bloquées dans `robots.txt`, sinon les robots ne liraient pas le `noindex` |
+| Données structurées | `Organization` + `WebSite` (avec recherche) sur l'accueil, `FAQPage` sur la FAQ (générée depuis `UV_DATA.FAQ`) |
+| Visuel de partage | `assets/img/og-image.jpg` (1200 × 630) |
+| Icônes d'application | `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `icon-maskable-512.png` (dérivées du favicon) |
+
+`sitemap.xml` est à régénérer (`npm run sitemap`) quand une page ou un praticien est ajouté.
+
 ## Limites connues
 
 - Données et paiement **simulés** : aucun appel réseau, aucune donnée transmise.
@@ -278,5 +317,6 @@ tienne debout :
 - Les pages secondaires (mentions légales, CGV, confidentialité, charte, cookies,
   journal, partenaire) redirigent vers `info.html`, qui annonce le périmètre V1 et propose
   la suite de la navigation. Contenus à rédiger lors d'une prochaine itération.
-- Icônes Material Symbols et police Nunito chargées depuis Google Fonts :
-  prévoir un hébergement local pour la mise en production.
+- Le contenu du catalogue et des fiches est produit en JavaScript : les robots qui n'exécutent
+  pas le JS (Bing, réseaux sociaux) voient des pages vides. Pré-générer les fiches au build
+  est l'étape suivante du référencement.

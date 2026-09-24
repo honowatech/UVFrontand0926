@@ -17,6 +17,10 @@ const TYPES = {
   '.webp': 'image/webp',
   '.json': 'application/json; charset=utf-8',
   '.ico': 'image/x-icon',
+  '.woff2': 'font/woff2',
+  '.webmanifest': 'application/manifest+json',
+  '.xml': 'application/xml; charset=utf-8',
+  '.txt': 'text/plain; charset=utf-8',
 };
 
 http.createServer((req, res) => {

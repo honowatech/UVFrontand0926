@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "tailwindcss -i ./src/input.css -o ./assets/css/app.css --watch",
     "build": "tailwindcss -i ./src/input.css -o ./assets/css/app.css --minify",
-    "serve": "node scripts/serve.js"
+    "serve": "node scripts/serve.js",
+    "polices": "node scripts/polices.js",
+    "sitemap": "node scripts/sitemap.js"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.17"

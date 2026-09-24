@@ -1,0 +1,8 @@
+# unevoyante.fr
+# Les pages privées (compte, tchat, paiement) portent en plus un
+# <meta name="robots" content="noindex"> : c'est lui qui les écarte de l'index.
+# Elles ne sont PAS bloquées ici, sans quoi les robots ne liraient jamais ce noindex.
+User-agent: *
+Disallow: /scripts/
+
+Sitemap: https://unevoyante.fr/sitemap.xml
