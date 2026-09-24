@@ -1,0 +1,129 @@
+@layer components {
+  /* --- Liste des forfaits --------------------------------------------------
+     L'or est la matière des crédits : une pièce par pack (ses crédits), liseré
+     en dégradé or sur le pack populaire. Le reste reste sobre — surface claire,
+     encre marine — pour que l'or porte seul l'envie. Un pack = une ligne
+     entièrement cliquable, qui mène au paiement. */
+  .forfaits-entete,
+  .fidelite-entete {
+    @apply relative isolate px-6 pb-1 pt-6 text-center sm:px-8;
+  }
+  /* Lueur champagne tombant du haut, derrière le titre */
+  .forfaits-entete::before,
+  .fidelite-entete::before {
+    content: '';
+    @apply pointer-events-none absolute inset-x-0 top-0 -z-10 h-52;
+    background: radial-gradient(70% 100% at 50% 0%, rgb(var(--uv-gold) / var(--forfaits-lueur, .22)), transparent 72%);
+  }
+  /* Le solde s'annonce en toutes lettres : pas de jeton chiffré au-dessus. */
+  .forfaits-solde { @apply text-label-md text-gold-800; }
+  /* Solde nul : texte au ton d'alerte (jeton de statut « occupé ») */
+  .forfaits-solde-vide { color: rgb(var(--uv-badge-busy)); }
+
+  /* Entrée en cascade des packs (désactivée si le mouvement est réduit) */
+  .forfait-ligne {
+    @apply relative;
+    animation: uv-forfait-entree .45s cubic-bezier(.22, .61, .36, 1) backwards;
+    animation-delay: calc(90ms + var(--i, 0) * 55ms);
+  }
+  .forfait {
+    @apply flex items-center gap-3 rounded-lg border border-line py-2.5 pl-3 pr-4 max-[359px]:gap-2 max-[359px]:pl-2.5 max-[359px]:pr-3 transition-all duration-200
+           hover:-translate-y-0.5 hover:border-gold/60 hover:shadow-lift active:translate-y-0 active:scale-[0.99];
+    /* Gris doux de la charte (glace) : détache chaque pack de la surface,
+       en clair comme en nuit, sans alourdir. */
+    background-color: rgb(var(--uv-soft));
+  }
+  /* Carte dorée — le pack mis en avant, partout (modale, Tarifs) : liseré en
+     dégradé or (bordure transparente sur fond doré), fond champagne, halo. */
+  .carte-or {
+    border: 2px solid transparent;
+    background: linear-gradient(rgb(var(--uv-gold-bg-50)), rgb(var(--uv-gold-bg-50))) padding-box,
+                var(--uv-grad-gold-cta) border-box;
+    box-shadow: var(--uv-sh-gold);
+  }
+  .carte-or:hover { border-color: transparent; }
+  .forfait-populaire { @apply carte-or pt-4; }
+  /* Pièce d'or : le bonus du pack, frappé comme une vraie pièce.
+       ┌ grènetis (anneau pointillé) ┐
+       │   ⁺67%   ← chiffre en vedette, signe et % en exposant
+       │  OFFERTS ← mention gravée
+     Le pack populaire reçoit un halo et un éclat qui la traverse par moments. */
+  .forfait-piece {
+    @apply relative flex h-14 w-14 shrink-0 flex-col items-center justify-center overflow-hidden rounded-full
+           font-display leading-none text-navy max-[359px]:h-[50px] max-[359px]:w-[50px];
+    background-image: var(--uv-grad-gold-cta);
+    box-shadow: inset 0 0 0 2px rgb(255 255 255 / .4), inset 0 -3px 6px rgb(133 91 0 / .28);
+  }
+  .forfait-piece::before {
+    content: '';
+    @apply pointer-events-none absolute inset-[4px] rounded-full;
+    border: 1px dashed rgb(133 91 0 / .32);
+  }
+  /* Équilibre vertical, mesuré sur les métriques de Nunito : la boîte d'une
+     ligne réserve ~0,14 em sous la ligne de base (jambages absents des
+     chiffres). On la neutralise, sinon la mention flotte à ~7 px des
+     chiffres ; l'ensemble est ensuite remonté d'1 px (centrage optique :
+     la masse est en haut). */
+  .forfait-piece { padding-bottom: 2px; }
+  .forfait-piece-valeur {
+    @apply relative flex items-start font-black text-[22px] max-[359px]:text-[19px];
+    letter-spacing: -0.045em;
+    margin-bottom: -0.14em;
+    text-shadow: 0 1px 0 rgb(255 255 255 / .35);
+  }
+  .forfait-piece-long .forfait-piece-valeur { @apply text-[16px] max-[359px]:text-[14px]; }
+  .forfait-piece-long :is(.forfait-piece-signe, .forfait-piece-pourcent) { @apply mt-[1px] text-[9.5px] max-[359px]:text-[9px]; }
+  .forfait-piece-long .forfait-piece-signe { margin-top: 0; }
+  .forfait-piece-signe,
+  .forfait-piece-pourcent { @apply mt-[2px] text-[11px] font-extrabold max-[359px]:text-[10px]; letter-spacing: 0; }
+  .forfait-piece-signe { margin-right: 1px; margin-top: 1px; } /* le « + » est centré plus bas que le « % » : on le remonte */
+  .forfait-piece-pourcent { margin-left: 1px; }
+  .forfait-piece-mention {
+    @apply relative mt-[2px] text-[6px] font-extrabold uppercase;
+    letter-spacing: .14em;
+    padding-left: .14em; /* compense l'approche ajoutée après la dernière lettre */
+    opacity: .88;
+  }
+  /* Pièce du pack mis en avant (UV.piece(bonus, true)) : halo et éclat */
+  .forfait-piece-eclat {
+    box-shadow: inset 0 0 0 2px rgb(255 255 255 / .4), inset 0 -3px 6px rgb(133 91 0 / .28), var(--uv-sh-gold);
+  }
+  .forfait-piece-eclat::after {
+    content: '';
+    @apply pointer-events-none absolute inset-0;
+    background: linear-gradient(115deg, transparent 32%, rgb(255 255 255 / .7) 50%, transparent 68%);
+    transform: translateX(-130%);
+    animation: uv-eclat 4.2s ease-in-out 1s infinite;
+  }
+  /* Option 2 : la pièce porte le nombre de crédits, mention « crédits » dessous
+     un peu plus lisible que « offerts » (le mot est plus court). */
+  .forfait-piece-credits .forfait-piece-valeur { @apply text-[24px] max-[359px]:text-[21px]; }
+  .forfait-piece-credits .forfait-piece-mention { @apply text-[7px]; letter-spacing: .1em; padding-left: .1em; }
+  /* Grande pièce : pages Tarifs et Crédits, où la carte laisse plus de place
+     qu'une ligne de liste. */
+  .forfait-piece-xl { @apply h-[68px] w-[68px] max-[359px]:h-[61px] max-[359px]:w-[61px]; }
+  .forfait-piece-xl .forfait-piece-valeur { @apply text-[31px] max-[359px]:text-[27px]; }
+  .forfait-piece-xl .forfait-piece-mention { @apply mt-[3px] text-[8.5px]; }
+  /* Entre 1024 et 1280 px, les quatre packs tiennent sur une ligne : la pièce
+     se resserre pour laisser respirer le nom du pack à côté d'elle. */
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .forfait-piece-xl { @apply h-[58px] w-[58px]; }
+    .forfait-piece-xl .forfait-piece-valeur { @apply text-[25px]; }
+  }
+  /* Déconnexion, en pied du menu du profil : icône et libellé en rouge, le
+     survol posant un voile de la même encre plutôt que le gris habituel. */
+  .menu-sortie {
+    color: rgb(var(--uv-sortie));
+  }
+  .menu-sortie:hover { background-color: rgb(var(--uv-sortie) / .1); }
+
+  /* Bonus sous le prix : vert des statuts, lisible dans les deux thèmes. */
+  .forfait-offert {
+    @apply mt-0.5 block whitespace-nowrap text-body-sm font-bold;
+    color: rgb(var(--uv-badge-online));
+  }
+  .forfait-badge {
+    @apply absolute -top-2.5 left-4 z-10 inline-flex items-center whitespace-nowrap rounded-full bg-gold-cta px-2.5 py-0.5
+           text-label-sm font-bold text-navy shadow-sm;
+  }
+}

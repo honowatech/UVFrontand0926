@@ -1,0 +1,31 @@
+@layer components {
+  /* --- Fidélité ------------------------------------------------------------
+     Les crédits consommés ouvrent des paliers. Le pied du tchat n'en montre
+     qu'une ligne : le palier en cours, l'or marquant la part parcourue. La
+     modale reprend le vocabulaire des forfaits — pièce d'or des crédits
+     offerts, liseré doré sur le palier visé : la fidélité est faite de la
+     même matière que les crédits, rien de neuf n'est introduit. */
+  .fidelite-declencheur {
+    @apply flex min-h-[44px] w-full items-center gap-2.5 rounded-md px-1.5 py-1.5 text-left transition-colors hover:bg-tint;
+  }
+  /* Clavier ouvert : la hauteur revient à la saisie, la fidélité attendra. */
+  html.uv-clavier .fidelite-declencheur { display: none; }
+  .fidelite-rail {
+    @apply relative block h-1.5 w-full overflow-hidden rounded-full;
+    background-color: rgb(var(--uv-line));
+  }
+  /* La jauge est pleine et se rétracte par transform : aucun recalcul de mise
+     en page à chaque message, et la reprise après un palier reste fluide. */
+  .fidelite-jauge {
+    @apply block h-full w-full origin-left rounded-full bg-royal transition-transform duration-500;
+    transform: scaleX(0);
+  }
+  .fidelite-palier {
+    @apply flex items-center gap-3 rounded-lg border border-line py-2.5 pl-3 pr-4;
+    background-color: rgb(var(--uv-soft));
+  }
+  /* Palier visé : le liseré doré des packs mis en avant, sans rien d'autre. */
+  .fidelite-palier-actuel { @apply carte-or; }
+  /* Palier acquis : la ligne s'efface, la pastille verte suffit à la dire. */
+  .fidelite-palier-obtenu { @apply border-line bg-transparent; }
+}

@@ -1,0 +1,13 @@
+@layer components {
+  /* --- Onglets en pilule (fiche praticien) -------------------------------- */
+  .pill-tab {
+    @apply flex flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2.5
+           text-label-md font-bold transition-colors sm:px-4 lg:flex-none;
+  }
+  .pill-tab[aria-selected='true'] {
+    @apply text-royal shadow-sm;
+    background-color: rgb(var(--uv-surface));
+  }
+  .pill-tab[aria-selected='false'] { @apply text-muted hover:text-navy; }
+  .pill-tab .count { @apply rounded-full bg-tint px-1.5 py-px text-[11px] font-extrabold text-royal; }
+}

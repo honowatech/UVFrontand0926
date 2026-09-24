@@ -1,0 +1,21 @@
+@layer components {
+  /* --- Boutons ------------------------------------------------------------ */
+  .btn {
+    @apply inline-flex min-h-[48px] select-none items-center justify-center gap-2 whitespace-nowrap
+           rounded-full px-6 text-label-md font-bold transition-all duration-200
+           active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-sm { @apply min-h-[38px] px-4 text-label-sm; }
+  .btn-lg { @apply min-h-[52px] px-8 text-label-lg; }
+
+  .btn-gold  { @apply btn bg-gold-cta text-navy shadow-gold hover:brightness-[1.04] hover:shadow-lift; }
+  .btn-navy  { @apply btn bg-navy text-white hover:bg-navy-700; }
+  .btn-royal { @apply btn bg-royal text-white hover:bg-royal-700; }
+  .btn-ghost {
+    @apply btn text-royal hover:bg-royal-50;
+    background-color: rgb(var(--uv-surface));
+    box-shadow: inset 0 0 0 1.5px rgb(var(--uv-royal));
+  }
+  .btn-quiet { @apply btn bg-ice text-royal hover:bg-tint; }
+  .btn-link  { @apply inline-flex items-center gap-1.5 text-label-md font-bold text-royal underline-offset-4 hover:underline; }
+}

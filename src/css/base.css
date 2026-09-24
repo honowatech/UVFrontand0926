@@ -1,0 +1,77 @@
+/* ==========================================================================
+   BASE — « Clairvoyance Sérénité »
+   Typographie : Nunito (la police du logo) pour tout le site.
+   Titres et logo en graisse 800, texte courant en 400/600.
+   ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 16px);
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+    }
+  }
+
+  body {
+    @apply font-sans text-body-md text-navy antialiased;
+    background-color: rgb(var(--uv-surface));
+    margin: 0;
+    overscroll-behavior-y: none;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+  }
+
+  /* Titres : graisse 800, interligne serré même sans utilitaire de taille
+     (évite les lignes qui se chevauchent avec text-[Npx]). */
+  h1, h2, h3, h4 {
+    @apply font-display font-extrabold text-navy;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  p { text-wrap: pretty; }
+
+  /* Anneau de focus homogène et toujours visible au clavier */
+  :focus-visible {
+    outline: 2px solid rgb(var(--uv-royal));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection { background: rgb(var(--uv-tint)); color: rgb(var(--uv-royal)); }
+
+  /* Barres de défilement discrètes mais présentes (jamais de piège de scroll) */
+  * { scrollbar-width: thin; scrollbar-color: rgb(var(--uv-scroll, 203 213 233)) transparent; }
+  *::-webkit-scrollbar { width: 8px; height: 8px; }
+  *::-webkit-scrollbar-thumb { background: rgb(var(--uv-scroll, 203 213 233)); border-radius: 99px; }
+  *::-webkit-scrollbar-track { background: transparent; }
+
+  /* Icônes Material Symbols (règles reprises de la feuille Google Fonts,
+     qui n'est plus chargée) */
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    user-select: none;
+    line-height: 1;
+  }
+  .icon-fill { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+  /* Éléments de formulaire natifs : même police que le site */
+  input, select, textarea, button { font-family: inherit; }
+}

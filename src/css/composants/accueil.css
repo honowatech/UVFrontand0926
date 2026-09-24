@@ -1,0 +1,54 @@
+@layer components {
+  /* --- Cartes praticiens de l'accueil (carte-agent) ------------------------
+     Bandeau nuit en tête, halo d'or en coin, que le portrait chevauche ; le
+     corps prend un bleu glacier de la charte plutôt que le blanc, pour que la
+     grille n'éblouisse plus. Posée après .card, qu'elle surcharge. */
+  .carte-agent {
+    --agent-bandeau: 60px;
+    --agent-nuit-hi: #1F3C88; --agent-nuit-lo: #0F1F4B;
+    --agent-corps-hi: 228 236 250; --agent-corps-lo: 239 244 253; --agent-filet: 211 222 244;
+    background:
+      radial-gradient(140px 60px at 100% 0, rgb(201 162 74 / .3), transparent) top / 100% var(--agent-bandeau) no-repeat,
+      linear-gradient(155deg, var(--agent-nuit-hi), var(--agent-nuit-lo)) top / 100% var(--agent-bandeau) no-repeat,
+      linear-gradient(180deg, rgb(var(--agent-corps-hi)), rgb(var(--agent-corps-lo)));
+    border-color: rgb(var(--agent-filet));
+  }
+  /* Le portrait se détache du bandeau par un liseré de la couleur du corps. */
+  .carte-agent .monogram {
+    box-shadow: 0 0 0 3px rgb(var(--agent-corps-hi)),
+                inset 0 0 0 1.5px rgb(var(--uv-surface)),
+                inset 0 -8px 18px rgb(31 60 136 / .06);
+  }
+  /* Posés sur le bandeau, les badges de statut prennent un fond plein : leur
+     voile coloré habituel disparaîtrait dans le bleu nuit. */
+  .carte-agent :is(.badge-online, .badge-busy, .badge-offline) { background-color: rgb(var(--uv-surface)); }
+  .carte-agent .border-line { border-color: rgb(var(--agent-filet)); }
+
+  /* --- Bandeau des chiffres clés (accueil) ---------------------------------
+     Un balayage de bleus de la charte, du royal lumineux au marine profond,
+     relevé par deux lueurs : bleu en haut à gauche, or en bas à droite. Le
+     même dans les deux thèmes — c'est déjà de la nuit. */
+  .stats-aurore {
+    @apply relative isolate overflow-hidden;
+    background:
+      radial-gradient(55% 140% at 0% 0%, rgb(91 123 196 / .55), transparent 62%),
+      radial-gradient(45% 130% at 100% 100%, rgb(201 162 74 / .2), transparent 60%),
+      linear-gradient(110deg, #2F52A5 0%, #1F3C88 32%, #122760 62%, #0B1738 100%);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .1), inset 0 -1px 0 rgb(0 0 0 / .25);
+  }
+  /* Voile de lumière qui traverse le bandeau en diagonale */
+  .stats-aurore::before {
+    content: '';
+    @apply pointer-events-none absolute inset-0 -z-10;
+    background: linear-gradient(115deg, transparent 30%, rgb(255 255 255 / .06) 45%, transparent 60%);
+  }
+  /* Grand écran : filets verticaux en fondu entre les chiffres */
+  @media (min-width: 1024px) {
+    .stats-liste > div { @apply relative px-6; }
+    .stats-liste > div + div::before {
+      content: '';
+      @apply absolute inset-y-1 left-0 w-px;
+      background: linear-gradient(transparent, rgb(255 255 255 / .22), transparent);
+    }
+  }
+}

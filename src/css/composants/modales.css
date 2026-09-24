@@ -1,0 +1,48 @@
+@layer components {
+  /* --- Modales -------------------------------------------------------------
+     Socle commun à toutes les modales (assets/js/modales.js) : <dialog> natif
+     ouvert par showModal(), donc focus contenu et arrière-plan inerte.
+     - mobile : feuille collée en bas, le bouton principal sous le pouce ;
+     - dès 640 px, et sur téléphone en paysage : carte centrée de 400 px.
+     Le <dialog> EST le panneau : un clic dont la cible est le <dialog>
+     lui-même vient donc du voile, et referme la modale.
+     Les marges internes vivent ici et non en utilitaires sur le HTML, pour
+     que les variantes (paysage…) puissent les redéfinir. */
+  .modale {
+    @apply m-0 mt-auto w-full max-w-none overflow-y-auto overscroll-contain rounded-t-3xl border-0 p-0
+           text-navy shadow-lift;
+    background-color: rgb(var(--uv-surface));
+    max-height: calc(var(--uv-vh, 100dvh) - 12px);
+    animation: uv-feuille-entree .44s cubic-bezier(.32, .72, 0, 1) both;
+  }
+  .modale::backdrop {
+    background: rgb(8 18 48 / .55);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    animation: uv-voile-entree .3s ease both;
+  }
+  .modale.est-sortante { animation: uv-feuille-sortie .26s cubic-bezier(.4, 0, 1, 1) both; }
+  .modale.est-sortante::backdrop { animation: uv-voile-sortie .26s ease both; }
+  /* Le panneau reçoit le focus à l'ouverture (jamais le bouton principal) :
+     pas d'anneau sur ce conteneur, qui n'est pas une commande. */
+  .modale-panneau { outline: none; }
+  /* Pied de modale : sur mobile, la feuille descend jusque sous l'indicateur
+     d'accueil de l'iPhone. */
+  .modale-pied {
+    @apply px-6 pt-6;
+    padding-bottom: max(1.25rem, calc(env(safe-area-inset-bottom, 0px) + .75rem));
+  }
+  @media (min-width: 640px), (min-width: 540px) and (max-height: 520px) {
+    .modale {
+      @apply m-auto max-w-[400px] rounded-3xl;
+      max-height: calc(100dvh - 48px);
+      animation: uv-modale-entree .34s cubic-bezier(.22, .61, .36, 1) both;
+    }
+    .modale.est-sortante { animation: uv-modale-sortie .2s ease-in both; }
+    .modale-pied { @apply px-8 pb-5; }
+    .modale-forfaits, .modale-upsell, .modale-fidelite { max-width: 440px; }
+  }
+  @media (max-height: 520px) {
+    .modale { max-height: calc(100dvh - 24px); }
+  }
+}

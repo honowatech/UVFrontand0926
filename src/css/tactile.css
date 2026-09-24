@@ -1,0 +1,88 @@
+/* ==========================================================================
+   TERRAIN TACTILE — particularités d'iOS (Safari et WebView in-app)
+   Hors @layer, pour l'emporter sur les utilitaires.
+   ========================================================================== */
+
+/* 1. Hauteur de page. Sur iOS, 100vh désigne le viewport « large », barres
+   d'outils masquées : la page est donc toujours plus haute que la zone
+   visible, et il reste une bande de fond sous le contenu (c'est elle qu'on
+   voyait sous la zone de saisie du tchat). 100dvh suit l'état réel. */
+@supports (min-height: 100dvh) {
+  body.min-h-screen { min-height: 100dvh; }
+}
+
+/* 2. Champs de saisie : en dessous de 16 px, iOS zoome à la prise de focus.
+   Ce zoom agrandit tout, décroche les éléments fixes et ne revient jamais
+   seul — c'est la cause la plus visible du bloc de saisie « qui saute ». */
+@media (pointer: coarse) {
+  .field,
+  input:not([type='checkbox']):not([type='radio']):not([type='range']),
+  select,
+  textarea { font-size: 16px; }
+}
+
+/* 3. Confort tactile : pas de voile gris au toucher, pas d'attente de
+   double-tap sur les commandes (le zoom par pincement reste intact). */
+a, button, [role='button'], label, summary,
+input, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+button { -webkit-touch-callout: none; }
+
+/* 4. Champs : rendu natif iOS neutralisé (ombre interne, coins, loupe). */
+.field { -webkit-appearance: none; appearance: none; }
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button { -webkit-appearance: none; }
+
+/* 5. Listes défilantes internes : le geste ne doit pas entraîner la page
+   derrière (rebond iOS qui décale toute la vue). */
+.app-view .overflow-y-auto,
+.app-view .overflow-x-auto {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 6. Clavier ouvert (classe posée par app.js à partir de visualViewport).
+   La barre d'onglets s'efface — elle flotterait au milieu de l'écran — et
+   l'en-tête se recolle au haut de la zone réellement visible, qu'iOS fait
+   glisser sans prévenir le document. */
+html.uv-clavier { --tabbar-total: 0px; }
+html.uv-clavier [data-uv-tabbar],
+html.uv-clavier [data-uv-tabbar-espace] { display: none; }
+html.uv-clavier [data-uv-header] {
+  transform: translateY(var(--uv-vv-top, 0px));
+  transition: none;
+}
+
+/* 7. Paysage sur iPhone : l'encoche mange un bord entier. Les barres fixes et
+   la vue tchat, qui vont d'un bord à l'autre, s'en écartent. */
+@media (orientation: landscape) and (max-width: 1023px) {
+  [data-uv-header] > .shell,
+  [data-uv-tabbar] > ul,
+  #barre-mobile,
+  .app-view > * {
+    padding-left: max(1.5rem, env(safe-area-inset-left));
+    padding-right: max(1.5rem, env(safe-area-inset-right));
+  }
+}
+
+/* Bascule jour/nuit : fondu croisé, sans le léger glissement des changements
+   de page (la classe n'est posée que le temps de la transition). */
+html.uv-theme-anim::view-transition-old(root) { animation: uv-fondu-sortie .3s ease both; }
+html.uv-theme-anim::view-transition-new(root) { animation: uv-fondu-entree .3s ease both; }
+@keyframes uv-fondu-sortie { to { opacity: 0; } }
+@keyframes uv-fondu-entree { from { opacity: 0; } }
+
+/* Accordéon FAQ : ouverture et fermeture en douceur (hauteur animée jusqu'à
+   « auto »). Les navigateurs sans ::details-content ouvrent d'un coup. */
+@media (prefers-reduced-motion: no-preference) {
+  .accordeon { interpolate-size: allow-keywords; }
+  .accordeon::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition: block-size .3s ease, content-visibility .3s allow-discrete;
+  }
+  .accordeon[open]::details-content { block-size: auto; }
+  .accordeon > summary { transition: background-color .3s ease, color .3s ease; }
+}

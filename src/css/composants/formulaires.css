@@ -1,0 +1,47 @@
+@layer components {
+  /* --- Formulaires -------------------------------------------------------- */
+  .field {
+    @apply min-h-[48px] w-full rounded-md border border-line px-4 text-body-md text-navy
+           transition-shadow placeholder:text-muted/80;
+    background-color: rgb(var(--uv-surface));
+  }
+  .field:focus { @apply border-royal shadow-focus outline-none; }
+  /* `display: block` : un textarea est un élément en ligne, son conteneur lui
+     réserve donc quelques pixels sous la ligne de base (le jambage des p, g…).
+     Ce vide désaligne tout ce qui se cale sur le bas du conteneur — le bouton
+     d'envoi du tchat, par exemple. */
+  textarea.field {
+    @apply block py-3;
+    /* Interligne fixe : 22 + 24 (py-3) + 2 (bordures) = 48 px, soit très
+       exactement la hauteur du bouton d'envoi, quelle que soit la taille de
+       police (16 px sur tactile). Un interligne relatif rendait la zone de
+       saisie 0,4 px plus haute que le bouton. */
+    line-height: 22px;
+  }
+  select.field {
+    @apply cursor-pointer appearance-none bg-no-repeat pr-10;
+    /* Chevron : le SVG ne peut pas hériter d'une variable, la version nuit
+       est donc redéfinie dans la couche « nuit » en bas de fichier. */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%231F3C88' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+    background-position: right 0.9rem center;
+    background-size: 18px;
+  }
+  /* Liste déroulante dont la première option est une invite (`required` + une
+     option vide, choisie d'office) : tant que rien n'est choisi, l'intitulé
+     s'écrit à l'encre des placeholders, pas à celle d'une réponse donnée. */
+  select.field:invalid { @apply text-muted/80; }
+  .label { @apply mb-1.5 block text-label-md text-navy; }
+  .hint { @apply mt-1.5 block text-body-sm text-muted; }
+
+  .check {
+    @apply h-5 w-5 shrink-0 cursor-pointer appearance-none rounded border-[1.5px] border-muted
+           transition-all checked:border-royal checked:bg-royal;
+    background-color: rgb(var(--uv-surface));
+  }
+  .check:checked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath d='M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0l-3.5-3.5a1 1 0 1 1 1.4-1.4l2.8 2.8 6.8-6.8a1 1 0 0 1 1.4 0z'/%3E%3C/svg%3E");
+    background-size: 100%;
+  }
+  .radio { @apply check rounded-full; }
+  .radio:checked { background-image: radial-gradient(circle, #fff 0 32%, transparent 34%); }
+}

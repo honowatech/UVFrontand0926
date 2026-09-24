@@ -1,0 +1,23 @@
+@layer components {
+  /* --- Upsell (offre complémentaire) ---------------------------------------
+     Même famille que la promo : en-tête nuit (.promo-entete), valeur en or. */
+  .upsell-valeur {
+    @apply mt-3 font-display text-[44px] font-black leading-none max-[359px]:text-[38px] sm:text-[52px];
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+  .upsell-atouts { @apply grid grid-cols-3 gap-2 max-[359px]:grid-cols-1 sm:gap-3; }
+  .upsell-atout {
+    @apply flex flex-col items-center gap-2 rounded-lg border border-line bg-ice px-2 py-3 text-body-sm font-semibold
+           leading-snug text-navy max-[359px]:flex-row max-[359px]:px-3 max-[359px]:py-2.5 max-[359px]:text-left;
+  }
+  .upsell-atout-icone {
+    @apply grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gold-100 text-gold-800;
+  }
+  /* Garanties : chacune précédée de son icône plutôt que séparées par des
+     points, qui se retrouveraient orphelins en début de ligne au retour. */
+  .upsell-garanties {
+    @apply mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-body-sm text-muted;
+  }
+  .upsell-garanties li { @apply inline-flex items-center gap-1 whitespace-nowrap; }
+}

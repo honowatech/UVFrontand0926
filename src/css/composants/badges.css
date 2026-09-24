@@ -1,0 +1,46 @@
+@layer components {
+  /* --- Chips & badges ----------------------------------------------------- */
+  .chip {
+    @apply inline-flex select-none items-center gap-1.5 whitespace-nowrap rounded-full border border-line
+           px-3.5 py-1.5 text-label-md text-muted transition-colors hover:border-royal-200 hover:text-royal;
+    background-color: rgb(var(--uv-surface));
+  }
+  .chip[aria-pressed='true'], .chip.is-active { @apply border-royal bg-tint text-royal; }
+
+  .tag { @apply inline-flex items-center rounded bg-ice px-2.5 py-1 text-label-sm text-muted; }
+  .badge { @apply inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1 text-label-sm font-bold; }
+  .badge-top {
+    @apply badge text-navy;
+    background-color: rgb(var(--uv-surface));
+    box-shadow: inset 0 0 0 1px rgb(var(--uv-gold));
+  }
+  /* Statuts : fond teinté + encre lisible, dérivés du jeton de statut, donc
+     valides dans les deux thèmes sans valeur en dur. */
+  .badge-online { @apply badge; background-color: rgb(var(--uv-online) / var(--uv-badge-a, .16)); color: rgb(var(--uv-badge-online)); }
+  .badge-busy { @apply badge; background-color: rgb(var(--uv-busy) / var(--uv-badge-a, .16)); color: rgb(var(--uv-badge-busy)); }
+  .badge-offline { @apply badge; background-color: rgb(var(--uv-offline) / var(--uv-badge-a, .16)); color: rgb(var(--uv-badge-offline)); }
+  .badge-promo { @apply badge bg-gold-100 text-gold-800; }
+
+  /* --- Pastilles de statut ------------------------------------------------ */
+  .dot { @apply inline-block h-2 w-2 shrink-0 rounded-full; }
+  .dot-online { @apply dot bg-online; }
+  .dot-busy { @apply dot bg-busy; }
+  .dot-offline { @apply dot bg-offline; }
+
+  /* --- Monogrammes -------------------------------------------------------- */
+  .monogram {
+    @apply relative grid shrink-0 place-items-center rounded-full bg-monogram
+           font-display font-extrabold text-royal ring-1 ring-line;
+    box-shadow: inset 0 0 0 1.5px rgb(var(--uv-surface)),
+                inset 0 -8px 18px rgb(31 60 136 / .06);
+  }
+  .monogram-status {
+    @apply absolute bottom-0 right-0 rounded-full ring-2;
+    --tw-ring-color: rgb(var(--uv-surface));
+    height: 28%; width: 28%; min-height: 10px; min-width: 10px;
+  }
+  /* Photo du praticien : recouvre l'initiale, la pastille de statut reste au-dessus. */
+  .monogram-photo {
+    @apply absolute inset-0 h-full w-full rounded-full object-cover;
+  }
+}

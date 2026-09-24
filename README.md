@@ -53,19 +53,39 @@ plutôt que dupliquées, la maquette mobile servant de base et la maquette deskt
 
 ```
 index.html, voyants.html, …     Pages (une par vue)
-src/input.css                   Source Tailwind : base, composants, utilitaires
+src/input.css                   Point d'entrée : la liste ordonnée des @import ci-dessous
+src/css/jetons.css              Palettes claire et nuit, ombres, dégradés (seule source des couleurs)
+src/css/polices.css, base.css   @font-face ; styles de base (titres, focus, icônes)
+src/css/composants/*.css        Un fichier par composant (boutons, cartes, modales, forfaits…)
+src/css/utilitaires.css         Utilitaires maison (@layer utilities)
+src/css/animations.css          Transitions de page, mouvements des modales
+src/css/theme-nuit.css          Cas que la bascule de palette ne couvre pas
+src/css/tactile.css             Particularités d'iOS
 tailwind.config.js              Tokens issus de DESIGN.md
 assets/css/app.css              CSS compilé
 assets/fonts/                   Polices locales (Nunito, Material Symbols réduite) + icones.txt
 assets/js/data.js               Données : 24 praticiens, packs, paliers de fidélité, offres ciblées, compléments, avis, FAQ
 assets/js/app.js                Magasin d'état, en-tête / pied / barre d'onglets, composants
 assets/js/modales.js            Socle des modales et catalogue (chargé par toutes les pages, après app.js)
+assets/js/pages/<page>.js       Script propre à chaque page (index.js pour index.html…), chargé en dernier
 scripts/serve.js                Serveur de développement
 scripts/polices.js              Téléchargement des polices (npm run polices)
 scripts/sitemap.js              Génération de sitemap.xml (npm run sitemap)
 robots.txt, sitemap.xml         Indexation
 manifest.webmanifest            Installation sur l'écran d'accueil (icônes dans assets/img)
 ```
+
+**Ordre des styles** : `src/input.css` importe les fichiers dans l'ordre de la cascade
+(le CLI Tailwind les assemble en un seul `app.css`, identique à l'ancienne feuille unique).
+Un nouveau composant s'ajoute dans `src/css/composants/` puis dans la liste d'imports, à sa
+place et non par ordre alphabétique : plusieurs règles comptent sur leur position (les cartes
+de packs après la carte dorée, la couche nuit après les utilitaires).
+
+**Scripts** : chaque page charge `data.js`, `app.js`, `modales.js` puis son propre fichier
+dans `assets/js/pages/`. Seul le court script du thème reste écrit dans le `<head>`, car il
+doit s'exécuter avant le premier rendu. Les scripts restent des scripts classiques et non des
+modules ES : ces derniers ne se chargent pas depuis `file://`, ce qui casserait l'ouverture du
+site par double-clic.
 
 ## Charte graphique
 
@@ -92,7 +112,7 @@ elle annonce la destination, pas l'état courant.
 
 La bascule ne passe **par aucune classe `dark:` dans les pages**. Toutes les couleurs de la
 charte sont des variables CSS en canaux RVB (`--uv-ink`, `--uv-surface`, `--uv-gold`…),
-définies pour `:root` et redéfinies pour `.dark` dans `src/input.css` ; `tailwind.config.js`
+définies pour `:root` et redéfinies pour `.dark` dans `src/css/jetons.css` ; `tailwind.config.js`
 les branche sous la forme `rgb(var(--uv-…) / <alpha-value>)`, si bien que `text-navy/70` ou
 `bg-ice/60` suivent le thème sans être touchés. Trois points méritent l'attention :
 
@@ -171,7 +191,7 @@ Toutes les modales passent par le socle `UV.modale()` de `assets/js/modales.js` 
 natif ouvert par `showModal()` (focus contenu, arrière-plan inerte), **feuille collée en bas**
 sur mobile, **carte centrée** dès 640 px et sur téléphone en paysage. Le focus va au panneau et
 jamais au bouton principal, pour qu'une touche Entrée tapée dans la foulée ne déclenche rien.
-Styles dans `src/input.css` (section « Modales »), thème nuit compris. Chaque modale est
+Styles dans `src/css/composants/modales.css`, thème nuit dans `src/css/theme-nuit.css`. Chaque modale est
 consultable depuis `modales.html`.
 
 ### Promo clients VERT
@@ -219,7 +239,7 @@ consultable depuis `modales.html`.
   calculé sur le tarif de base d'environ 2 € le crédit.
 - **Même vocabulaire partout** : la pièce d'or est un composant partagé, `UV.piece(bonus, eclat)`
   (`app.js`), utilisé par la modale, les cartes de la page Crédits (packs et offre spéciale) et
-  celles de la page Tarifs ; `.carte-or` (`input.css`) habille le pack mis en avant. Sur Tarifs,
+  celles de la page Tarifs ; `.carte-or` (`src/css/composants/forfaits.css`) habille le pack mis en avant. Sur Tarifs,
   les 4 packs occupent la grille — nom en capitales dorées, volume en vedette, pièce du bonus,
   accroche « Jusqu'à +120 % de crédits offerts » calculée sur la grille, entrée en cascade — et
   l'offre d'essai, moins avantageuse, passe en lien discret sous la grille, comme sur Crédits.

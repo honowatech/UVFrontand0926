@@ -1,0 +1,30 @@
+/* ==========================================================================
+   UTILITAIRES
+   ========================================================================== */
+@layer utilities {
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+
+  /* Défilement horizontal confortable, jamais bloquant */
+  .scroll-x {
+    @apply flex overflow-x-auto overscroll-x-contain;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+  .scroll-x > * { scroll-snap-align: start; }
+
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+
+  .text-gradient-gold {
+    background: linear-gradient(120deg, #D8B45A, #F0D48A 45%, #C9A24A);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .typing-dot { animation: blink 1.2s infinite; }
+
+  /* Révélation au défilement : invisible tant que non observé, mais jamais
+     bloquée (repli au bout de 1,2 s piloté par app.js). */
+  .reveal-wait { opacity: 0; }
+}

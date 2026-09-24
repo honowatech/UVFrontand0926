@@ -1,0 +1,94 @@
+/* ==========================================================================
+   COUCHE NUIT — les cas que la bascule de palette ne couvre pas
+   Volontairement hors @layer : ces règles doivent l'emporter sur les
+   utilitaires. Elles restent peu nombreuses — tout le reste bascule par les
+   variables de la palette.
+   ========================================================================== */
+
+/* Sol (`bg-ground`) et surfaces (`bg-surface`) basculent par leurs jetons :
+   aucune règle ici. `bg-white` reste blanc dans les deux thèmes — c'est la
+   plaque des marques de paiement (`data-uv-blanc`), dont les encres sont des
+   couleurs de marque ; seul son filet s'adapte au fond de nuit. */
+.dark [data-uv-blanc] { border-color: rgb(255 255 255 / .25); }
+
+/* Le bouton marine deviendrait invisible sur un fond de nuit : il passe au
+   bleu interactif, qui reste dans la charte et garde son texte blanc. */
+.dark .btn-navy { background-color: rgb(var(--uv-royal-bg)); }
+.dark .btn-navy:hover { background-color: rgb(var(--uv-royal-bg-700)); }
+
+/* L'or reste l'or dans les deux thèmes : son encre doit donc rester marine.
+   Plutôt que de forcer une couleur, on ramène le jeton d'encre à sa valeur
+   claire à l'intérieur de chaque fond doré — l'élément ET ses descendants
+   (icône, libellé, pastille « text-navy ») suivent sans exception. */
+.dark :is(.btn-gold, .bg-gold-cta, .bg-gold-soft, .bg-gold) { --uv-ink: var(--uv-ink-fixe); }
+
+/* Chevron des listes déroulantes (SVG : pas d'héritage de variable). */
+.dark select.field {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%239DB3E8' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+}
+
+/* Liseré de lumière au lieu du bord blanc, halo intérieur assombri. */
+.dark .monogram {
+  box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / .06),
+              inset 0 -8px 18px rgb(0 0 0 / .25);
+}
+.dark { --uv-shimmer: .06; --tint-chip-edge: .06; }
+
+/* Cartes teintées : mêmes quatre teintes, ramenées à la nuit. Chaque variante
+   ne redéfinit que ses cinq variables, comme en clair. */
+.dark .tint-sauge {
+  --tint-hi: #162C22; --tint-lo: #111F1A;
+  --tint-line: #24503A; --tint-chip: #1B3A2B; --tint-ink: #7FCBA4;
+}
+.dark .tint-amethyste {
+  --tint-hi: #221E3D; --tint-lo: #191630;
+  --tint-line: #3A3268; --tint-chip: #2A2450; --tint-ink: #B6A8EE;
+}
+.dark .tint-champagne {
+  --tint-hi: #2B2416; --tint-lo: #201C13;
+  --tint-line: #4D3F22; --tint-chip: #372E1B; --tint-ink: #E8C67B;
+}
+/* Cartes praticiens de l'accueil : le bandeau remonte d'un cran pour se
+   détacher du sol, le corps reprend les surfaces nuit. */
+.dark .carte-agent {
+  --agent-nuit-hi: #2F52A5; --agent-nuit-lo: #16295E;
+  --agent-corps-hi: 26 37 71; --agent-corps-lo: 18 28 59; --agent-filet: 42 54 97;
+}
+.dark .tint-ciel {
+  --tint-hi: #1A2B52; --tint-lo: #141F3D;
+  --tint-line: #2E4879; --tint-chip: #203358; --tint-ink: #9DB3E8;
+}
+.dark .tint-rose {
+  --tint-hi: #2E1C24; --tint-lo: #22161C;
+  --tint-line: #55313E; --tint-chip: #3C2430; --tint-ink: #EDA3B8;
+}
+/* La nuit remonte d'un cran (royal-500 → navy-700) pour se détacher du sol. */
+.dark .tint-azur {
+  --tint-hi: #182747; --tint-lo: #121D38;
+  --tint-line: #2B4178; --tint-chip: #1F315B; --tint-ink: #9DB8F4;
+}
+.dark .tint-nuit {
+  --tint-hi: #2F52A5; --tint-lo: #16295E;
+  --tint-line: #3A61BC; --tint-chip: rgb(255 255 255 / .1); --tint-ink: #F0D48A;
+  --tint-chip-edge: .14;
+}
+
+/* La constellation n'est plus un ornement discret : c'est le ciel. */
+.dark [data-uv-ciel] { opacity: .28; }
+
+/* Modales : voile plus dense (le sol est déjà sombre) et liseré de lumière,
+   sans quoi le panneau se fondrait dans le voile. */
+.dark .modale::backdrop { background: rgb(2 5 14 / .72); }
+.dark .modale {
+  box-shadow: 0 24px 60px rgb(0 0 0 / .6);
+  outline: 1px solid rgb(255 255 255 / .08); /* au-dessus de l'en-tête, contrairement à un inset */
+  outline-offset: -1px;
+}
+/* Sur un ciel plus profond, la lueur dorée pleine virerait au brun. */
+.dark .promo-lueur { opacity: .5; }
+
+/* Liste des forfaits : l'or reste l'or (encre marine sur les pièces, comme sur
+   les boutons dorés), lueur plus retenue et constellation plus présente. */
+.dark .forfait-piece { --uv-ink: var(--uv-ink-fixe); }
+.dark :is(.forfaits-entete, .fidelite-entete) { --forfaits-lueur: .11; }
+.dark :is(.forfaits-entete, .fidelite-entete) > svg { opacity: .3; }

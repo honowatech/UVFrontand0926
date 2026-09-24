@@ -1,0 +1,43 @@
+@layer components {
+  /* --- Promo clients VERT --------------------------------------------------
+     États posés par modales.js sur .modale-panneau[data-etat] :
+     active → urgent (5 dernières secondes) → expiree, ou reservee au clic. */
+  .promo-entete {
+    @apply relative isolate flex flex-col items-center overflow-hidden bg-night px-6 pb-8 pt-6 text-center text-white sm:pt-7;
+  }
+  .promo-minuteur {
+    @apply relative inline-flex items-center gap-1.5 rounded-full bg-white/10 py-1.5 pl-2.5 pr-3.5
+           text-label-md text-white transition-shadow duration-300;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .16);
+  }
+  .promo-chiffres {
+    @apply inline-block min-w-[2.35em] text-left font-extrabold transition-colors duration-300;
+    font-variant-numeric: tabular-nums;
+  }
+  .promo-valeur { @apply transition-[opacity,filter] duration-500; }
+  .promo-chiffre-valeur {
+    @apply font-display text-[84px] font-black leading-none;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+  [data-etat='urgent'] .promo-minuteur { box-shadow: inset 0 0 0 1px rgb(232 198 123 / .7); }
+  [data-etat='urgent'] .promo-chiffres { color: #F0D48A; }
+  [data-etat='urgent'] .promo-minuteur .material-symbols-outlined { animation: uv-battement 1s ease-in-out infinite; }
+  [data-etat='expiree'] .promo-minuteur { @apply text-white/75; }
+  [data-etat='expiree'] .promo-valeur { opacity: .4; filter: saturate(.2); }
+  /* Écran bas (téléphone en paysage) : l'offre ne dure que quelques secondes,
+     elle doit tenir sans défiler. La carte passe sur deux colonnes : la
+     valeur à gauche, la décision à droite. */
+  @media (max-height: 520px) {
+    .promo-entete { @apply pb-6 pt-4; }
+    .promo-chiffre-valeur { font-size: 56px; }
+  }
+  @media (min-width: 540px) and (max-height: 520px) {
+    .promo-vert, .modale-upsell { max-width: 620px; }
+    :is(.promo-vert, .modale-upsell) .modale-panneau { @apply grid grid-cols-2; }
+    .promo-entete { @apply justify-center px-5 py-6; }
+    :is(.promo-vert, .modale-upsell) .modale-pied { @apply self-center px-6 py-5; }
+    .upsell-valeur { font-size: 40px; }
+    .upsell-garanties { @apply mt-3; }
+  }
+}

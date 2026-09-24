@@ -1,0 +1,59 @@
+@layer components {
+  /* --- Logo ----------------------------------------------------------------
+     Reproduit le logotype : « unevoyante.fr » en Nunito 800, bas de casse,
+     avec le petit drapeau tricolore hissé sur la hampe du « t ». -------- */
+  .uv-logo {
+    @apply inline-flex shrink-0 items-center font-display font-extrabold leading-none;
+    letter-spacing: -0.03em;
+  }
+  .uv-logo-t { @apply relative inline-block; }
+  .uv-flag {
+    @apply pointer-events-none absolute block;
+    left: 47%;
+    top: -0.01em;
+    width: 0.60em;
+    height: 0.38em;
+    background: linear-gradient(90deg, #0055A4 0 33.4%, #FFFFFF 33.4% 66.7%, #EF4135 66.7%);
+    border-radius: 0 0.10em 0.10em 0;
+    clip-path: polygon(0 0, 100% 9%, 100% 91%, 0 100%);
+    box-shadow: 0 1px 2px rgba(8, 18, 48, 0.28);
+  }
+  /* Sigle « UV » de l'en-tête mobile : même drapeau, hissé au sommet de la
+     branche droite du V, comme sur le favicon. */
+  .uv-sigle { font-size: 1.3em; letter-spacing: -0.02em; }
+  .uv-logo-v { @apply relative inline-block; }
+  .uv-logo-v .uv-flag { left: 72%; top: -0.12em; }
+
+  /* --- Structure ---------------------------------------------------------- */
+  .shell { @apply mx-auto w-full max-w-shell px-4 sm:px-6 lg:px-8; }
+
+  /* Vue « application » plein écran (tchat) : occupe la hauteur disponible
+     entre l'en-tête et la barre d'onglets, qui reste donc toujours visible.
+
+     iOS : ni 100vh (viewport « large », barres d'outils masquées) ni 100dvh
+     (mis à jour avec retard, et insensible au clavier) ne décrivent la zone
+     réellement visible. `--uv-vh` est posé par app.js à partir de
+     visualViewport : c'est la seule mesure exacte quand le clavier est ouvert
+     ou que la barre d'outils de Safari se replie. Les deux autres restent en
+     repli, dans cet ordre de préférence.
+
+     `--uv-app-marge` retranche l'espacement éventuellement posé autour de la
+     vue (la liste des conversations en reçoit sur mobile) : sans cela la page
+     déborde de quelques dizaines de pixels, et ce débord suffit sur iOS à
+     décaler l'ensemble. */
+  .app-view {
+    height: calc(100dvh - var(--header-h) - var(--tabbar-total) - var(--uv-app-marge, 0px));
+    height: calc(var(--uv-vh, 100dvh) - var(--header-h) - var(--tabbar-total) - var(--uv-app-marge, 0px));
+  }
+  @supports not (height: 100dvh) {
+    .app-view { height: calc(var(--uv-vh, 100vh) - var(--header-h) - var(--tabbar-total) - var(--uv-app-marge, 0px)); }
+  }
+  @media (min-width: 1024px) {
+    .app-view { height: calc(100vh - 8rem); }
+  }
+  .section { @apply py-12 lg:py-20; }
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100]
+           focus:rounded-full focus:bg-navy focus:px-5 focus:py-3 focus:text-label-md focus:text-white;
+  }
+}

@@ -1,0 +1,13 @@
+@layer components {
+  /* --- Cartes de packs (page Tarifs) ---------------------------------------
+     Même vocabulaire que la modale des forfaits : nom en capitales dorées,
+     volume en vedette, pièce d'or du bonus, carte dorée pour le populaire. */
+  .pack-carte {
+    @apply relative flex h-full flex-col rounded-2xl border border-line p-5 shadow-card transition-all duration-200
+           hover:-translate-y-1 hover:border-gold/60 hover:shadow-lift;
+    background-color: rgb(var(--uv-surface));
+  }
+  /* .pack-carte vient après .carte-or : sans ceci, son filet gris écraserait le liseré doré. */
+  .pack-carte.carte-or,
+  .pack-carte.carte-or:hover { border: 2px solid transparent; }
+}

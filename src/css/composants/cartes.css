@@ -1,0 +1,124 @@
+@layer components {
+  /* --- Cartes ------------------------------------------------------------- */
+  .card {
+    @apply rounded-lg border border-line shadow-card;
+    background-color: rgb(var(--uv-surface));
+  }
+  .card-pad { @apply card p-5 sm:p-6; }
+  .card-hover { @apply transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lift; }
+
+  /* --- Cartes teintées -----------------------------------------------------
+     Même géométrie que .card, mais une teinte pastel propre à chaque carte.
+     Les tons restent désaturés et proches de la charte (marine + or) : ils
+     colorent sans jamais concurrencer le contenu. Chaque variante ne définit
+     que ses quatre variables : fond haut, fond bas, filet, pastille + encre. */
+  .card-tint {
+    @apply relative rounded-lg shadow-card;
+    background-image: linear-gradient(155deg, var(--tint-hi) 0%, var(--tint-lo) 72%);
+    border: 1px solid var(--tint-line);
+  }
+  .card-tint .tint-chip {
+    @apply grid place-items-center rounded-lg;
+    background: var(--tint-chip);
+    color: var(--tint-ink);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / var(--tint-chip-edge, .7));
+  }
+
+  /* Sauge — sélection & vérification */
+  .tint-sauge {
+    --tint-hi: #E4F2EA; --tint-lo: #F2F9F5;
+    --tint-line: #CFE6D9; --tint-chip: #D8EDE2; --tint-ink: #2C6B50;
+  }
+  /* Améthyste — confidentialité & intimité */
+  .tint-amethyste {
+    --tint-hi: #EAE6F8; --tint-lo: #F5F2FC;
+    --tint-line: #DBD3F0; --tint-chip: #E1DAF6; --tint-ink: #4A3B8F;
+  }
+  /* Champagne — liberté & absence d'engagement */
+  .tint-champagne {
+    --tint-hi: #F8EED9; --tint-lo: #FCF7EB;
+    --tint-line: #EFDFBE; --tint-chip: #F5E7CB; --tint-ink: #8A6A20;
+  }
+  /* Ciel — fidélité & points accumulés (le bleu de la charte, éclairci) */
+  .tint-ciel {
+    --tint-hi: #E3ECFA; --tint-lo: #F2F6FD;
+    --tint-line: #CEDCF3; --tint-chip: #DBE6F8; --tint-ink: #2F52A5;
+  }
+  /* Rose poudré — attachement & favoris */
+  .tint-rose {
+    --tint-hi: #FBE9EE; --tint-lo: #FDF4F6;
+    --tint-line: #F1D3DB; --tint-chip: #F7DCE3; --tint-ink: #9A3A56;
+  }
+  /* Azur — identité du praticien : le bleu de la charte, en pastel */
+  .tint-azur {
+    --tint-hi: #E1EAFB; --tint-lo: #F0F4FD;
+    --tint-line: #CDDAF4; --tint-chip: #D7E2F8; --tint-ink: #1F3C88;
+  }
+  /* Nuit — la carte d'honneur : marine de la charte, halo d'or en coin.
+     Reste sombre dans les deux thèmes, donc encre claire en dur. */
+  .tint-nuit {
+    --tint-hi: #1F3C88; --tint-lo: #0F1F4B;
+    --tint-line: #1F3C88; --tint-chip: rgb(255 255 255 / .1); --tint-ink: #F0D48A;
+    --tint-chip-edge: .14;
+    background-image:
+      radial-gradient(circle at 100% 0%, rgb(201 162 74 / .32) 0%, transparent 58%),
+      linear-gradient(155deg, var(--tint-hi) 0%, var(--tint-lo) 72%);
+    color: #fff;
+  }
+
+  /* Filigrane : grande icône inclinée dans le coin bas-droit d'une .card-tint,
+     dans l'encre de la teinte. Le contenu frère doit être en `relative`. */
+  .card-tint:has(> .tint-mark) { @apply overflow-hidden; }
+  .tint-mark {
+    @apply pointer-events-none absolute -bottom-8 -right-6 select-none leading-none;
+    font-size: 128px;
+    color: var(--tint-ink);
+    opacity: .13;
+    transform: rotate(-14deg);
+  }
+
+  /* --- Raccourcis (page Compte) -----------------------------------------------
+     À poser sur une .card-tint : pastille, libellé, et une flèche à l'encre de
+     la teinte qui avance au survol pendant que la tuile se soulève. */
+  .raccourci {
+    @apply flex items-center gap-3 p-3.5 transition-all duration-200
+           hover:-translate-y-0.5 hover:shadow-lift active:translate-y-0;
+  }
+  .raccourci-label { @apply min-w-0 flex-1 text-label-md font-bold text-navy; }
+  .raccourci-fleche {
+    @apply shrink-0 text-[18px] opacity-60 transition-all duration-200;
+    color: var(--tint-ink);
+  }
+  .raccourci:hover .raccourci-fleche { @apply translate-x-0.5 opacity-100; }
+
+  /* --- Tuiles de synthèse (chiffres clés) ----------------------------------
+     À poser sur une .card-tint. Le chiffre occupe toujours la droite :
+     - mobile/tablette (tuile large) : une seule ligne
+         pastille | libellé + contexte | chiffre
+     - desktop (4 tuiles étroites) : pastille et chiffre en tête, libellé
+       et contexte dessous, pour que le texte ne se coupe jamais. */
+  .stat-tile {
+    @apply grid items-center gap-x-4 p-5;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "chip label num" "chip sub num";
+  }
+  .stat-tile .tint-chip { @apply h-11 w-11; grid-area: chip; }
+  .stat-tile .stat-label {
+    @apply text-label-sm uppercase tracking-wider text-muted;
+    grid-area: label; align-self: end;
+  }
+  .stat-tile .stat-sub { @apply mt-0.5 text-body-sm text-muted; grid-area: sub; align-self: start; }
+  .stat-tile .stat-num {
+    @apply font-display text-[34px] font-extrabold leading-none text-navy;
+    grid-area: num;
+    font-variant-numeric: tabular-nums;
+  }
+  @media (min-width: 1024px) {
+    .stat-tile {
+      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-areas: "chip num" "label label" "sub sub";
+    }
+    .stat-tile .tint-chip { @apply mb-4; }
+    .stat-tile .stat-num { @apply mb-4 justify-self-end text-[38px]; }
+  }
+}

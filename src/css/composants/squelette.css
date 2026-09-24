@@ -1,0 +1,10 @@
+@layer components {
+  /* --- Skeleton ----------------------------------------------------------- */
+  .skeleton { @apply relative overflow-hidden rounded bg-ice; }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 -translate-x-full;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / var(--uv-shimmer, .75)), transparent);
+    animation: shimmer 1.4s infinite;
+  }
+}

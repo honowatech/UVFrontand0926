@@ -1,0 +1,18 @@
+@layer components {
+  /* --- Séparateurs & typo utilitaire -------------------------------------- */
+  .rule { @apply border-0 border-t border-line; }
+  .eyebrow { @apply inline-block text-[12px] font-extrabold uppercase leading-[16px] tracking-[0.14em] text-royal; }
+  .lede { @apply text-body-lg text-muted; }
+  .quote { @apply font-display text-[16px] font-medium italic leading-[26px] text-navy; }
+  .kicker { @apply text-label-sm font-extrabold uppercase tracking-[0.12em] text-muted; }
+
+  /* --- Prose (pages éditoriales / légales) -------------------------------- */
+  .prose-uv { @apply max-w-prose text-body-lg text-muted; }
+  .prose-uv h2 { @apply mb-3 mt-10 text-h-md; }
+  .prose-uv h3 { @apply mb-2 mt-7 text-h-sm; }
+  .prose-uv p { @apply mb-4; }
+  .prose-uv ul { @apply mb-4 space-y-2 pl-5; }
+  .prose-uv li { @apply list-disc marker:text-gold; }
+  .prose-uv a { @apply font-semibold text-royal underline underline-offset-2; }
+  .prose-uv strong { @apply font-bold text-navy; }
+}

@@ -1,0 +1,199 @@
+/* ==========================================================================
+   JETONS — palettes claire et nuit, ombres, dégradés, dimensions
+   Seul endroit où une couleur de la charte est définie : tout le reste
+   (config Tailwind, composants) y renvoie par var(--uv-…).
+   ========================================================================== */
+@layer base {
+  /* ------------------------------------------------------------------------
+     PALETTE — thème clair (référence de la charte)
+     Valeurs en canaux RVB : elles alimentent tailwind.config.js sous la forme
+     rgb(var(--uv-…) / <alpha-value>), donc text-navy/70 et bg-ice/60 marchent
+     exactement comme avant. Le thème nuit ne fait que redéfinir ces valeurs :
+     aucune classe `dark:` n'est nécessaire dans les pages.
+     ---------------------------------------------------------------------- */
+  :root {
+    color-scheme: light;
+
+    /* Encre & marine ------------------------------------------------- */
+    /* Marine de la charte, identique dans les deux thèmes (jamais redéfini
+       sous .dark) : l'encre posée sur l'or, qui reste l'or la nuit. */
+    --uv-ink-fixe: 15 31 75;       /* #0F1F4B */
+    --uv-ink: var(--uv-ink-fixe);  /* encre principale */
+    --uv-ink-950: 8 18 48;
+    --uv-ink-900: 11 23 56;
+    --uv-ink-800: 15 31 75;
+    --uv-ink-700: 22 41 94;
+    --uv-ink-600: 31 60 136;
+
+    /* Bleu interactif (encre des liens) ------------------------------ */
+    --uv-royal: 31 60 136;         /* #1F3C88 */
+    --uv-royal-50: 244 247 253;
+    --uv-royal-100: 232 238 251;
+    --uv-royal-200: 203 217 245;
+    --uv-royal-300: 157 179 232;
+    --uv-royal-400: 91 123 196;
+    --uv-royal-500: 47 82 165;
+    --uv-royal-600: 31 60 136;
+    --uv-royal-700: 25 49 112;
+    --uv-royal-800: 19 36 86;
+    --uv-royal-900: 15 31 75;
+
+    /* Or champagne --------------------------------------------------- */
+    --uv-gold: 201 162 74;         /* #C9A24A */
+    --uv-gold-50: 252 249 242;
+    --uv-gold-100: 254 249 238;
+    --uv-gold-200: 253 244 220;
+    --uv-gold-300: 240 212 138;
+    --uv-gold-400: 232 198 123;
+    --uv-gold-500: 216 180 90;
+    --uv-gold-600: 201 162 74;
+    --uv-gold-700: 168 130 58;
+    --uv-gold-800: 133 91 0;
+
+    /* Neutres -------------------------------------------------------- */
+    --uv-muted: 92 103 132;        /* texte secondaire */
+    --uv-soft: 244 247 253;        /* surface douce (ice) */
+    --uv-tint: 232 238 251;        /* remplissage actif */
+    --uv-line: 228 233 244;        /* filets & séparateurs */
+
+    /* Fonds ---------------------------------------------------------- */
+    --uv-ground: 244 247 253;      /* sol de la page */
+    --uv-surface: 255 255 255;     /* cartes, champs, bulles reçues */
+    --uv-chrome: 15 31 75;         /* en-tête, pied de page, toasts */
+    --uv-chrome-950: 8 18 48;
+    --uv-chrome-900: 11 23 56;
+    --uv-chrome-700: 22 41 94;
+    --uv-chrome-600: 31 60 136;
+    --uv-royal-bg: 31 60 136;      /* bulle « moi », case cochée */
+    --uv-royal-bg-50: 244 247 253;
+    --uv-royal-bg-700: 25 49 112;
+    --uv-gold-bg: 201 162 74;
+    --uv-gold-bg-50: 252 249 242;
+    --uv-gold-bg-100: 254 249 238;
+
+    /* Statuts -------------------------------------------------------- */
+    --uv-online: 34 197 94;
+    --uv-busy: 245 158 11;
+    --uv-offline: 154 163 181;
+    /* Rouge de sortie : assez clair pour rester sobre, assez dense pour
+       passer le contraste AA sur une surface claire (4,6:1). */
+    --uv-sortie: 207 68 68;        /* #CF4444 */
+
+    /* Ombres --------------------------------------------------------- */
+    --uv-sh-card: 0 4px 16px rgb(15 31 75 / .06);
+    --uv-sh-lift: 0 12px 32px rgb(15 31 75 / .10);
+    --uv-sh-bar: 0 -4px 20px rgb(15 31 75 / .08);
+    --uv-sh-top: 0 4px 16px rgb(15 31 75 / .06);
+    --uv-sh-gold: 0 6px 18px rgb(201 162 74 / .28);
+    --uv-sh-glow: 0 0 0 4px rgb(201 162 74 / .18);
+    --uv-sh-focus: 0 0 0 3px rgb(31 60 136 / .12);
+
+    /* Dégradés ------------------------------------------------------- */
+    --uv-grad-gold-cta: linear-gradient(135deg, #D8B45A 0%, #F0D48A 50%, #C9A24A 100%);
+    --uv-grad-gold-soft: linear-gradient(135deg, #DFB967 0%, #C9A24A 100%);
+    --uv-grad-monogram: radial-gradient(circle at 30% 25%, #F4F7FD 0%, #E8EEFB 100%);
+    --uv-grad-night: linear-gradient(160deg, #16295E 0%, #0F1F4B 55%, #0B1738 100%);
+
+    /* Voile posé sur les surfaces pour les rehausser (nul en clair) --- */
+    --uv-edge: 0 0 rgb(0 0 0 / 0);
+    --uv-scroll: 203 213 233;      /* pouce des barres de défilement */
+    --uv-badge-a: .16;             /* densité du fond des badges de statut */
+    --uv-badge-online: 21 128 61;
+    --uv-badge-busy: 180 83 9;
+    --uv-badge-offline: 100 116 139;
+
+    --header-h: 64px;
+    --tabbar-h: 68px;
+    /* Encombrement réel de la barre d'onglets, encoche comprise */
+    --tabbar-total: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* ------------------------------------------------------------------------
+     PALETTE — thème nuit
+     Aucune teinte étrangère à la charte : les encres remontent les échelles
+     existantes (royal-300, gold-400), les fonds descendent sous navy-900.
+     Élévation inversée : le chrome est le point le plus sombre, le sol
+     au-dessus, les cartes au-dessus encore — la lumière vient du haut.
+     ---------------------------------------------------------------------- */
+  .dark {
+    color-scheme: dark;
+
+    --uv-ink: 233 238 250;         /* #E9EEFA — encre claire */
+    --uv-ink-950: 5 9 22;
+    --uv-ink-900: 214 222 240;
+    --uv-ink-800: 233 238 250;
+    --uv-ink-700: 180 194 224;
+    --uv-ink-600: 30 42 82;        /* filet du chrome */
+
+    --uv-royal: 157 179 232;       /* royal-300 de la charte */
+    --uv-royal-50: 26 42 82;
+    --uv-royal-100: 34 48 92;
+    --uv-royal-200: 47 82 165;
+    --uv-royal-300: 157 179 232;
+    --uv-royal-400: 130 156 220;
+    --uv-royal-500: 91 123 196;
+    --uv-royal-600: 157 179 232;
+    --uv-royal-700: 130 156 220;
+    --uv-royal-800: 195 210 242;
+    --uv-royal-900: 219 228 248;
+
+    --uv-gold: 232 198 123;        /* gold-400 de la charte */
+    --uv-gold-50: 36 30 18;
+    --uv-gold-100: 44 36 20;
+    --uv-gold-200: 61 50 27;
+    --uv-gold-300: 240 212 138;
+    --uv-gold-400: 232 198 123;
+    --uv-gold-500: 216 180 90;
+    --uv-gold-600: 201 162 74;
+    --uv-gold-700: 216 180 90;
+    --uv-gold-800: 232 198 123;
+
+    --uv-muted: 154 166 196;       /* #9AA6C4 — 6,9:1 sur les cartes */
+    --uv-soft: 26 37 71;           /* #1A2547 — remplissage doux */
+    --uv-tint: 34 48 92;           /* #22305C */
+    --uv-line: 42 54 97;           /* #2A3661 */
+
+    --uv-ground: 8 14 34;          /* #080E22 — sol */
+    --uv-surface: 18 28 59;        /* #121C3B — cartes */
+    --uv-chrome: 14 23 51;         /* #0E1733 — chrome */
+    --uv-chrome-950: 5 9 22;
+    --uv-chrome-900: 10 16 38;
+    --uv-chrome-700: 23 34 74;
+    --uv-chrome-600: 30 42 82;
+    --uv-royal-bg: 47 82 165;      /* royal-500 : la bulle reste bleue */
+    --uv-royal-bg-50: 27 42 82;
+    --uv-royal-bg-700: 58 97 188;
+    --uv-gold-bg: 201 162 74;
+    --uv-gold-bg-50: 36 30 18;
+    --uv-gold-bg-100: 44 36 20;
+
+    --uv-online: 74 222 128;
+    --uv-busy: 251 191 36;
+    --uv-offline: 122 133 158;
+    --uv-sortie: 242 150 150;      /* #F29696 — le rouge s'éclaircit la nuit */
+    --uv-scroll: 44 58 104;
+    --uv-badge-a: .18;
+    --uv-badge-online: 134 239 172;
+    --uv-badge-busy: 253 211 128;
+    --uv-badge-offline: 160 172 196;
+
+    /* Les ombres ne portent plus : chaque surface gagne un liseré de
+       lumière en haut, et l'ombre se creuse en noir. */
+    --uv-edge: inset 0 1px 0 rgb(255 255 255 / .05);
+    --uv-sh-card: inset 0 1px 0 rgb(255 255 255 / .05), 0 4px 16px rgb(0 0 0 / .45);
+    --uv-sh-lift: inset 0 1px 0 rgb(255 255 255 / .06), 0 16px 40px rgb(0 0 0 / .55);
+    --uv-sh-bar: 0 -4px 20px rgb(0 0 0 / .5);
+    --uv-sh-top: 0 4px 16px rgb(0 0 0 / .45);
+    --uv-sh-gold: 0 6px 22px rgb(201 162 74 / .22);
+    --uv-sh-glow: 0 0 0 4px rgb(232 198 123 / .16);
+    --uv-sh-focus: 0 0 0 3px rgb(157 179 232 / .22);
+
+    --uv-grad-gold-cta: linear-gradient(135deg, #C9A24A 0%, #E8C67B 50%, #B8913E 100%);
+    --uv-grad-gold-soft: linear-gradient(135deg, #C9A24A 0%, #A8823A 100%);
+    --uv-grad-monogram: radial-gradient(circle at 30% 25%, #22305C 0%, #17224A 100%);
+    --uv-grad-night: linear-gradient(160deg, #141F45 0%, #0C1531 55%, #080E22 100%);
+  }
+  @media (min-width: 1024px) {
+    :root { --header-h: 72px; --tabbar-total: 0px; }
+  }
+}

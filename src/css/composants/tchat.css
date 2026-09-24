@@ -1,0 +1,12 @@
+@layer components {
+  /* --- Bulles de tchat ---------------------------------------------------- */
+  .bubble { @apply max-w-[85%] rounded-lg px-4 py-3 text-body-md leading-relaxed sm:max-w-[75%]; }
+  .bubble-them {
+    @apply bubble rounded-bl-sm border border-line text-navy shadow-sm;
+    background-color: rgb(var(--uv-surface));
+  }
+  .bubble-me { @apply bubble rounded-br-sm bg-royal text-white shadow-sm; }
+  .bubble-system {
+    @apply mx-auto inline-flex items-center gap-1.5 rounded-full bg-ice px-3.5 py-1.5 text-body-sm text-muted;
+  }
+}

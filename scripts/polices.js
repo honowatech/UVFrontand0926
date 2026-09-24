@@ -7,7 +7,7 @@
      axes figés sur ce que le CSS emploie (opsz 24, wght 400, GRAD 0, FILL 0..1).
 
    Les icônes sont retrouvées en croisant chaque mot du code (pages HTML et
-   assets/js) avec la liste officielle des noms Material Symbols : une icône
+   assets/js, sous-dossiers compris) avec la liste officielle des noms Material Symbols : une icône
    tirée des données (data.js) est donc prise en compte comme une icône écrite
    en dur. Un faux positif (« input », « html »…) ne coûte que quelques octets.
 
@@ -51,7 +51,8 @@ function blocs(css) {
 function icones(noms) {
   const sources = [
     ...fs.readdirSync(RACINE).filter((f) => f.endsWith('.html')).map((f) => path.join(RACINE, f)),
-    ...fs.readdirSync(path.join(RACINE, 'assets/js')).map((f) => path.join(RACINE, 'assets/js', f)),
+    ...fs.readdirSync(path.join(RACINE, 'assets/js'), { recursive: true })
+      .filter((f) => f.endsWith('.js')).map((f) => path.join(RACINE, 'assets/js', f)),
   ];
   const mots = new Set(sources.flatMap((f) => fs.readFileSync(f, 'utf8').match(/[a-z][a-z0-9_]+/g) || []));
   return [...mots].filter((m) => noms.has(m)).sort();
