@@ -2,7 +2,8 @@
    ---------------------------------------------------------------------------
    Écrit sitemap.xml à la racine :
    - toutes les pages HTML qui ne portent pas <meta name="robots" content="noindex"> ;
-   - une entrée par praticien (voyant.html?id=…), lue dans assets/js/data.js :
+   - une entrée par fiche praticien pré-générée (voyant-<id>.html, cf. npm run
+     statique), lue dans assets/js/data.js :
      le plan suit le catalogue sans être tenu à la main.
    La date de modification est celle du dernier commit du fichier, ou
    aujourd'hui pour un fichier modifié et pas encore commité. */
@@ -44,7 +45,7 @@ const entrees = fs.readdirSync(RACINE)
 
 const dateFiches = dateDe('voyant.html', 'assets/js/data.js');
 for (const v of VOYANTS) {
-  entrees.push({ loc: `${SITE}voyant.html?id=${encodeURIComponent(v.id)}`, lastmod: dateFiches, priority: '0.7' });
+  entrees.push({ loc: `${SITE}voyant-${encodeURIComponent(v.id)}.html`, lastmod: dateFiches, priority: '0.7' });
 }
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>

@@ -5,7 +5,9 @@
   const { el, els, icone, etoiles, monogramme, note, nombre, filAriane, carteVoyant, Store, toast, echapper, STATUTS } = UV;
 
   /* --- Résolution du praticien : jamais d'erreur, on retombe sur un profil - */
-  const id = UV.param('id') || Store.all.dernierVoyant || 'claire';
+  // Page pré-générée (dist/voyant-<id>.html) : le praticien est inscrit dans
+  // la page. Sinon voyant.html?id=…, puis le dernier profil consulté.
+  const id = document.body.dataset.voyant || UV.param('id') || Store.all.dernierVoyant || 'claire';
   const v = D.byId(id) || D.VOYANTS[0];
   if (!D.byId(id)) {
     toast('Ce praticien n’existe plus : voici un profil équivalent.', { icone: 'info' });
@@ -13,10 +15,11 @@
   Store.set({ dernierVoyant: v.id });
   document.title = `${v.prenom} — ${v.titre} | unevoyante.fr`;
 
-  /* Référencement : une adresse canonique par praticien (sinon les 24 fiches
-     se confondraient en une seule), et une description qui lui est propre.
-     Posées par le script tant que les fiches ne sont pas pré-générées. */
-  const canonique = `https://unevoyante.fr/voyant.html?id=${encodeURIComponent(v.id)}`;
+  /* Référencement : une adresse canonique par praticien — sa page
+     pré-générée, que voyant.html?id=… désigne aussi comme référence — et une
+     description qui lui est propre. Figées dans le HTML par `npm run statique`,
+     reposées ici à l'identique. */
+  const canonique = `https://unevoyante.fr/voyant-${encodeURIComponent(v.id)}.html`;
   /** Balise du <head> repérée par un attribut (rel, property…), créée au besoin. */
   const balise = (tag, attr, valeur) => {
     let b = document.head.querySelector(`${tag}[${attr}="${valeur}"]`);

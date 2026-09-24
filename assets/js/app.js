@@ -241,6 +241,14 @@
     return new URLSearchParams(location.search).get(nom) || defaut || null;
   }
 
+  /** Adresse de la fiche d'un praticien. La version publiée (dist/, marquée
+      data-statique sur <html>) a une page pré-générée par praticien ; la
+      version de développement n'a que voyant.html, qui lit ?id=. */
+  function lienVoyant(id, ancre) {
+    const statique = document.documentElement.hasAttribute('data-statique');
+    return (statique ? `voyant-${id}.html` : `voyant.html?id=${id}`) + (ancre ? `#${ancre}` : '');
+  }
+
   function echapper(s) {
     return String(s).replace(/[&<>"']/g, (c) => (
       { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -415,7 +423,7 @@
   function estActif(href) {
     const p = pageCourante();
     if (href === p) return true;
-    if (href === 'voyants.html' && p === 'voyant.html') return true;
+    if (href === 'voyants.html' && p.startsWith('voyant')) return true;
     if (href === 'tarifs.html' && p === 'credits.html') return true;
     return false;
   }
@@ -787,17 +795,17 @@
          data-statut="${v.statut}" data-note="${v.note}" data-avis="${v.avis}" data-credits="${v.credits}"
          data-specialites="${v.specialites.join(' ')}" data-nom="${v.prenom.toLowerCase()} ${v.titre.toLowerCase()}">
   <div class="mb-4 flex items-start justify-between gap-3">
-    <a href="voyant.html?id=${v.id}" class="shrink-0" aria-label="Voir la fiche de ${v.prenom}">
+    <a href="${lienVoyant(v.id)}" class="shrink-0" aria-label="Voir la fiche de ${v.prenom}">
       ${monogramme(v, 'h-16 w-16 text-h-md')}
     </a>
     ${badge}
   </div>
 
-  <h3 class="text-h-md"><a href="voyant.html?id=${v.id}" class="hover:text-royal">${v.prenom}</a></h3>
+  <h3 class="text-h-md"><a href="${lienVoyant(v.id)}" class="hover:text-royal">${v.prenom}</a></h3>
   <p class="mb-3 text-body-sm text-muted">${v.titre}</p>
 
   <div class="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
-    <a href="voyant.html?id=${v.id}#avis" class="flex items-center gap-1 hover:underline">
+    <a href="${lienVoyant(v.id, 'avis')}" class="flex items-center gap-1 hover:underline">
       ${icone('star', 'icon-fill text-[16px] text-gold')}
       <span class="text-label-md">${note(v.note)}</span>
       <span class="text-body-sm text-muted">(${nombre(v.avis)})</span>
@@ -817,7 +825,7 @@
 
   <div class="mt-auto flex flex-col gap-2">
     ${cta}
-    ${o.sansFiche ? '' : `<a href="voyant.html?id=${v.id}" class="btn-link justify-center">Voir la fiche ${icone('arrow_forward', 'text-[16px]')}</a>`}
+    ${o.sansFiche ? '' : `<a href="${lienVoyant(v.id)}" class="btn-link justify-center">Voir la fiche ${icone('arrow_forward', 'text-[16px]')}</a>`}
   </div>
 </article>`;
   }
@@ -1108,7 +1116,7 @@
   /* --- API publique -------------------------------------------------------- */
   global.UV = {
     Store, fidelite, toast, el, els, icone, etoiles, monogramme, euro, nombre, note, heure,
-    param, echapper, STATUTS, carteVoyant, ligneVoyant, accordeon, filAriane,
+    param, lienVoyant, echapper, STATUTS, carteVoyant, ligneVoyant, accordeon, filAriane,
     majCredits, pageCourante, logo, piece,
     theme: { courant: themeCourant, basculer: basculerTheme, appliquer: appliquerTheme },
   };

@@ -1,10 +1,12 @@
 /* Serveur statique minimal — aucune dépendance.
-   Usage : npm run serve   (puis http://localhost:5173) */
+   Usage : npm run serve        version de développement (racine du projet)
+           npm run serve:dist   version publiée (dist/, après npm run statique)
+   puis http://localhost:5173 */
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const RACINE = path.join(__dirname, '..');
+const RACINE = path.join(__dirname, '..', process.argv[2] || '');
 const PORT = process.env.PORT || 5173;
 
 const TYPES = {

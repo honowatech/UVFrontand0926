@@ -29,17 +29,17 @@
 <a href="tchat.html" class="grid h-10 w-10 shrink-0 place-items-center rounded-full text-royal transition-colors hover:bg-tint lg:hidden" aria-label="Retour à mes tchats">
   ${icone('arrow_back', 'text-[22px]')}
 </a>
-<a href="voyant.html?id=${v.id}" class="shrink-0">${monogramme(v, 'h-11 w-11 text-label-lg')}</a>
+<a href="${UV.lienVoyant(v.id)}" class="shrink-0">${monogramme(v, 'h-11 w-11 text-label-lg')}</a>
 <div class="min-w-0 flex-1">
   <p class="flex min-w-0 items-center gap-2">
-    <a href="voyant.html?id=${v.id}" class="truncate font-display text-h-sm font-extrabold text-navy hover:text-royal">${v.prenom}</a>
+    <a href="${UV.lienVoyant(v.id)}" class="truncate font-display text-h-sm font-extrabold text-navy hover:text-royal">${v.prenom}</a>
     ${v.top ? `<span class="badge-top shrink-0">${icone('verified', 'text-[13px] text-gold')} Certifiée</span>` : ''}
   </p>
   <p class="flex items-center gap-1.5 truncate text-body-sm text-muted">
     <span class="${st.dot}"></span> ${st.label} · ${COUT} crédit${COUT > 1 ? 's' : ''} / message
   </p>
 </div>
-<a href="voyant.html?id=${v.id}" class="btn-link shrink-0 max-sm:hidden">
+<a href="${UV.lienVoyant(v.id)}" class="btn-link shrink-0 max-sm:hidden">
   Voir la fiche ${icone('open_in_new', 'text-[16px]')}
 </a>`;
 
@@ -238,7 +238,7 @@
     zone.innerHTML = `
 <div class="card-tint tint-azur p-5 text-center sm:p-6">
   <div class="mb-3 flex justify-center">${monogramme(v, 'h-20 w-20 text-[28px]')}</div>
-  <h2 class="text-h-md"><a href="voyant.html?id=${v.id}" class="hover:text-royal">${v.prenom}</a></h2>
+  <h2 class="text-h-md"><a href="${UV.lienVoyant(v.id)}" class="hover:text-royal">${v.prenom}</a></h2>
   ${v.top ? `<p class="mt-2"><span class="badge bg-gold-cta text-navy">${icone('star', 'icon-fill text-[14px]')} TOP VOYANTE</span></p>` : ''}
   <p class="mt-3 flex items-center justify-center gap-2 text-body-md">
     ${etoiles(v.note, 'text-[14px]')} <strong class="font-semibold">${note(v.note)}</strong>
@@ -248,7 +248,7 @@
     ${v.tags.slice(0, 3).map((t) => `<span class="tag bg-surface text-royal">${t}</span>`).join('')}
   </div>
   <p class="quote mt-5 italic text-muted">« ${echapper(v.accroche)} »</p>
-  <a href="voyant.html?id=${v.id}" class="btn-link mt-4 justify-center">Voir la fiche complète</a>
+  <a href="${UV.lienVoyant(v.id)}" class="btn-link mt-4 justify-center">Voir la fiche complète</a>
 </div>
 
 <div class="card-tint tint-amethyste p-5 sm:p-6">

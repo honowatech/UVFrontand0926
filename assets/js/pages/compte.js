@@ -64,7 +64,7 @@
         ${monogramme(v, 'h-12 w-12 text-label-lg')}
         <div class="min-w-0 flex-1">
           <p class="flex flex-wrap items-baseline gap-x-2">
-            <a href="voyant.html?id=${id}" class="font-display text-label-lg font-semibold text-navy hover:text-royal">${v.prenom}</a>
+            <a href="${UV.lienVoyant(id)}" class="font-display text-label-lg font-semibold text-navy hover:text-royal">${v.prenom}</a>
             <span class="text-body-sm text-muted">${v.titre}</span>
           </p>
           <p class="truncate text-body-sm text-muted">${echapper(dernier.texte)}</p>

@@ -21,10 +21,40 @@ Puis ouvrir <http://localhost:5173>.
 | `npm run serve` | Serveur statique sans dépendance sur le port 5173 |
 | `npm run polices` | Télécharge Nunito et la police d'icônes réduite aux icônes du site dans `assets/fonts/` |
 | `npm run polices -- --verifier` | Échoue si une icône employée dans le code manque à la police locale |
-| `npm run sitemap` | Régénère `sitemap.xml` (pages indexables + une adresse par praticien de `data.js`) |
+| `npm run sitemap` | Régénère `sitemap.xml` (pages indexables + une fiche `voyant-<id>.html` par praticien de `data.js`) |
+| `npm run statique` | Construit **`dist/`, la version à déployer** : CSS, plan du site, pages pré-rendues (voir « Version publiée ») |
+| `npm run serve:dist` | Sert `dist/` sur le port 5173, pour la contrôler avant déploiement |
 
 > Le CSS compilé est versionné : le site s'ouvre aussi directement en double-cliquant
 > `index.html`, sans installation.
+
+### Version publiée (`dist/`)
+
+Le dossier du projet est la **version de développement** : chaque page est construite en
+JavaScript dans le navigateur. Un robot qui n'exécute pas le JS (Bing, aperçus des réseaux
+sociaux, et Google lors de sa première lecture) n'y trouve qu'une coquille vide.
+
+`npm run statique` produit **`dist/`**, le dossier à mettre en ligne :
+
+- les pages indexables (accueil, catalogue, tarifs, FAQ, fonctionnement, contact,
+  inscription) sont **pré-rendues** : `scripts/statique.js` exécute leurs scripts dans un DOM
+  simulé (jsdom) et enregistre le HTML obtenu, en-tête et pied de page compris ;
+- chaque praticien a **sa propre page, `voyant-<id>.html`**, pré-rendue de même, avec son
+  titre, sa description et son adresse canonique. `voyant.html?id=…` reste valable et désigne
+  cette page comme référence ;
+- les autres pages (compte, tchat, crédits…) sont copiées telles quelles.
+
+Dans le navigateur, les mêmes scripts rejouent ensuite le rendu avec l'état du visiteur
+(crédits, favoris, thème) : l'affichage est identique à la version de développement. Toutes
+les pages de `dist/` portent `data-statique` sur `<html>`, ce qui fait pointer les liens vers
+les fiches pré-générées (`UV.lienVoyant()` dans `app.js` : **à utiliser pour tout nouveau lien
+vers une fiche**).
+
+`dist/` n'est pas versionné. Chez l'hébergeur (Netlify, Vercel, Cloudflare Pages…) :
+commande de build **`npm ci && npm run statique`**, dossier publié **`dist`**, page
+d'erreur **`404.html`**. Un script de page qui **ajoute** un élément au lieu de remplacer un
+contenu doit vérifier qu'il n'existe pas déjà (voir `#ld-faq` dans `faq.js`) : dans `dist/`,
+il s'exécute sur une page déjà rendue.
 
 ## Pages
 
@@ -71,6 +101,7 @@ assets/js/pages/<page>.js       Script propre à chaque page (index.js pour inde
 scripts/serve.js                Serveur de développement
 scripts/polices.js              Téléchargement des polices (npm run polices)
 scripts/sitemap.js              Génération de sitemap.xml (npm run sitemap)
+scripts/statique.js             Construction de dist/, pages pré-rendues (npm run statique)
 robots.txt, sitemap.xml         Indexation
 manifest.webmanifest            Installation sur l'écran d'accueil (icônes dans assets/img)
 ```
@@ -328,7 +359,8 @@ en toutes lettres. `npm run polices -- --verifier` le signale. Les icônes tiré
 | Élément | Où |
 | --- | --- |
 | Adresse canonique, Open Graph, carte Twitter | `<head>` de chaque page indexable. Domaine supposé : `https://unevoyante.fr/` |
-| Fiche praticien | Canonique `voyant.html?id=…`, titre et description propres au praticien, posés par le script de la page |
+| Fiche praticien | Page pré-générée `voyant-<id>.html` (dans `dist/`), canonique vers elle-même ; titre, description et Open Graph propres au praticien |
+| Contenu lisible sans JavaScript | Pages indexables de `dist/` : de 5 à 14 fois plus de texte que la version de développement (ex. fiche : 69 → 871 mots) |
 | `noindex` | `compte`, `connexion`, `tchat`, `credits`, `info`, `modales`, `404`. Ces pages ne sont **pas** bloquées dans `robots.txt`, sinon les robots ne liraient pas le `noindex` |
 | Données structurées | `Organization` + `WebSite` (avec recherche) sur l'accueil, `FAQPage` sur la FAQ (générée depuis `UV_DATA.FAQ`) |
 | Visuel de partage | `assets/img/og-image.jpg` (1200 × 630) |
@@ -343,6 +375,7 @@ en toutes lettres. `npm run polices -- --verifier` le signale. Les icônes tiré
 - Les pages secondaires (mentions légales, CGV, confidentialité, charte, cookies,
   journal, partenaire) redirigent vers `info.html`, qui annonce le périmètre V1 et propose
   la suite de la navigation. Contenus à rédiger lors d'une prochaine itération.
-- Le contenu du catalogue et des fiches est produit en JavaScript : les robots qui n'exécutent
-  pas le JS (Bing, réseaux sociaux) voient des pages vides. Pré-générer les fiches au build
-  est l'étape suivante du référencement.
+- Pages pré-rendues avec l'état par défaut (visiteur, 3 crédits) : un visiteur qui revient
+  voit ses propres valeurs (solde, favoris) remplacer celles-ci dès l'exécution des scripts.
+- Les filtres du catalogue (`voyants.html?specialite=…`) ne sont pas pré-rendus : seule la
+  liste complète l'est, ce qui suffit pour que chaque fiche soit découverte.

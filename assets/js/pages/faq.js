@@ -26,8 +26,14 @@
 
   /* Données structurées FAQPage, tirées de la même source que la page : les
      questions balisées sont toujours celles que le visiteur lit. */
-  const ld = document.createElement('script');
-  ld.type = 'application/ld+json';
+  // Déjà présent dans une page pré-générée : on le remplace, sans doublon.
+  let ld = document.getElementById('ld-faq');
+  if (!ld) {
+    ld = document.createElement('script');
+    ld.id = 'ld-faq';
+    ld.type = 'application/ld+json';
+    document.head.appendChild(ld);
+  }
   ld.textContent = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -37,5 +43,4 @@
       acceptedAnswer: { '@type': 'Answer', text: f.r },
     })),
   });
-  document.head.appendChild(ld);
 })();
