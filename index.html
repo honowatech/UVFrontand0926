@@ -57,10 +57,10 @@
   ]
 }
 </script>
-<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
-<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
 </head>
-<body class="flex min-h-screen flex-col bg-ice">
+<body class="flex min-h-screen flex-col bg-ground">
 <a href="#contenu" class="skip-link">Aller au contenu principal</a>
 <uv-header sombre></uv-header>
 
@@ -69,7 +69,7 @@
   <!-- ======================================================================
        HERO
        ====================================================================== -->
-  <section class="relative overflow-hidden bg-white">
+  <section class="relative overflow-hidden bg-surface">
     <!-- Constellation discrète le jour, franchement présente la nuit -->
     <div aria-hidden="true" data-uv-ciel class="pointer-events-none absolute inset-0 opacity-[0.10] transition-opacity duration-500">
       <svg class="h-full w-full text-gold" viewBox="0 0 390 280" fill="none" preserveAspectRatio="xMidYMid slice">
@@ -163,7 +163,7 @@
   <!-- ======================================================================
        REPRENDRE UNE CONVERSATION (affiché uniquement s'il y en a)
        ====================================================================== -->
-  <section id="reprendre" class="hidden border-y border-line bg-white">
+  <section id="reprendre" class="hidden border-y border-line bg-surface">
     <div class="shell py-6">
       <div class="mb-3 flex items-center justify-between gap-4">
         <h2 class="text-h-sm">Reprendre où vous en étiez</h2>
@@ -228,7 +228,7 @@
        ====================================================================== -->
   <section class="bg-ice pb-12 lg:pb-20">
     <div class="shell">
-      <div class="rounded-3xl bg-white px-6 py-12 shadow-card sm:px-10 lg:px-12 lg:py-16">
+      <div class="rounded-3xl bg-surface px-6 py-12 shadow-card sm:px-10 lg:px-12 lg:py-16">
         <div class="mx-auto mb-10 max-w-xl text-center">
           <span class="eyebrow">Fonctionnement simple</span>
           <h2 class="mt-2 text-h-lg">Comment ça marche ?</h2>
@@ -265,7 +265,7 @@
        ====================================================================== -->
   <section class="bg-ice pb-16 lg:pb-24">
     <div class="shell">
-      <div class="grid gap-10 rounded-3xl bg-white p-6 shadow-card sm:p-10 lg:grid-cols-[35%_1fr] lg:p-12">
+      <div class="grid gap-10 rounded-3xl bg-surface p-6 shadow-card sm:p-10 lg:grid-cols-[35%_1fr] lg:p-12">
         <div>
           <span class="eyebrow">Aide &amp; support</span>
           <h2 class="mb-4 mt-2 text-h-lg">Questions fréquentes</h2>

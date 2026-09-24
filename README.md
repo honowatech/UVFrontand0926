@@ -81,9 +81,12 @@ manifest.webmanifest            Installation sur l'écran d'accueil (icônes dan
 
 ### Thème clair / nuit
 
-Le **clair est le défaut** ; la nuit est un choix, gardé en `localStorage` sous
-`unevoyante.theme` et appliqué par le court script placé dans le `<head>` de chaque page,
-avant le premier rendu (donc sans flash blanc). Une **icône unique** dans l'en-tête — lune
+**Sans choix du visiteur, le site suit son système** (`prefers-color-scheme`), y compris
+en direct quand le système bascule le soir. Le bouton de l'en-tête enregistre un choix
+explicite (`clair` ou `nuit`) en `localStorage` sous `unevoyante.theme`, qui l'emporte
+ensuite toujours. La même règle est appliquée par le court script placé dans le `<head>` de
+chaque page, avant le premier rendu (donc sans flash blanc), puis par `themeCourant()` dans
+`app.js`. Une **icône unique** dans l'en-tête — lune
 le jour, soleil la nuit — bascule d'un thème à l'autre, identique sur mobile et sur desktop ;
 elle annonce la destination, pas l'état courant.
 
@@ -96,17 +99,20 @@ les branche sous la forme `rgb(var(--uv-…) / <alpha-value>)`, si bien que `tex
 - Certaines couleurs jouent **deux rôles** : `navy` est l'encre ET le fond du chrome, `royal`
   la couleur des liens ET le fond des bulles. D'où les sections `textColor` / `backgroundColor`
   distinctes dans la config — elles ne sont pas redondantes avec `colors`.
-- `bg-white` opaque est une **surface** (elle bascule) ; `bg-white/10` est du **verre** posé
-  sur le chrome (il ne bascule pas). Tailwind en fait deux sélecteurs distincts, la couche
-  « nuit » en bas de `input.css` ne reprend donc que l'opaque.
-- `data-uv-blanc` fige une plaque blanche dans les deux thèmes : réservé aux marques de
-  paiement, dont les encres sont des couleurs de marque et non des jetons.
+- Une carte, un champ ou un panneau s'écrit **`bg-surface`** (blanc le jour, marine la nuit),
+  le fond de page **`bg-ground`**. **`bg-white` reste blanc dans les deux thèmes** : il est
+  réservé au verre posé sur le chrome (`bg-white/10`…) et aux plaques des marques de paiement
+  (`data-uv-blanc`, dont les encres sont des couleurs de marque). Un `bg-white` opaque sur une
+  carte serait donc une fuite de lumière en nuit — l'audit ci-dessous la signale.
+- L'or reste l'or la nuit : sur les fonds dorés, l'encre revient à `--uv-ink-fixe`, le marine
+  de la charte, seule couleur jamais redéfinie sous `.dark`.
 
 **Contrôle** : `http://localhost:5173/scripts/audit-theme.html` recharge les pages dans les
 deux thèmes — plus les modales ouvertes (`modales.html?ouvrir=…`) et la page Crédits avec
 l'offre appliquée — et relève les fonds clairs restés clairs en mode nuit ainsi que les
-contrastes sous le seuil AA. Référence à l'ajout de l'upsell : 36 combinaisons,
-0 fuite, 0 contraste insuffisant en nuit.
+contrastes sous le seuil AA. Référence au passage à `bg-surface` : 38 combinaisons,
+0 fuite, 0 contraste insuffisant en nuit (5 icônes décoratives dorées ou vertes sous le seuil
+en clair, choix de charte).
 
 ### iPhone : hauteur visible, clavier, encoche
 

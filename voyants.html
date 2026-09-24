@@ -24,10 +24,10 @@
 <link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/app.css">
-<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
-<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
 </head>
-<body class="flex min-h-screen flex-col bg-ice">
+<body class="flex min-h-screen flex-col bg-ground">
 <a href="#contenu" class="skip-link">Aller au contenu principal</a>
 <uv-header sombre></uv-header>
 <div id="ariane"></div>
@@ -73,7 +73,7 @@
   <!-- ======================================================================
        BARRE DE RECHERCHE ET DE FILTRES
        ====================================================================== -->
-  <section class="z-30 border-y border-line bg-white/95 backdrop-blur-xl md:sticky md:top-16 lg:top-18">
+  <section class="z-30 border-y border-line bg-surface/95 backdrop-blur-xl md:sticky md:top-16 lg:top-18">
     <div class="shell py-3 md:py-4">
       <div class="flex flex-col gap-3">
 
@@ -124,7 +124,7 @@
       </div>
 
       <!-- Rappel : aucun cul-de-sac, on propose toujours une suite -->
-      <div class="mt-14 rounded-3xl bg-white p-8 text-center shadow-card lg:p-12">
+      <div class="mt-14 rounded-3xl bg-surface p-8 text-center shadow-card lg:p-12">
         <h2 class="mb-3 text-h-md">Vous hésitez sur le praticien à choisir ?</h2>
         <p class="mx-auto mb-6 max-w-xl text-body-md leading-relaxed text-muted">
           Décrivez votre question en une phrase : nous vous orientons vers les praticiens dont la

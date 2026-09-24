@@ -22,10 +22,10 @@
 <link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/app.css">
-<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
-<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
 </head>
-<body class="flex min-h-screen flex-col bg-ice" style="--uv-bar: 66px">
+<body class="flex min-h-screen flex-col bg-ground" style="--uv-bar: 66px">
 <a href="#contenu" class="skip-link">Aller au contenu principal</a>
 <uv-header sombre></uv-header>
 <div id="ariane" class="hidden lg:block"></div>
@@ -135,7 +135,7 @@
 </main>
 
 <!-- Barre d'action mobile -->
-<div class="fixed inset-x-0 bottom-[var(--tabbar-total)] z-40 border-t border-line bg-white/95 px-4 py-3 shadow-bar backdrop-blur-xl lg:hidden" id="barre-mobile"></div>
+<div class="fixed inset-x-0 bottom-[var(--tabbar-total)] z-40 border-t border-line bg-surface/95 px-4 py-3 shadow-bar backdrop-blur-xl lg:hidden" id="barre-mobile"></div>
 
 <uv-footer></uv-footer>
 <uv-tabbar></uv-tabbar>

@@ -70,7 +70,10 @@
     color-scheme: light;
 
     /* Encre & marine ------------------------------------------------- */
-    --uv-ink: 15 31 75;            /* #0F1F4B — encre principale */
+    /* Marine de la charte, identique dans les deux thèmes (jamais redéfini
+       sous .dark) : l'encre posée sur l'or, qui reste l'or la nuit. */
+    --uv-ink-fixe: 15 31 75;       /* #0F1F4B */
+    --uv-ink: var(--uv-ink-fixe);  /* encre principale */
     --uv-ink-950: 8 18 48;
     --uv-ink-900: 11 23 56;
     --uv-ink-800: 15 31 75;
@@ -1080,22 +1083,11 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
    variables de la palette.
    ========================================================================== */
 
-/* Le sol de la page est plus sombre que les cartes (élévation inversée).
-   Les pages portent `bg-ice` sur <body> : cette règle prend le dessus. */
-.dark body { background-color: rgb(var(--uv-ground)); }
-
-/* `bg-white` opaque = une surface, elle bascule.
-   `bg-white/10` et `bg-white/20` = du verre posé sur le chrome, on n'y touche
-   pas : ce sont deux sélecteurs distincts, la distinction est donc gratuite. */
-.dark .bg-white { background-color: rgb(var(--uv-surface)); }
-.dark .bg-white\/95 { background-color: rgb(var(--uv-surface) / .95); }
-.dark .bg-white\/60 { background-color: rgb(var(--uv-surface) / .6); }
-.dark .hover\:bg-white\/60:hover { background-color: rgb(var(--uv-surface) / .6); }
-.dark .ring-white { --tw-ring-color: rgb(var(--uv-surface)); }
-
-/* Exception : les marques de paiement gardent leur plaque blanche dans les
-   deux thèmes — leurs encres sont des couleurs de marque, pas des jetons. */
-.dark [data-uv-blanc] { background-color: #fff; border-color: rgb(255 255 255 / .25); }
+/* Sol (`bg-ground`) et surfaces (`bg-surface`) basculent par leurs jetons :
+   aucune règle ici. `bg-white` reste blanc dans les deux thèmes — c'est la
+   plaque des marques de paiement (`data-uv-blanc`), dont les encres sont des
+   couleurs de marque ; seul son filet s'adapte au fond de nuit. */
+.dark [data-uv-blanc] { border-color: rgb(255 255 255 / .25); }
 
 /* Le bouton marine deviendrait invisible sur un fond de nuit : il passe au
    bleu interactif, qui reste dans la charte et garde son texte blanc. */
@@ -1106,7 +1098,7 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
    Plutôt que de forcer une couleur, on ramène le jeton d'encre à sa valeur
    claire à l'intérieur de chaque fond doré — l'élément ET ses descendants
    (icône, libellé, pastille « text-navy ») suivent sans exception. */
-.dark :is(.btn-gold, .bg-gold-cta, .bg-gold-soft, .bg-gold) { --uv-ink: 15 31 75; }
+.dark :is(.btn-gold, .bg-gold-cta, .bg-gold-soft, .bg-gold) { --uv-ink: var(--uv-ink-fixe); }
 
 /* Chevron des listes déroulantes (SVG : pas d'héritage de variable). */
 .dark select.field {
@@ -1175,7 +1167,7 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
 
 /* Liste des forfaits : l'or reste l'or (encre marine sur les pièces, comme sur
    les boutons dorés), lueur plus retenue et constellation plus présente. */
-.dark .forfait-piece { --uv-ink: 15 31 75; }
+.dark .forfait-piece { --uv-ink: var(--uv-ink-fixe); }
 .dark :is(.forfaits-entete, .fidelite-entete) { --forfaits-lueur: .11; }
 .dark :is(.forfaits-entete, .fidelite-entete) > svg { opacity: .3; }
 

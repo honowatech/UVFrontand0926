@@ -13,10 +13,10 @@
 <link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/app.css">
-<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
-<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
 </head>
-<body class="flex min-h-screen flex-col bg-ice">
+<body class="flex min-h-screen flex-col bg-ground">
 <a href="#contenu" class="skip-link">Aller au contenu principal</a>
 <uv-header sombre></uv-header>
 <div id="ariane"></div>
@@ -27,7 +27,7 @@
     <!-- Bandeau visiteur (jamais bloquant, simple invitation) -->
     <div id="bandeau-visiteur" class="mb-8 hidden">
       <div class="card flex flex-col gap-4 border-gold bg-gold-50 p-5 sm:flex-row sm:items-center sm:p-6">
-        <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white">
+        <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-surface">
           <span class="material-symbols-outlined text-[24px] text-gold" aria-hidden="true">auto_awesome</span>
         </span>
         <div class="flex-1">

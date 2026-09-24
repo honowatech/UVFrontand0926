@@ -13,10 +13,10 @@
 <link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/app.css">
-<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
-<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
 </head>
-<body class="flex min-h-screen flex-col bg-ice">
+<body class="flex min-h-screen flex-col bg-ground">
 <a href="#contenu" class="skip-link">Aller au contenu principal</a>
 <uv-header sombre></uv-header>
 <div id="ariane"></div>
@@ -43,7 +43,7 @@
 
       <div class="prose-uv" id="apercu"></div>
 
-      <div class="mt-10 rounded-3xl bg-white p-8 shadow-card">
+      <div class="mt-10 rounded-3xl bg-surface p-8 shadow-card">
         <h2 class="mb-2 text-h-md">Poursuivre votre visite</h2>
         <p class="mb-6 text-body-md text-muted">
           Aucune impasse : voici les parcours entièrement fonctionnels de cette maquette.
@@ -132,7 +132,7 @@
     ['tchat.html', 'forum', 'Tchat', 'Conversation réelle, débit de crédits inclus'],
     ['credits.html', 'monetization_on', 'Crédits', 'Packs, paiement simulé et rechargement'],
   ].map((p) => `
-    <a href="${p[0]}" class="flex items-center gap-3 rounded-md border border-line bg-white p-4 transition-colors hover:bg-ice">
+    <a href="${p[0]}" class="flex items-center gap-3 rounded-md border border-line bg-surface p-4 transition-colors hover:bg-ice">
       ${icone(p[1], 'text-[24px] text-royal shrink-0')}
       <span><strong class="block text-label-md text-navy">${p[2]}</strong>
         <span class="text-body-sm text-muted">${p[3]}</span></span>

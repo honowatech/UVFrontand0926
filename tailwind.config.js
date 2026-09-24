@@ -70,6 +70,8 @@ module.exports = {
         ice: v('soft'),        // surface douce
         tint: v('tint'),       // remplissage actif
         line: v('line'),       // filets & séparateurs
+        surface: v('surface'), // cartes, champs, panneaux : blanc le jour, marine la nuit
+        ground: v('ground'),   // sol de la page, sous les surfaces
         /* Statuts ------------------------------------------------------ */
         online: v('online'),
         busy: v('busy'),
@@ -80,9 +82,10 @@ module.exports = {
          COULEURS — rôle « fond »
          Là où le fond ne suit pas l'encre : le chrome s'assombrit quand
          l'encre s'éclaircit, les bulles et boutons restent colorés.
-         `white` n'est volontairement PAS redéfini ici : bg-white/10 est du
-         verre posé sur le chrome, pas une surface. Seul l'opaque bascule,
-         via une règle dédiée dans input.css.
+         Une surface s'écrit `bg-surface` (elle bascule avec le thème) ;
+         `white` reste le vrai blanc dans les deux thèmes : bg-white/10 est
+         du verre posé sur le chrome, bg-white la plaque des marques de
+         paiement.
          ================================================================== */
       backgroundColor: {
         navy: {

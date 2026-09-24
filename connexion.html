@@ -13,10 +13,10 @@
 <link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/app.css">
-<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
-<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
 </head>
-<body class="flex min-h-screen flex-col bg-ice">
+<body class="flex min-h-screen flex-col bg-ground">
 <a href="#contenu" class="skip-link">Aller au formulaire</a>
 <uv-header sombre></uv-header>
 
@@ -95,7 +95,7 @@
       </form>
 
       <!-- Sortie de secours : personne ne reste coincé sur cet écran -->
-      <div class="mt-6 rounded-lg border border-line bg-white p-5 text-center">
+      <div class="mt-6 rounded-lg border border-line bg-surface p-5 text-center">
         <p class="text-body-sm leading-relaxed text-muted">
           La connexion n'est jamais obligatoire pour consulter le site.
           <a href="voyants.html" class="font-medium text-royal underline underline-offset-2">Parcourir les praticiens</a>

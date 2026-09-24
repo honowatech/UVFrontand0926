@@ -309,7 +309,7 @@
     const t = document.createElement('div');
     const ton = o.ton === 'or'
       ? 'bg-gold-cta text-navy'
-      : o.ton === 'alerte' ? 'bg-white text-navy border border-gold' : 'bg-navy text-white';
+      : o.ton === 'alerte' ? 'bg-surface text-navy border border-gold' : 'bg-navy text-white';
     t.className = `pointer-events-auto flex animate-pop-in items-center gap-3 rounded-full ${ton} px-5 py-3 text-label-md shadow-lift`;
     t.innerHTML = `${icone(o.icone || 'check_circle', 'text-[18px] shrink-0')}<span class="flex-1">${echapper(message)}</span>`;
     if (o.action && o.href) {
@@ -326,21 +326,30 @@
 
   /* ==========================================================================
      3 bis. THÈME CLAIR / NUIT
-     Le mode clair est le défaut : la nuit est un choix, jamais une surprise.
-     Le choix est gardé dans sa propre clé (et non dans l'état général) pour
-     que le court script placé en <head> puisse l'appliquer avant le premier
-     rendu, sans lire ni analyser tout l'état.
+     Sans choix du visiteur, le site suit la préférence de son système
+     (prefers-color-scheme) ; le bouton de l'en-tête fixe un choix explicite,
+     qui l'emporte ensuite toujours. Le choix est gardé dans sa propre clé
+     (et non dans l'état général) pour que le court script placé en <head>
+     puisse l'appliquer avant le premier rendu, sans lire ni analyser tout
+     l'état.
      ========================================================================== */
   const CLE_THEME = 'unevoyante.theme';
   const RACINE = document.documentElement;
   const CHROME_THEME = { clair: '#0F1F4B', nuit: '#0E1733' };
 
+  const SYSTEME_SOMBRE = matchMedia('(prefers-color-scheme: dark)');
+
+  /** Choix mémorisé, sinon préférence du système (même règle que le script du <head>). */
   function themeCourant() {
+    let choix;
     try {
-      return localStorage.getItem(CLE_THEME) === 'nuit' ? 'nuit' : 'clair';
+      choix = localStorage.getItem(CLE_THEME);
     } catch (e) {
+      // Stockage indisponible : la page seule fait foi, bascules comprises.
       return RACINE.classList.contains('dark') ? 'nuit' : 'clair';
     }
+    if (choix === 'nuit' || choix === 'clair') return choix;
+    return SYSTEME_SOMBRE.matches ? 'nuit' : 'clair';
   }
 
   /** Met le bouton au diapason : l'icône annonce la destination, pas l'état. */
@@ -416,7 +425,7 @@
       const sombre = this.hasAttribute('sombre');
       const fond = sombre
         ? 'bg-navy text-white border-navy-600'
-        : 'bg-white/95 text-navy border-line';
+        : 'bg-surface/95 text-navy border-line';
       const lien = sombre
         ? 'text-white/80 hover:text-gold'
         : 'text-navy/75 hover:text-royal';
@@ -471,7 +480,7 @@
 <!-- Tiroir mobile : se referme au clic extérieur, à Échap et à la navigation -->
 <div id="uv-drawer" class="fixed inset-0 z-[60] hidden lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
   <div class="absolute inset-0 bg-navy/40 backdrop-blur-sm" data-uv-drawer-close></div>
-  <nav class="absolute inset-y-0 right-0 flex w-[min(86vw,340px)] animate-slide-left flex-col gap-1 overflow-y-auto bg-white p-5 shadow-lift pt-safe">
+  <nav class="absolute inset-y-0 right-0 flex w-[min(86vw,340px)] animate-slide-left flex-col gap-1 overflow-y-auto bg-surface p-5 shadow-lift pt-safe">
     <div class="mb-2 flex items-center justify-between">
       ${logo('text-[20px]')}
       <button type="button" data-uv-drawer-close class="grid h-10 w-10 place-items-center rounded-full hover:bg-ice" aria-label="Fermer le menu">
@@ -563,7 +572,7 @@
     ${c ? `<span class="hidden text-label-md sm:inline">${echapper(c.prenom)}</span>` : ''}
     ${icone('expand_more', 'text-[18px] hidden sm:inline')}
   </button>
-  <div class="absolute right-0 top-full mt-2 hidden w-60 overflow-hidden rounded-lg border border-line bg-white p-1.5 text-navy shadow-lift" data-uv-menu-panel>
+  <div class="absolute right-0 top-full mt-2 hidden w-60 overflow-hidden rounded-lg border border-line bg-surface p-1.5 text-navy shadow-lift" data-uv-menu-panel>
     ${LIENS_PROFIL.map(([ic, label, href]) => `
     <a href="${href}" class="flex items-center gap-3 rounded px-3 py-2.5 text-label-md hover:bg-ice">${icone(ic, 'text-[20px] text-royal')} ${label}</a>`).join('')}
     <hr class="rule my-1.5">
@@ -735,7 +744,7 @@
       this.innerHTML = `
 <!-- L'espace réservé inclut l'encoche du bas (iPhone), sinon le contenu passe dessous. -->
 <div class="h-[var(--tabbar-total)] lg:hidden" aria-hidden="true" data-uv-tabbar-espace></div>
-<nav class="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white/95 pb-safe backdrop-blur-xl shadow-bar lg:hidden"
+<nav class="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 pb-safe backdrop-blur-xl shadow-bar lg:hidden"
      aria-label="Navigation rapide" data-uv-tabbar>
   <ul class="mx-auto flex max-w-md items-stretch justify-around px-2">
     ${ONGLETS.map(([href, ic, label]) => {
@@ -1038,7 +1047,7 @@
     if (document.body.scrollHeight < 2200) return;
     const b = document.createElement('button');
     b.type = 'button';
-    b.className = 'fixed bottom-[calc(var(--tabbar-total)+var(--uv-bar,0px)+16px)] right-4 z-40 grid h-11 w-11 translate-y-3 place-items-center rounded-full border border-line bg-white text-royal opacity-0 shadow-lift transition-all hover:bg-ice lg:bottom-6';
+    b.className = 'fixed bottom-[calc(var(--tabbar-total)+var(--uv-bar,0px)+16px)] right-4 z-40 grid h-11 w-11 translate-y-3 place-items-center rounded-full border border-line bg-surface text-royal opacity-0 shadow-lift transition-all hover:bg-ice lg:bottom-6';
     b.setAttribute('aria-label', 'Revenir en haut de la page');
     b.innerHTML = icone('arrow_upward', 'text-[22px]');
     b.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
@@ -1072,6 +1081,9 @@
 
   function demarrer() {
     appliquerTheme(themeCourant());
+    // Sans choix mémorisé, le site suit le système en direct (bascule
+    // automatique du soir, par exemple). Un choix explicite l'emporte.
+    SYSTEME_SOMBRE.addEventListener('change', () => appliquerTheme(themeCourant()));
     viewportReel();
     prechargement();
     notifications();

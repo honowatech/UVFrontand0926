@@ -13,10 +13,10 @@
 <link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/app.css">
-<!-- Theme : applique le choix avant le premier rendu (pas de flash blanc) -->
-<script>try{if(localStorage.getItem('unevoyante.theme')==='nuit')document.documentElement.classList.add('dark')}catch(e){}</script>
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
 </head>
-<body class="flex min-h-screen flex-col bg-ice">
+<body class="flex min-h-screen flex-col bg-ground">
 <a href="#contenu" class="skip-link">Aller au contenu principal</a>
 <uv-header sombre></uv-header>
 <div id="ariane"></div>
@@ -32,7 +32,7 @@
       </div>
 
       <div class="card flex shrink-0 items-center gap-4 border-royal-200 bg-tint p-5 lg:w-[340px]">
-        <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white">
+        <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-surface">
           <span class="material-symbols-outlined text-[26px] text-gold" aria-hidden="true">monetization_on</span>
         </span>
         <span>
@@ -82,7 +82,7 @@
             </span>
           </label>
 
-          <label class="flex cursor-pointer items-center gap-3 rounded-md border-2 border-line bg-white p-4 transition-colors hover:border-royal-200" data-moyen="apple">
+          <label class="flex cursor-pointer items-center gap-3 rounded-md border-2 border-line bg-surface p-4 transition-colors hover:border-royal-200" data-moyen="apple">
             <input type="radio" name="moyen" class="radio" value="apple">
             <span class="flex-1 text-label-lg text-navy">Apple&nbsp;Pay</span>
             <span class="inline-flex items-center gap-1 rounded bg-navy px-2.5 py-1 text-label-sm text-white">
@@ -91,7 +91,7 @@
             </span>
           </label>
 
-          <label class="flex cursor-pointer items-center gap-3 rounded-md border-2 border-line bg-white p-4 transition-colors hover:border-royal-200" data-moyen="paypal">
+          <label class="flex cursor-pointer items-center gap-3 rounded-md border-2 border-line bg-surface p-4 transition-colors hover:border-royal-200" data-moyen="paypal">
             <input type="radio" name="moyen" class="radio" value="paypal">
             <span class="flex-1 text-label-lg text-navy">PayPal</span>
             <span data-uv-blanc class="rounded border border-line bg-white px-2 py-1 text-label-sm font-bold italic text-[#003087]">PayPal</span>
@@ -205,7 +205,7 @@
     <!-- Comparatif : utile et rassurant -->
     <section class="mt-14">
       <h2 class="mb-5 text-h-md">Ce que représentent vos crédits</h2>
-      <div class="overflow-x-auto rounded-lg border border-line bg-white">
+      <div class="overflow-x-auto rounded-lg border border-line bg-surface">
         <table class="w-full min-w-[560px] text-left text-body-md">
           <caption class="sr-only">Correspondance entre packs, crédits et nombre de messages</caption>
           <thead class="bg-ice text-label-md text-navy">
@@ -283,8 +283,8 @@
   function carteOffre() {
     const actif = choisi === OFFRE;
     const cadre = actif ? 'border-gold bg-gold-50 shadow-gold'
-      : offreUtilisee ? 'cursor-default border-line bg-white'
-      : 'border-line bg-white hover:border-royal-200 hover:shadow-card';
+      : offreUtilisee ? 'cursor-default border-line bg-surface'
+      : 'border-line bg-surface hover:border-royal-200 hover:shadow-card';
     const pastille = offreUtilisee ? `${icone('check_circle', 'text-[18px]')} Offre utilisée`
       : actif ? 'Offre sélectionnée' : 'Sélectionner';
     return `
@@ -324,7 +324,7 @@
     p.populaire ? 'bg-gold-cta text-navy' : 'bg-navy text-white'}">${p.badge}</span>` : ''}
   <button type="button" role="radio" aria-checked="${actif}" data-pack="${p.id}"
           class="flex w-full flex-col rounded-lg border-2 p-5 text-left transition-all ${
-            actif ? 'border-gold bg-gold-50 shadow-gold' : 'border-line bg-white hover:border-royal-200 hover:shadow-card'}">
+            actif ? 'border-gold bg-gold-50 shadow-gold' : 'border-line bg-surface hover:border-royal-200 hover:shadow-card'}">
     <!-- Pièce d'or portant les crédits, nom en vedette à côté (comme dans la
          modale des forfaits) ; la coche de sélection passe dans le bouton. -->
     <span class="mb-3 flex items-center gap-4 border-b border-line pb-3">
@@ -406,7 +406,7 @@
     els('[data-moyen]').forEach((x) => {
       const actif = x === l;
       x.className = `flex cursor-pointer items-center gap-3 rounded-md border-2 p-4 transition-colors ${
-        actif ? 'border-royal bg-royal-50' : 'border-line bg-white hover:border-royal-200'}`;
+        actif ? 'border-royal bg-royal-50' : 'border-line bg-surface hover:border-royal-200'}`;
     });
     el('#formulaire-carte').classList.toggle('hidden', l.dataset.moyen !== 'carte');
   }));
