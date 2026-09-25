@@ -29,6 +29,16 @@
       ouvrir: () => UV.modales.promoMobile.ouvrir(),
     },
     {
+      id: 'confirmation', label: 'Confirmation · type réutilisable',
+      declencheur: 'Après une action réussie · ex. cadeau de l’offre du jour',
+      ouvrir: () => UV.confirmation({
+        surtitre: 'Cadeau récupéré',
+        titre: '3\u00A0crédits ajoutés à votre solde',
+        message: 'Ils sont disponibles tout de suite, pour la consultation de votre choix.',
+        recu: [['Numéro vérifié', '06\u00A012\u00A034\u00A056\u00A078'], ['Nouveau solde', '6\u00A0crédits']],
+      }),
+    },
+    {
       id: 'upsell', label: 'Upsell · +20 crédits en plus',
       declencheur: 'Validation d’une offre promo ou d’un pack depuis une modale',
       // Exemple : proposé en plus du Pack Certitude

@@ -126,6 +126,59 @@
 </svg>`;
   }
 
+  /**
+   * Confirmation : l'accusé de réception d'une action réussie. Un tout autre
+   * registre que les modales d'offre : pas d'en-tête ni de pied, un seul fond
+   * nuit, une carte resserrée centrée même sur mobile. Un sceau doré se trace,
+   * la coche s'y inscrit, quelques éclats s'en échappent ; puis le message, et
+   * un reçu en pointillés pour les chiffres qui comptent.
+   *   icone     remplace la coche par une icône (facultatif)
+   *   surtitre  petite ligne dorée au-dessus du titre : « Cadeau récupéré »
+   *   titre     la phrase de confirmation
+   *   message   une phrase d'accompagnement (facultatif)
+   *   recu      [[libellé, valeur], …] (facultatif)
+   *   action    libellé du bouton (« Continuer » par défaut)
+   *   apresFermeture(raison)
+   */
+  function confirmation(o) {
+    const ECLATS = 8;
+    const m = modale({
+      titre: 'confirmation-titre',
+      description: o.message ? 'confirmation-message' : null,
+      classe: 'modale-confirmation',
+      apresFermeture: o.apresFermeture,
+      contenu: `
+<div class="modale-panneau" tabindex="-1">
+  <div class="confirmation-sceau" aria-hidden="true">
+    <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <circle class="confirmation-halo" cx="48" cy="48" r="34" stroke-width="1" />
+      <circle class="confirmation-anneau" cx="48" cy="48" r="34" stroke-width="2.5" pathLength="1" transform="rotate(-90 48 48)" />
+      ${o.icone ? '' : '<path class="confirmation-coche" d="M34 49 l10 10 l19 -21" stroke-width="3.5" pathLength="1" />'}
+      <g class="confirmation-eclats">
+        ${Array.from({ length: ECLATS }, (_, i) => `<line x1="48" y1="4" x2="48" y2="9" stroke-width="2" style="--a: ${i * (360 / ECLATS) + 22.5}deg" />`).join('')}
+      </g>
+    </svg>
+    ${o.icone ? `<span class="confirmation-icone">${icone(o.icone, 'text-[34px]')}</span>` : ''}
+  </div>
+
+  ${o.surtitre ? `<p class="confirmation-surtitre">${o.surtitre}</p>` : ''}
+  <h2 id="confirmation-titre" class="confirmation-titre">${o.titre}</h2>
+  ${o.message ? `<p id="confirmation-message" class="confirmation-message">${o.message}</p>` : ''}
+
+  ${o.recu && o.recu.length ? `
+  <dl class="confirmation-recu">
+    ${o.recu.map(([libelle, valeur]) => `
+    <div><dt>${libelle}</dt><span aria-hidden="true"></span><dd>${valeur}</dd></div>`).join('')}
+  </dl>` : ''}
+
+  <button type="button" class="btn-gold btn-lg confirmation-action" data-fermer>${o.action || 'Continuer'}</button>
+</div>`,
+    });
+    if (!m) return null;
+    el('[data-fermer]', m.panneau).addEventListener('click', () => m.fermer('action'));
+    return m;
+  }
+
   /* ==========================================================================
      2. PROMO CLIENTS VERT
      Offre flash proposée à l'ouverture du tchat. Le compte à rebours est réel :
@@ -626,7 +679,7 @@
      pendant la saisie, le bouton restant grisé d'ici là. L'envoi et la
      vérification du code SMS reviendront au back-office. La maquette crédite
      le cadeau dès que le numéro est complet, une seule fois par numéro
-     (mémorisé dans l'état du visiteur).
+     (mémorisé dans l'état du visiteur), puis confirme par UV.confirmation().
      ========================================================================== */
   const promoMobile = (() => {
     const O = D.OFFRES.mobile;
@@ -708,13 +761,6 @@
       Non merci
     </button>
   </form>
-
-  <!-- Étape 2 : le cadeau est dans le solde -->
-  <div class="modale-pied hidden text-center" data-obtenu>
-    <h2 class="text-h-md" tabindex="-1" data-obtenu-titre>${credits} ajoutés à votre solde</h2>
-    <p class="mt-2 text-body-md text-muted" data-solde></p>
-    <button type="button" class="btn-gold btn-lg mt-6 w-full" data-continuer>Continuer</button>
-  </div>
 </div>`,
       });
       if (!m) return null;
@@ -763,17 +809,20 @@
         Store.set({ mobilesVerifies: [...deja, n] });
         Store.crediter(O.credits);
 
-        panneau.dataset.etat = 'obtenue';
-        q('[data-bandeau] .material-symbols-outlined').textContent = 'check_circle';
-        q('[data-bandeau-texte]').textContent = 'Cadeau récupéré';
-        q('[data-solde]').textContent = `Nouveau solde : ${insecable(`${Store.credits} crédit${Store.credits > 1 ? 's' : ''}`)}.`;
-        q('[data-formulaire]').classList.add('hidden');
-        q('[data-obtenu]').classList.remove('hidden');
-        q('[data-obtenu-titre]').focus({ preventScroll: true });
+        // L'offre s'efface d'un coup, la confirmation prend sa place.
+        fermer('obtenue', true);
+        confirmation({
+          surtitre: 'Cadeau récupéré',
+          titre: `${credits} ajoutés à votre solde`,
+          message: 'Ils sont disponibles tout de suite, pour la consultation de votre choix.',
+          recu: [
+            ['Numéro vérifié', insecable(lisible(n))],
+            ['Nouveau solde', insecable(`${Store.credits} crédit${Store.credits > 1 ? 's' : ''}`)],
+          ],
+        });
       });
 
       q('[data-refus]').addEventListener('click', () => fermer('refus'));
-      q('[data-continuer]').addEventListener('click', () => fermer('obtenue'));
       return m;
     }
 
@@ -782,5 +831,6 @@
 
   /* --- API publique -------------------------------------------------------- */
   global.UV.modale = modale;
+  global.UV.confirmation = confirmation;
   global.UV.modales = { promoVert, forfaits, upsell, fidelite, promoMobile };
 })(window);

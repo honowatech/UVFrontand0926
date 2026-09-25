@@ -2,7 +2,7 @@
   /* --- Offre du jour : crédits contre un numéro de mobile -------------------
      Reprend l'en-tête nuit de la promo VERT (.promo-entete, .promo-minuteur,
      .promo-chiffre-valeur) ; seul l'indicatif pays lui est propre.
-     États posés par modales.js sur .modale-panneau[data-etat] : active → obtenue. */
+     La réussite s'affiche dans une modale de confirmation (confirmation.css). */
   .promo-mobile-indicatif {
     @apply inline-flex min-h-[48px] shrink-0 items-center rounded-md border border-line bg-ice px-3
            text-body-md font-bold text-navy;
@@ -11,5 +11,4 @@
   /* Vert des statuts (lisible dans les deux thèmes) : la valeur offerte et le
      bouclier de la vérification. */
   .promo-mobile-vert { color: rgb(var(--uv-badge-online)); }
-  [data-etat='obtenue'] .promo-minuteur { box-shadow: inset 0 0 0 1px rgb(232 198 123 / .7); }
 }
