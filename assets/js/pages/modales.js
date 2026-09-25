@@ -23,7 +23,11 @@
       declencheur: 'Barre de progression · pied du tchat',
       ouvrir: () => UV.modales.fidelite.ouvrir(),
     },
-    { id: 'promo-credits-num-adresse', label: 'Promo pour crédits vs Num + Adresse' },
+    {
+      id: 'promo-credits-num-adresse', label: 'Promo pour crédits vs Num + Adresse',
+      declencheur: 'Offre du jour · déclenchement à définir',
+      ouvrir: () => UV.modales.promoMobile.ouvrir(),
+    },
     {
       id: 'upsell', label: 'Upsell · +20 crédits en plus',
       declencheur: 'Validation d’une offre promo ou d’un pack depuis une modale',

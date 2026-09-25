@@ -33,10 +33,10 @@
     .promo-chiffre-valeur { font-size: 56px; }
   }
   @media (min-width: 540px) and (max-height: 520px) {
-    .promo-vert, .modale-upsell { max-width: 620px; }
-    :is(.promo-vert, .modale-upsell) .modale-panneau { @apply grid grid-cols-2; }
+    .promo-vert, .promo-mobile, .modale-upsell { max-width: 620px; }
+    :is(.promo-vert, .promo-mobile, .modale-upsell) .modale-panneau { @apply grid grid-cols-2; }
     .promo-entete { @apply justify-center px-5 py-6; }
-    :is(.promo-vert, .modale-upsell) .modale-pied { @apply self-center px-6 py-5; }
+    :is(.promo-vert, .promo-mobile, .modale-upsell) .modale-pied { @apply self-center px-6 py-5; }
     .upsell-valeur { font-size: 40px; }
     .upsell-garanties { @apply mt-3; }
   }

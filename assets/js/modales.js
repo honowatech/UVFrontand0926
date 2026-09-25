@@ -620,7 +620,148 @@
     return { ouvrir };
   })();
 
+  /* ==========================================================================
+     6. OFFRE DU JOUR — crédits gratuits contre un numéro de mobile
+     Le numéro est contrôlé ici (mobile français : 06 ou 07, dix chiffres) ;
+     l'envoi et la vérification du code SMS reviendront au back-office. La
+     maquette crédite le cadeau dès que le numéro est valide, une seule fois
+     par numéro (mémorisé dans l'état du visiteur).
+     ========================================================================== */
+  const promoMobile = (() => {
+    const O = D.OFFRES.mobile;
+    const credits = insecable(`${O.credits} crédits`);
+
+    /** « 06 12 34 56 78 », « +33 6 12… », « 0033 6… » ou « 612… » → « 0612345678 », sinon null. */
+    function normaliser(saisie) {
+      let n = String(saisie).replace(/[\s.\-()]/g, '');
+      if (/^\+33/.test(n)) n = '0' + n.slice(3);
+      else if (/^0033/.test(n)) n = '0' + n.slice(4);
+      else if (/^[67]\d{8}$/.test(n)) n = '0' + n;
+      return /^0[67]\d{8}$/.test(n) ? n : null;
+    }
+    const lisible = (n) => n.replace(/(\d{2})(?=\d)/g, '$1 ');
+
+    function ouvrir() {
+      const { Store } = global.UV;
+
+      const m = modale({
+        titre: 'promo-mobile-titre',
+        description: 'promo-mobile-description',
+        classe: 'promo-mobile',
+        contenu: `
+<div class="modale-panneau" tabindex="-1" data-etat="active">
+
+  <!-- En-tête nuit : l'offre du jour et ce qu'elle donne -->
+  <div class="promo-entete">
+    ${ciel()}
+    <span aria-hidden="true" class="promo-lueur absolute left-1/2 top-[64%] -z-10 h-36 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/25 blur-3xl"></span>
+
+    <p class="promo-minuteur" data-bandeau>
+      ${icone('redeem', 'text-[18px] text-gold')}
+      <span class="font-extrabold uppercase tracking-[0.12em]" data-bandeau-texte>Offre du jour</span>
+    </p>
+
+    <p class="promo-valeur mt-5 flex flex-col items-center">
+      <span class="promo-chiffre-valeur text-gradient-gold">${O.credits}</span>
+      <span class="mt-2 pl-[0.3em] text-label-lg font-extrabold uppercase tracking-[0.3em] text-gold-300">crédits gratuits</span>
+    </p>
+  </div>
+
+  <!-- Étape 1 : le numéro -->
+  <form class="modale-pied text-center" novalidate data-formulaire>
+    <h2 id="promo-mobile-titre" class="text-h-md">Cadeau spécial pour vous</h2>
+    <p id="promo-mobile-description" class="mt-2 text-body-md text-muted">
+      Recevez ${credits} gratuits en vérifiant votre numéro de mobile
+    </p>
+    <p class="mt-3">
+      <span class="badge-promo px-3 py-1.5 text-label-md">
+        ${icone('stars', 'text-[16px]')} Soit ${insecable(euro(O.valeur))} de valeur offerte — ${insecable('100 %')} gratuit
+      </span>
+    </p>
+
+    <fieldset class="mt-6 text-left">
+      <legend class="kicker mb-3 flex items-center gap-1.5">
+        ${icone('verified_user', 'text-[16px] text-royal')} Vérification du numéro de mobile
+      </legend>
+      <label for="promo-mobile-numero" class="label">Votre numéro de mobile</label>
+      <div class="flex gap-2">
+        <span class="promo-mobile-indicatif" id="promo-mobile-indicatif">
+          <span class="sr-only">Indicatif pays : France, </span>FR (+33)
+        </span>
+        <input id="promo-mobile-numero" name="mobile" type="tel" inputmode="tel" autocomplete="tel-national"
+               class="field min-w-0 flex-1" placeholder="06 12 34 56 78" required
+               aria-describedby="promo-mobile-indicatif promo-mobile-erreur" data-numero>
+      </div>
+      <p id="promo-mobile-erreur" class="mt-2 hidden rounded-md bg-red-50 p-3 text-body-sm text-red-700" role="alert" data-erreur></p>
+    </fieldset>
+
+    <button type="submit" class="btn-gold btn-lg mt-6 w-full max-[359px]:px-5">
+      Récupérer mon cadeau ${icone('arrow_forward', 'text-[20px] max-[359px]:hidden')}
+    </button>
+    <button type="button" class="mt-2 inline-flex min-h-[44px] w-full items-center justify-center rounded-full text-label-md font-bold text-muted transition-colors hover:text-navy" data-refus>
+      Non merci
+    </button>
+  </form>
+
+  <!-- Étape 2 : le cadeau est dans le solde -->
+  <div class="modale-pied hidden text-center" data-obtenu>
+    <h2 class="text-h-md" tabindex="-1" data-obtenu-titre>${credits} ajoutés à votre solde</h2>
+    <p class="mt-2 text-body-md text-muted" data-solde></p>
+    <button type="button" class="btn-gold btn-lg mt-6 w-full" data-continuer>Continuer</button>
+  </div>
+</div>`,
+      });
+      if (!m) return null;
+
+      const { panneau, fermer } = m;
+      const q = (sel) => el(sel, panneau);
+      const champ = q('[data-numero]');
+      const erreur = q('[data-erreur]');
+
+      function signaler(texte) {
+        erreur.textContent = texte;
+        erreur.classList.toggle('hidden', !texte);
+        champ.setAttribute('aria-invalid', texte ? 'true' : 'false');
+      }
+      // L'erreur s'efface dès qu'on corrige, sans harceler pendant la frappe.
+      champ.addEventListener('input', () => { if (champ.getAttribute('aria-invalid') === 'true') signaler(''); });
+      champ.addEventListener('blur', () => { const n = normaliser(champ.value); if (n) champ.value = lisible(n); });
+
+      q('[data-formulaire]').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const n = normaliser(champ.value);
+        if (!n) {
+          signaler(champ.value.trim()
+            ? 'Ce numéro n’est pas un mobile français. Exemple : 06 12 34 56 78.'
+            : 'Saisissez votre numéro de mobile pour recevoir votre cadeau.');
+          return champ.focus();
+        }
+        const deja = Store.all.mobilesVerifies || [];
+        if (deja.includes(n)) {
+          signaler('Ce numéro a déjà reçu son cadeau.');
+          return champ.focus();
+        }
+        Store.set({ mobilesVerifies: [...deja, n] });
+        Store.crediter(O.credits);
+
+        panneau.dataset.etat = 'obtenue';
+        q('[data-bandeau] .material-symbols-outlined').textContent = 'check_circle';
+        q('[data-bandeau-texte]').textContent = 'Cadeau récupéré';
+        q('[data-solde]').textContent = `Nouveau solde : ${insecable(`${Store.credits} crédit${Store.credits > 1 ? 's' : ''}`)}.`;
+        q('[data-formulaire]').classList.add('hidden');
+        q('[data-obtenu]').classList.remove('hidden');
+        q('[data-obtenu-titre]').focus({ preventScroll: true });
+      });
+
+      q('[data-refus]').addEventListener('click', () => fermer('refus'));
+      q('[data-continuer]').addEventListener('click', () => fermer('obtenue'));
+      return m;
+    }
+
+    return { ouvrir, normaliser };
+  })();
+
   /* --- API publique -------------------------------------------------------- */
   global.UV.modale = modale;
-  global.UV.modales = { promoVert, forfaits, upsell, fidelite };
+  global.UV.modales = { promoVert, forfaits, upsell, fidelite, promoMobile };
 })(window);

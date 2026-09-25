@@ -1,0 +1,12 @@
+@layer components {
+  /* --- Offre du jour : crédits contre un numéro de mobile -------------------
+     Reprend l'en-tête nuit de la promo VERT (.promo-entete, .promo-minuteur,
+     .promo-chiffre-valeur) ; seul l'indicatif pays lui est propre.
+     États posés par modales.js sur .modale-panneau[data-etat] : active → obtenue. */
+  .promo-mobile-indicatif {
+    @apply inline-flex min-h-[48px] shrink-0 items-center rounded-md border border-line bg-ice px-3
+           text-body-md font-bold text-navy;
+  }
+  .promo-mobile [aria-invalid='true'] { @apply border-red-700; }
+  [data-etat='obtenue'] .promo-minuteur { box-shadow: inset 0 0 0 1px rgb(232 198 123 / .7); }
+}

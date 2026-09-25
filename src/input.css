@@ -31,6 +31,7 @@
 @import './css/composants/accueil.css';
 @import './css/composants/upsell.css';
 @import './css/composants/promo-vert.css';
+@import './css/composants/promo-mobile.css';
 
 /* Hors composants */
 @import './css/utilitaires.css';
