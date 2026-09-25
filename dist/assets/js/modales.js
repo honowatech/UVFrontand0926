@@ -732,7 +732,7 @@
     </p>
     <p class="mt-3">
       <span class="badge-promo px-3 py-1.5 text-label-md">
-        ${icone('stars', 'text-[16px]')} Soit <span class="promo-mobile-vert">${insecable(euro(O.valeur))}</span> de valeur offerte — ${insecable('100 %')} gratuit
+        ${icone('stars', 'text-[16px]')} Soit <strong class="promo-mobile-vert font-extrabold">${insecable(euro(O.valeur))}</strong> de valeur offerte — ${insecable('100 %')} gratuit
       </span>
     </p>
 
