@@ -675,15 +675,17 @@
     </p>
     <p class="mt-3">
       <span class="badge-promo px-3 py-1.5 text-label-md">
-        ${icone('stars', 'text-[16px]')} Soit ${insecable(euro(O.valeur))} de valeur offerte — ${insecable('100 %')} gratuit
+        ${icone('stars', 'text-[16px]')} Soit <span class="promo-mobile-vert">${insecable(euro(O.valeur))}</span> de valeur offerte — ${insecable('100 %')} gratuit
       </span>
     </p>
 
     <fieldset class="mt-6 text-left">
       <legend class="kicker mb-3 flex items-center gap-1.5">
-        ${icone('verified_user', 'text-[16px] text-royal')} Vérification du numéro de mobile
+        ${icone('verified_user', 'text-[16px] promo-mobile-vert')} Vérification du numéro de mobile
+        ${icone('smartphone', 'text-[16px] text-royal')}
       </legend>
-      <label for="promo-mobile-numero" class="label">Votre numéro de mobile</label>
+      <!-- Libellé masqué à l'écran, conservé pour les lecteurs d'écran : le champ garde un nom. -->
+      <label for="promo-mobile-numero" class="sr-only">Votre numéro de mobile</label>
       <div class="flex gap-2">
         <span class="promo-mobile-indicatif" id="promo-mobile-indicatif">
           <span class="sr-only">Indicatif pays : France, </span>FR (+33)

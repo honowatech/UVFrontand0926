@@ -12,6 +12,7 @@ badge
 block
 bolt
 bubble
+build
 call
 cancel
 celebration
@@ -143,6 +144,7 @@ share
 shield
 shift
 signature
+smartphone
 sort
 source
 star
