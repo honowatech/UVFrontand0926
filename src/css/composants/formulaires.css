@@ -43,5 +43,50 @@
     background-size: 100%;
   }
   .radio { @apply check rounded-full; }
+
+  /* --- Bloc de saisies à icônes ----------------------------------------------
+     Plusieurs champs réunis dans un même cadre, séparés d'un filet. Chaque
+     ligne est un <label> entier (on clique où l'on veut) : une pastille
+     d'icône, le libellé en petites capitales, la valeur en gras dessous.
+     La pastille parle d'elle-même : bleue quand la ligne a le focus, verte
+     et cochée quand la ligne porte [data-valide].
+       <div class="saisies">
+         <label class="saisie" data-saisie>
+           <span class="saisie-icone">(icône)(icône check.saisie-ok)</span>
+           <span class="saisie-corps">
+             <span class="saisie-libelle">Libellé <span class="saisie-precision">…</span></span>
+             <input class="saisie-champ">
+           </span>
+         </label>
+       </div> */
+  .saisies {
+    @apply overflow-hidden rounded-2xl border border-line transition-shadow;
+    background-color: rgb(var(--uv-surface));
+  }
+  .saisies:focus-within { @apply border-royal shadow-focus; }
+  .saisie { @apply flex cursor-text items-center gap-3.5 px-3.5 py-3 transition-colors; }
+  .saisie + .saisie { @apply border-t border-line; }
+  .saisie:focus-within { @apply bg-ice; }
+  .saisie-icone {
+    @apply relative grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-ice text-royal
+           transition-[background-color,color,transform] duration-200;
+  }
+  .saisie-icone > * { @apply col-start-1 row-start-1 transition-[opacity,transform] duration-200; }
+  .saisie-ok { @apply scale-50 opacity-0; }
+  .saisie:focus-within .saisie-icone { @apply bg-royal text-white; }
+  .saisie[data-valide] .saisie-icone { @apply bg-online text-white; }
+  .saisie[data-valide] .saisie-icone > :first-child { @apply scale-50 opacity-0; }
+  .saisie[data-valide] .saisie-ok { @apply scale-100 opacity-100; }
+  .saisie-corps { @apply flex min-w-0 flex-1 flex-col; }
+  .saisie-libelle {
+    @apply flex items-center gap-1.5 text-[11px] font-extrabold uppercase leading-4 tracking-[0.12em] text-muted;
+  }
+  .saisie-precision { @apply rounded bg-ice px-1.5 font-bold tracking-normal text-navy; }
+  .saisie:focus-within .saisie-precision { background-color: rgb(var(--uv-surface)); }
+  .saisie-champ {
+    @apply mt-0.5 h-7 w-full min-w-0 border-0 bg-transparent p-0 font-display text-[17px] font-bold text-navy
+           outline-none placeholder:font-normal placeholder:text-muted/60;
+  }
+  .saisie-champ:focus { @apply outline-none ring-0; }
   .radio:checked { background-image: radial-gradient(circle, #fff 0 32%, transparent 34%); }
 }

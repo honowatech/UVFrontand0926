@@ -674,18 +674,21 @@
   })();
 
   /* ==========================================================================
-     6. OFFRE DU JOUR — crédits gratuits contre un numéro de mobile
-     Seule la longueur est contrôlée ici : dix chiffres, espacés deux par deux
-     pendant la saisie, le bouton restant grisé d'ici là. L'envoi et la
-     vérification du code SMS reviendront au back-office. La maquette crédite
-     le cadeau dès que le numéro est complet, une seule fois par numéro
-     (mémorisé dans l'état du visiteur), puis confirme par UV.confirmation().
+     6. OFFRE DU JOUR — crédits gratuits contre un numéro de mobile et une adresse
+     Le numéro : dix chiffres, espacés deux par deux pendant la saisie.
+     L'adresse : quelques caractères au moins (ADRESSE_MIN), sans autre
+     contrôle. Le bouton reste grisé tant que les deux ne sont pas remplis.
+     L'envoi et la vérification du code SMS reviendront au back-office. La
+     maquette crédite le cadeau aussitôt, une seule fois par numéro (mémorisé
+     dans l'état du visiteur), puis confirme par UV.confirmation().
      ========================================================================== */
   const promoMobile = (() => {
     const O = D.OFFRES.mobile;
     const credits = insecable(`${O.credits} crédits`);
 
     const LONGUEUR = 10;
+    const ADRESSE_MIN = 8;
+    const adresseValide = (a) => a.trim().length >= ADRESSE_MIN;
 
     /** Chiffres saisis, dix au plus ; un « +33 » ou « 0033 » collé devient « 0 ». */
     function chiffres(saisie) {
@@ -728,7 +731,7 @@
   <form class="modale-pied text-center" novalidate data-formulaire>
     <h2 id="promo-mobile-titre" class="text-h-md">Cadeau spécial pour vous</h2>
     <p id="promo-mobile-description" class="mt-2 text-body-md text-muted">
-      Recevez ${credits} gratuits en vérifiant votre numéro de mobile
+      Recevez ${credits} gratuits en renseignant votre numéro de mobile et votre adresse
     </p>
     <p class="mt-3">
       <span class="badge-promo px-3 py-1.5 text-label-md">
@@ -736,23 +739,27 @@
       </span>
     </p>
 
-    <fieldset class="mt-6 text-left">
-      <legend class="kicker mb-3 flex items-center gap-1.5">
-        ${icone('verified_user', 'text-[16px] promo-mobile-vert')} Vérification du numéro de mobile
-        ${icone('smartphone', 'text-[16px] text-royal')}
-      </legend>
-      <!-- Libellé masqué à l'écran, conservé pour les lecteurs d'écran : le champ garde un nom. -->
-      <label for="promo-mobile-numero" class="sr-only">Votre numéro de mobile</label>
-      <div class="flex gap-2">
-        <span class="promo-mobile-indicatif" id="promo-mobile-indicatif">
-          <span class="sr-only">Indicatif pays : France, </span>FR (+33)
+    <!-- Deux champs réunis en un bloc : le numéro, puis l'adresse -->
+    <div class="saisies mt-6 text-left">
+      <label class="saisie" data-saisie>
+        <span class="saisie-icone">${icone('smartphone', 'text-[22px]')}${icone('check', 'saisie-ok text-[22px]')}</span>
+        <span class="saisie-corps">
+          <span class="saisie-libelle">Votre numéro de mobile <span class="saisie-precision">FR (+33)</span></span>
+          <input id="promo-mobile-numero" name="mobile" type="tel" inputmode="tel" autocomplete="tel-national"
+                 class="saisie-champ" placeholder="06 12 34 56 78" required
+                 aria-describedby="promo-mobile-erreur" data-numero>
         </span>
-        <input id="promo-mobile-numero" name="mobile" type="tel" inputmode="tel" autocomplete="tel-national"
-               class="field min-w-0 flex-1" placeholder="06 12 34 56 78" required
-               aria-describedby="promo-mobile-indicatif promo-mobile-erreur" data-numero>
-      </div>
-      <p id="promo-mobile-erreur" class="mt-2 hidden rounded-md bg-red-50 p-3 text-body-sm text-red-700" role="alert" data-erreur></p>
-    </fieldset>
+      </label>
+      <label class="saisie" data-saisie>
+        <span class="saisie-icone">${icone('home', 'text-[22px]')}${icone('check', 'saisie-ok text-[22px]')}</span>
+        <span class="saisie-corps">
+          <span class="saisie-libelle">Votre adresse</span>
+          <input id="promo-mobile-adresse" name="adresse" type="text" autocomplete="street-address"
+                 class="saisie-champ" placeholder="12 rue des Lilas, 75011 Paris" required data-adresse>
+        </span>
+      </label>
+    </div>
+    <p id="promo-mobile-erreur" class="mt-2 hidden rounded-md bg-red-50 p-3 text-left text-body-sm text-red-700" role="alert" data-erreur></p>
 
     <button type="submit" class="btn-gold btn-lg mt-6 w-full max-[359px]:px-5" disabled data-valider>
       Récupérer mon cadeau ${icone('arrow_forward', 'text-[20px] max-[359px]:hidden')}
@@ -768,7 +775,11 @@
       const { panneau, fermer } = m;
       const q = (sel) => el(sel, panneau);
       const champ = q('[data-numero]');
+      const adresse = q('[data-adresse]');
       const erreur = q('[data-erreur]');
+      /** Pastille de la ligne : coche verte une fois le champ rempli. */
+      const marquer = (input, ok) => input.closest('[data-saisie]').toggleAttribute('data-valide', ok);
+      const pret = () => chiffres(champ.value).length === LONGUEUR && adresseValide(adresse.value);
 
       function signaler(texte) {
         erreur.textContent = texte;
@@ -792,21 +803,27 @@
           }
           champ.setSelectionRange(pos, pos);
         }
-        valider.disabled = n.length < LONGUEUR;
+        marquer(champ, n.length === LONGUEUR);
+        valider.disabled = !pret();
         // L'erreur s'efface dès qu'on corrige.
         if (champ.getAttribute('aria-invalid') === 'true') signaler('');
+      });
+
+      adresse.addEventListener('input', () => {
+        marquer(adresse, adresseValide(adresse.value));
+        valider.disabled = !pret();
       });
 
       q('[data-formulaire]').addEventListener('submit', (e) => {
         e.preventDefault();
         const n = chiffres(champ.value);
-        if (n.length < LONGUEUR) return champ.focus(); // filet : le bouton reste grisé d'ici là
+        if (!pret()) return; // filet : le bouton reste grisé d'ici là
         const deja = Store.all.mobilesVerifies || [];
         if (deja.includes(n)) {
           signaler('Ce numéro a déjà reçu son cadeau.');
           return champ.focus();
         }
-        Store.set({ mobilesVerifies: [...deja, n] });
+        Store.set({ mobilesVerifies: [...deja, n], adresse: adresse.value.trim() });
         Store.crediter(O.credits);
 
         // L'offre s'efface d'un coup, la confirmation prend sa place.
