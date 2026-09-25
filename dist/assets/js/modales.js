@@ -622,23 +622,27 @@
 
   /* ==========================================================================
      6. OFFRE DU JOUR — crédits gratuits contre un numéro de mobile
-     Le numéro est contrôlé ici (mobile français : 06 ou 07, dix chiffres) ;
-     l'envoi et la vérification du code SMS reviendront au back-office. La
-     maquette crédite le cadeau dès que le numéro est valide, une seule fois
-     par numéro (mémorisé dans l'état du visiteur).
+     Seule la longueur est contrôlée ici : dix chiffres, espacés deux par deux
+     pendant la saisie, le bouton restant grisé d'ici là. L'envoi et la
+     vérification du code SMS reviendront au back-office. La maquette crédite
+     le cadeau dès que le numéro est complet, une seule fois par numéro
+     (mémorisé dans l'état du visiteur).
      ========================================================================== */
   const promoMobile = (() => {
     const O = D.OFFRES.mobile;
     const credits = insecable(`${O.credits} crédits`);
 
-    /** « 06 12 34 56 78 », « +33 6 12… », « 0033 6… » ou « 612… » → « 0612345678 », sinon null. */
-    function normaliser(saisie) {
-      let n = String(saisie).replace(/[\s.\-()]/g, '');
-      if (/^\+33/.test(n)) n = '0' + n.slice(3);
+    const LONGUEUR = 10;
+
+    /** Chiffres saisis, dix au plus ; un « +33 » ou « 0033 » collé devient « 0 ». */
+    function chiffres(saisie) {
+      const s = String(saisie).trim();
+      let n = s.replace(/\D/g, '');
+      if (/^\+\s*33/.test(s)) n = '0' + n.slice(2);
       else if (/^0033/.test(n)) n = '0' + n.slice(4);
-      else if (/^[67]\d{8}$/.test(n)) n = '0' + n;
-      return /^0[67]\d{8}$/.test(n) ? n : null;
+      return n.slice(0, LONGUEUR);
     }
+    /** « 0612345678 » → « 06 12 34 56 78 ». */
     const lisible = (n) => n.replace(/(\d{2})(?=\d)/g, '$1 ');
 
     function ouvrir() {
@@ -697,7 +701,7 @@
       <p id="promo-mobile-erreur" class="mt-2 hidden rounded-md bg-red-50 p-3 text-body-sm text-red-700" role="alert" data-erreur></p>
     </fieldset>
 
-    <button type="submit" class="btn-gold btn-lg mt-6 w-full max-[359px]:px-5">
+    <button type="submit" class="btn-gold btn-lg mt-6 w-full max-[359px]:px-5" disabled data-valider>
       Récupérer mon cadeau ${icone('arrow_forward', 'text-[20px] max-[359px]:hidden')}
     </button>
     <button type="button" class="mt-2 inline-flex min-h-[44px] w-full items-center justify-center rounded-full text-label-md font-bold text-muted transition-colors hover:text-navy" data-refus>
@@ -725,19 +729,32 @@
         erreur.classList.toggle('hidden', !texte);
         champ.setAttribute('aria-invalid', texte ? 'true' : 'false');
       }
-      // L'erreur s'efface dès qu'on corrige, sans harceler pendant la frappe.
-      champ.addEventListener('input', () => { if (champ.getAttribute('aria-invalid') === 'true') signaler(''); });
-      champ.addEventListener('blur', () => { const n = normaliser(champ.value); if (n) champ.value = lisible(n); });
+      const valider = q('[data-valider]');
+
+      /* Mise en forme pendant la frappe : chiffres groupés deux par deux. Le
+         curseur garde sa place parmi les chiffres (correction en milieu de
+         numéro), et le bouton ne s'active qu'une fois les dix chiffres saisis. */
+      champ.addEventListener('input', () => {
+        const avant = champ.value.slice(0, champ.selectionStart).replace(/\D/g, '').length;
+        const n = chiffres(champ.value);
+        const texte = lisible(n);
+        if (texte !== champ.value) {
+          champ.value = texte;
+          let pos = 0;
+          for (let vus = 0; pos < texte.length && vus < Math.min(avant, n.length); pos++) {
+            if (/\d/.test(texte[pos])) vus++;
+          }
+          champ.setSelectionRange(pos, pos);
+        }
+        valider.disabled = n.length < LONGUEUR;
+        // L'erreur s'efface dès qu'on corrige.
+        if (champ.getAttribute('aria-invalid') === 'true') signaler('');
+      });
 
       q('[data-formulaire]').addEventListener('submit', (e) => {
         e.preventDefault();
-        const n = normaliser(champ.value);
-        if (!n) {
-          signaler(champ.value.trim()
-            ? 'Ce numéro n’est pas un mobile français. Exemple : 06 12 34 56 78.'
-            : 'Saisissez votre numéro de mobile pour recevoir votre cadeau.');
-          return champ.focus();
-        }
+        const n = chiffres(champ.value);
+        if (n.length < LONGUEUR) return champ.focus(); // filet : le bouton reste grisé d'ici là
         const deja = Store.all.mobilesVerifies || [];
         if (deja.includes(n)) {
           signaler('Ce numéro a déjà reçu son cadeau.');
@@ -760,7 +777,7 @@
       return m;
     }
 
-    return { ouvrir, normaliser };
+    return { ouvrir };
   })();
 
   /* --- API publique -------------------------------------------------------- */
