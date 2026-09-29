@@ -30,9 +30,14 @@ const SITE = 'https://unevoyante.fr/';
 
 /** Pages pré-rendues. Les pages privées (noindex) ou dépendantes de l'état du
     visiteur n'y gagneraient rien : elles sont copiées telles quelles. */
-const PRE_RENDUES = ['index.html', 'voyants.html', 'tarifs.html', 'faq.html', 'comment-ca-marche.html', 'contact.html', 'inscription.html'];
+const PRE_RENDUES = ['index.html', 'voyants.html', 'tarifs.html', 'faq.html', 'comment-ca-marche.html', 'contact.html', 'inscription.html', 'landing.html'];
 const COMMUNS = ['assets/js/data.js', 'assets/js/app.js', 'assets/js/modales.js'];
 const COPIES = ['assets', 'robots.txt', 'sitemap.xml', 'manifest.webmanifest'];
+
+/** Adresse publique d'une page : la racine pour l'accueil, sans extension pour
+    les pages servies sous une adresse courte (voir src/dist.htaccess). */
+const COURTES = ['landing.html'];
+const adresse = (f) => (f === 'index.html' ? '' : COURTES.includes(f) ? f.replace(/\.html$/, '') : f);
 
 const lire = (f) => fs.readFileSync(path.join(RACINE, f), 'utf8');
 const marquer = (html) => html.replace(/<html lang="fr">/, '<html lang="fr" data-statique>');
@@ -96,7 +101,7 @@ async function rendre(source, url) {
   const pages = fs.readdirSync(RACINE).filter((f) => f.endsWith('.html'));
   for (const f of pages) {
     const source = marquer(lire(f));
-    const sortie = PRE_RENDUES.includes(f) ? await rendre(source, SITE + (f === 'index.html' ? '' : f)) : source;
+    const sortie = PRE_RENDUES.includes(f) ? await rendre(source, SITE + adresse(f)) : source;
     fs.writeFileSync(path.join(DIST, f), sortie);
   }
 

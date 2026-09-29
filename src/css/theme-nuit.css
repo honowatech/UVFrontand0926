@@ -73,6 +73,16 @@
   --tint-chip-edge: .14;
 }
 
+/* Page d'atterrissage : cartes et bandes reprennent les surfaces nuit ; le
+   ciel de l'en-tête remonte d'un cran pour se détacher du sol. */
+.dark .lp-page {
+  --lp-glace-hi: 26 37 71; --lp-glace-lo: 18 28 59; --lp-filet: 42 54 97;
+  --lp-bande-hi: 12 20 46; --lp-bande-lo: 9 16 38;
+  --lp-nuit-hi: #213B80; --lp-nuit-lo: #0E1A40;
+  --lp-champ: 12 20 46;
+}
+.dark .lp-etape-n { box-shadow: 0 0 0 4px rgb(var(--lp-bande-hi)), inset 0 0 0 1px rgb(240 212 138 / .25); }
+
 /* La constellation n'est plus un ornement discret : c'est le ciel. */
 .dark [data-uv-ciel] { opacity: .28; }
 

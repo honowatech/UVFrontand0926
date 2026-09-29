@@ -35,13 +35,16 @@ const bac = { window: {} };
 vm.runInNewContext(fs.readFileSync(path.join(RACINE, 'assets/js/data.js'), 'utf8'), bac);
 const { VOYANTS } = bac.window.UV_DATA;
 
-const PRIORITES = { 'index.html': '1.0', 'voyants.html': '0.9', 'tarifs.html': '0.8' };
+const PRIORITES = { 'index.html': '1.0', 'voyants.html': '0.9', 'tarifs.html': '0.8', 'landing.html': '0.8' };
+// Pages servies sous une adresse courte, sans extension (voir src/dist.htaccess).
+const COURTES = ['landing.html'];
+const adresse = (f) => (f === 'index.html' ? '' : COURTES.includes(f) ? f.replace(/\.html$/, '') : f);
 
 const entrees = fs.readdirSync(RACINE)
   .filter((f) => f.endsWith('.html') && f !== '404.html' && f !== 'voyant.html')
   .filter((f) => !/<meta name="robots" content="[^"]*noindex/.test(fs.readFileSync(path.join(RACINE, f), 'utf8')))
   .sort((a, b) => (PRIORITES[b] || '0.5').localeCompare(PRIORITES[a] || '0.5') || a.localeCompare(b))
-  .map((f) => ({ loc: SITE + (f === 'index.html' ? '' : f), lastmod: dateDe(f), priority: PRIORITES[f] || '0.5' }));
+  .map((f) => ({ loc: SITE + adresse(f), lastmod: dateDe(f), priority: PRIORITES[f] || '0.5' }));
 
 const dateFiches = dateDe('voyant.html', 'assets/js/data.js');
 for (const v of VOYANTS) {

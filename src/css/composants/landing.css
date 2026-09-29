@@ -1,0 +1,142 @@
+@layer components {
+  /* ==========================================================================
+     PAGE D'ATTERRISSAGE (/landing)
+     Une page de conversion : pas de menu, un seul geste demandé (prénom puis
+     e-mail). Rien de neuf dans la charte : la nuit à constellation dorée des
+     bannières, le corps « glacier » des cartes praticiens de l'accueil, le
+     bandeau des chiffres clés. Le jour, aucune grande surface blanche : le sol
+     est le glacier de la charte, les cartes un bleu glacier plus dense, les
+     bandes alternées un cran au-dessous. Les teintes passent par les variables
+     --lp-… redéfinies pour la nuit dans theme-nuit.css.
+     ========================================================================== */
+  .lp-page {
+    --lp-glace-hi: 228 236 250;   /* haut des cartes */
+    --lp-glace-lo: 239 244 253;   /* bas des cartes */
+    --lp-filet: 211 222 244;      /* bord des cartes */
+    --lp-bande-hi: 229 236 250;   /* bandes alternées */
+    --lp-bande-lo: 237 242 252;
+    --lp-nuit-hi: #1F3C88;        /* ciel du bandeau d'en-tête */
+    --lp-nuit-lo: #0F1F4B;
+    --lp-champ: 250 251 254;      /* champs de saisie : à peine teintés */
+  }
+  /* Mobile : la barre d'appel à l'action fixe remplace la barre d'onglets ;
+     le bouton « retour en haut » (app.js) se cale au-dessus d'elle. */
+  @media (max-width: 1023.98px) {
+    .lp-page { --tabbar-total: calc(84px + env(safe-area-inset-bottom, 0px)); }
+  }
+
+  /* --- En-tête + promesse : le ciel ----------------------------------------
+     Le ciel s'arrête avant le bas de la section : la carte d'inscription le
+     chevauche (largement sur mobile, d'un doigt sur grand écran). */
+  .lp-ciel { @apply relative isolate; --lp-debord: 11rem; }
+  .lp-ciel::before {
+    content: '';
+    @apply absolute inset-x-0 top-0 -z-10;
+    bottom: var(--lp-debord);
+    background:
+      radial-gradient(60% 90% at 100% 0%, rgb(201 162 74 / .28), transparent 62%),
+      radial-gradient(50% 80% at 0% 100%, rgb(91 123 196 / .35), transparent 65%),
+      linear-gradient(160deg, var(--lp-nuit-hi) 0%, var(--lp-nuit-lo) 78%);
+  }
+  .lp-ciel > svg { bottom: var(--lp-debord); }
+  @media (min-width: 1024px) {
+    .lp-ciel { --lp-debord: 3.5rem; }
+  }
+
+  /* Promesses du bandeau : trois pastilles de verre sur le ciel */
+  .lp-promesse {
+    @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-1.5 text-label-md text-white/90;
+    background: rgb(255 255 255 / .08);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .12);
+  }
+
+  /* Pile de portraits des praticiens en ligne */
+  .lp-portraits > * + * { margin-left: -0.625rem; }
+  .lp-portraits .monogram { box-shadow: 0 0 0 2.5px var(--lp-nuit-lo); }
+
+  /* --- Carte d'inscription --------------------------------------------------
+     Corps glacier et filet d'or en tête : la carte la plus dense de la page. */
+  .lp-carte {
+    @apply relative rounded-3xl border p-6 shadow-lift sm:p-8;
+    border-color: rgb(var(--lp-filet));
+    background:
+      linear-gradient(90deg, transparent 8%, rgb(var(--uv-gold) / .9) 50%, transparent 92%) top / 100% 2px no-repeat,
+      linear-gradient(180deg, rgb(var(--lp-glace-hi)), rgb(var(--lp-glace-lo)));
+  }
+  .lp-carte .field { background-color: rgb(var(--lp-champ)); }
+
+  /* Progression des deux étapes : du bleu vers l'or */
+  .lp-piste { @apply h-1.5 w-full overflow-hidden rounded-full; background: rgb(var(--lp-filet)); }
+  .lp-jauge {
+    @apply block h-full rounded-full transition-[width] duration-500;
+    background: linear-gradient(90deg, rgb(var(--uv-royal-400)), rgb(var(--uv-gold)));
+  }
+
+  /* --- Avis Trustpilot : cinq tuiles, l'or de la charte ---------------------- */
+  .lp-tuile {
+    @apply grid h-7 w-7 place-items-center rounded-[5px] text-white;
+    background: var(--uv-grad-gold-soft);
+  }
+  .lp-tuile.is-vide { background: rgb(var(--lp-filet)); }
+  .lp-ciel .lp-tuile.is-vide { background: rgb(255 255 255 / .18); }
+
+  /* --- Cartes glacier (praticiens, questions fréquentes) --------------------- */
+  .lp-glace {
+    @apply rounded-2xl border shadow-card;
+    border-color: rgb(var(--lp-filet));
+    background: linear-gradient(160deg, rgb(var(--lp-glace-hi)), rgb(var(--lp-glace-lo)));
+  }
+  .lp-glace .monogram { box-shadow: 0 0 0 3px rgb(var(--lp-glace-hi)), inset 0 -8px 18px rgb(31 60 136 / .06); }
+  .lp-glace .monogram-status { --tw-ring-color: rgb(var(--lp-glace-hi)); }
+
+  /* Accordéon partagé (UV.accordeon) : même corps glacier que les cartes */
+  .lp-faq .accordeon {
+    border-color: rgb(var(--lp-filet));
+    background: linear-gradient(160deg, rgb(var(--lp-glace-hi)), rgb(var(--lp-glace-lo)));
+  }
+  .lp-faq .accordeon > div { border-color: rgb(var(--lp-filet)); }
+
+  /* Bande alternée : un cran sous le sol */
+  .lp-bande { background: linear-gradient(180deg, rgb(var(--lp-bande-hi)), rgb(var(--lp-bande-lo))); }
+
+  /* --- Étapes : une ligne de vie pointillée dorée relie les numéros ---------- */
+  .lp-etape { @apply relative grid gap-x-5; grid-template-columns: 3rem minmax(0, 1fr); }
+  .lp-etape-n {
+    @apply relative z-10 grid h-12 w-12 place-items-center rounded-full font-display text-h-sm font-extrabold;
+    background: linear-gradient(160deg, #1F3C88, #0F1F4B);
+    color: #F0D48A;
+    box-shadow: 0 0 0 4px rgb(var(--lp-bande-hi)), 0 6px 16px rgb(15 31 75 / .18);
+  }
+  .lp-etape:not(:last-child)::before {
+    content: '';
+    @apply absolute left-6 top-12 -ml-px w-0.5;
+    bottom: -1.5rem;
+    background: repeating-linear-gradient(180deg, rgb(var(--uv-gold) / .7) 0 4px, transparent 4px 9px);
+  }
+  @media (min-width: 1024px) {
+    .lp-etape { @apply flex flex-col items-center text-center; }
+    .lp-etape-n { @apply mb-5; }
+    .lp-etape:not(:last-child)::before {
+      @apply left-[calc(50%+2.25rem)] top-6 ml-0 h-0.5 w-auto;
+      right: calc(-50% + 2.25rem - 2.5rem);
+      bottom: auto;
+      background: repeating-linear-gradient(90deg, rgb(var(--uv-gold) / .7) 0 4px, transparent 4px 9px);
+    }
+  }
+
+  /* --- Exemple d'échange (section éditoriale) -------------------------------- */
+  .lp-echange { @apply relative rounded-3xl p-5 sm:p-6; }
+  .lp-echange .bubble-them { background: rgb(var(--lp-champ)); border-color: rgb(var(--lp-filet)); }
+
+  /* --- Barre d'appel à l'action fixe (mobile) --------------------------------
+     Se retire quand un formulaire ou le dernier appel est déjà à l'écran. */
+  .lp-barre {
+    @apply fixed inset-x-0 bottom-0 z-40 px-4 pb-safe pt-3 transition-transform duration-300 lg:hidden;
+    background: linear-gradient(180deg, rgb(15 31 75 / .9), rgb(11 23 56 / .97));
+    box-shadow: 0 -8px 24px rgb(8 18 48 / .25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .lp-barre > * { @apply mb-3; }
+  .lp-barre.is-cachee { transform: translateY(110%); }
+}

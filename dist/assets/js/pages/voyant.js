@@ -190,7 +190,7 @@
 
   /* --- Horaires ------------------------------------------------------------ */
   // Au pré-rendu (npm run statique), aucun jour n'est « aujourd'hui » : la page
-  // figée ne dépend pas du jour du build ; le navigateur marque le bon jour.
+  // figée ne dépend pas du jour de la construction ; le navigateur marque le bon jour.
   const jourAuj = window.UV_PRERENDU ? -1 : (new Date().getDay() + 6) % 7;
   el('#horaires').innerHTML = D.JOURS.map((j, i) => {
     const h = v.horaires[i];
