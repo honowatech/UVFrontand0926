@@ -1,0 +1,102 @@
+@layer components {
+  /* --- Confirmation ---------------------------------------------------------
+     Type de modale réutilisable (UV.confirmation dans modales.js) : l'accusé
+     de réception d'une action réussie. À l'opposé des modales d'offre, qui
+     vendent : un seul fond nuit, sans en-tête ni pied, une carte resserrée
+     centrée sur tous les écrans (jamais la feuille en bas du mobile), et un
+     message qui se lit d'un regard.
+     Chorégraphie : l'anneau se trace, la coche s'y inscrit, les éclats
+     partent ; le texte monte ensuite, ligne après ligne. */
+  .modale.modale-confirmation {
+    @apply m-auto rounded-3xl text-center text-white;
+    width: calc(100% - 32px);
+    max-width: 360px;
+    max-height: calc(100dvh - 32px);
+    /* Un seul fond : le ciel de nuit, éclairé en son centre par la lueur du sceau. */
+    background: radial-gradient(120% 60% at 50% 0%, rgb(232 198 123 / .16), transparent 62%), var(--uv-grad-night);
+    box-shadow: 0 24px 60px rgb(4 10 30 / .45), inset 0 0 0 1px rgb(255 255 255 / .08);
+    animation: uv-confirmation-entree .5s cubic-bezier(.34, 1.4, .64, 1) both;
+  }
+  .modale.modale-confirmation.est-sortante { animation: uv-modale-sortie .2s ease-in both; }
+  .modale-confirmation .modale-panneau {
+    @apply flex flex-col items-center px-7 pb-7 pt-9;
+  }
+
+  /* Le sceau ------------------------------------------------------------- */
+  .confirmation-sceau { @apply relative grid h-24 w-24 place-items-center text-gold-300; }
+  .confirmation-sceau svg { @apply absolute inset-0 h-full w-full overflow-visible; }
+  .confirmation-halo { opacity: .18; }
+  .confirmation-anneau, .confirmation-coche { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .confirmation-anneau { animation: uv-trace .7s cubic-bezier(.65, 0, .35, 1) .15s forwards; }
+  .confirmation-coche { animation: uv-trace .38s cubic-bezier(.65, 0, .35, 1) .72s forwards; }
+  .confirmation-eclats line {
+    transform-box: view-box;
+    transform-origin: 48px 48px;
+    opacity: 0;
+    animation: uv-eclat-sceau .7s ease-out .8s both;
+  }
+  .confirmation-icone { @apply relative; animation: uv-confirmation-texte .4s ease-out .7s both; }
+
+  /* Le message ----------------------------------------------------------- */
+  .confirmation-surtitre {
+    @apply mt-5 text-label-sm font-extrabold uppercase tracking-[0.2em] text-gold-300;
+    animation: uv-confirmation-texte .45s ease-out .85s both;
+  }
+  .confirmation-titre {
+    @apply mt-2 text-h-md text-white;
+    text-wrap: balance;
+    animation: uv-confirmation-texte .45s ease-out .92s both;
+  }
+  .confirmation-surtitre + .confirmation-titre { @apply mt-1.5; }
+  .confirmation-sceau + .confirmation-titre { @apply mt-5; }
+  .confirmation-message {
+    @apply mt-2 text-body-md text-white/70;
+    text-wrap: pretty;
+    animation: uv-confirmation-texte .45s ease-out 1s both;
+  }
+
+  /* Le reçu : libellé · pointillés · valeur, comme un ticket. */
+  .confirmation-recu {
+    @apply mt-5 w-full space-y-2 text-body-sm;
+    animation: uv-confirmation-texte .45s ease-out 1.08s both;
+  }
+  .confirmation-recu > div { @apply flex items-baseline gap-2; }
+  .confirmation-recu dt { @apply text-white/60; }
+  .confirmation-recu > div > span { @apply min-w-4 flex-1 border-b border-dotted border-white/25; }
+  .confirmation-recu dd { @apply font-bold text-white; font-variant-numeric: tabular-nums; }
+
+  .confirmation-action {
+    @apply mt-7 w-full;
+    animation: uv-confirmation-texte .45s ease-out 1.16s both;
+  }
+
+  /* Écran bas (téléphone en paysage) : tout doit tenir sans défiler. */
+  @media (max-height: 520px) {
+    .modale.modale-confirmation { max-width: 400px; max-height: calc(100dvh - 16px); }
+    .modale-confirmation .modale-panneau { @apply pb-4 pt-4; }
+    .confirmation-sceau { @apply h-12 w-12; }
+    .confirmation-surtitre { @apply mt-2; }
+    .confirmation-titre { @apply text-h-sm; }
+    .confirmation-message { @apply mt-1 text-body-sm; }
+    .confirmation-recu { @apply mt-3 space-y-1; }
+    .confirmation-action { @apply mt-4 min-h-[44px] py-2; }
+  }
+}
+
+@keyframes uv-confirmation-entree { from { opacity: 0; transform: scale(.9); } }
+@keyframes uv-trace { to { stroke-dashoffset: 0; } }
+@keyframes uv-eclat-sceau {
+  0% { opacity: 0; transform: rotate(var(--a)) translateY(10px); }
+  35% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(var(--a)) translateY(-6px); }
+}
+@keyframes uv-confirmation-texte { from { opacity: 0; transform: translateY(8px); } }
+
+/* Mouvement réduit : tout est là d'emblée (le réglage global raccourcit les
+   durées, pas les délais, qui laisseraient le texte invisible un instant). */
+@media (prefers-reduced-motion: reduce) {
+  .modale-confirmation *,
+  .modale-confirmation .confirmation-eclats line { animation: none !important; }
+  .confirmation-anneau, .confirmation-coche { stroke-dashoffset: 0; }
+  .confirmation-eclats { display: none; }
+}

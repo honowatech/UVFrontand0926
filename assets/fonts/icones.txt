@@ -12,8 +12,10 @@ badge
 block
 bolt
 bubble
+build
 call
 cancel
+cases
 celebration
 charger
 chat
@@ -107,6 +109,7 @@ open_in_new
 padding
 pages
 password
+pattern
 person
 person_search
 phone
@@ -143,6 +146,8 @@ share
 shield
 shift
 signature
+smartphone
+sms
 sort
 source
 star

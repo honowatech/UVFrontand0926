@@ -68,8 +68,8 @@
   /* --- Statistiques -------------------------------------------------------- */
   el('#stats').innerHTML = D.STATS.map((s) => `
     <div data-reveal>
-      <dt class="text-gradient-gold font-display text-[36px] font-extrabold leading-tight tracking-tight lg:text-[44px]">${s.valeur}</dt>
-      <dd class="mt-1 text-body-sm font-semibold text-white/75">${s.libelle}</dd>
+      <dt class="text-gradient-gold font-display text-[28px] font-extrabold leading-tight tracking-tight lg:text-[36px]">${s.valeur}</dt>
+      <dd class="mt-0.5 text-body-sm font-semibold text-white/75">${s.libelle}</dd>
     </div>`).join('');
 
   /* --- Confiance ----------------------------------------------------------- */

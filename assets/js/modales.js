@@ -126,6 +126,59 @@
 </svg>`;
   }
 
+  /**
+   * Confirmation : l'accusé de réception d'une action réussie. Un tout autre
+   * registre que les modales d'offre : pas d'en-tête ni de pied, un seul fond
+   * nuit, une carte resserrée centrée même sur mobile. Un sceau doré se trace,
+   * la coche s'y inscrit, quelques éclats s'en échappent ; puis le message, et
+   * un reçu en pointillés pour les chiffres qui comptent.
+   *   icone     remplace la coche par une icône (facultatif)
+   *   surtitre  petite ligne dorée au-dessus du titre : « Cadeau récupéré »
+   *   titre     la phrase de confirmation
+   *   message   une phrase d'accompagnement (facultatif)
+   *   recu      [[libellé, valeur], …] (facultatif)
+   *   action    libellé du bouton (« Continuer » par défaut)
+   *   apresFermeture(raison)
+   */
+  function confirmation(o) {
+    const ECLATS = 8;
+    const m = modale({
+      titre: 'confirmation-titre',
+      description: o.message ? 'confirmation-message' : null,
+      classe: 'modale-confirmation',
+      apresFermeture: o.apresFermeture,
+      contenu: `
+<div class="modale-panneau" tabindex="-1">
+  <div class="confirmation-sceau" aria-hidden="true">
+    <svg viewBox="0 0 96 96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <circle class="confirmation-halo" cx="48" cy="48" r="34" stroke-width="1" />
+      <circle class="confirmation-anneau" cx="48" cy="48" r="34" stroke-width="2.5" pathLength="1" transform="rotate(-90 48 48)" />
+      ${o.icone ? '' : '<path class="confirmation-coche" d="M34 49 l10 10 l19 -21" stroke-width="3.5" pathLength="1" />'}
+      <g class="confirmation-eclats">
+        ${Array.from({ length: ECLATS }, (_, i) => `<line x1="48" y1="4" x2="48" y2="9" stroke-width="2" style="--a: ${i * (360 / ECLATS) + 22.5}deg" />`).join('')}
+      </g>
+    </svg>
+    ${o.icone ? `<span class="confirmation-icone">${icone(o.icone, 'text-[34px]')}</span>` : ''}
+  </div>
+
+  ${o.surtitre ? `<p class="confirmation-surtitre">${o.surtitre}</p>` : ''}
+  <h2 id="confirmation-titre" class="confirmation-titre">${o.titre}</h2>
+  ${o.message ? `<p id="confirmation-message" class="confirmation-message">${o.message}</p>` : ''}
+
+  ${o.recu && o.recu.length ? `
+  <dl class="confirmation-recu">
+    ${o.recu.map(([libelle, valeur]) => `
+    <div><dt>${libelle}</dt><span aria-hidden="true"></span><dd>${valeur}</dd></div>`).join('')}
+  </dl>` : ''}
+
+  <button type="button" class="btn-gold btn-lg confirmation-action" data-fermer>${o.action || 'Continuer'}</button>
+</div>`,
+    });
+    if (!m) return null;
+    el('[data-fermer]', m.panneau).addEventListener('click', () => m.fermer('action'));
+    return m;
+  }
+
   /* ==========================================================================
      2. PROMO CLIENTS VERT
      Offre flash proposée à l'ouverture du tchat. Le compte à rebours est réel :
@@ -620,7 +673,338 @@
     return { ouvrir };
   })();
 
+  /* ==========================================================================
+     6. OFFRE DU JOUR — crédits gratuits contre un numéro de mobile et une adresse
+     Le numéro : dix chiffres, espacés deux par deux pendant la saisie.
+     L'adresse : quelques caractères au moins (ADRESSE_MIN), sans autre
+     contrôle. Le bouton reste grisé tant que les deux ne sont pas remplis.
+     Étape 2, le code reçu par SMS : cinq cases, un décompte d'expiration, un
+     renvoi possible après un court délai, et un retour à l'étape 1 qui garde
+     la saisie. L'envoi et la vérification du code reviendront au back-office :
+     la maquette accepte tout code à cinq chiffres. Le cadeau est crédité une
+     seule fois par numéro (mémorisé dans l'état du visiteur), puis confirmé
+     par UV.confirmation().
+     ========================================================================== */
+  const promoMobile = (() => {
+    const O = D.OFFRES.mobile;
+    const credits = insecable(`${O.credits} crédits`);
+
+    const LONGUEUR = 10;
+    const ADRESSE_MIN = 8;
+    const adresseValide = (a) => a.trim().length >= ADRESSE_MIN;
+    const CODE = 5;          // chiffres du code SMS
+    const VALIDITE = 300;    // secondes avant expiration du code
+    const RENVOI = 30;       // secondes avant de pouvoir redemander un code
+
+    /** Chiffres saisis, dix au plus ; un « +33 » ou « 0033 » collé devient « 0 ». */
+    function chiffres(saisie) {
+      const s = String(saisie).trim();
+      let n = s.replace(/\D/g, '');
+      if (/^\+\s*33/.test(s)) n = '0' + n.slice(2);
+      else if (/^0033/.test(n)) n = '0' + n.slice(4);
+      return n.slice(0, LONGUEUR);
+    }
+    /** « 0612345678 » → « 06 12 34 56 78 ». */
+    const lisible = (n) => n.replace(/(\d{2})(?=\d)/g, '$1 ');
+    /** « 0612345655 » → « +33 61 •• •• •• 55 » : assez pour se reconnaître. */
+    const masque = (n) => insecable(`+33 ${n.slice(1, 3)} •• •• •• ${n.slice(-2)}`);
+    const minutes = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+
+    function ouvrir() {
+      const { Store } = global.UV;
+
+      let horloge = 0;
+      const m = modale({
+        titre: 'promo-mobile-titre',
+        description: 'promo-mobile-description',
+        classe: 'promo-mobile',
+        apresFermeture: () => clearInterval(horloge),
+        contenu: `
+<div class="modale-panneau" tabindex="-1" data-etat="active">
+
+  <!-- En-tête nuit : l'offre du jour et ce qu'elle donne -->
+  <div class="promo-entete">
+    ${ciel()}
+    <span aria-hidden="true" class="promo-lueur absolute left-1/2 top-[64%] -z-10 h-36 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/25 blur-3xl"></span>
+
+    <p class="promo-minuteur" data-bandeau>
+      ${icone('redeem', 'text-[18px] text-gold')}
+      <span class="font-extrabold uppercase tracking-[0.12em]" data-bandeau-texte>Offre du jour</span>
+    </p>
+
+    <p class="promo-valeur mt-5 flex flex-col items-center">
+      <span class="promo-chiffre-valeur text-gradient-gold">${O.credits}</span>
+      <span class="mt-2 pl-[0.3em] text-label-lg font-extrabold uppercase tracking-[0.3em] text-gold-300">crédits gratuits</span>
+    </p>
+  </div>
+
+  <!-- Étape 1 : le numéro -->
+  <form class="modale-pied text-center" novalidate data-formulaire>
+    <h2 id="promo-mobile-titre" class="text-h-md">Cadeau spécial pour vous</h2>
+    <p id="promo-mobile-description" class="mt-2 text-body-md text-muted">
+      Recevez ${credits} gratuits en renseignant votre numéro de mobile et votre adresse
+    </p>
+    <p class="mt-3">
+      <span class="badge-promo px-3 py-1.5 text-label-md">
+        ${icone('stars', 'text-[16px]')} Soit <strong class="promo-mobile-vert font-extrabold">${insecable(euro(O.valeur))}</strong> de valeur offerte — ${insecable('100 %')} gratuit
+      </span>
+    </p>
+
+    <!-- Deux champs réunis en un bloc : le numéro, puis l'adresse -->
+    <div class="saisies mt-6 text-left">
+      <label class="saisie" data-saisie>
+        <span class="saisie-icone">${icone('smartphone', 'text-[22px]')}${icone('check', 'saisie-ok text-[22px]')}</span>
+        <span class="saisie-corps">
+          <span class="saisie-libelle">Votre numéro de mobile <span class="saisie-precision">FR (+33)</span></span>
+          <input id="promo-mobile-numero" name="mobile" type="tel" inputmode="tel" autocomplete="tel-national"
+                 class="saisie-champ" placeholder="06 12 34 56 78" required
+                 aria-describedby="promo-mobile-erreur" data-numero>
+        </span>
+      </label>
+      <label class="saisie" data-saisie>
+        <span class="saisie-icone">${icone('home', 'text-[22px]')}${icone('check', 'saisie-ok text-[22px]')}</span>
+        <span class="saisie-corps">
+          <span class="saisie-libelle">Votre adresse</span>
+          <input id="promo-mobile-adresse" name="adresse" type="text" autocomplete="street-address"
+                 class="saisie-champ" placeholder="12 rue des Lilas, 75011 Paris" required data-adresse>
+        </span>
+      </label>
+    </div>
+    <p id="promo-mobile-erreur" class="mt-2 hidden rounded-md bg-red-50 p-3 text-left text-body-sm text-red-700" role="alert" data-erreur></p>
+
+    <button type="submit" class="btn-gold btn-lg mt-6 w-full max-[359px]:px-5" disabled data-valider>
+      Récupérer mon cadeau ${icone('arrow_forward', 'text-[20px] max-[359px]:hidden')}
+    </button>
+    <button type="button" class="mt-2 inline-flex min-h-[44px] w-full items-center justify-center rounded-full text-label-md font-bold text-muted transition-colors hover:text-navy" data-refus>
+      Non merci
+    </button>
+  </form>
+
+  <!-- Étape 2 : le code reçu par SMS -->
+  <form class="modale-pied hidden text-center" novalidate data-etape-code aria-labelledby="promo-code-titre">
+    <h2 id="promo-code-titre" class="text-h-md" tabindex="-1">Vérifiez votre numéro</h2>
+    <p class="mt-2 text-body-md text-muted">
+      Code envoyé au <strong class="whitespace-nowrap font-extrabold text-navy" data-masque></strong>
+    </p>
+
+    <div class="code-cases mt-6" role="group" aria-label="Code de confirmation à ${CODE} chiffres">
+      ${Array.from({ length: CODE }, (_, i) => `
+      <input class="code-case" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" placeholder=" "
+             ${i === 0 ? 'autocomplete="one-time-code"' : 'autocomplete="off"'}
+             aria-label="Chiffre ${i + 1} sur ${CODE}" data-case="${i}">`).join('')}
+    </div>
+
+    <p class="code-delai mt-4" data-delai>
+      ${icone('timer', 'text-[18px]')}
+      <span data-delai-texte>Le code expire dans <span class="tabular-nums font-extrabold" data-restant>${minutes(VALIDITE)}</span></span>
+    </p>
+    <p class="mt-1 text-body-sm text-muted">
+      Pas reçu ?
+      <button type="button" class="code-renvoi" data-renvoi>Renvoyer le code</button>
+    </p>
+
+    <button type="submit" class="btn-gold btn-lg mt-6 w-full" disabled data-valider-code>
+      Valider le code ${icone('arrow_forward', 'text-[20px] max-[359px]:hidden')}
+    </button>
+    <button type="button" class="mt-2 inline-flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-full text-label-md font-bold text-muted transition-colors hover:text-navy" data-modifier>
+      ${icone('arrow_back', 'text-[18px]')} Modifier le numéro
+    </button>
+    <p class="sr-only" aria-live="polite" data-annonce-code></p>
+  </form>
+</div>`,
+      });
+      if (!m) return null;
+
+      const { panneau, fermer } = m;
+      const q = (sel) => el(sel, panneau);
+      const champ = q('[data-numero]');
+      const adresse = q('[data-adresse]');
+      const erreur = q('[data-erreur]');
+      /** Pastille de la ligne : coche verte une fois le champ rempli. */
+      const marquer = (input, ok) => input.closest('[data-saisie]').toggleAttribute('data-valide', ok);
+      const pret = () => chiffres(champ.value).length === LONGUEUR && adresseValide(adresse.value);
+
+      function signaler(texte) {
+        erreur.textContent = texte;
+        erreur.classList.toggle('hidden', !texte);
+        champ.setAttribute('aria-invalid', texte ? 'true' : 'false');
+      }
+      const valider = q('[data-valider]');
+
+      /* Mise en forme pendant la frappe : chiffres groupés deux par deux. Le
+         curseur garde sa place parmi les chiffres (correction en milieu de
+         numéro), et le bouton ne s'active qu'une fois les dix chiffres saisis. */
+      champ.addEventListener('input', () => {
+        const avant = champ.value.slice(0, champ.selectionStart).replace(/\D/g, '').length;
+        const n = chiffres(champ.value);
+        const texte = lisible(n);
+        if (texte !== champ.value) {
+          champ.value = texte;
+          let pos = 0;
+          for (let vus = 0; pos < texte.length && vus < Math.min(avant, n.length); pos++) {
+            if (/\d/.test(texte[pos])) vus++;
+          }
+          champ.setSelectionRange(pos, pos);
+        }
+        marquer(champ, n.length === LONGUEUR);
+        valider.disabled = !pret();
+        // L'erreur s'efface dès qu'on corrige.
+        if (champ.getAttribute('aria-invalid') === 'true') signaler('');
+      });
+
+      adresse.addEventListener('input', () => {
+        marquer(adresse, adresseValide(adresse.value));
+        valider.disabled = !pret();
+      });
+
+      q('[data-formulaire]').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const n = chiffres(champ.value);
+        if (!pret()) return; // filet : le bouton reste grisé d'ici là
+        const deja = Store.all.mobilesVerifies || [];
+        if (deja.includes(n)) {
+          signaler('Ce numéro a déjà reçu son cadeau.');
+          return champ.focus();
+        }
+        etapeCode(n);
+      });
+
+      q('[data-refus]').addEventListener('click', () => fermer('refus'));
+
+      /* --- Étape 2 : code SMS ------------------------------------------------ */
+      const formCode = q('[data-etape-code]');
+      const cases = [...formCode.querySelectorAll('[data-case]')];
+      const validerCode = q('[data-valider-code]');
+      const renvoi = q('[data-renvoi]');
+      const annonceCode = q('[data-annonce-code]');
+      let numero = '';
+      let expiration = 0;
+      let renvoiPossible = 0;
+
+      const code = () => cases.map((c) => c.value).join('');
+      const expire = () => Date.now() >= expiration;
+      const majBouton = () => { validerCode.disabled = code().length < CODE || expire(); };
+
+      /** (Ré)envoi d'un code : cases vidées, décompte et délai de renvoi relancés. */
+      function envoyer() {
+        cases.forEach((c) => { c.value = ''; c.disabled = false; });
+        expiration = Date.now() + VALIDITE * 1000;
+        renvoiPossible = Date.now() + RENVOI * 1000;
+        formCode.dataset.etat = 'actif';
+        q('[data-delai] .material-symbols-outlined').textContent = 'timer';
+        q('[data-delai-texte]').innerHTML = `Le code expire dans <span class="tabular-nums font-extrabold" data-restant>${minutes(VALIDITE)}</span>`;
+        clearInterval(horloge);
+        horloge = setInterval(battre, 250);
+        battre();
+        majBouton();
+        cases[0].focus();
+      }
+
+      /* Calé sur une échéance plutôt que sur des tics : juste même après un
+         passage en arrière-plan. */
+      function battre() {
+        const restant = Math.max(0, Math.ceil((expiration - Date.now()) / 1000));
+        const attente = Math.max(0, Math.ceil((renvoiPossible - Date.now()) / 1000));
+        renvoi.disabled = attente > 0;
+        renvoi.textContent = attente > 0 ? `Renvoyer le code (${minutes(attente)})` : 'Renvoyer le code';
+        if (formCode.dataset.etat === 'expire') return;
+        const affichage = q('[data-restant]');
+        if (affichage) affichage.textContent = minutes(restant);
+        formCode.dataset.etat = restant <= 30 ? 'urgent' : 'actif';
+        if (restant === 0) {
+          formCode.dataset.etat = 'expire';
+          q('[data-delai] .material-symbols-outlined').textContent = 'timer_off';
+          q('[data-delai-texte]').textContent = 'Code expiré : demandez-en un nouveau.';
+          cases.forEach((c) => { c.disabled = true; });
+          annonceCode.textContent = 'Le code a expiré. Vous pouvez en demander un nouveau.';
+          majBouton();
+        }
+      }
+
+      function etapeCode(n) {
+        numero = n;
+        q('[data-masque]').textContent = masque(n);
+        q('[data-formulaire]').classList.add('hidden');
+        formCode.classList.remove('hidden');
+        envoyer();
+      }
+
+      /* Cases : un chiffre chacune, passage automatique à la suivante,
+         retour arrière vers la précédente, collage d'un code entier. */
+      function remplir(depuis, texte) {
+        const chiffresCode = texte.replace(/\D/g, '').slice(0, CODE - depuis).split('');
+        chiffresCode.forEach((d, k) => { cases[depuis + k].value = d; });
+        const suivante = cases[Math.min(depuis + chiffresCode.length, CODE - 1)];
+        suivante.focus();
+        suivante.select();
+        majBouton();
+      }
+      cases.forEach((c, i) => {
+        c.addEventListener('input', () => {
+          const v = c.value.replace(/\D/g, '');
+          c.value = '';
+          if (v) remplir(i, v); else majBouton();
+        });
+        c.addEventListener('paste', (e) => {
+          e.preventDefault();
+          remplir(i, (e.clipboardData || global.clipboardData).getData('text'));
+        });
+        c.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && !c.value && i > 0) {
+            e.preventDefault();
+            cases[i - 1].value = '';
+            cases[i - 1].focus();
+            majBouton();
+          } else if (e.key === 'ArrowLeft' && i > 0) {
+            e.preventDefault(); cases[i - 1].focus();
+          } else if (e.key === 'ArrowRight' && i < CODE - 1) {
+            e.preventDefault(); cases[i + 1].focus();
+          }
+        });
+        c.addEventListener('focus', () => c.select());
+      });
+
+      renvoi.addEventListener('click', () => {
+        envoyer();
+        annonceCode.textContent = `Nouveau code envoyé au ${masque(numero)}.`;
+        global.UV.toast('Nouveau code envoyé par SMS.', { icone: 'sms' });
+      });
+
+      q('[data-modifier]').addEventListener('click', () => {
+        clearInterval(horloge);
+        formCode.classList.add('hidden');
+        q('[data-formulaire]').classList.remove('hidden');
+        champ.focus();
+      });
+
+      formCode.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (code().length < CODE || expire()) return; // filet : bouton grisé d'ici là
+        clearInterval(horloge);
+        const deja = Store.all.mobilesVerifies || [];
+        Store.set({ mobilesVerifies: [...deja, numero], adresse: adresse.value.trim() });
+        Store.crediter(O.credits);
+
+        // L'offre s'efface d'un coup, la confirmation prend sa place.
+        fermer('obtenue', true);
+        confirmation({
+          surtitre: 'Cadeau récupéré',
+          titre: `${credits} ajoutés à votre solde`,
+          message: 'Ils sont disponibles tout de suite, pour la consultation de votre choix.',
+          recu: [
+            ['Numéro vérifié', insecable(lisible(numero))],
+            ['Nouveau solde', insecable(`${Store.credits} crédit${Store.credits > 1 ? 's' : ''}`)],
+          ],
+        });
+      });
+      return m;
+    }
+
+    return { ouvrir };
+  })();
+
   /* --- API publique -------------------------------------------------------- */
   global.UV.modale = modale;
-  global.UV.modales = { promoVert, forfaits, upsell, fidelite };
+  global.UV.confirmation = confirmation;
+  global.UV.modales = { promoVert, forfaits, upsell, fidelite, promoMobile };
 })(window);

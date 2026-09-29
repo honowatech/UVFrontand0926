@@ -543,6 +543,8 @@
      `bonus` : crédits en plus, en % ; `duree` : validité en secondes. */
   const OFFRES = {
     vert: { id: 'vert', nom: 'Offre spéciale', credits: 15, prix: 17.99, bonus: 50, duree: 15 },
+    // Offre du jour : crédits offerts contre la vérification d'un numéro de mobile.
+    mobile: { id: 'mobile', nom: 'Offre du jour', credits: 3, valeur: 7.5 },
   };
 
   /* --- Compléments (upsell) ------------------------------------------------
