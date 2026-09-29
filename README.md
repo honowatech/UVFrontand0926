@@ -76,6 +76,25 @@ toutes deux testées sur Apache 2.4 :
 | **`dist/`** (recommandé, si l'hébergeur permet de le choisir) | `dist/.htaccess` s'applique : page 404, compression, cache, en-têtes de sécurité |
 | **La racine du dépôt** | Le `.htaccess` racine sert tout depuis `dist/` : les adresses publiques restent `/`, `/voyant-claire.html`… Les sources, les scripts de build, `package.json` et le dépôt `.git` répondent 404 |
 
+### Préproduction (branche `preprod`)
+
+La branche **`preprod`** regroupe ce qui doit être vu en préproduction. À chaque push,
+le workflow `.github/workflows/deploy-preprod.yml` :
+
+1. vérifie que `dist/` correspond aux sources (`npm run statique` ne doit rien modifier) ;
+2. se connecte en SSH au serveur de préprod et y lance `git pull --ff-only origin preprod`.
+
+L'étape 2 n'a lieu que si les secrets du dépôt sont renseignés (*Settings → Secrets and
+variables → Actions*) : `PREPROD_HOST`, `PREPROD_USER`, `PREPROD_PORT` (22 par défaut),
+`PREPROD_SSH_KEY` (clé privée autorisée sur le serveur) et `PREPROD_PATH` (chemin du clone
+sur le serveur, qui doit pouvoir lire le dépôt GitHub, par exemple avec une *deploy key*
+en lecture seule). Sans eux, seule la vérification tourne. Le bouton *Run workflow* de
+l'onglet Actions relance une mise en ligne à la main.
+
+Pour publier une branche en préprod : `git checkout preprod && git merge <branche>`, puis
+`npm run statique` (les fichiers générés, `app.css` et `dist/`, se reconstruisent au lieu de
+se fusionner à la main), `git add -A && git commit`, `git push`.
+
 `dist/.htaccess` est généré à partir de `src/dist.htaccess` : c'est ce dernier qu'il faut
 modifier. Il suppose le site servi à la racine du domaine (`ErrorDocument 404 /404.html`).
 Cache : HTML, CSS, JS et polices sont revalidés à chaque visite (noms de fichiers sans

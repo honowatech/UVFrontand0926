@@ -1,0 +1,66 @@
+# Mise en ligne de la préproduction
+# ---------------------------------------------------------------------------
+# À chaque push sur `preprod` :
+#   1. vérifie que dist/ correspond aux sources (npm run statique ne doit
+#      rien modifier) : le serveur publie dist/ tel quel, sans build ;
+#   2. se connecte en SSH au serveur de préprod et y lance `git pull`.
+# L'étape 2 ne s'exécute que si les secrets PREPROD_* sont renseignés
+# (Settings → Secrets and variables → Actions) : sans eux, seule la
+# vérification tourne, et le workflow reste vert.
+#   PREPROD_HOST, PREPROD_USER, PREPROD_PORT, PREPROD_SSH_KEY, PREPROD_PATH
+name: Préproduction
+
+on:
+  push:
+    branches: [preprod]
+  workflow_dispatch:
+
+concurrency:
+  group: preprod
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SECRETS_OK: ${{ secrets.PREPROD_HOST != '' && secrets.PREPROD_SSH_KEY != '' && secrets.PREPROD_PATH != '' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # sitemap.xml date chaque page d'après l'historique git
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: dist/ est à jour
+        run: |
+          npm ci
+          npm run statique
+          if [ -n "$(git status --porcelain)" ]; then
+            git status --short
+            echo "::error::dist/ n'est pas à jour : lancer npm run statique et committer le résultat."
+            exit 1
+          fi
+
+      - name: git pull sur le serveur
+        if: env.SECRETS_OK == 'true'
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.PREPROD_HOST }}
+          username: ${{ secrets.PREPROD_USER }}
+          port: ${{ secrets.PREPROD_PORT || 22 }}
+          key: ${{ secrets.PREPROD_SSH_KEY }}
+          script: |
+            set -e
+            cd "${{ secrets.PREPROD_PATH }}"
+            git fetch origin preprod
+            git checkout preprod
+            git pull --ff-only origin preprod
+            git log -1 --oneline
+
+      - name: Secrets absents
+        if: env.SECRETS_OK != 'true'
+        run: |
+          echo "::notice::Secrets PREPROD_* absents : vérification faite, mise en ligne non déclenchée."
