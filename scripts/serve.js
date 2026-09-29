@@ -28,6 +28,8 @@ const TYPES = {
 http.createServer((req, res) => {
   let rel = decodeURIComponent(req.url.split('?')[0]);
   if (rel === '/') rel = '/index.html';
+  // Adresses courtes, comme sur le serveur (src/dist.htaccess) : /landing → landing.html
+  if (rel === '/landing') rel = '/landing.html';
 
   const fichier = path.join(RACINE, rel);
   if (!fichier.startsWith(RACINE)) {

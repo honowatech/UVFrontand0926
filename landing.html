@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Voyance gratuite par tchat · 3 questions offertes | unevoyante.fr</title>
+<meta name="description" content="Posez 3 questions offertes à un voyant en ligne, sans carte bancaire. Inscription en 30 secondes, réponse immédiate par tchat, échanges anonymes et sécurisés.">
+<link rel="canonical" href="https://unevoyante.fr/landing">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="unevoyante.fr">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Voyance gratuite par tchat · 3 questions offertes">
+<meta property="og:description" content="Posez 3 questions offertes à un voyant en ligne, sans carte bancaire. Inscription en 30 secondes, réponse immédiate par tchat, échanges anonymes et sécurisés.">
+<meta property="og:url" content="https://unevoyante.fr/landing">
+<meta property="og:image" content="https://unevoyante.fr/assets/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="unevoyante.fr — voyance par tchat">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
+</head>
+<!-- Page d'atterrissage : ni menu ni barre d'onglets, un seul geste demandé.
+     Styles : src/css/composants/landing.css (teintes nuit dans theme-nuit.css). -->
+<body class="lp-page flex min-h-screen flex-col bg-ground">
+<a href="#inscription" class="skip-link">Aller au formulaire d'inscription</a>
+
+<main id="contenu" class="flex-1">
+
+  <!-- ======================================================================
+       EN-TÊTE + PROMESSE + INSCRIPTION
+       Le ciel de nuit (identique dans les deux thèmes) s'arrête avant le bas
+       de la section : la carte d'inscription le chevauche.
+       ====================================================================== -->
+  <section class="lp-ciel overflow-hidden pb-6 lg:pb-12">
+    <svg aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-auto w-full text-gold opacity-40"
+         viewBox="0 0 1200 420" fill="none" preserveAspectRatio="xMidYMid slice" style="height:calc(100% - var(--lp-debord))">
+      <circle cx="60" cy="300" r="1" fill="currentColor"/><circle cx="130" cy="190" r="1.5" fill="currentColor"/><circle cx="240" cy="340" r="1" fill="currentColor"/>
+      <circle cx="330" cy="60" r="1.5" fill="currentColor"/><circle cx="470" cy="30" r="1" fill="currentColor"/><circle cx="560" cy="120" r="2" fill="currentColor"/>
+      <circle cx="690" cy="40" r="1.5" fill="currentColor"/><circle cx="820" cy="96" r="2.5" fill="currentColor"/><circle cx="900" cy="210" r="2" fill="currentColor"/>
+      <circle cx="1010" cy="60" r="1" fill="currentColor"/><circle cx="1080" cy="170" r="2.5" fill="currentColor"/><circle cx="1160" cy="310" r="1.5" fill="currentColor"/>
+      <path d="M130 190 L60 300 M330 60 L470 30 L560 120 M690 40 L820 96 L900 210 M820 96 L1010 60 L1080 170 L1160 310"
+            stroke="currentColor" stroke-dasharray="3 3" stroke-width=".75"/>
+    </svg>
+
+    <!-- Barre minimale : le logo, le thème, la connexion -->
+    <header class="shell flex h-16 items-center justify-between gap-3 text-white lg:h-20">
+      <a href="index.html" class="uv-logo text-[22px] text-white sm:text-[26px]" aria-label="unevoyante.fr — accueil">
+        <span aria-hidden="true">unevoyan<span class="uv-logo-t">t<i class="uv-flag"></i></span>e.fr</span>
+      </a>
+      <div class="flex items-center gap-1 sm:gap-3">
+        <button type="button" data-uv-theme class="grid h-10 w-10 shrink-0 place-items-center rounded-full transition-colors hover:bg-white/10"
+                aria-label="Passer en mode nuit" title="Passer en mode nuit"></button>
+        <a href="connexion.html" id="lp-connexion" class="whitespace-nowrap rounded-full px-3 py-2 text-label-md font-bold text-white/85 transition-colors hover:bg-white/10 hover:text-gold-300">Se connecter</a>
+      </div>
+    </header>
+
+    <div class="shell grid items-start gap-6 pt-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,440px)] lg:gap-16 lg:pt-10">
+
+      <!-- Promesse -->
+      <div class="text-center text-white lg:pb-16 lg:pt-6 lg:text-left">
+        <p class="hidden text-[12px] font-extrabold uppercase leading-4 tracking-[0.14em] text-gold-300 lg:block">Voyance gratuite par tchat</p>
+        <p class="font-display text-h-md font-extrabold text-white lg:mt-4 lg:text-h-2xl">
+          + de <span class="text-gradient-gold">23 500</span> personnes guidées
+        </p>
+        <p class="mx-auto mt-3 max-w-md text-body-lg text-white/80 lg:hidden">
+          3 questions offertes · sans carte bancaire · réponse immédiate
+        </p>
+        <p class="mt-5 hidden max-w-lg text-body-lg text-white/75 lg:block">
+          Échangez par écrit avec un voyant en ligne, maintenant. Vos trois premières questions
+          sont offertes, et la réponse arrive en direct.
+        </p>
+        <ul class="mt-8 hidden flex-wrap gap-2 lg:flex" aria-label="Nos engagements">
+          <li class="lp-promesse"><span class="material-symbols-outlined icon-fill text-[16px] text-gold-300" aria-hidden="true">redeem</span>3 questions offertes</li>
+          <li class="lp-promesse"><span class="material-symbols-outlined text-[16px] text-gold-300" aria-hidden="true">credit_card</span>Sans carte bancaire</li>
+          <li class="lp-promesse"><span class="material-symbols-outlined text-[16px] text-gold-300" aria-hidden="true">bolt</span>Réponse immédiate</li>
+        </ul>
+
+        <!-- Praticiens en ligne + avis : grand écran (sur mobile, ils suivent la carte) -->
+        <div class="mt-10 hidden items-center gap-8 lg:flex">
+          <div class="flex items-center gap-3">
+            <div class="lp-portraits flex" id="lp-portraits"></div>
+            <p class="text-body-sm leading-snug text-white/75">
+              <span class="flex items-center gap-1.5 font-bold text-white"><span class="dot-online animate-pulse"></span><span data-lp-en-ligne>18</span> voyants</span>
+              en ligne maintenant
+            </p>
+          </div>
+          <span class="h-10 w-px bg-white/15" aria-hidden="true"></span>
+          <div class="flex flex-col gap-1.5">
+            <span class="flex gap-1" role="img" aria-label="Note Trustpilot : 4 étoiles sur 5">
+              <span class="lp-tuile"><span class="material-symbols-outlined icon-fill text-[18px]" aria-hidden="true">star</span></span><span class="lp-tuile"><span class="material-symbols-outlined icon-fill text-[18px]" aria-hidden="true">star</span></span><span class="lp-tuile"><span class="material-symbols-outlined icon-fill text-[18px]" aria-hidden="true">star</span></span><span class="lp-tuile"><span class="material-symbols-outlined icon-fill text-[18px]" aria-hidden="true">star</span></span><span class="lp-tuile is-vide"><span class="material-symbols-outlined icon-fill text-[18px]" aria-hidden="true">star</span></span>
+            </span>
+            <span class="text-body-sm text-white/75"><strong class="text-white">527 avis</strong> vérifiés sur Trustpilot</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inscription en deux étapes -->
+      <div id="inscription" class="lp-carte" aria-labelledby="lp-titre">
+        <h1 id="lp-titre" class="text-center text-h-lg-m sm:text-h-lg">Recevez vos 3 questions offertes</h1>
+        <p class="mt-1 text-center text-body-lg text-muted" data-lp-sous-titre>en complétant votre inscription</p>
+        <!-- Compteur du jour : calculé à l'ouverture, jamais figé au pré-rendu -->
+        <p class="mt-3 hidden items-center justify-center gap-2 text-label-md text-navy" data-lp-compteur>
+          <span class="dot-online animate-pulse"></span>
+          <span><strong data-lp-compteur-n></strong> consultations gratuites aujourd'hui</span>
+        </p>
+
+        <div class="mt-6" data-lp-progression>
+          <div class="lp-piste" aria-hidden="true"><span class="lp-jauge" style="width:50%" data-lp-jauge></span></div>
+          <p class="mt-2 text-right text-body-sm text-muted" aria-live="polite" data-lp-etape-libelle>Étape 1 sur 2</p>
+        </div>
+
+        <form id="lp-formulaire" class="mt-4" novalidate>
+          <!-- Étape 1 : prénom -->
+          <fieldset data-lp-etape="1">
+            <legend class="sr-only">Étape 1 sur 2 : votre prénom</legend>
+            <label for="lp-prenom" class="label text-label-lg">Votre prénom</label>
+            <input id="lp-prenom" name="prenom" class="field min-h-[54px] text-body-lg" placeholder="Ex. Camille"
+                   autocomplete="given-name" enterkeyhint="next" maxlength="40" aria-describedby="lp-erreur-1" required>
+            <p id="lp-erreur-1" class="mt-2 hidden text-body-sm font-semibold text-[rgb(var(--uv-sortie))]" role="alert"></p>
+            <button type="submit" class="btn-gold btn-lg mt-5 w-full">
+              Suivant <span class="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_forward</span>
+            </button>
+          </fieldset>
+
+          <!-- Étape 2 : e-mail -->
+          <fieldset data-lp-etape="2" hidden>
+            <legend class="sr-only">Étape 2 sur 2 : votre adresse e-mail</legend>
+            <label for="lp-email" class="label text-label-lg">
+              <span data-lp-salut>Votre adresse e-mail</span>
+            </label>
+            <input id="lp-email" name="email" type="email" class="field min-h-[54px] text-body-lg" placeholder="Ex. camille@exemple.fr"
+                   autocomplete="email" inputmode="email" enterkeyhint="go" aria-describedby="lp-email-aide lp-erreur-2" required>
+            <p id="lp-email-aide" class="hint">Les praticiens ne voient jamais votre adresse.</p>
+            <label class="mt-4 flex cursor-pointer items-start gap-3">
+              <input type="checkbox" id="lp-majeur" class="check mt-0.5">
+              <span class="text-body-sm leading-relaxed text-muted">
+                Je certifie être majeur(e) et j'accepte les
+                <a href="info.html?sujet=cgv" class="font-semibold text-royal underline underline-offset-2">CGV</a>
+                et la <a href="info.html?sujet=confidentialite" class="font-semibold text-royal underline underline-offset-2">politique de confidentialité</a>.
+              </span>
+            </label>
+            <p id="lp-erreur-2" class="mt-2 hidden text-body-sm font-semibold text-[rgb(var(--uv-sortie))]" role="alert"></p>
+            <button type="submit" class="btn-gold btn-lg mt-5 w-full">
+              Recevoir mes 3 questions <span class="material-symbols-outlined icon-fill text-[20px]" aria-hidden="true">auto_awesome</span>
+            </button>
+            <button type="button" class="btn-link mx-auto mt-3 flex" data-lp-retour>
+              <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_back</span> Modifier mon prénom
+            </button>
+          </fieldset>
+        </form>
+
+        <!-- Inscription faite (ou visiteur déjà connecté) -->
+        <div data-lp-bienvenue hidden tabindex="-1" class="mt-6 text-center outline-none">
+          <span class="mx-auto grid h-16 w-16 place-items-center rounded-full bg-gold-soft text-navy shadow-gold">
+            <span class="material-symbols-outlined icon-fill text-[32px]" aria-hidden="true">celebration</span>
+          </span>
+          <p class="mt-4 font-display text-h-md font-extrabold text-navy" data-lp-bienvenue-titre>Vos 3 questions sont prêtes</p>
+          <p class="mt-1 text-body-md text-muted" data-lp-bienvenue-texte>Choisissez un voyant en ligne et posez votre première question.</p>
+          <a href="#voyants" class="btn-gold btn-lg mt-6 w-full" data-lp-bienvenue-cta>
+            Choisir mon voyant <span class="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_forward</span>
+          </a>
+        </div>
+
+        <p class="mt-5 flex items-center justify-center gap-1.5 border-t border-[rgb(var(--lp-filet))] pt-4 text-body-sm text-muted">
+          <span class="material-symbols-outlined text-[16px] text-royal" aria-hidden="true">lock</span>
+          Anonyme · Sans engagement · Sans abonnement
+        </p>
+      </div>
+
+      <!-- Avis : mobile, sous la carte -->
+      <div class="flex flex-col items-center gap-2 pt-2 lg:hidden">
+        <p class="text-body-md text-muted">Consultez nos <strong class="text-navy">527 avis</strong></p>
+        <span class="flex gap-1" role="img" aria-label="Note Trustpilot : 4 étoiles sur 5">
+          <span class="lp-tuile h-9 w-9"><span class="material-symbols-outlined icon-fill text-[22px]" aria-hidden="true">star</span></span><span class="lp-tuile h-9 w-9"><span class="material-symbols-outlined icon-fill text-[22px]" aria-hidden="true">star</span></span><span class="lp-tuile h-9 w-9"><span class="material-symbols-outlined icon-fill text-[22px]" aria-hidden="true">star</span></span><span class="lp-tuile h-9 w-9"><span class="material-symbols-outlined icon-fill text-[22px]" aria-hidden="true">star</span></span><span class="lp-tuile is-vide h-9 w-9"><span class="material-symbols-outlined icon-fill text-[22px]" aria-hidden="true">star</span></span>
+        </span>
+        <p class="text-label-md text-navy">Avis vérifiés Trustpilot</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       VOYANTS EN LIGNE
+       ====================================================================== -->
+  <section id="voyants" class="pb-12 pt-10 lg:pb-20 lg:pt-12">
+    <div class="shell">
+      <div class="mb-8 flex flex-col items-center gap-3 text-center">
+        <span class="badge-online"><span class="dot-online animate-pulse"></span> <span data-lp-en-ligne>18</span> voyants en ligne</span>
+        <h2 class="text-h-lg-m sm:text-h-lg">Vos voyants en ligne maintenant</h2>
+      </div>
+      <ul class="mx-auto grid max-w-5xl grid-cols-1 gap-4 lg:grid-cols-2" id="lp-voyants"></ul>
+      <p class="mt-8 text-center">
+        <a href="voyants.html" class="btn-link">Voir tous les voyants <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span></a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       DÉROULÉ DE LA CONSULTATION
+       ====================================================================== -->
+  <section class="lp-bande py-12 lg:py-20">
+    <div class="shell">
+      <h2 class="mb-10 text-center text-h-lg-m sm:text-h-lg">Comment se passe votre consultation</h2>
+      <ol class="mx-auto grid max-w-md gap-6 lg:max-w-5xl lg:grid-cols-3 lg:gap-10">
+        <li class="lp-etape">
+          <span class="lp-etape-n" aria-hidden="true">1</span>
+          <div>
+            <h3 class="text-h-sm">Inscrivez-vous en 30 secondes</h3>
+            <p class="mt-1.5 text-body-md leading-relaxed text-muted">Prénom + e-mail. Sans carte bancaire, vos 3 questions sont offertes immédiatement.</p>
+          </div>
+        </li>
+        <li class="lp-etape">
+          <span class="lp-etape-n" aria-hidden="true">2</span>
+          <div>
+            <h3 class="text-h-sm">Choisissez un voyant en ligne</h3>
+            <p class="mt-1.5 text-body-md leading-relaxed text-muted">Selon sa spécialité et ses avis.</p>
+          </div>
+        </li>
+        <li class="lp-etape">
+          <span class="lp-etape-n" aria-hidden="true">3</span>
+          <div>
+            <h3 class="text-h-sm">Posez votre question par tchat</h3>
+            <p class="mt-1.5 text-body-md leading-relaxed text-muted">Réponse en direct, avec une trace écrite que vous gardez.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       LA VOYANCE GRATUITE PAR TCHAT
+       ====================================================================== -->
+  <section class="py-12 lg:py-20">
+    <div class="shell grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-16">
+      <div class="prose-uv mx-auto lg:mx-0">
+        <h2 class="!mt-0 !text-h-lg-m sm:!text-h-lg">La voyance gratuite par tchat, comment ça marche&nbsp;?</h2>
+        <p>
+          La voyance gratuite par tchat vous permet d'échanger par écrit avec un voyant, sans rendez-vous
+          ni carte bancaire. À l'inscription, 3 questions vous sont offertes : vous posez votre question,
+          le voyant vous répond en direct, et vous gardez une trace écrite de l'échange.
+        </p>
+        <p>
+          Pour une réponse vraiment utile, formulez une question claire et ouverte, par exemple sur votre
+          situation amoureuse, un projet ou une décision à prendre, plutôt qu'un simple oui/non. La voyance
+          gratuite donne une première orientation ; si vous souhaitez approfondir, vous poursuivez avec une
+          consultation réglée en crédits, et non à la minute : pas de compteur qui tourne, pas de débit surprise.
+        </p>
+      </div>
+
+      <!-- Illustration : une question ouverte, telle qu'elle se pose dans le tchat -->
+      <figure class="lp-echange lp-glace mx-auto w-full max-w-md" aria-label="Exemple de question ouverte posée par tchat">
+        <figcaption class="mb-4 flex items-center gap-2 text-label-sm font-extrabold uppercase tracking-[0.12em] text-muted">
+          <span class="material-symbols-outlined text-[18px] text-royal" aria-hidden="true">forum</span> Une question ouverte
+        </figcaption>
+        <div class="flex flex-col gap-3">
+          <p class="bubble-me ml-auto">Comment va évoluer ma relation avec Julien dans les prochains mois&nbsp;?</p>
+          <p class="bubble-them">Je tire les cartes pour vous. Je vois une période de silence qui se termine bientôt, mais l'initiative ne doit pas venir de vous…</p>
+          <p class="mt-1 flex items-center gap-1.5 text-body-sm text-muted">
+            <span class="material-symbols-outlined text-[16px] text-gold" aria-hidden="true">history</span>
+            L'échange reste dans votre historique.
+          </p>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       CONFIANCE — le bandeau des chiffres clés de l'accueil
+       ====================================================================== -->
+  <section class="stats-aurore py-14 text-white lg:py-16">
+    <div class="shell">
+      <h2 class="mb-10 text-center text-h-lg-m text-white sm:text-h-lg">Pourquoi nous faire confiance</h2>
+      <dl class="stats-liste grid grid-cols-2 gap-x-4 gap-y-8 text-center lg:grid-cols-4 lg:gap-0">
+        <div>
+          <dt class="sr-only">Personnes guidées</dt>
+          <dd class="text-gradient-gold font-display text-[34px] font-extrabold leading-tight tracking-tight lg:text-[44px]">+23 500</dd>
+          <dd class="mt-1 text-body-sm font-semibold text-white/75">personnes guidées</dd>
+        </div>
+        <div>
+          <dt class="sr-only">Ancienneté</dt>
+          <dd class="text-gradient-gold font-display text-[34px] font-extrabold leading-tight tracking-tight lg:text-[44px]">7 ans</dd>
+          <dd class="mt-1 text-body-sm font-semibold text-white/75">d'expérience</dd>
+        </div>
+        <div>
+          <dt class="sr-only">Paiement</dt>
+          <dd class="text-gradient-gold font-display text-[34px] font-extrabold leading-tight tracking-tight lg:text-[44px]">Sans CB</dd>
+          <dd class="mt-1 text-body-sm font-semibold text-white/75">pour vos 3 questions</dd>
+        </div>
+        <div>
+          <dt class="sr-only">Confidentialité</dt>
+          <dd class="text-gradient-gold font-display text-[34px] font-extrabold leading-tight tracking-tight lg:text-[44px]">Anonyme</dd>
+          <dd class="mt-1 text-body-sm font-semibold text-white/75">et sécurisé</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       QUESTIONS FRÉQUENTES
+       ====================================================================== -->
+  <section class="lp-bande py-12 lg:py-20">
+    <div class="shell">
+      <h2 class="mb-8 text-center text-h-lg-m sm:text-h-lg">Vos questions fréquentes</h2>
+      <div class="lp-faq mx-auto flex max-w-3xl flex-col gap-3" id="lp-faq"></div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       DERNIER APPEL
+       ====================================================================== -->
+  <section class="py-12 lg:py-20" id="lp-final">
+    <div class="shell">
+      <div class="tint-nuit relative mx-auto max-w-4xl overflow-hidden rounded-3xl px-6 py-10 text-center sm:px-10 lg:py-14">
+        <span class="material-symbols-outlined tint-mark" aria-hidden="true">auto_awesome</span>
+        <div class="relative">
+          <h2 class="text-h-lg-m text-white sm:text-h-lg" data-lp-final-titre>Vos 3 questions vous attendent</h2>
+          <p class="mx-auto mt-3 max-w-lg text-body-lg text-white/75">Sans carte bancaire, sans abonnement : un voyant vous répond en direct, par écrit.</p>
+          <a href="#inscription" class="btn-gold btn-lg mt-7" data-lp-cta>Tchatter gratuitement</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Pied de page réduit : l'essentiel légal, rien pour quitter la page par mégarde -->
+<footer class="bg-navy text-white">
+  <div class="shell flex flex-col gap-5 py-10 text-body-sm text-white/70">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <a href="index.html" class="uv-logo text-[20px] text-white" aria-label="unevoyante.fr — accueil">
+        <span aria-hidden="true">unevoyan<span class="uv-logo-t">t<i class="uv-flag"></i></span>e.fr</span>
+      </a>
+      <ul class="flex flex-wrap gap-x-5 gap-y-2">
+        <li><a href="info.html?sujet=mentions-legales" class="transition-colors hover:text-gold">Mentions légales</a></li>
+        <li><a href="info.html?sujet=cgv" class="transition-colors hover:text-gold">CGV</a></li>
+        <li><a href="info.html?sujet=confidentialite" class="transition-colors hover:text-gold">Confidentialité</a></li>
+        <li><a href="contact.html" class="transition-colors hover:text-gold">Contact</a></li>
+      </ul>
+    </div>
+    <p class="border-t border-white/10 pt-5 text-white/55">
+      © 2026 unevoyante.fr. Service de divertissement et de guidance réservé aux personnes majeures. Nos praticiens
+      ne délivrent aucun diagnostic ni traitement : une consultation de voyance ne remplace jamais un avis médical,
+      psychologique, juridique ou financier.
+    </p>
+  </div>
+</footer>
+
+<!-- Appel à l'action fixe (mobile) -->
+<div class="lp-barre is-cachee" data-lp-barre>
+  <a href="#inscription" class="btn-gold btn-lg w-full" data-lp-cta>Tchatter gratuitement</a>
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/pages/landing.js"></script>
+</body>
+</html>
