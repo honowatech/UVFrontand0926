@@ -41,7 +41,7 @@
     },
     {
       q: 'La voyance en ligne est-elle fiable ?',
-      r: 'Une consultation apporte un éclairage et une orientation, pas une certitude. Nos voyants sont sélectionnés et évalués en continu par les avis des consultants. La voyance relève de la guidance et du divertissement : elle ne remplace jamais un avis médical, psychologique, juridique ou financier.',
+      r: 'La voyance apporte un éclairage et une aide à la réflexion ; elle ne remplace ni un avis médical, ni juridique, ni financier. Nos voyants s’engagent à une écoute honnête, sans fausses promesses.',
     },
   ];
 
