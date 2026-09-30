@@ -7,7 +7,21 @@
   const SUJETS = {
     'mentions-legales': ['Légal', 'Mentions légales',
       'Éditeur, hébergeur, directeur de publication et coordonnées de la société exploitant unevoyante.fr.',
-      ['Identité de l’éditeur et numéro RCS', 'Coordonnées de l’hébergeur', 'Directeur de la publication', 'Propriété intellectuelle des contenus', 'Médiateur de la consommation']],
+      [],
+      /* Contenu rédigé : remplace l'aperçu et l'encart « hors périmètre ». */
+      `<h2>Gérant du service</h2>
+      <p>Le site unevoyante.fr est géré par la société <strong>SARL KALUWEB</strong>.</p>
+      <ul>
+        <li>Siège social : 19c rue du Dade, 33260 La Teste-de-Buch</li>
+        <li>SIREN : 502016439</li>
+        <li>N° TVA intracommunautaire : FR 72 801 803 669</li>
+        <li>Email du support : <a href="mailto:kedaweb@gmail.com">kedaweb@gmail.com</a></li>
+      </ul>
+      <h2>Hébergeur</h2>
+      <p>Le site unevoyante.fr est actuellement hébergé par <a href="https://dynamixhost.com" rel="noopener">dynamixhost.com</a>.</p>
+      <p>Le site dynamixhost.com est édité par la société <strong>DYNAMIX NETWORK</strong>, SARL au capital
+        social de 119 000 €, immatriculée au Registre du Commerce et des Sociétés de Marseille sous le
+        n° 801 803 669, dont le siège social est situé 338 Route de la Sainte Baume, 13390 Auriol, France.</p>`],
     'cgv': ['Légal', 'Conditions générales de vente',
       'Règles d’achat et d’utilisation des crédits, droit de rétractation et conditions de remboursement.',
       ['Objet et champ d’application', 'Achat et validité des crédits', 'Absence d’abonnement et de reconduction', 'Droit de rétractation de 14 jours', 'Réclamations et remboursements']],
@@ -39,9 +53,10 @@
   el('#chapeau').textContent = s[2];
   el('#ariane').innerHTML = filAriane([['Accueil', 'index.html'], [s[1]]]);
 
-  el('#apercu').innerHTML = s[3].length
+  if (s[4]) el('#chantier').hidden = true;
+  el('#apercu').innerHTML = s[4] || (s[3].length
     ? `<h2>Ce que cette page contiendra</h2><ul>${s[3].map((p) => `<li>${p}</li>`).join('')}</ul>`
-    : '';
+    : '');
 
   el('#parcours').innerHTML = [
     ['index.html', 'home', 'Accueil', 'Le parcours complet depuis la page d’accueil'],
