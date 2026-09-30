@@ -16,6 +16,9 @@
 .dark .btn-navy { background-color: rgb(var(--uv-royal-bg)); }
 .dark .btn-navy:hover { background-color: rgb(var(--uv-royal-bg-700)); }
 
+/* La nuit, le rouge de sortie s'éclaircit : le bouton plein prend l'encre du sol. */
+.dark .btn-danger { color: rgb(var(--uv-ground)); }
+
 /* L'or reste l'or dans les deux thèmes : son encre doit donc rester marine.
    Plutôt que de forcer une couleur, on ramène le jeton d'encre à sa valeur
    claire à l'intérieur de chaque fond doré — l'élément ET ses descendants

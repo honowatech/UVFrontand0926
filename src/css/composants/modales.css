@@ -45,4 +45,12 @@
   @media (max-height: 520px) {
     .modale { max-height: calc(100dvh - 24px); }
   }
+
+  /* Suppression du compte : pastille au rouge de sortie, seule couleur de la
+     modale — le reste garde l'encre et les filets ordinaires. */
+  .suppression-icone {
+    @apply grid h-14 w-14 place-items-center rounded-full;
+    color: rgb(var(--uv-sortie));
+    background-color: rgb(var(--uv-sortie) / .12);
+  }
 }

@@ -41,13 +41,15 @@
       consommes: 2,                     // crédits consommés depuis toujours (jamais remis à zéro) :
                                         // deux messages déjà envoyés dans la conversation de démonstration
       points: 2,                        // un point par message envoyé, quel que soit son coût en crédits
-      compte: null,                     // { prenom, email } — facultatif, jamais bloquant
+      compte: null,                     // { prenom, email, newsletter? } — facultatif, jamais bloquant
+                                        // (newsletter : abonné tant que ce n'est pas false)
       favoris: [],
       conversations: conversationDemo(), // { [voyantId]: { messages:[], nonLus:number, maj:number } }
       dernierVoyant: 'claire',
       packChoisi: 'certitude',
       cookies: null,                    // 'essentiels' | 'tous' — null tant que non choisi
       astuces: {},                      // bandeaux d'information refermés
+      preferences: {},                  // cases de la page Compte ; absentes = valeur par défaut du HTML
     };
   }
 
@@ -221,6 +223,12 @@
     },
     reinitialiser() {
       etat = etatInitial();
+      ecrire();
+    },
+    /** Suppression du compte : tout est effacé, sauf le choix des cookies, qui
+        appartient à l'appareil et non au compte (le bandeau ne revient pas). */
+    supprimerCompte() {
+      etat = { ...etatInitial(), cookies: etat.cookies };
       ecrire();
     },
   };
