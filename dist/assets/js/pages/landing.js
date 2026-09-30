@@ -9,35 +9,35 @@
   const FAQ = [
     {
       q: 'La voyance gratuite par tchat est-elle vraiment gratuite ?',
-      r: 'Oui. Vos 3 questions sont offertes dès l’inscription, sans carte bancaire et sans engagement. Vous ne payez que si vous choisissez ensuite de poursuivre avec des crédits.',
+      r: 'Oui. À l’inscription, 3 questions vous sont offertes pour échanger avec le voyant de votre choix : aucun paiement ni carte bancaire n’est demandé pour cet essai. Vous décidez ensuite librement de poursuivre ou non.',
     },
     {
       q: 'Faut-il une carte bancaire pour commencer ?',
-      r: 'Non. Un prénom et une adresse e-mail suffisent pour recevoir vos 3 questions offertes. Aucune empreinte bancaire n’est demandée à l’inscription.',
+      r: 'Non. La création de compte et vos 3 premières questions se font sans carte bancaire. Vous ne renseignez aucune coordonnée de paiement pour démarrer votre consultation gratuite.',
     },
     {
       q: 'Combien de questions sont offertes, et que se passe-t-il ensuite ?',
-      r: 'Trois questions, soit 3 crédits, chez le voyant de votre choix (le tarif par message est affiché sur chaque profil). Ensuite, rien n’est prélevé automatiquement : si vous souhaitez approfondir, vous rechargez des crédits, sans abonnement, et ils n’expirent jamais.',
+      r: 'Vous recevez 3 questions offertes. Au-delà, vous pouvez continuer avec des crédits achetés à l’avance : vous réglez le montant que vous choisissez, sans compteur à la minute ni prélèvement automatique. Pas de mauvaise surprise.',
     },
     {
       q: 'Mes échanges sont-ils anonymes et confidentiels ?',
-      r: 'Oui. Vous consultez sous le prénom de votre choix, vos échanges sont chiffrés et jamais partagés. Les voyants n’ont accès ni à votre adresse e-mail ni à vos coordonnées de paiement.',
+      r: 'Oui. Vos consultations sont privées et vous n’êtes pas obligé(e) de communiquer votre identité au voyant. Vos données restent protégées et ne sont jamais partagées avec des tiers.',
     },
     {
       q: 'Comment se déroule une consultation par tchat ?',
-      r: 'Vous choisissez un voyant en ligne, vous écrivez votre question et il vous répond en direct, par écrit. L’historique complet reste disponible dans votre espace : vous pouvez relire l’échange quand vous le souhaitez.',
+      r: 'Vous écrivez votre question, le voyant vous répond en direct par messages. Tout reste écrit : vous pouvez relire l’échange à tête reposée, à tout moment, depuis votre espace personnel.',
     },
     {
       q: 'Comment poser une bonne question à un voyant ?',
-      r: 'Préférez une question claire et ouverte à un simple oui/non : « Comment va évoluer ma relation dans les prochains mois ? » plutôt que « Va-t-il revenir ? ». Donnez le contexte utile (prénoms, période, enjeu) et une seule question par message.',
+      r: 'Privilégiez une question claire et ouverte, par exemple sur votre relation, un choix à faire ou un projet, plutôt qu’un simple « oui ou non ». Donnez le prénom des personnes concernées et un peu de contexte : plus c’est précis, plus la réponse est utile.',
     },
     {
       q: 'Qui sont les voyants d’UneVoyante ?',
-      r: 'Des tarologues, médiums, astrologues et numérologues sélectionnés après une consultation test anonyme, une vérification d’identité et la signature de notre charte déontologique. Moins de 5 % des candidats sont retenus.',
+      r: 'Des praticiens sélectionnés pour leur expérience et notés par les consultants : médiums, cartomanciens, tarologues. Chaque profil indique sa spécialité (amour, avenir, retour affectif, travail), sa note et sa disponibilité en temps réel.',
     },
     {
       q: 'Sur quels sujets puis-je consulter ?',
-      r: 'Amour et relations, travail et carrière, famille, argent, décisions de vie ou questionnements personnels. Chaque profil indique les spécialités du voyant pour vous aider à choisir.',
+      r: 'Amour et vie sentimentale, retour affectif, travail et argent, décisions importantes, avenir… Vous choisissez le voyant dont la spécialité correspond le mieux à votre situation.',
     },
     {
       q: 'La voyance en ligne est-elle fiable ?',
