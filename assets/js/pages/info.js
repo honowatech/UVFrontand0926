@@ -13,7 +13,7 @@
       <p>Le site unevoyante.fr est géré par la société <strong>SARL KALUWEB</strong>.</p>
       <ul>
         <li>Siège social : 19c rue du Dade, 33260 La Teste-de-Buch</li>
-        <li>SIRET : 502016439</li>
+        <li>SIREN : 502016439</li>
         <li>N° TVA intracommunautaire : FR 72 801 803 669</li>
         <li>Email du support : <a href="mailto:kedaweb@gmail.com">kedaweb@gmail.com</a></li>
       </ul>
