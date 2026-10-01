@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   const D = UV_DATA;
-  const { el, els, icone, euro, nombre, heure, monogramme, carteVoyant, ligneVoyant, filAriane, Store, toast, echapper } = UV;
+  const { el, els, icone, euro, nombre, heure, monogramme, carteVoyant, ligneVoyant, filAriane, Store, toast, echapper, param } = UV;
 
   el('#ariane').innerHTML = filAriane([['Accueil', 'index.html'], ['Mon compte']]);
 
@@ -15,6 +15,11 @@
     el('#sous-titre-compte').textContent = c
       ? c.email
       : 'Compte non connecté — vos données restent sur cet appareil.';
+    // Newsletter et suppression n'existent qu'avec un compte (une adresse e-mail).
+    el('#ligne-newsletter').classList.toggle('hidden', !c);
+    el('#ligne-newsletter').classList.toggle('flex', !!c);
+    el('#newsletter').checked = !!c && c.newsletter !== false;
+    el('#zone-suppression').classList.toggle('hidden', !c);
   }
 
   /* --- Synthèse ---------------------------------------------------------------- */
@@ -134,11 +139,43 @@
   els('[data-onglet]').forEach((b) => b.addEventListener('click', () => ouvrir(b.dataset.onglet)));
 
   /* --- Préférences ------------------------------------------------------------------------- */
-  els('[data-pref]').forEach((c) => c.addEventListener('change', () =>
-    toast('Préférence enregistrée.', { icone: 'tune' })));
+  // Mémorisées dans l'état ; sans choix, la case reprend sa valeur par défaut (attribut checked).
+  function rendrePreferences() {
+    els('[data-pref]').forEach((c) => {
+      const choix = (Store.all.preferences || {})[c.dataset.pref];
+      c.checked = typeof choix === 'boolean' ? choix : c.defaultChecked;
+    });
+  }
+  els('[data-pref]').forEach((c) => {
+    c.addEventListener('change', () => {
+      Store.set({ preferences: { ...Store.all.preferences, [c.dataset.pref]: c.checked } });
+      toast('Préférence enregistrée.', { icone: 'tune' });
+    });
+  });
+
+  /* --- Newsletter ---------------------------------------------------------------------------- */
+  function newsletter(abonne) {
+    Store.set({ compte: { ...Store.compte, newsletter: abonne } });
+    toast(abonne ? 'Inscription à la newsletter enregistrée.' : 'Désabonnement de la newsletter pris en compte.',
+      { icone: abonne ? 'mark_email_read' : 'mail' });
+  }
+  el('#newsletter').addEventListener('change', (e) => newsletter(e.target.checked));
+
+  /* Lien « Se désabonner » des e-mails : compte.html?newsletter=desabonnement.
+     Le paramètre est retiré de l'adresse aussitôt lu (un rechargement ne rejoue rien). */
+  if (param('newsletter') === 'desabonnement') {
+    history.replaceState(null, '', location.pathname + '#confidentialite');
+    if (!Store.compte) {
+      toast('Connectez-vous pour gérer vos e-mails.', { icone: 'mail', action: 'Se connecter', href: 'connexion.html?next=compte.html' });
+    } else if (Store.compte.newsletter !== false) {
+      newsletter(false);
+    } else {
+      toast('Désabonnement de la newsletter déjà pris en compte.', { icone: 'mail' });
+    }
+  }
 
   /* --- RGPD --------------------------------------------------------------------------------- */
-  el('#exporter').addEventListener('click', () => {
+  function exporter() {
     const donnees = JSON.stringify({ exporte: new Date().toISOString(), ...Store.all }, null, 2);
     const url = URL.createObjectURL(new Blob([donnees], { type: 'application/json' }));
     const a = document.createElement('a');
@@ -146,7 +183,18 @@
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     toast('Export généré.', { icone: 'download' });
-  });
+  }
+  el('#exporter').addEventListener('click', exporter);
+
+  el('#supprimer-compte').addEventListener('click', () => UV.modales.suppressionCompte.ouvrir({
+    exporter,
+    apresSuppression: () => {
+      tout();
+      // Le bouton d'origine a disparu avec le compte : le focus revient au titre.
+      el('#titre-compte').focus({ preventScroll: true });
+      toast('Votre compte et vos données ont été supprimés.', { icone: 'waving_hand' });
+    },
+  }));
 
   el('#reinitialiser').addEventListener('click', () => {
     Store.reinitialiser();
@@ -156,7 +204,7 @@
 
   /* --- Rendu global -------------------------------------------------------------------------- */
   function tout() {
-    rendreEntete(); rendreSynthese(); rendreConversations(); rendreFavoris(); rendreAchats();
+    rendreEntete(); rendreSynthese(); rendreConversations(); rendreFavoris(); rendreAchats(); rendrePreferences();
   }
   tout();
   ouvrir((location.hash || '#apercu').slice(1));

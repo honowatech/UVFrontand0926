@@ -1003,8 +1003,103 @@
     return { ouvrir };
   })();
 
+  /* ==========================================================================
+     7. SUPPRESSION DU COMPTE
+     Ouverte depuis l'onglet Confidentialité de la page Compte. Sobre, sans or
+     ni ciel : elle dresse, chiffres à l'appui, ce qui va disparaître, rappelle
+     l'export, et n'arme le bouton rouge qu'une fois l'irréversibilité cochée.
+     « Conserver mon compte », la croix, Échap et le voile ne touchent à rien.
+       exporter()          lance l'export des données (lien affiché si fourni)
+       apresSuppression()  appelé une fois le compte effacé et la modale fermée
+       apercu              catalogue des modales : rien n'est effacé
+     ========================================================================== */
+  const suppressionCompte = (() => {
+    const pluriel = (n, mot) => insecable(`${n} ${mot}${n > 1 ? 's' : ''}`);
+
+    function ouvrir(options) {
+      const opts = options || {};
+      const { Store, toast, echapper } = global.UV;
+      const c = Store.compte;
+      const conversations = Object.entries(Store.all.conversations)
+        .filter(([id, v]) => D.byId(id) && v.messages && v.messages.some((x) => x.de === 'moi')).length;
+
+      /* [icône, ce qui disparaît] — seulement ce qui existe vraiment. */
+      const pertes = [
+        ['person', c ? `Votre profil et l’adresse <strong class="break-all font-semibold text-navy">${echapper(c.email)}</strong>` : 'Votre profil'],
+        Store.credits > 0 && ['monetization_on', `<strong class="font-semibold text-navy">${pluriel(Store.credits, 'crédit')}</strong> restant${Store.credits > 1 ? 's' : ''}, qui seront perdus`],
+        conversations > 0 && ['forum', `${pluriel(conversations, 'conversation')} et leur historique`],
+        Store.all.favoris.length > 0 && ['favorite', `${pluriel(Store.all.favoris.length, 'praticien')} en favori`],
+        Store.points > 0 && ['stars', `${pluriel(Store.points, 'point')} de fidélité`],
+      ].filter(Boolean);
+
+      const m = modale({
+        titre: 'suppression-titre',
+        description: 'suppression-description',
+        classe: 'modale-suppression',
+        apresFermeture: (raison) => {
+          if (raison === 'supprime' && opts.apresSuppression) opts.apresSuppression();
+        },
+        contenu: `
+<div class="modale-panneau" tabindex="-1">
+  <div class="relative px-6 pt-6 sm:px-8">
+    <button type="button" class="absolute right-3 top-3 grid h-10 w-10 place-items-center rounded-full text-muted transition-colors hover:bg-ice hover:text-navy" data-fermer aria-label="Fermer">
+      ${icone('close', 'text-[22px]')}
+    </button>
+    <span class="suppression-icone" aria-hidden="true">${icone('delete', 'text-[26px]')}</span>
+    <h2 id="suppression-titre" class="mt-4 text-h-md">Supprimer votre compte ?</h2>
+    <p id="suppression-description" class="mt-1 text-body-md text-muted">
+      La suppression est immédiate et définitive. Elle efface&nbsp;:
+    </p>
+    <ul class="mt-4 flex flex-col gap-2.5" role="list">
+      ${pertes.map(([nom, texte]) => `
+      <li class="flex items-start gap-3 text-body-md text-muted">
+        ${icone(nom, 'text-[20px] shrink-0 text-royal')}<span class="min-w-0">${texte}</span>
+      </li>`).join('')}
+    </ul>
+    <p class="mt-4 rounded-md bg-ice p-3 text-body-sm text-muted">
+      Vous ne recevrez plus aucun e-mail de notre part.${opts.exporter ? `
+      Pensez à <button type="button" class="font-semibold text-royal underline underline-offset-2" data-exporter>exporter vos données</button> avant.` : ''}
+    </p>
+  </div>
+
+  <div class="modale-pied">
+    <label class="flex cursor-pointer items-start gap-3">
+      <input type="checkbox" class="check mt-0.5" data-accord>
+      <span class="text-body-md text-navy">Je comprends que cette action est irréversible.</span>
+    </label>
+    <button type="button" class="btn-danger btn-lg mt-5 w-full" data-supprimer disabled>Supprimer définitivement</button>
+    <button type="button" class="btn-quiet mt-2 w-full" data-conserver>Conserver mon compte</button>
+  </div>
+</div>`,
+      });
+      if (!m) return null;
+
+      const q = (sel) => el(sel, m.panneau);
+      const accord = q('[data-accord]');
+      const supprimer = q('[data-supprimer]');
+      accord.addEventListener('change', () => { supprimer.disabled = !accord.checked; });
+      q('[data-fermer]').addEventListener('click', () => m.fermer('croix'));
+      q('[data-conserver]').addEventListener('click', () => m.fermer('conserver'));
+      if (opts.exporter) q('[data-exporter]').addEventListener('click', opts.exporter);
+
+      supprimer.addEventListener('click', () => {
+        if (!accord.checked) return;
+        if (opts.apercu) {
+          m.fermer('apercu');
+          toast('Aperçu : aucune donnée n’a été supprimée.', { icone: 'info' });
+          return;
+        }
+        Store.supprimerCompte();
+        m.fermer('supprime');
+      });
+      return m;
+    }
+
+    return { ouvrir };
+  })();
+
   /* --- API publique -------------------------------------------------------- */
   global.UV.modale = modale;
   global.UV.confirmation = confirmation;
-  global.UV.modales = { promoVert, forfaits, upsell, fidelite, promoMobile };
+  global.UV.modales = { promoVert, forfaits, upsell, fidelite, promoMobile, suppressionCompte };
 })(window);

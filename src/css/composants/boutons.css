@@ -17,5 +17,15 @@
     box-shadow: inset 0 0 0 1.5px rgb(var(--uv-royal));
   }
   .btn-quiet { @apply btn bg-ice text-royal hover:bg-tint; }
+  /* Actions irréversibles (suppression du compte) : le rouge de sortie du menu
+     profil. Le plein confirme, le contour ouvre la confirmation. */
+  .btn-danger { @apply btn text-white hover:brightness-110; background-color: rgb(var(--uv-sortie)); }
+  .btn-danger-ghost {
+    @apply btn;
+    color: rgb(var(--uv-sortie));
+    background-color: rgb(var(--uv-surface));
+    box-shadow: inset 0 0 0 1.5px rgb(var(--uv-sortie) / .55);
+  }
+  .btn-danger-ghost:hover { background-color: rgb(var(--uv-sortie) / .08); }
   .btn-link  { @apply inline-flex items-center gap-1.5 text-label-md font-bold text-royal underline-offset-4 hover:underline; }
 }

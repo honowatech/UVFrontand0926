@@ -51,7 +51,7 @@
       <div class="flex items-center gap-4">
         <span id="avatar" class="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-royal font-display text-h-md text-white">V</span>
         <div>
-          <h1 class="text-h-lg-m sm:text-h-lg" id="titre-compte">Bonjour</h1>
+          <h1 class="text-h-lg-m outline-none sm:text-h-lg" id="titre-compte" tabindex="-1">Bonjour</h1>
           <p class="text-body-md text-muted" id="sous-titre-compte"></p>
         </div>
       </div>
@@ -163,6 +163,13 @@
             <span><strong class="block text-label-md text-navy">Notifications de disponibilité</strong>
               <span class="text-body-sm text-muted">Être prévenu quand un praticien suivi revient en ligne.</span></span>
           </label>
+          <!-- Newsletter : liée à l'adresse e-mail, donc réservée aux comptes -->
+          <label class="hidden cursor-pointer items-start gap-3 py-4" id="ligne-newsletter">
+            <input type="checkbox" class="check mt-0.5" id="newsletter">
+            <span><strong class="block text-label-md text-navy">Newsletter</strong>
+              <span class="text-body-sm text-muted">Nouveaux praticiens et offres ponctuelles, une fois par semaine au plus.
+                Chaque e-mail contient aussi un lien de désinscription.</span></span>
+          </label>
           <label class="flex cursor-pointer items-start gap-3 py-4">
             <input type="checkbox" class="check mt-0.5" data-pref="resume">
             <span><strong class="block text-label-md text-navy">Résumé mensuel par e-mail</strong>
@@ -196,6 +203,18 @@
           En savoir plus : <a href="info.html?sujet=confidentialite" class="font-medium text-royal underline underline-offset-2">politique de confidentialité</a>
           · <a href="info.html?sujet=cookies" class="font-medium text-royal underline underline-offset-2">gestion des cookies</a>.
         </p>
+
+        <!-- Suppression du compte : à part, sous un filet, réservée aux comptes -->
+        <div id="zone-suppression" class="mt-6 hidden border-t border-line pt-5">
+          <p class="text-label-md text-navy">Supprimer mon compte</p>
+          <p class="mb-4 mt-1 text-body-sm text-muted">
+            Efface définitivement votre profil, vos crédits restants et tout votre historique.
+          </p>
+          <button type="button" class="btn-danger-ghost w-full" id="supprimer-compte">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">delete</span>
+            Supprimer mon compte
+          </button>
+        </div>
       </div>
     </section>
   </div>
