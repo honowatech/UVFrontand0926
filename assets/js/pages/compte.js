@@ -9,7 +9,7 @@
   /* --- Entête ---------------------------------------------------------------- */
   function rendreEntete() {
     const c = Store.compte;
-    el('#bandeau-visiteur').classList.toggle('hidden', !!c);
+    el('#bandeau-visiteur').classList.toggle('hidden', !!c || !!Store.all.astuces.bandeauVisiteur);
     el('#avatar').textContent = c ? c.prenom[0].toUpperCase() : 'V';
     el('#titre-compte').textContent = c ? `Bonjour ${c.prenom}` : 'Bonjour, visiteur';
     el('#sous-titre-compte').textContent = c
@@ -21,6 +21,11 @@
     el('#newsletter').checked = !!c && c.newsletter !== false;
     el('#zone-suppression').classList.toggle('hidden', !c);
   }
+
+  el('#fermer-bandeau-visiteur').addEventListener('click', () => {
+    Store.set({ astuces: { ...Store.all.astuces, bandeauVisiteur: true } });
+    el('#titre-compte').focus({ preventScroll: true }); // le bouton disparaît avec le bandeau
+  });
 
   /* --- Synthèse ---------------------------------------------------------------- */
   function rendreSynthese() {
