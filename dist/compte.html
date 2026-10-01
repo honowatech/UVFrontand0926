@@ -24,9 +24,12 @@
 <main id="contenu" class="flex-1">
   <div class="shell py-8 lg:py-12">
 
-    <!-- Bandeau visiteur (jamais bloquant, simple invitation) -->
+    <!-- Bandeau visiteur (jamais bloquant, simple invitation ; la croix le masque pour de bon) -->
     <div id="bandeau-visiteur" class="mb-8 hidden">
-      <div class="card flex flex-col gap-4 border-gold bg-gold-50 p-5 sm:flex-row sm:items-center sm:p-6">
+      <div class="card relative flex flex-col gap-4 border-gold bg-gold-50 p-5 sm:flex-row sm:items-center sm:p-6 sm:pr-14">
+        <button type="button" class="absolute right-2 top-2 grid h-10 w-10 place-items-center rounded-full text-muted transition-colors hover:bg-surface/60 hover:text-navy" id="fermer-bandeau-visiteur" aria-label="Masquer ce message">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">close</span>
+        </button>
         <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-surface">
           <span class="material-symbols-outlined text-[24px] text-gold" aria-hidden="true">auto_awesome</span>
         </span>
