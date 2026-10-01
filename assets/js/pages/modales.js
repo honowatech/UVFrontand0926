@@ -44,6 +44,11 @@
       // Exemple : proposé en plus du Pack Certitude
       ouvrir: () => UV.modales.upsell.ouvrir({ achat: { libelle: 'votre Pack Certitude', lien: 'credits.html?pack=certitude' } }),
     },
+    {
+      id: 'suppression-compte', label: 'Suppression du compte',
+      declencheur: 'Mon compte · onglet Confidentialité (aperçu sans effet ici)',
+      ouvrir: () => UV.modales.suppressionCompte.ouvrir({ apercu: true }),
+    },
   ];
 
   el('#modales').innerHTML = MODALES.map((m) => `

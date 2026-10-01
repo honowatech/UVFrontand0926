@@ -24,9 +24,12 @@
 <main id="contenu" class="flex-1">
   <div class="shell py-8 lg:py-12">
 
-    <!-- Bandeau visiteur (jamais bloquant, simple invitation) -->
+    <!-- Bandeau visiteur (jamais bloquant, simple invitation ; la croix le masque pour de bon) -->
     <div id="bandeau-visiteur" class="mb-8 hidden">
-      <div class="card flex flex-col gap-4 border-gold bg-gold-50 p-5 sm:flex-row sm:items-center sm:p-6">
+      <div class="card relative flex flex-col gap-4 border-gold bg-gold-50 p-5 sm:flex-row sm:items-center sm:p-6 sm:pr-14">
+        <button type="button" class="absolute right-2 top-2 grid h-10 w-10 place-items-center rounded-full text-muted transition-colors hover:bg-surface/60 hover:text-navy" id="fermer-bandeau-visiteur" aria-label="Masquer ce message">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">close</span>
+        </button>
         <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-surface">
           <span class="material-symbols-outlined text-[24px] text-gold" aria-hidden="true">auto_awesome</span>
         </span>
@@ -51,7 +54,7 @@
       <div class="flex items-center gap-4">
         <span id="avatar" class="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-royal font-display text-h-md text-white">V</span>
         <div>
-          <h1 class="text-h-lg-m sm:text-h-lg" id="titre-compte">Bonjour</h1>
+          <h1 class="text-h-lg-m outline-none sm:text-h-lg" id="titre-compte" tabindex="-1">Bonjour</h1>
           <p class="text-body-md text-muted" id="sous-titre-compte"></p>
         </div>
       </div>
@@ -163,6 +166,13 @@
             <span><strong class="block text-label-md text-navy">Notifications de disponibilité</strong>
               <span class="text-body-sm text-muted">Être prévenu quand un praticien suivi revient en ligne.</span></span>
           </label>
+          <!-- Newsletter : liée à l'adresse e-mail, donc réservée aux comptes -->
+          <label class="hidden cursor-pointer items-start gap-3 py-4" id="ligne-newsletter">
+            <input type="checkbox" class="check mt-0.5" id="newsletter">
+            <span><strong class="block text-label-md text-navy">Newsletter</strong>
+              <span class="text-body-sm text-muted">Nouveaux praticiens et offres ponctuelles, une fois par semaine au plus.
+                Chaque e-mail contient aussi un lien de désinscription.</span></span>
+          </label>
           <label class="flex cursor-pointer items-start gap-3 py-4">
             <input type="checkbox" class="check mt-0.5" data-pref="resume">
             <span><strong class="block text-label-md text-navy">Résumé mensuel par e-mail</strong>
@@ -182,20 +192,26 @@
           Conformément au RGPD, vous pouvez à tout moment exporter ou supprimer l'intégralité
           de vos données, sans avoir à justifier votre demande.
         </p>
-        <div class="flex flex-col gap-3">
-          <button type="button" class="btn-ghost w-full" id="exporter">
-            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">download</span>
-            Exporter mes données (JSON)
-          </button>
-          <button type="button" class="btn-quiet w-full" id="reinitialiser">
-            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">restart_alt</span>
-            Réinitialiser cette démonstration
-          </button>
-        </div>
+        <button type="button" class="btn-ghost w-full" id="exporter">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">download</span>
+          Exporter mes données (JSON)
+        </button>
         <p class="mt-5 text-body-sm text-muted">
           En savoir plus : <a href="info.html?sujet=confidentialite" class="font-medium text-royal underline underline-offset-2">politique de confidentialité</a>
           · <a href="info.html?sujet=cookies" class="font-medium text-royal underline underline-offset-2">gestion des cookies</a>.
         </p>
+
+        <!-- Suppression du compte : à part, sous un filet, réservée aux comptes -->
+        <div id="zone-suppression" class="mt-6 hidden border-t border-line pt-5">
+          <p class="text-label-md text-navy">Supprimer mon compte</p>
+          <p class="mb-4 mt-1 text-body-sm text-muted">
+            Efface définitivement votre profil, vos crédits restants et tout votre historique.
+          </p>
+          <button type="button" class="btn-danger-ghost w-full" id="supprimer-compte">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">delete</span>
+            Supprimer mon compte
+          </button>
+        </div>
       </div>
     </section>
   </div>
