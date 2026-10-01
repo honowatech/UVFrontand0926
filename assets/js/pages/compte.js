@@ -196,12 +196,6 @@
     },
   }));
 
-  el('#reinitialiser').addEventListener('click', () => {
-    Store.reinitialiser();
-    tout();
-    toast('Démonstration réinitialisée : 3 crédits, aucune conversation.', { icone: 'restart_alt' });
-  });
-
   /* --- Rendu global -------------------------------------------------------------------------- */
   function tout() {
     rendreEntete(); rendreSynthese(); rendreConversations(); rendreFavoris(); rendreAchats(); rendrePreferences();
