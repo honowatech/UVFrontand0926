@@ -31,7 +31,7 @@
   let complement = cleComplement && Object.hasOwn(D.COMPLEMENTS, cleComplement) ? D.COMPLEMENTS[cleComplement] : null;
   const arriveeAvecComplement = !!complement;
   const commande = () => ({
-    credits: choisi.credits + (complement ? complement.credits : 0),
+    credits: choisi.credits + offert(choisi) + (complement ? complement.credits : 0),
     prix: choisi.prix + (complement ? complement.prix : 0),
   });
   const sansParametre = (nom) => {
@@ -39,6 +39,17 @@
     url.searchParams.delete(nom);
     history.replaceState(history.state, '', url);
   };
+
+  // Promotion éphémère (credits.html?promo=…, depuis promo.html) : crédits
+  // offerts sur les packs qu'elle liste, tant qu'elle court. L'échéance est
+  // relue à chaque affichage et au paiement ; rien n'est mémorisé. Arrivée
+  // après la fin : l'adresse est nettoyée et le client prévenu.
+  const clePromo = UV.param('promo');
+  const PROMO = clePromo ? UV.promos.trouver(clePromo) : null;
+  const offert = (p) => UV.promos.bonus(PROMO, p);
+  const promoEchue = !!clePromo && !PACKS.some((p) => offert(p));
+  if (promoEchue) sansParametre('promo');
+  let offertAffiche = 0; // bonus annoncé au récapitulatif : celui que le paiement versera
   let enConfirmation = false; // « Crédits ajoutés » affiché : pas de second achat par erreur
 
   /* --- Rendu des packs ------------------------------------------------------ */
@@ -82,6 +93,7 @@
   function rendrePacks() {
     el('#packs').innerHTML = (OFFRE ? carteOffre() : '') + PACKS.map((p) => {
       const actif = p.id === choisi.id;
+      const bonus = offert(p);
       return `
 <div class="relative pt-3">
   ${p.badge ? `<span class="absolute left-1/2 top-0 z-10 -translate-x-1/2 whitespace-nowrap rounded-full px-3 py-1 text-label-sm font-semibold ${
@@ -90,20 +102,25 @@
           class="flex w-full flex-col rounded-lg border-2 p-5 text-left transition-all ${
             actif ? 'border-gold bg-gold-50 shadow-gold' : 'border-line bg-surface hover:border-royal-200 hover:shadow-card'}">
     <!-- Pièce d'or portant les crédits, nom en vedette à côté (comme dans la
-         modale des forfaits) ; la coche de sélection passe dans le bouton. -->
+         modale des forfaits) ; la coche de sélection passe dans le bouton.
+         En promotion, la pièce du bonus s'empile dessus (promo.html). -->
     <span class="mb-3 flex items-center gap-4 border-b border-line pb-3">
-      <span class="forfait-piece forfait-piece-credits forfait-piece-xl${p.credits >= 100 ? ' forfait-piece-long' : ''}${p.populaire ? ' forfait-piece-eclat' : ''}" aria-hidden="true">
-        <span class="forfait-piece-valeur">${p.credits}</span>
-        <span class="forfait-piece-mention">crédits</span>
+      <span class="promo-pile" aria-hidden="true"${actif ? ' style="--promo-ligne-fond: rgb(var(--uv-gold-bg-50))"' : ''}>
+        <span class="forfait-piece forfait-piece-credits forfait-piece-xl${p.credits >= 100 ? ' forfait-piece-long' : ''}${p.populaire ? ' forfait-piece-eclat' : ''}">
+          <span class="forfait-piece-valeur">${p.credits}</span>
+          <span class="forfait-piece-mention">crédits</span>
+        </span>
+        ${bonus ? `<span class="promo-piece-bonus promo-piece-posee">+${bonus}</span>` : ''}
       </span>
       <span class="min-w-0 font-display text-h-md font-extrabold leading-tight text-navy lg:text-[19px] xl:text-h-md">${p.nom}</span>
     </span>
     <span class="flex flex-wrap items-baseline justify-between gap-2">
       <span class="whitespace-nowrap font-display text-h-md font-bold leading-none text-navy">${euro(p.prix)}</span>
-      <span class="text-body-sm text-muted">${euro(p.prix / p.credits)} / message</span>
+      <span class="text-body-sm text-muted">${euro(p.prix / (p.credits + bonus))} / message</span>
     </span>
-    ${p.bonus ? `<span class="forfait-offert" aria-hidden="true">+${p.bonus}&nbsp;% offerts</span>` : ''}
-    <span class="sr-only">, ${p.credits} crédits${p.bonus ? `, ${p.bonus} % de crédits offerts` : ''}</span>
+    ${bonus ? `<span class="forfait-offert" aria-hidden="true">+${bonus}&nbsp;crédits offerts</span>`
+      : p.bonus ? `<span class="forfait-offert" aria-hidden="true">+${p.bonus}&nbsp;% offerts</span>` : ''}
+    <span class="sr-only">, ${p.credits} crédits${bonus ? `, plus ${bonus} crédits offerts` : p.bonus ? `, ${p.bonus} % de crédits offerts` : ''}</span>
     <span class="mt-5 flex min-h-[44px] w-full items-center justify-center gap-1.5 rounded-full px-4 text-label-md font-semibold ${
       actif ? 'bg-gold-cta text-navy' : 'border border-line text-royal'}">
       ${actif ? `${icone('check', 'text-[18px]')} Pack sélectionné` : 'Sélectionner'}
@@ -126,7 +143,8 @@
   /* --- Récapitulatif ---------------------------------------------------------- */
   function rendreRecap() {
     const total = commande();
-    el('#recap-pack').textContent = `${libelle(choisi)} · ${choisi.credits} crédits`;
+    offertAffiche = offert(choisi);
+    el('#recap-pack').textContent = `${libelle(choisi)} · ${choisi.credits} crédits${offertAffiche ? ` + ${offertAffiche} offerts` : ''}`;
     el('#recap-prix').textContent = euro(choisi.prix);
 
     const ligne = el('#recap-complement');
@@ -184,14 +202,22 @@
       return;
     }
 
+    // Promotion terminée depuis l'affichage : on montre la commande à jour
+    // avant tout paiement, plutôt que de verser moins que l'annonce.
+    if (offert(choisi) !== offertAffiche) {
+      rendrePacks(); rendreRecap();
+      toast('La promotion vient de se terminer : votre commande a été mise à jour.', { ton: 'alerte', icone: 'timer_off' });
+      return;
+    }
+
     const b = el('#payer');
+    const total = commande();
     b.disabled = true;
     b.innerHTML = `<span class="material-symbols-outlined animate-spin text-[20px]" aria-hidden="true">progress_activity</span> Paiement en cours…`;
 
     setTimeout(() => {
       const offre = choisi === OFFRE;
       const avecComplement = !!complement;
-      const total = commande();
       Store.crediter(total.credits);
       enConfirmation = true;
       b.disabled = false;
@@ -264,9 +290,12 @@
   // commande, puis on amène au paiement (même geste que l'offre d'essai).
   const arrivee = commande();
   const plus = arriveeAvecComplement ? `, avec ${complement.credits} crédits en plus` : '';
-  const pour = `${arrivee.credits} crédits pour ${euro(arrivee.prix)}`;
+  const dont = offert(choisi) ? `, dont ${offert(choisi)} offerts` : '';
+  const pour = `${arrivee.credits} crédits pour ${euro(arrivee.prix)}${dont}`;
   let message = null;
-  if (OFFRE) {
+  if (promoEchue) {
+    message = [`Cette promotion est terminée : ${libelle(choisi)} au tarif habituel, ${pour}.`, 'timer_off', 'alerte'];
+  } else if (OFFRE) {
     message = [`${OFFRE.nom} réservée${plus} : ${pour}.`, 'redeem'];
   } else if (packDemande) {
     const accord = packDemande.essai ? 'sélectionnée' : 'sélectionné';
@@ -275,7 +304,7 @@
     message = [`${complement.credits} crédits en plus ajoutés : ${pour}.`, 'auto_awesome'];
   }
   if (message) {
-    toast(message[0], { ton: 'or', icone: message[1] });
+    toast(message[0], { ton: message[2] || 'or', icone: message[1] });
     setTimeout(() => el('#payer').scrollIntoView({ behavior: 'smooth', block: 'center' }), 350);
   }
 })();

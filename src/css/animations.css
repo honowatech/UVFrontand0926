@@ -26,6 +26,11 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
 @keyframes uv-voile-sortie { to { opacity: 0; } }
 @keyframes uv-battement { 50% { transform: scale(1.18); } }
 @keyframes uv-forfait-entree { from { opacity: 0; transform: translateY(10px); } }
+/* Pièce de bonus de la page promo : elle tombe sur la pile et s'y pose. */
+@keyframes uv-piece-chute {
+  0% { opacity: 0; transform: translateY(-16px) scale(.6) rotate(-24deg); }
+  60% { opacity: 1; transform: translateY(2px) scale(1.06) rotate(5deg); }
+}
 /* Éclat sur la pièce du pack populaire : un passage, puis une longue pause. */
 @keyframes uv-eclat {
   0%, 62% { transform: translateX(-130%); }
@@ -35,6 +40,9 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
    laisserait les lignes invisibles un instant ; l'éclat, lui, n'a pas lieu d'être. */
 @media (prefers-reduced-motion: reduce) {
   .forfait-ligne,
+  .promo-ligne,
+  .promo-piece-bonus,
+  .paiement-sceau,
   .forfait-piece-eclat::after { animation: none; }
   .forfait-piece-eclat::after { display: none; }
 }

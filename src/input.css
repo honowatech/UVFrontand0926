@@ -33,6 +33,7 @@
 @import './css/composants/promo-vert.css';
 @import './css/composants/promo-mobile.css';
 @import './css/composants/confirmation.css';
+@import './css/composants/promo.css';
 
 /* Hors composants */
 @import './css/utilitaires.css';

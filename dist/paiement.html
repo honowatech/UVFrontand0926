@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr" data-statique>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Confirmer votre achat | unevoyante.fr</title>
+<meta name="description" content="Confirmez votre pack de crédits et choisissez votre moyen de paiement : portefeuille express, carte bancaire ou PayPal.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ground">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre></uv-header>
+
+<!-- Suite de la page promo : le pack choisi, puis le paiement. Même billet
+     détachable — le talon porte la commande, le volet les moyens de paiement. -->
+<main id="contenu" class="promo-fond flex flex-1 flex-col">
+  <div class="shell flex flex-1 flex-col items-center justify-center py-6 sm:py-12 lg:py-16">
+
+    <!-- data-etat : commande · traitement · paye (posé par paiement.js) -->
+    <article class="promo-billet paiement-billet" id="billet" data-etat="commande" aria-labelledby="paiement-titre">
+
+      <!-- ==================================================================
+           TALON — la commande : pièce du pack, pièce du bonus, total
+           ================================================================== -->
+      <div class="promo-talon">
+        <svg aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 h-full w-full text-gold opacity-40"
+             viewBox="0 0 400 520" fill="none" preserveAspectRatio="xMidYMid slice">
+          <circle cx="40" cy="300" r="1.5" fill="currentColor"/><circle cx="90" cy="360" r="2" fill="currentColor"/>
+          <circle cx="30" cy="450" r="1" fill="currentColor"/><circle cx="150" cy="500" r="1.5" fill="currentColor"/>
+          <circle cx="310" cy="40" r="2.5" fill="currentColor"/><circle cx="364" cy="96" r="1.5" fill="currentColor"/>
+          <circle cx="330" cy="170" r="1.5" fill="currentColor"/><circle cx="378" cy="236" r="2" fill="currentColor"/>
+          <circle cx="220" cy="24" r="1" fill="currentColor"/><circle cx="360" cy="430" r="1" fill="currentColor"/>
+          <path d="M40 300 L90 360 L30 450 M310 40 L364 96 L330 170 L378 236"
+                stroke="currentColor" stroke-dasharray="3 3" stroke-width=".75"/>
+        </svg>
+
+        <a href="promo.html" id="retour" class="paiement-retour">
+          <span class="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_back</span>
+          Changer de forfait
+        </a>
+
+        <p class="promo-pastille mt-3 sm:mt-5">
+          <span class="material-symbols-outlined icon-fill text-[15px]" aria-hidden="true" id="pastille-icone">redeem</span>
+          <span id="pastille">Promotion appliquée</span>
+        </p>
+        <h1 id="paiement-titre" class="paiement-titre" tabindex="-1">Confirmer votre achat</h1>
+
+        <!-- Récapitulatif (paiement.js) -->
+        <div class="paiement-recap" id="recap"></div>
+
+        <p class="paiement-echeance" id="echeance">
+          <span class="material-symbols-outlined text-[18px]" aria-hidden="true" id="echeance-icone">timer</span>
+          <span id="echeance-texte"></span>
+        </p>
+
+        <ul class="paiement-garanties" role="list">
+          <li><span class="material-symbols-outlined text-[18px]" aria-hidden="true">bolt</span> Crédits disponibles dès le paiement</li>
+          <li><span class="material-symbols-outlined text-[18px]" aria-hidden="true">event_busy</span> Sans abonnement, sans date d'expiration</li>
+          <li><span class="material-symbols-outlined text-[18px]" aria-hidden="true">savings</span> Crédits non utilisés remboursables sous 14 jours</li>
+        </ul>
+      </div>
+
+      <!-- ==================================================================
+           VOLET — les moyens de paiement, puis la confirmation
+           ================================================================== -->
+      <div class="promo-volet">
+        <div id="moyens" class="paiement-moyens">
+          <h2 class="text-h-md text-navy">Choisissez votre moyen de paiement</h2>
+
+          <p class="kicker mt-6">Paiement express</p>
+          <!-- Apple Pay sur les appareils Apple, Google Pay ailleurs (paiement.js) -->
+          <button type="button" class="paiement-plaque mt-3" data-moyen="express" data-uv-blanc id="express"></button>
+
+          <p class="paiement-ou" aria-hidden="true">ou</p>
+
+          <button type="button" class="btn-gold btn-lg w-full px-5" data-moyen="carte" id="carte">
+            <span class="material-symbols-outlined text-[22px]" aria-hidden="true">credit_card</span>
+            <span id="carte-libelle">Payer par carte</span>
+            <span class="paiement-cartes" aria-hidden="true">
+              <span data-uv-blanc class="paiement-visa">VISA</span>
+              <span data-uv-blanc class="paiement-mc"><i></i><i></i></span>
+            </span>
+          </button>
+
+          <p class="paiement-ou" aria-hidden="true">ou</p>
+
+          <button type="button" class="paiement-plaque" data-moyen="paypal" data-uv-blanc>
+            Payer avec <span class="paiement-paypal" aria-hidden="true">Pay<span>Pal</span></span><span class="sr-only">PayPal</span>
+          </button>
+
+          <p class="mt-6 text-center text-body-sm leading-relaxed text-muted">
+            En payant, vous acceptez les
+            <a href="info.html?sujet=cgv" class="font-semibold text-royal underline underline-offset-2">conditions générales de vente</a>
+            et demandez l'accès immédiat à vos crédits. Vous autorisez unevoyante.fr à enregistrer ce
+            moyen de paiement pour vos prochains achats, en 1 clic ; vous pouvez le retirer à tout
+            moment depuis votre compte.
+          </p>
+          <p class="mt-auto flex items-center justify-center gap-1.5 pt-4 text-body-sm text-muted">
+            <span class="material-symbols-outlined text-[16px] text-royal" aria-hidden="true">lock</span>
+            Paiement 100 % sécurisé par Stripe
+          </p>
+        </div>
+
+        <!-- Après paiement : la pièce frappée d'une coche, le nouveau solde, la suite -->
+        <div id="confirmation" class="paiement-confirmation" hidden>
+          <span class="forfait-piece forfait-piece-xl forfait-piece-eclat paiement-sceau" aria-hidden="true">
+            <span class="material-symbols-outlined text-[34px]">check</span>
+          </span>
+          <h2 id="confirmation-titre" class="mt-5 text-h-md text-navy sm:text-h-lg-m" tabindex="-1"></h2>
+          <p id="confirmation-solde" class="mt-2 text-body-md text-muted"></p>
+          <a href="voyants.html" class="btn-gold btn-lg mt-7 w-full">
+            Consulter un voyant
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_forward</span>
+          </a>
+          <a href="compte.html" class="btn-link mt-4">Voir mon compte</a>
+        </div>
+      </div>
+    </article>
+
+    <p id="annonce" class="sr-only" aria-live="polite"></p>
+  </div>
+</main>
+
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script src="assets/js/pages/paiement.js"></script>
+</body>
+</html>

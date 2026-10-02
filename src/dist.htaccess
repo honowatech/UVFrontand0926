@@ -18,6 +18,8 @@ AddType image/webp .webp
   # adresse /dist/… visitée directement est ramenée à son adresse publique.
   RewriteCond %{THE_REQUEST} \s/dist/(\S*)\s
   RewriteRule ^ /%1 [R=301,L]
+  # /promo, l'adresse de la page promo de l'ancien site, reste valable
+  RewriteRule ^promo/?$ promo.html [L]
 </IfModule>
 
 # Compression des formats texte

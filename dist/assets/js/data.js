@@ -547,6 +547,25 @@
     mobile: { id: 'mobile', nom: 'Offre du jour', credits: 3, valeur: 7.5 },
   };
 
+  /* --- Promotions éphémères (promo.html) -----------------------------------
+     Une seule page pour toutes les campagnes : promo.html affiche celle qui
+     court, promo.html?id=… une campagne précise (lien d'un e-mail, d'un SMS).
+     Lancer une promotion = ajouter une entrée ici, rien d'autre.
+       debut, fin  dates ISO avec le décalage de Paris (+02:00 l'été, +01:00
+                   l'hiver) ; le compte à rebours vise `fin`, la même pour tous
+       bonus       crédits offerts par pack, EN PLUS des crédits du pack ; seuls
+                   les packs listés sont en promotion
+       pastille    facultatif — surtitre (défaut : « Promotion exclusive »)
+       titre       facultatif — les mots entre *astérisques* passent en or */
+  const PROMOS = [
+    {
+      id: 'bonus-octobre',
+      debut: '2026-10-02T00:00:00+02:00',
+      fin: '2026-10-11T23:59:59+02:00',
+      bonus: { evidence: 3, certitude: 6, resolution: 15 },
+    },
+  ];
+
   /* --- Compléments (upsell) ------------------------------------------------
      Proposés au moment de valider une offre ou un pack depuis une modale, en
      plus de l'achat en cours : compatibles avec tous les packs, retirables sur
@@ -677,7 +696,7 @@
   }
 
   global.UV_DATA = {
-    SPECIALITES, VOYANTS, PACKS, PALIERS, PALIER_RECURRENT, OFFRES, COMPLEMENTS,
+    SPECIALITES, VOYANTS, PACKS, PALIERS, PALIER_RECURRENT, OFFRES, PROMOS, COMPLEMENTS,
     FAQ, ETAPES, CONFIANCE, STATS, JOURS, DEMO_TCHAT, avisDe,
     byId: (id) => VOYANTS.find((v) => v.id === id) || null,
   };

@@ -65,6 +65,51 @@
     toast(`« ${m.label} » : modale pas encore conçue.`, { icone: 'construction' });
   }));
 
+  /* --- Pages promo -------------------------------------------------------------
+     La page générique (la promotion qui court, sinon la prochaine), la vue de
+     confirmation d'achat qui la suit, puis la landing de chaque campagne, avec
+     son état et sa période : une campagne ajoutée dans data.js apparaît ici
+     d'elle-même. */
+  const ETATS = {
+    active: ['timer', 'text-online', 'En cours'],
+    avenir: ['schedule', 'text-royal', 'À venir'],
+    terminee: ['timer_off', 'text-muted', 'Terminée'],
+  };
+  const jour = (iso) => new Date(iso).toLocaleDateString('fr-FR',
+    { timeZone: 'Europe/Paris', day: 'numeric', month: 'short', year: 'numeric' });
+  const code = (texte) => `<code class="rounded bg-ice px-1.5 py-0.5 font-semibold text-navy">${texte}</code>`;
+
+  const lienPromo = (id, href, libelle, infos) => `
+    <div>
+      <a href="${href}" class="btn-ghost w-full justify-between whitespace-normal py-3 text-left" aria-describedby="${id}-info">
+        ${libelle} ${icone('arrow_forward', 'text-[20px] shrink-0')}
+      </a>
+      <div id="${id}-info" class="mt-2 flex flex-col gap-1.5 px-5 text-body-sm text-muted">${infos}</div>
+    </div>`;
+
+  /** Confirmation d'achat, avec le dernier pack de la campagne affichée. */
+  function confirmation() {
+    const p = UV.promos.trouver() || UV_DATA.PROMOS[0];
+    const pack = p ? Object.keys(p.bonus).pop() : 'certitude';
+    const href = `paiement.html?pack=${pack}${p ? `&promo=${encodeURIComponent(p.id)}` : ''}`;
+    return lienPromo('paiement', href, 'Confirmation d’achat', `
+      <p class="flex items-center gap-1.5">${icone('credit_card', 'text-[16px] text-gold')} Après le clic sur un pack de la page promo</p>
+      <p>${code(href)}</p>`);
+  }
+
+  el('#promos').innerHTML = [
+    lienPromo('promo', 'promo.html', 'Page promo', `
+      <p class="flex items-center gap-1.5">${icone('sell', 'text-[16px] text-gold')} Promotion en cours, sinon la prochaine annoncée</p>
+      <p>${code('promo.html')} · ${code('/promo')} en ligne</p>`),
+    confirmation(),
+    ...UV_DATA.PROMOS.map((p) => {
+      const [nom, ton, etat] = ETATS[UV.promos.etat(p)];
+      return lienPromo(`promo-${p.id}`, `promo.html?id=${encodeURIComponent(p.id)}`, `Landing · ${p.id}`, `
+        <p class="flex items-center gap-1.5">${icone(nom, `text-[16px] ${ton}`)} ${etat} · du ${jour(p.debut)} au ${jour(p.fin)}</p>
+        <p>${code(`promo.html?id=${p.id}`)}</p>`);
+    }),
+  ].join('');
+
   // Lien direct vers une modale : modales.html?ouvrir=promo-vert
   const directe = MODALES.find((m) => m.id === UV.param('ouvrir'));
   if (directe && directe.ouvrir) directe.ouvrir();

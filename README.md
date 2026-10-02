@@ -96,7 +96,9 @@ empreinte : une mise en ligne doit atteindre les visiteurs immédiatement) ; ima
 | `tarifs.html`, `faq.html` | *ajouts* — cibles des liens du menu principal |
 | `comment-ca-marche.html` | *ajout* — lien du pied de page (retiré du menu principal) |
 | `contact.html` | *ajout* — formulaire de contact (envoi simulé), lien « Nous contacter » du pied de page. Le motif s'ouvre sur l'invite « Motif de votre demande » et doit être choisi avant l'envoi ; il reste présélectionnable : `contact.html?motif=paiement` (`general`, `paiement`, `praticien`, `presse`). Une valeur inconnue laisse l'invite en place |
-| `modales.html` | *outil de développement* — un bouton par modale du site, pour les consulter une à une (lien « Modales » du tiroir mobile et du pied de page). Lien direct : `modales.html?ouvrir=promo-vert`, `?ouvrir=forfaits`, `?ouvrir=upsell` |
+| `modales.html` | *outil de développement* — un bouton par modale du site, pour les consulter une à une (lien « Modales » du tiroir mobile et du pied de page). Lien direct : `modales.html?ouvrir=promo-vert`, `?ouvrir=forfaits`, `?ouvrir=upsell`. Section « Pages promo » : la page promo et la landing de chaque campagne de `UV_DATA.PROMOS` (état, période, lien) |
+| `promo.html` | *remplace* l'ancienne page `/promo` — modèle des promotions éphémères (voir « Promotions éphémères »). `promo.html?id=…` vise une campagne précise |
+| `paiement.html?pack=…&promo=…` | *remplace* la vue « Confirmer votre achat » de l'ancien site — ouverte par un pack de la page promo (voir « Promotions éphémères ») |
 | `info.html?sujet=…` | Destination unique des pages secondaires hors périmètre V1 (mentions légales, CGV, confidentialité, charte, cookies, journal, partenaire) |
 | `404.html` | Toute adresse inconnue (servie par `scripts/serve.js`, à configurer chez l'hébergeur) : recherche et liens vers les pages principales. Son `<base href="/">` la rend valable à n'importe quelle profondeur d'adresse |
 
@@ -341,6 +343,63 @@ ne déclenchent pas l'upsell.
   5 »), à venir — puis la règle récurrente en dernière ligne. La pièce d'or des forfaits est
   reprise telle quelle, frappée des crédits offerts : la fidélité est de la même matière que les
   crédits. Pas de bouton d'achat.
+
+## Promotions éphémères
+
+`promo.html` est un **modèle** : une seule page pour toutes les campagnes, pilotée par
+`UV_DATA.PROMOS` (`data.js`). **Lancer une promotion = ajouter une entrée**, sans toucher au
+HTML ni au CSS :
+
+```js
+{
+  id: 'bonus-octobre',                    // promo.html?id=bonus-octobre
+  debut: '2026-10-02T00:00:00+02:00',     // heure de Paris : +02:00 l'été, +01:00 l'hiver
+  fin: '2026-10-11T23:59:59+02:00',
+  bonus: { evidence: 3, certitude: 6, resolution: 15 }, // crédits offerts, packs concernés
+  // facultatifs : pastille: 'Promotion exclusive', titre: 'Des crédits *en bonus* sur votre recharge'
+}
+```
+
+- **Adresse** : `promo.html` affiche la promotion qui court, sinon la prochaine annoncée ;
+  `promo.html?id=…` une campagne précise (lien d'e-mail ou de SMS). Page `noindex`, hors
+  plan du site. Sur Apache, `/promo` y mène aussi (`src/dist.htaccess`).
+- **Un bon détachable** : talon nuit (pastille, titre dont la part entre `*astérisques*`
+  passe en or et en grand, compte à rebours) et volet champagne (les packs), séparés par des
+  encoches et le pointillé doré des constellations. Le jour, le volet prend le champagne de
+  la charte plutôt que le blanc ; la nuit, les surfaces de nuit (jetons `--promo-…` dans
+  `src/css/composants/promo.css` et `theme-nuit.css`).
+- **Pile de pièces** : la pièce d'or du pack, et celle du bonus (« +3 ») qui tombe dessus à
+  l'arrivée (sauf mouvement réduit). Coût par message recalculé avec le bonus, l'ancien barré.
+  Le pack au message le moins cher reçoit la carte dorée et « Meilleure offre », calculés.
+- **Compte à rebours réel** vers `fin`, le même pour tous : ni rechargement ni session n'y
+  changent rien. Tuiles jours / heures / minutes / secondes (les jours disparaissent le
+  dernier jour), jauge du temps restant ; la dernière heure, les chiffres passent à l'or.
+- **États, enchaînés en direct** à l'échéance, sans rechargement : à venir (« Commence dans »,
+  packs habituels) → en cours → dernière heure → terminée. Une promotion terminée ou inconnue
+  n'est jamais une impasse : les packs habituels restent proposés.
+- **Conditions** en toutes lettres sous le billet (dates, heure de Paris, packs concernés,
+  lien vers les CGV).
+- **Confirmation d'achat** : chaque pack mène à `paiement.html?pack=…&promo=…`, le même
+  billet une étape plus loin. Le talon porte la commande — « Changer de forfait » (retour à la
+  campagne), pastille « Promotion appliquée », la pile de pièces, le prix TTC, le total en
+  crédits et le coût par message, le temps restant ; sur grand écran, trois garanties en pied.
+  Le volet porte les moyens de paiement : portefeuille express (**Apple Pay** sur les
+  appareils Apple, **Google Pay** ailleurs), **carte** (bouton doré, marques Visa et
+  Mastercard dès 420 px), **PayPal**, puis les mentions (CGV, accès immédiat, enregistrement
+  du moyen de paiement). Les plaques des portefeuilles sont blanches dans les deux thèmes
+  (`data-uv-blanc`), aux encres de marque.
+  Paiement simulé (1,3 s) : le talon devient le reçu (« Paiement confirmé »), le volet annonce
+  les crédits ajoutés et le nouveau solde, puis propose de consulter un voyant.
+  La promotion y est relue chaque seconde **et au paiement** : si elle se termine pendant la
+  commande, le récapitulatif repasse au tarif habituel avant tout débit, client prévenu.
+  Sans promotion (`paiement.html?pack=certitude`), la vue sert telle quelle (« Votre
+  commande », retour aux Tarifs) ; sans pack reconnu, elle renvoie au choix des packs.
+  Pas d'upsell sur ce parcours, comme depuis la page Tarifs.
+- **Page Crédits** : elle accepte aussi `credits.html?pack=…&promo=…` — même pièce de bonus
+  sur les packs concernés, bonus au récapitulatif (« Pack Évidence · 15 crédits + 3 offerts »)
+  et au versement, avec les mêmes garde-fous à l'échéance.
+- La période de validité d'une promotion est celle de `data.js` : c'est au back-office de la
+  faire respecter au moment du vrai paiement.
 
 ## Compléments apportés aux maquettes
 
