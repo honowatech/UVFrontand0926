@@ -4,12 +4,16 @@
    la fin réelle de la promotion, la même pour tous : ni le rechargement ni la
    session n'y changent rien. La page change d'état d'elle-même à l'échéance
    (à venir → active → dernière heure → terminée) et n'est jamais une impasse :
-   hors promotion, les packs habituels restent proposés. */
+   hors promotion, les packs habituels restent proposés. Une campagne terminée,
+   ou dont l'identifiant n'existe plus (lien d'un ancien e-mail), s'affiche
+   « composté » : tampon « Terminée », offre éteinte, message en tête des packs. */
 (function () {
   'use strict';
   const D = UV_DATA, { el, icone, euro, echapper, promos } = UV;
 
-  const PROMO = promos.trouver(UV.param('id'));
+  const ID = UV.param('id');
+  const PROMO = promos.trouver(ID);
+  const INTROUVABLE = !!ID && !PROMO; // campagne retirée de data.js : terminée, sans date
   const PACKS = D.PACKS.filter((p) => !p.essai);
   const EN_PROMO = PROMO ? PACKS.filter((p) => Object.hasOwn(PROMO.bonus, p.id)) : [];
   const DEBUT = PROMO ? Date.parse(PROMO.debut) : 0;
@@ -33,7 +37,7 @@
   const titre = (texte) => echapper(texte).replace(/\*([^*]+)\*/, '<span class="promo-titre-or">$1</span>');
 
   function etatA(t) {
-    if (!PROMO) return 'aucune';
+    if (!PROMO) return INTROUVABLE ? 'terminee' : 'aucune';
     const e = promos.etat(PROMO, t);
     return e === 'active' && FIN - t <= URGENCE ? 'urgent' : e;
   }
@@ -49,11 +53,8 @@
     const t = {
       active: { ...offre, accroche: `Jusqu’à ${credits(bonusMax)} offerts, versés sur votre solde avec votre pack.` },
       avenir: { ...offre, accroche: `Jusqu’à ${credits(bonusMax)} offerts sur votre recharge, dès le ${jour(DEBUT)} à ${horaire(DEBUT)}.` },
-      terminee: {
-        pastille: 'Promotion terminée',
-        titre: 'Cette promotion est terminée',
-        accroche: `Elle a pris fin le ${jour(FIN)} à ${horaire(FIN)}. Nos packs de crédits restent disponibles, sans abonnement.`,
-      },
+      // L'offre reste écrite, éteinte sous le tampon : on voit ce qui a pris fin.
+      terminee: { ...offre, pastille: 'Promotion terminée', accroche: 'Les crédits offerts ne s’appliquent plus.' },
       aucune: {
         pastille: 'Promotions',
         titre: 'Aucune promotion en cours',
@@ -62,16 +63,26 @@
     }[etat === 'urgent' ? 'active' : etat];
 
     el('#pastille').textContent = t.pastille;
-    el('#promo-titre').innerHTML = titre(t.titre);
+    el('#pastille-icone').textContent = etat === 'terminee' ? 'timer_off' : 'stars';
+    // Le tampon est décoratif : le titre dit lui-même que l'offre est close.
+    el('#promo-titre').innerHTML = titre(t.titre) + (etat === 'terminee' ? '<span class="sr-only"> : offre terminée</span>' : '');
     el('#accroche').textContent = t.accroche;
 
-    const decompte = enCours(etat) || etat === 'avenir';
+    // Terminée : le cadran reste, à zéro et éteint — le temps est écoulé.
+    const decompte = etat !== 'aucune';
     el('#decompte').hidden = !decompte;
-    if (decompte) {
-      el('#decompte-libelle').textContent = etat === 'avenir' ? 'Commence dans' : 'Se termine dans';
-      el('#echeance').textContent = etat === 'avenir'
-        ? `Le ${jour(DEBUT)} à ${horaire(DEBUT)}`
-        : `Jusqu’au ${jour(FIN)}, ${horaire(FIN)}`;
+    el('#decompte-icone').textContent = etat === 'terminee' ? 'timer_off' : 'timer';
+    if (!decompte) return;
+    el('#decompte-libelle').textContent = { avenir: 'Commence dans', terminee: 'Temps écoulé' }[etat] || 'Se termine dans';
+    el('#echeance').textContent = etat === 'avenir' ? `Le ${jour(DEBUT)} à ${horaire(DEBUT)}`
+      : etat !== 'terminee' ? `Jusqu’au ${jour(FIN)}, ${horaire(FIN)}`
+      : PROMO ? `Terminée le ${jour(FIN)} à ${horaire(FIN)}` : '';
+    if (etat === 'terminee') {
+      el('#tuiles').innerHTML = tuiles(0);
+      el('#jauge').style.setProperty('--promo-reste', 0);
+      el('#tampon-date').textContent = PROMO
+        ? new Date(FIN).toLocaleDateString('fr-FR', { ...PARIS, day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.')
+        : '';
     }
   }
 
@@ -131,8 +142,11 @@
       vedette = PACKS.find((p) => p.populaire);
       badge = vedette && vedette.badge;
       el('#packs-titre').textContent = 'Nos packs de crédits';
-      el('#packs-sous-titre').textContent = 'Un crédit par message envoyé, les réponses sont gratuites.';
+      el('#packs-sous-titre').textContent = etat === 'terminee'
+        ? 'Au tarif habituel. Un crédit par message envoyé, les réponses sont gratuites.'
+        : 'Un crédit par message envoyé, les réponses sont gratuites.';
     }
+    el('#fin').hidden = etat !== 'terminee';
     el('#packs').innerHTML = liste
       .map((p, i) => ligne(p, i, { bonus: bonus(p), vedette: p === vedette ? badge : null }))
       .join('');

@@ -49,15 +49,20 @@
         </svg>
 
         <p class="promo-pastille">
-          <span class="material-symbols-outlined icon-fill text-[15px]" aria-hidden="true">stars</span>
+          <span class="material-symbols-outlined icon-fill text-[15px]" aria-hidden="true" id="pastille-icone">stars</span>
           <span id="pastille">Promotion exclusive</span>
+        </p>
+        <!-- Promotion terminée : le billet est composté, l'offre reste lisible dessous -->
+        <p class="promo-tampon" aria-hidden="true">
+          <span class="promo-tampon-mot">Terminée</span>
+          <span class="promo-tampon-date" id="tampon-date"></span>
         </p>
         <h1 id="promo-titre" class="promo-titre"></h1>
         <p id="accroche" class="promo-accroche"></p>
 
         <div class="promo-decompte" id="decompte">
           <p class="promo-decompte-libelle">
-            <span class="material-symbols-outlined text-[18px] text-gold-300" aria-hidden="true">timer</span>
+            <span class="material-symbols-outlined text-[18px] text-gold-300" aria-hidden="true" id="decompte-icone">timer</span>
             <span id="decompte-libelle">Se termine dans</span>
           </p>
           <div class="promo-cadran">
@@ -70,6 +75,18 @@
       </div>
 
       <div class="promo-volet">
+        <!-- Promotion terminée ou introuvable : le dire d'abord, proposer la suite ensuite -->
+        <div class="promo-fin" id="fin" hidden>
+          <span class="promo-fin-icone" aria-hidden="true">
+            <span class="material-symbols-outlined text-[24px]">timer_off</span>
+          </span>
+          <div>
+            <p class="promo-fin-titre">Cette promotion n'est plus disponible</p>
+            <p class="mt-1 text-body-sm leading-relaxed text-muted">
+              Nos packs restent disponibles au tarif habituel, sans abonnement ni date d'expiration.
+            </p>
+          </div>
+        </div>
         <h2 id="packs-titre" class="text-h-md text-navy sm:text-h-lg-m">Choisissez votre pack</h2>
         <p id="packs-sous-titre" class="mt-1 text-body-md text-muted"></p>
         <ul id="packs" class="mt-6 flex flex-col gap-3" role="list" aria-labelledby="packs-titre"></ul>
