@@ -107,6 +107,10 @@
       <p class="flex items-center gap-1.5">${icone('sell', 'text-[16px] text-gold')} Promotion en cours, sinon la prochaine annoncée</p>
       <p>${code('promo.html')} · ${code('/promo')} en ligne</p>`),
     confirmation(),
+    // Page d'atterrissage : servie à l'adresse courte /landing (src/dist.htaccess)
+    lienPromo('landing', 'landing.html', 'Page landing', `
+      <p class="flex items-center gap-1.5">${icone('waving_hand', 'text-[16px] text-gold')} Inscription en deux étapes · 3 questions offertes</p>
+      <p>${code('landing.html')} · ${code('/landing')} en ligne</p>`),
     ...UV_DATA.PROMOS.map((p) => {
       const [nom, ton, etat] = ETATS[UV.promos.etat(p)];
       return lienPromo(`promo-${p.id}`, `promo.html?id=${encodeURIComponent(p.id)}`, `Campagne · ${p.id}`, `
