@@ -24,7 +24,7 @@
 <!-- Page de campagne : rien d'autre que l'offre. L'en-tête et la barre
      d'onglets restent, pour que la page ne soit jamais une impasse. -->
 <main id="contenu" class="promo-fond flex flex-1 flex-col">
-  <div class="shell flex flex-1 flex-col items-center justify-center py-6 sm:py-12 lg:py-16">
+  <div class="shell flex flex-1 flex-col items-center justify-center py-3 sm:py-12 lg:py-16">
 
     <!-- ====================================================================
          BILLET — un bon détachable : le talon nuit porte l'offre et son
@@ -74,6 +74,14 @@
         </div>
       </div>
 
+      <!-- Téléphone : le compte à rebours se loge sur la perforation, à cheval sur
+           la découpe — le talon se replie et les packs remontent dans l'écran. -->
+      <p class="promo-poincon" role="timer">
+        <span class="material-symbols-outlined text-[16px]" aria-hidden="true">timer</span>
+        <span class="promo-poincon-libelle" id="poincon-libelle">Se termine dans</span>
+        <span class="promo-poincon-reste" id="poincon-reste"></span>
+      </p>
+
       <div class="promo-volet">
         <!-- Promotion terminée ou introuvable : le dire d'abord, proposer la suite ensuite -->
         <div class="promo-fin" id="fin" hidden>
@@ -87,9 +95,9 @@
             </p>
           </div>
         </div>
-        <h2 id="packs-titre" class="text-h-md text-navy sm:text-h-lg-m">Choisissez votre pack</h2>
-        <p id="packs-sous-titre" class="mt-1 text-body-md text-muted"></p>
-        <ul id="packs" class="mt-6 flex flex-col gap-3" role="list" aria-labelledby="packs-titre"></ul>
+        <h2 id="packs-titre" class="promo-volet-titre">Choisissez votre pack</h2>
+        <p id="packs-sous-titre" class="mt-1 hidden text-body-md text-muted sm:block"></p>
+        <ul id="packs" class="mt-3 flex flex-col gap-2.5 sm:mt-6 sm:gap-3" role="list" aria-labelledby="packs-titre"></ul>
         <p class="mt-auto flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 pt-6 text-center text-body-sm text-muted">
           <span class="material-symbols-outlined text-[16px] text-royal" aria-hidden="true">lock</span>
           Paiement sécurisé · Sans abonnement · Crédits sans date d'expiration

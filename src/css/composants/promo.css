@@ -177,12 +177,6 @@
   [data-etat='terminee'] :is(.promo-titre, .promo-cadran) { @apply opacity-40; filter: saturate(.25); }
   [data-etat='terminee'] .promo-accroche { @apply text-white/80; }
   [data-etat='terminee'] .promo-decompte-libelle .material-symbols-outlined { color: #F29696; }
-  /* Téléphone : le cadran à zéro céderait la place au message ; seule la date reste. */
-  @media (max-width: 639px) {
-    [data-etat='terminee'] :is(.promo-decompte-libelle, .promo-cadran) { display: none; }
-    [data-etat='terminee'] .promo-decompte { @apply mt-3; }
-    [data-etat='terminee'] .promo-echeance { @apply mt-0; }
-  }
 
   .promo-fin {
     @apply mb-7 flex items-start gap-3.5 rounded-xl border p-4 sm:p-5;
@@ -273,6 +267,62 @@
   .promo-pack:hover .promo-pack-fleche { @apply translate-x-0.5 text-navy; }
 
   .promo-conditions { @apply mt-6 max-w-2xl text-center text-body-sm leading-relaxed text-muted; }
+  .promo-volet-titre { @apply text-[19px] leading-6 text-navy sm:text-h-lg-m; }
+
+  /* --- Téléphone : les packs dans le premier écran ----------------------------
+     Sous 640 px, le talon se replie au lieu de pousser les packs hors de l'écran :
+     l'accroche s'efface (chaque pack porte son bonus), le compte à rebours quitte
+     ses tuiles pour un poinçon d'une ligne posé à cheval sur la perforation, la
+     ligne d'or et les lignes de packs se resserrent. Les trois packs tiennent
+     au-dessus de la barre d'onglets dès 600 px de hauteur utile ; plus bas, un
+     second palier retire la pastille et le titre du volet (gardé pour les
+     lecteurs d'écran). Au-delà de 640 px, rien ne change. */
+  .promo-poincon { display: none; }
+  @media (max-width: 639px) {
+    .promo-talon { @apply pb-7 pt-5; }
+    .promo-titre { @apply mt-3 text-[20px] leading-tight; }
+    .promo-titre-or { @apply my-0.5 text-[46px]; }
+    /* L'accroche et le cadran s'effacent (terminée : le tampon porte la date,
+       le volet le message) ; seul « Aucune promotion en cours » garde son texte. */
+    .promo-billet:not([data-etat='aucune']) :is(.promo-accroche, .promo-decompte) { display: none; }
+    [data-etat='terminee'] .promo-talon { @apply pb-6; }
+    .promo-fin { @apply mb-5 gap-3 p-3.5; }
+    .promo-fin-icone { @apply h-10 w-10; }
+
+    /* Le poinçon : marges négatives, il chevauche la découpe au-dessus des deux moitiés */
+    :is([data-etat='active'], [data-etat='urgent'], [data-etat='avenir']) > .promo-poincon {
+      @apply relative z-10 -my-4 flex h-8 items-center gap-1.5 justify-self-center whitespace-nowrap rounded-full px-3.5
+             text-label-md font-semibold text-white/85;
+      background-color: var(--promo-nuit-lo, #0F1F4B);
+      box-shadow: inset 0 0 0 1px rgb(232 198 123 / .6), 0 6px 16px rgb(8 18 48 / .28);
+      font-variant-numeric: tabular-nums;
+    }
+    .promo-poincon .material-symbols-outlined { @apply text-gold-300; }
+    .promo-poincon-reste { @apply font-extrabold text-white; }
+    [data-etat='urgent'] .promo-poincon-reste { color: #F0D48A; }
+    [data-etat='urgent'] .promo-poincon .material-symbols-outlined { animation: uv-battement 1s ease-in-out infinite; }
+
+    .promo-volet { @apply pt-6; }
+    .promo-pack { @apply py-2.5; }
+    .promo-pack-vedette { @apply pt-3.5; }
+    .promo-pack-nom { @apply text-[17px]; }
+    .promo-pack-prix { @apply text-[17px]; }
+    :is(.promo-pack-detail, .promo-pack-offert) { @apply mt-0 leading-4; }
+    .promo-pack .forfait-piece { @apply h-[50px] w-[50px]; }
+    .promo-pack .forfait-piece-valeur { @apply text-[21px]; }
+    .promo-pack .promo-piece-bonus { @apply h-[26px] min-w-[26px] px-0.5 text-[12px] tracking-[-0.07em]; }
+  }
+  @media (max-width: 359px) { .promo-poincon-libelle { display: none; } }
+  @media (max-width: 639px) and (max-height: 640px) {
+    .promo-billet:not(.paiement-billet) .promo-pastille { display: none; }
+    .promo-billet:not(.paiement-billet) .promo-talon { @apply pb-6 pt-4; }
+    .promo-titre { @apply mt-0 leading-[1.15]; }
+    .promo-titre-or { @apply my-0 text-[38px]; }
+    .promo-billet:not(.paiement-billet) .promo-volet { @apply pt-5; }
+    .promo-volet-titre { @apply sr-only; }
+    #packs { @apply mt-2 gap-2; }
+    .promo-pack { @apply py-2; }
+  }
 
   /* --- Confirmation d'achat (paiement.html) -----------------------------------
      Le même billet, une étape plus loin : le talon devient la commande (puis
@@ -294,30 +344,22 @@
        70 crédits au total · 0,71 € / message */
   .paiement-recap {
     @apply mt-5 grid items-center gap-x-4 rounded-2xl p-4 sm:mt-6 sm:p-5;
-    /* Téléphone : le prix passe sous le nom, à côté de la pile */
-    grid-template-columns: auto minmax(0, 1fr);
-    grid-template-areas: "pile nom" "pile prix" "total total";
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "pile nom prix" "total total total";
     background-color: rgb(255 255 255 / .08);
     box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14);
     /* liseré de la pièce de bonus : une ombre, le fond étant translucide */
     --promo-ligne-fond: rgb(8 18 48 / .55);
   }
-  @media (min-width: 640px) {
-    .paiement-recap {
-      grid-template-columns: auto minmax(0, 1fr) auto;
-      grid-template-areas: "pile nom prix" "total total total";
-    }
-  }
   .paiement-recap .promo-pile:has(> .promo-piece-bonus) { @apply mr-3; }
-  .paiement-recap-nom { grid-area: nom; @apply min-w-0 self-end sm:self-center font-display text-h-sm font-extrabold leading-tight text-white; }
+  .paiement-recap-nom { grid-area: nom; @apply min-w-0 font-display text-h-sm font-extrabold leading-tight text-white; }
   .paiement-recap-detail { @apply mt-1 block font-sans text-body-sm font-semibold text-white/70; }
   .paiement-recap-prix {
     grid-area: prix;
-    @apply mt-2.5 flex items-baseline gap-1.5 self-start whitespace-nowrap font-display text-[24px] font-black leading-none text-white
-           sm:mt-0 sm:flex-col sm:items-end sm:gap-0 sm:self-center sm:text-[26px];
+    @apply flex flex-col items-end whitespace-nowrap font-display text-[24px] font-black leading-none text-white sm:text-[26px];
     font-variant-numeric: tabular-nums;
   }
-  .paiement-recap-ttc { @apply font-sans sm:mt-1.5 text-label-sm font-bold text-white/55; }
+  .paiement-recap-ttc { @apply mt-1 font-sans sm:mt-1.5 text-label-sm font-bold text-white/55; }
   .paiement-recap-total {
     grid-area: total;
     @apply mt-4 border-t border-white/10 pt-3 text-body-sm text-white/70;
@@ -380,4 +422,27 @@
   .paiement-confirmation { @apply my-auto flex flex-col items-center py-6 text-center lg:py-0; }
   .paiement-confirmation[hidden] { display: none; }
   .paiement-sceau { animation: uv-forfait-entree .5s cubic-bezier(.22, .61, .36, 1) backwards; }
+
+  /* Téléphone : la commande vient d'être choisie, elle se résume en une rangée ;
+     les moyens de paiement remontent dans le premier écran. */
+  @media (max-width: 639px) {
+    .paiement-billet .promo-pastille { display: none; }
+    .paiement-billet .promo-talon { @apply pb-5; }
+    .paiement-billet .promo-volet { @apply pt-5; }
+    .paiement-retour { @apply min-h-[40px]; }
+    .paiement-titre { @apply mt-1 text-[22px]; }
+    .paiement-recap { @apply mt-3 gap-x-3 p-3; }
+    .paiement-recap .forfait-piece { @apply h-11 w-11; }
+    .paiement-recap .forfait-piece-valeur { @apply text-[19px]; }
+    .paiement-recap .forfait-piece-mention { @apply mt-px text-[6px]; }
+    .paiement-recap .promo-piece-bonus { @apply -right-4 h-[22px] min-w-[22px] text-[11px]; }
+    .paiement-recap .promo-pile:has(> .promo-piece-bonus) { @apply mr-3.5; }
+    .paiement-recap-nom { @apply text-[15px]; }
+    .paiement-recap-prix { @apply text-[20px]; }
+    .paiement-recap-total { display: none; }
+    .paiement-echeance { @apply mt-2.5; }
+    .paiement-moyens .kicker { @apply mt-3; }
+    .paiement-moyens :is(.btn-lg, .paiement-plaque) { min-height: 48px; }
+    .paiement-ou { @apply my-2; }
+  }
 }

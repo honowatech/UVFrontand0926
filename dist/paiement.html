@@ -23,7 +23,7 @@
 <!-- Suite de la page promo : le pack choisi, puis le paiement. Même billet
      détachable — le talon porte la commande, le volet les moyens de paiement. -->
 <main id="contenu" class="promo-fond flex flex-1 flex-col">
-  <div class="shell flex flex-1 flex-col items-center justify-center py-6 sm:py-12 lg:py-16">
+  <div class="shell flex flex-1 flex-col items-center justify-center py-3 sm:py-12 lg:py-16">
 
     <!-- data-etat : commande · traitement · paye (posé par paiement.js) -->
     <article class="promo-billet paiement-billet" id="billet" data-etat="commande" aria-labelledby="paiement-titre">
@@ -74,9 +74,9 @@
            ================================================================== -->
       <div class="promo-volet">
         <div id="moyens" class="paiement-moyens">
-          <h2 class="text-h-md text-navy">Choisissez votre moyen de paiement</h2>
+          <h2 class="text-[17px] leading-6 text-navy sm:text-h-md">Choisissez votre moyen de paiement</h2>
 
-          <p class="kicker mt-6">Paiement express</p>
+          <p class="kicker mt-4 sm:mt-6">Paiement express</p>
           <!-- Apple Pay sur les appareils Apple, Google Pay ailleurs (paiement.js) -->
           <button type="button" class="paiement-plaque mt-3" data-moyen="express" data-uv-blanc id="express"></button>
 

@@ -180,6 +180,15 @@
       </span>`).join('');
   }
 
+  /** « 9 j 07 h 48 min 16 s » : le compte à rebours en une ligne (poinçon, téléphone). */
+  function enLigne(ms) {
+    const s = Math.ceil(ms / 1000);
+    const [j, h, m, sec] = [Math.floor(s / 86400), Math.floor(s / 3600) % 24, Math.floor(s / 60) % 60, s % 60];
+    const d = (n) => String(n).padStart(2, '0');
+    return insecable(j ? `${j} j ${d(h)} h ${d(m)} min ${d(sec)} s`
+      : h ? `${d(h)} h ${d(m)} min ${d(sec)} s` : `${d(m)} min ${d(sec)} s`);
+  }
+
   const ANNONCES = {
     active: 'La promotion a commencé.',
     urgent: 'Plus qu’une heure pour profiter de la promotion.',
@@ -204,6 +213,8 @@
     if (enCours(e) || e === 'avenir') {
       const cible = e === 'avenir' ? DEBUT : FIN;
       el('#tuiles').innerHTML = tuiles(cible - t);
+      el('#poincon-libelle').textContent = e === 'avenir' ? 'Commence dans' : 'Se termine dans';
+      el('#poincon-reste').textContent = enLigne(cible - t);
       if (enCours(e)) el('#jauge').style.setProperty('--promo-reste', (FIN - t) / (FIN - DEBUT));
       setTimeout(battre, 1000 - (t % 1000) + 10); // calé sur la seconde pleine
     }

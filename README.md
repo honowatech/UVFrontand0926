@@ -406,6 +406,17 @@ HTML ni au CSS :
   Sans identifiant et sans promotion en cours ni annoncée : « Aucune promotion en cours ».
 - **Conditions** en toutes lettres sous le billet (dates, heure de Paris, packs concernés,
   lien vers les CGV).
+- **Téléphone : les packs dans le premier écran**, sans défiler. Sous 640 px, le talon se
+  replie : l'accroche s'efface (chaque pack porte son bonus), le compte à rebours quitte ses
+  tuiles pour un **poinçon** d'une ligne posé à cheval sur la perforation (« Se termine dans
+  9 j 07 h 48 min 16 s », l'icône seule sous 360 px, en or la dernière heure), la ligne d'or et
+  les lignes de packs se resserrent. Second palier sous 640 px de **hauteur** : la pastille
+  s'efface et le titre du volet ne reste que pour les lecteurs d'écran. Mesuré au-dessus de la
+  barre d'onglets : les trois packs tiennent de 320 × 568 à 412 × 915, y compris 375 × 548
+  (iPhone SE dans Safari, barres affichées). Promotion terminée : le tampon porte la date, le
+  message ouvre le volet, le premier pack suit. La confirmation d'achat suit la même logique :
+  commande résumée en une rangée, les trois moyens de paiement visibles dès 375 × 667.
+  Au-delà de 640 px de large, rien ne change.
 - **Confirmation d'achat** : chaque pack mène à `paiement.html?pack=…&promo=…`, le même
   billet une étape plus loin. Le talon porte la commande — « Changer de forfait » (retour à la
   campagne), pastille « Promotion appliquée », la pile de pièces, le prix TTC, le total en
