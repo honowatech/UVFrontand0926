@@ -67,7 +67,7 @@
 
   /* --- Pages promo -------------------------------------------------------------
      La page générique (la promotion qui court, sinon la prochaine), la vue de
-     confirmation d'achat qui la suit, puis la landing de chaque campagne, avec
+     confirmation d'achat qui la suit, puis le lien de chaque campagne, avec
      son état et sa période : une campagne ajoutée dans data.js apparaît ici
      d'elle-même. */
   const ETATS = {
@@ -104,7 +104,7 @@
     confirmation(),
     ...UV_DATA.PROMOS.map((p) => {
       const [nom, ton, etat] = ETATS[UV.promos.etat(p)];
-      return lienPromo(`promo-${p.id}`, `promo.html?id=${encodeURIComponent(p.id)}`, `Landing · ${p.id}`, `
+      return lienPromo(`promo-${p.id}`, `promo.html?id=${encodeURIComponent(p.id)}`, `Campagne · ${p.id}`, `
         <p class="flex items-center gap-1.5">${icone(nom, `text-[16px] ${ton}`)} ${etat} · du ${jour(p.debut)} au ${jour(p.fin)}</p>
         <p>${code(`promo.html?id=${p.id}`)}</p>`);
     }),
