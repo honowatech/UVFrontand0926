@@ -87,7 +87,8 @@
     el('#pastille').textContent = t[1];
     el('#echeance').hidden = e === 'simple';
     el('#echeance-icone').textContent = e === 'promo' ? 'timer' : 'timer_off';
-    if (e === 'echue') el('#echeance-texte').textContent = 'La promotion n’est plus active : votre pack reste au tarif habituel.';
+    billet.dataset.promo = e; // même corail que le tampon de la page promo
+    if (e === 'echue') el('#echeance-texte').textContent = 'Cette promotion n’est plus disponible : votre pack reste au tarif habituel.';
   }
 
   /* --- Horloge : échéance relue chaque seconde ------------------------------ */
@@ -95,7 +96,7 @@
   function battre() {
     const e = etatPromo();
     if (e !== etat) {
-      if (etat === 'promo') annoncer('La promotion vient de se terminer : votre pack reste au tarif habituel.');
+      if (etat === 'promo') annoncer('Cette promotion n’est plus disponible : votre pack reste au tarif habituel.');
       etat = e;
       rendreRecap();
       rendreTalon(e);

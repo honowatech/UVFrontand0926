@@ -26,6 +26,11 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
 @keyframes uv-voile-sortie { to { opacity: 0; } }
 @keyframes uv-battement { 50% { transform: scale(1.18); } }
 @keyframes uv-forfait-entree { from { opacity: 0; transform: translateY(10px); } }
+/* Tampon « Terminée » de la page promo : frappé, il s'écrase puis se pose. */
+@keyframes uv-tampon {
+  0% { opacity: 0; transform: rotate(-11deg) scale(1.7); }
+  70% { opacity: 1; transform: rotate(-11deg) scale(.95); }
+}
 /* Pièce de bonus de la page promo : elle tombe sur la pile et s'y pose. */
 @keyframes uv-piece-chute {
   0% { opacity: 0; transform: translateY(-16px) scale(.6) rotate(-24deg); }
@@ -43,6 +48,8 @@ html.uv-modale-ouverte.uv-gouttiere { scrollbar-gutter: stable; }
   .promo-ligne,
   .promo-piece-bonus,
   .paiement-sceau,
+  .promo-tampon,
+  .promo-fin,
   .forfait-piece-eclat::after { animation: none; }
   .forfait-piece-eclat::after { display: none; }
 }

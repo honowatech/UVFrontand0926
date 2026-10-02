@@ -375,8 +375,15 @@ HTML ni au CSS :
   changent rien. Tuiles jours / heures / minutes / secondes (les jours disparaissent le
   dernier jour), jauge du temps restant ; la dernière heure, les chiffres passent à l'or.
 - **États, enchaînés en direct** à l'échéance, sans rechargement : à venir (« Commence dans »,
-  packs habituels) → en cours → dernière heure → terminée. Une promotion terminée ou inconnue
-  n'est jamais une impasse : les packs habituels restent proposés.
+  packs habituels) → en cours → dernière heure → terminée.
+- **Promotion terminée** — échéance passée, ou identifiant absent de `data.js` (lien d'un ancien
+  e-mail : `promo.html?id=…` inconnu) : le billet est « composté ». Tampon « Terminée » frappé de
+  biais sur le talon, avec la date de fin quand elle est connue ; l'offre reste écrite dessous,
+  éteinte ; cadran à zéro (masqué sur téléphone, où seule la date reste). En tête du volet, le
+  message « Cette promotion n'est plus disponible », puis les packs habituels : jamais
+  d'impasse. Corail de nuit (`--uv-sortie` éclairci) : il signale sans alarmer. La
+  confirmation d'achat reprend la même formule et la même couleur quand on y arrive après la fin.
+  Sans identifiant et sans promotion en cours ni annoncée : « Aucune promotion en cours ».
 - **Conditions** en toutes lettres sous le billet (dates, heure de Paris, packs concernés,
   lien vers les CGV).
 - **Confirmation d'achat** : chaque pack mène à `paiement.html?pack=…&promo=…`, le même
