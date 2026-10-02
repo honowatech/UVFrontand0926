@@ -157,6 +157,36 @@
     return { etat, liste, franchi, libelles };
   })();
 
+  /* --- Promotions éphémères ------------------------------------------------
+     Lues par promo.html, paiement.html et la page Crédits (?promo=…). Une
+     promotion vaut entre `debut` et `fin`, pour tous : l'instant fait foi, ni
+     la session ni le rechargement de la page n'y changent rien. */
+  const promos = (() => {
+    const bornes = (p) => [Date.parse(p.debut), Date.parse(p.fin)];
+
+    /** 'avenir' | 'active' | 'terminee', à l'instant `t`. */
+    function etat(p, t = Date.now()) {
+      const [debut, fin] = bornes(p);
+      return t < debut ? 'avenir' : t < fin ? 'active' : 'terminee';
+    }
+
+    /** La promotion demandée par son id ; sans id, celle qui court, sinon la
+        prochaine annoncée (la page promo l'affiche alors en compte à rebours). */
+    function trouver(id) {
+      if (id) return D.PROMOS.find((p) => p.id === id) || null;
+      return D.PROMOS.find((p) => etat(p) === 'active')
+        || D.PROMOS.filter((p) => etat(p) === 'avenir').sort((a, b) => bornes(a)[0] - bornes(b)[0])[0]
+        || null;
+    }
+
+    /** Crédits offerts sur un pack : 0 hors promotion ou hors période. */
+    function bonus(p, pack, t) {
+      return p && etat(p, t) === 'active' && Object.hasOwn(p.bonus, pack.id) ? p.bonus[pack.id] : 0;
+    }
+
+    return { etat, trouver, bonus, fin: (p) => bornes(p)[1] };
+  })();
+
   const Store = {
     get all() { return etat; },
     get credits() { return etat.credits; },
@@ -1123,7 +1153,7 @@
 
   /* --- API publique -------------------------------------------------------- */
   global.UV = {
-    Store, fidelite, toast, el, els, icone, etoiles, monogramme, euro, nombre, note, heure,
+    Store, fidelite, promos, toast, el, els, icone, etoiles, monogramme, euro, nombre, note, heure,
     param, lienVoyant, echapper, STATUTS, carteVoyant, ligneVoyant, accordeon, filAriane,
     majCredits, pageCourante, logo, piece,
     theme: { courant: themeCourant, basculer: basculerTheme, appliquer: appliquerTheme },

@@ -102,6 +102,17 @@
 
 /* Liste des forfaits : l'or reste l'or (encre marine sur les pièces, comme sur
    les boutons dorés), lueur plus retenue et constellation plus présente. */
-.dark .forfait-piece { --uv-ink: var(--uv-ink-fixe); }
+.dark :is(.forfait-piece, .promo-piece-bonus) { --uv-ink: var(--uv-ink-fixe); }
 .dark :is(.forfaits-entete, .fidelite-entete) { --forfaits-lueur: .11; }
 .dark :is(.forfaits-entete, .fidelite-entete) > svg { opacity: .3; }
+
+/* Page promo : le ciel descend sous le sol, le talon remonte d'un cran (comme
+   la carte nuit) pour se détacher, le volet passe aux surfaces de nuit. */
+.dark .promo-fond { --promo-ciel: 14 23 51; }
+.dark .promo-billet {
+  --promo-nuit-hi: #2F52A5; --promo-nuit-lo: #16295E;
+  --promo-volet-hi: #17234A; --promo-volet-lo: #111A38;
+  --promo-ligne-fond: #1A2547; --promo-ligne-filet: #2A3661;
+  --promo-barre: 154 166 196;
+  filter: drop-shadow(0 22px 44px rgb(0 0 0 / .5)) drop-shadow(0 0 1px rgb(255 255 255 / .08));
+}

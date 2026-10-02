@@ -24,6 +24,8 @@ AddType image/webp .webp
   RewriteCond %{THE_REQUEST} \s/(?:dist/)?landing\.html[\s?]
   RewriteRule ^ /landing [R=301,L]
   RewriteRule ^landing$ landing.html [L]
+  # /promo, l'adresse de la page promo de l'ancien site, reste valable
+  RewriteRule ^promo/?$ promo.html [L]
 </IfModule>
 
 # Compression des formats texte

@@ -1,0 +1,332 @@
+@layer components {
+  /* --- Promotion éphémère (promo.html) -------------------------------------
+     Un bon détachable posé sur un ciel clair : talon nuit (l'offre, le compte
+     à rebours) et volet champagne (les packs), séparés par une perforation —
+     encoches découpées dans le billet, pointillé doré du tracé des
+     constellations. Le volet prend le champagne de la charte plutôt que le
+     blanc : le jour, la page ne s'éclaire qu'à travers l'or. Les jetons du
+     billet sont redéfinis pour la nuit dans theme-nuit.css. */
+  .promo-fond {
+    background:
+      radial-gradient(48% 36% at 50% 0%, rgb(var(--uv-royal-bg) / .13), transparent 72%),
+      radial-gradient(36% 40% at 88% 100%, rgb(var(--uv-gold) / .16), transparent 72%),
+      linear-gradient(180deg, rgb(var(--promo-ciel, var(--uv-tint))), rgb(var(--uv-ground)) 55%);
+  }
+
+  .promo-billet {
+    --encoche: 14px;
+    --promo-volet-hi: #FCF9F2;
+    --promo-volet-lo: #F7EEDB;
+    --promo-ligne-fond: #FFFFFF;
+    --promo-ligne-filet: #EDE0C2;
+    --promo-barre: 92 103 132;
+    @apply grid w-full max-w-[1040px] grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.22fr)];
+    /* Ombre portée par la silhouette découpée (un box-shadow ignorerait les
+       encoches, le masque l'effacerait) */
+    filter: drop-shadow(0 22px 40px rgb(15 31 75 / .16)) drop-shadow(0 3px 8px rgb(15 31 75 / .06));
+  }
+
+  /* Encoches : chaque moitié du billet est découpée sur le bord qu'elle
+     partage avec l'autre. Deux calques de masque par moitié, un trou chacun. */
+  .promo-talon, .promo-volet {
+    --trou: #0000 calc(var(--encoche) - .5px), #000 var(--encoche);
+  }
+  .promo-talon {
+    @apply relative isolate flex flex-col overflow-hidden rounded-t-[28px] px-6 pb-8 pt-6 text-white
+           sm:px-10 sm:pt-9 lg:rounded-l-[28px] lg:rounded-tr-none lg:px-11 lg:pb-11 lg:pt-11;
+    background:
+      radial-gradient(110% 60% at 100% 0%, rgb(201 162 74 / .30), transparent 62%),
+      radial-gradient(90% 55% at 0% 100%, rgb(91 123 196 / .30), transparent 70%),
+      linear-gradient(155deg, var(--promo-nuit-hi, #1F3C88) 0%, var(--promo-nuit-lo, #0F1F4B) 74%);
+    -webkit-mask:
+      radial-gradient(circle var(--encoche) at 0 100%, var(--trou)) left / 51% 100% no-repeat,
+      radial-gradient(circle var(--encoche) at 100% 100%, var(--trou)) right / 51% 100% no-repeat;
+            mask:
+      radial-gradient(circle var(--encoche) at 0 100%, var(--trou)) left / 51% 100% no-repeat,
+      radial-gradient(circle var(--encoche) at 100% 100%, var(--trou)) right / 51% 100% no-repeat;
+  }
+  .promo-volet {
+    @apply relative flex flex-col rounded-b-[28px] px-4 pb-6 pt-7 sm:px-8 sm:pb-8 sm:pt-9
+           lg:rounded-r-[28px] lg:rounded-bl-none lg:px-10 lg:pb-9 lg:pt-11;
+    background: linear-gradient(172deg, var(--promo-volet-hi), var(--promo-volet-lo));
+    -webkit-mask:
+      radial-gradient(circle var(--encoche) at 0 0, var(--trou)) left / 51% 100% no-repeat,
+      radial-gradient(circle var(--encoche) at 100% 0, var(--trou)) right / 51% 100% no-repeat;
+            mask:
+      radial-gradient(circle var(--encoche) at 0 0, var(--trou)) left / 51% 100% no-repeat,
+      radial-gradient(circle var(--encoche) at 100% 0, var(--trou)) right / 51% 100% no-repeat;
+  }
+  /* Perforation : pointillé doré le long de la découpe, entre les encoches */
+  .promo-talon::after {
+    content: '';
+    @apply pointer-events-none absolute bottom-0 h-0;
+    inset-inline: calc(var(--encoche) + 8px);
+    border-bottom: 1.5px dashed rgb(232 198 123 / .5);
+  }
+  @media (min-width: 1024px) {
+    .promo-talon {
+      -webkit-mask:
+        radial-gradient(circle var(--encoche) at 100% 0, var(--trou)) top / 100% 51% no-repeat,
+        radial-gradient(circle var(--encoche) at 100% 100%, var(--trou)) bottom / 100% 51% no-repeat;
+              mask:
+        radial-gradient(circle var(--encoche) at 100% 0, var(--trou)) top / 100% 51% no-repeat,
+        radial-gradient(circle var(--encoche) at 100% 100%, var(--trou)) bottom / 100% 51% no-repeat;
+    }
+    .promo-talon::after {
+      inset-inline: auto 0;
+      inset-block: calc(var(--encoche) + 8px);
+      @apply h-auto w-0;
+      border-bottom: 0;
+      border-right: 1.5px dashed rgb(232 198 123 / .5);
+    }
+    .promo-volet {
+      -webkit-mask:
+        radial-gradient(circle var(--encoche) at 0 0, var(--trou)) top / 100% 51% no-repeat,
+        radial-gradient(circle var(--encoche) at 0 100%, var(--trou)) bottom / 100% 51% no-repeat;
+              mask:
+        radial-gradient(circle var(--encoche) at 0 0, var(--trou)) top / 100% 51% no-repeat,
+        radial-gradient(circle var(--encoche) at 0 100%, var(--trou)) bottom / 100% 51% no-repeat;
+    }
+  }
+
+  /* --- Talon ---------------------------------------------------------------- */
+  .promo-pastille {
+    @apply inline-flex items-center gap-1.5 self-start rounded-full bg-white/10 py-1.5 pl-2.5 pr-3.5
+           text-label-sm font-extrabold uppercase tracking-[0.14em] text-gold-300;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .16);
+  }
+  /* Le titre se lit en trois temps : « Des crédits » / EN BONUS / « sur votre
+     recharge ». La part entre astérisques (data.js) devient la ligne d'or. */
+  .promo-titre {
+    @apply mt-5 font-display text-[26px] font-extrabold leading-[1.2] text-white sm:mt-6 sm:text-[30px] lg:mt-8;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .promo-titre-or {
+    @apply text-gradient-gold my-1 block text-[58px] font-black leading-[0.95] sm:text-[72px] lg:text-[76px];
+    letter-spacing: -0.035em;
+    /* le dégradé est coupé à la boîte : on dégage le jambage du « g » éventuel */
+    padding-bottom: .06em;
+  }
+  .promo-accroche { @apply mt-4 max-w-[34ch] text-body-lg text-white/75; }
+
+  .promo-decompte { @apply mt-7 sm:mt-8 lg:mt-auto lg:pt-10; }
+  .promo-decompte[hidden] { display: none; }
+  .promo-decompte-libelle { @apply flex items-center gap-1.5 text-label-md text-white/80; }
+  .promo-tuiles { @apply flex gap-2 max-[389px]:gap-1.5 sm:gap-2.5; }
+  /* Tuile d'affichage à palettes : le filet horizontal rappelle la lame qui
+     tombe. Chiffres tabulaires : rien ne bouge d'une seconde à l'autre. */
+  .promo-tuile {
+    @apply relative flex w-[66px] flex-col items-center rounded-xl pb-2 pt-2.5 max-[389px]:w-[60px] sm:w-[74px];
+    background-color: rgb(255 255 255 / .09);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14), inset 0 1px 0 rgb(255 255 255 / .12);
+  }
+  .promo-tuile-chiffre {
+    @apply relative self-stretch text-center font-display text-[32px] font-black leading-none text-white
+           transition-colors duration-500 max-[389px]:text-[28px] sm:text-[36px];
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .promo-tuile-chiffre::after {
+    content: '';
+    @apply pointer-events-none absolute inset-x-0 top-[54%] h-px;
+    background: rgb(8 18 48 / .5);
+  }
+  .promo-tuile-unite { @apply mt-1.5 text-[10px] font-extrabold uppercase leading-none tracking-[0.1em] text-white/55 max-[389px]:tracking-[0.04em]; }
+  .promo-echeance { @apply mt-3 text-body-sm text-white/65; }
+
+  /* Cadran : les tuiles et, dessous, la jauge à leur largeur exacte. */
+  .promo-cadran { @apply mt-3 inline-flex flex-col; }
+  .promo-jauge { @apply mt-3 block h-1 overflow-hidden rounded-full bg-white/10; }
+  .promo-jauge > span {
+    @apply block h-full origin-left rounded-full bg-gold-cta transition-transform duration-1000 ease-linear;
+    transform: scaleX(var(--promo-reste, 1));
+  }
+  [data-etat='avenir'] .promo-jauge { display: none; }
+
+  /* Dernière heure : les chiffres passent à l'or, le chronomètre bat. */
+  [data-etat='urgent'] .promo-tuile-chiffre { color: #F0D48A; }
+  [data-etat='urgent'] .promo-tuile { box-shadow: inset 0 0 0 1px rgb(232 198 123 / .55), inset 0 1px 0 rgb(255 255 255 / .1); }
+  [data-etat='urgent'] .promo-decompte-libelle .material-symbols-outlined { animation: uv-battement 1s ease-in-out infinite; }
+
+  /* --- Volet : les packs ------------------------------------------------------ */
+  .promo-ligne {
+    @apply relative;
+    animation: uv-forfait-entree .45s cubic-bezier(.22, .61, .36, 1) backwards;
+    animation-delay: calc(120ms + var(--i, 0) * 70ms);
+  }
+  /* Une ligne = un lien. Téléphone : nom et prix, puis coût par message, puis
+     crédits offerts, sur trois lignes à côté de la pile. Dès 640 px : deux
+     lignes, le bonus sous le prix et une flèche en bout. */
+  .promo-pack {
+    @apply grid items-center gap-x-3 rounded-xl border py-3 pl-3 pr-3.5 transition-all duration-200
+           max-[359px]:gap-x-2.5 max-[359px]:pl-2.5 max-[359px]:pr-3 sm:gap-x-4 sm:py-3.5 sm:pl-4 sm:pr-3
+           hover:-translate-y-0.5 hover:shadow-lift active:translate-y-0 active:scale-[0.99];
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "pile nom prix" "pile detail detail" "pile offert offert";
+    background-color: var(--promo-ligne-fond);
+    border-color: var(--promo-ligne-filet);
+  }
+  .promo-pack-nom {
+    grid-area: nom;
+    @apply min-w-0 self-end font-display text-h-sm font-extrabold leading-tight text-navy max-[359px]:text-[16px] sm:text-h-md;
+  }
+  .promo-pack-prix {
+    grid-area: prix;
+    @apply self-end whitespace-nowrap font-display text-h-sm font-extrabold leading-tight text-navy max-[359px]:text-[16px];
+  }
+  .promo-pack-detail { grid-area: detail; @apply mt-0.5 self-start text-body-sm text-muted; }
+  .promo-pack-offert { grid-area: offert; @apply self-start; }
+  .promo-pack-fleche { grid-area: fleche; }
+  @media (min-width: 640px) {
+    .promo-pack {
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      grid-template-areas: "pile nom prix fleche" "pile detail offert fleche";
+    }
+    .promo-pack-offert { @apply justify-self-end; }
+  }
+  .promo-pack:hover { border-color: rgb(var(--uv-gold) / .6); }
+  /* Le pack mis en avant reprend la carte dorée des forfaits. */
+  .promo-pack-vedette { @apply carte-or pt-4 sm:pt-[18px]; --promo-ligne-fond: rgb(var(--uv-gold-bg-50)); }
+  .promo-pack-vedette:hover { border-color: transparent; }
+
+  /* Pile de pièces : la pièce du pack, et celle du bonus glissée par-dessus.
+     Le liseré de la pièce de bonus reprend le fond de la ligne : elle se
+     détache de la première comme une pièce posée sur une autre. */
+  .promo-pile { grid-area: pile; @apply relative shrink-0; }
+  .promo-pile:has(> .promo-piece-bonus) { @apply mr-5 max-[359px]:mr-4; }
+  /* Calée sur le bord de la pièce : la mention « crédits » reste lisible. */
+  .promo-piece-bonus {
+    @apply absolute -bottom-1 -right-5 grid h-[30px] min-w-[30px] place-items-center rounded-full px-1
+           font-display text-[13px] font-black leading-none text-navy transition-transform duration-200
+           max-[359px]:-right-4 max-[359px]:h-[26px] max-[359px]:min-w-[26px] max-[359px]:text-[12px];
+    letter-spacing: -0.04em;
+    background-image: var(--uv-grad-gold-cta);
+    box-shadow: 0 0 0 2.5px var(--promo-ligne-fond, rgb(var(--uv-surface))),
+                inset 0 0 0 1px rgb(255 255 255 / .45), inset 0 -2px 3px rgb(133 91 0 / .3);
+    animation: uv-piece-chute .6s cubic-bezier(.34, 1.4, .64, 1) backwards;
+    animation-delay: calc(420ms + var(--i, 0) * 110ms);
+  }
+  .promo-pack:hover .promo-piece-bonus { transform: translateY(-2px) rotate(-8deg); }
+  /* Page Crédits : la pièce est déjà posée, elle ne retombe pas à chaque choix. */
+  .promo-piece-posee { animation: none; }
+
+  .promo-barre {
+    @apply mr-0.5 no-underline;
+    color: rgb(var(--promo-barre) / .75);
+    text-decoration-line: line-through;
+    text-decoration-color: rgb(var(--uv-gold) / .9);
+    text-decoration-thickness: 1.5px;
+  }
+  .promo-pack-fleche {
+    @apply -ml-1 hidden text-[22px] text-muted/70 transition-transform duration-200 sm:block;
+  }
+  .promo-pack:hover .promo-pack-fleche { @apply translate-x-0.5 text-navy; }
+
+  .promo-conditions { @apply mt-6 max-w-2xl text-center text-body-sm leading-relaxed text-muted; }
+
+  /* --- Confirmation d'achat (paiement.html) -----------------------------------
+     Le même billet, une étape plus loin : le talon devient la commande (puis
+     le reçu), le volet porte les moyens de paiement. Colonnes égales : la
+     décision pèse autant que le récapitulatif. */
+  .paiement-billet { @apply max-w-[940px] lg:grid-cols-2; }
+
+  .paiement-retour {
+    @apply -ml-1 inline-flex min-h-[44px] items-center gap-1.5 self-start rounded-full pl-1 pr-3
+           text-label-md text-white/75 transition-colors hover:text-white;
+  }
+  .paiement-retour[hidden] { display: none; }
+  .paiement-titre { @apply mt-3 font-display text-[26px] font-extrabold leading-tight text-white outline-none sm:mt-4 sm:text-[32px]; }
+
+  /* Récapitulatif : verre posé sur la nuit, comme les tuiles du compte à rebours.
+       pile │ Pack Résolution        49,99 €
+            │ 55 crédits + 15 offerts    TTC
+       ─────┴──────────────────────────────
+       70 crédits au total · 0,71 € / message */
+  .paiement-recap {
+    @apply mt-5 grid items-center gap-x-4 rounded-2xl p-4 sm:mt-6 sm:p-5;
+    /* Téléphone : le prix passe sous le nom, à côté de la pile */
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas: "pile nom" "pile prix" "total total";
+    background-color: rgb(255 255 255 / .08);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14);
+    /* liseré de la pièce de bonus : une ombre, le fond étant translucide */
+    --promo-ligne-fond: rgb(8 18 48 / .55);
+  }
+  @media (min-width: 640px) {
+    .paiement-recap {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-areas: "pile nom prix" "total total total";
+    }
+  }
+  .paiement-recap .promo-pile:has(> .promo-piece-bonus) { @apply mr-3; }
+  .paiement-recap-nom { grid-area: nom; @apply min-w-0 self-end sm:self-center font-display text-h-sm font-extrabold leading-tight text-white; }
+  .paiement-recap-detail { @apply mt-1 block font-sans text-body-sm font-semibold text-white/70; }
+  .paiement-recap-prix {
+    grid-area: prix;
+    @apply mt-2.5 flex items-baseline gap-1.5 self-start whitespace-nowrap font-display text-[24px] font-black leading-none text-white
+           sm:mt-0 sm:flex-col sm:items-end sm:gap-0 sm:self-center sm:text-[26px];
+    font-variant-numeric: tabular-nums;
+  }
+  .paiement-recap-ttc { @apply font-sans sm:mt-1.5 text-label-sm font-bold text-white/55; }
+  .paiement-recap-total {
+    grid-area: total;
+    @apply mt-4 border-t border-white/10 pt-3 text-body-sm text-white/70;
+  }
+  .paiement-recap-total strong { @apply font-extrabold text-white; }
+
+  .paiement-echeance { @apply mt-4 flex items-center gap-1.5 text-body-sm font-semibold text-gold-300; }
+  .paiement-echeance[hidden] { display: none; }
+  [data-etat='paye'] .paiement-echeance { display: none; }
+
+  /* Garanties : en pied de talon sur grand écran, où la colonne a de la place */
+  .paiement-garanties { @apply hidden flex-col gap-2.5 text-body-sm text-white/75 lg:mt-auto lg:flex lg:pt-10; }
+  .paiement-garanties li { @apply flex items-center gap-2; }
+  .paiement-garanties .material-symbols-outlined { @apply text-gold-300; }
+
+  /* --- Volet : moyens de paiement ------------------------------------------- */
+  .paiement-moyens { @apply flex flex-1 flex-col; }
+  .paiement-moyens[hidden] { display: none; }
+  /* Plaques des portefeuilles : blanches dans les deux thèmes (data-uv-blanc),
+     encres de marque fixes. */
+  .paiement-plaque {
+    @apply btn btn-lg w-full gap-1.5 border border-line bg-white px-5 text-[#0F1F4B] hover:shadow-lift;
+  }
+  .paiement-gpay { @apply text-[17px] font-bold tracking-tight; }
+  .paiement-gpay b { @apply font-bold; }
+  .paiement-gpay b:nth-child(1), .paiement-gpay b:nth-child(4) { color: #4285F4; }
+  .paiement-gpay b:nth-child(2), .paiement-gpay b:nth-child(6) { color: #EA4335; }
+  .paiement-gpay b:nth-child(3) { color: #FBBC05; }
+  .paiement-gpay b:nth-child(5) { color: #34A853; }
+  .paiement-gpay span { @apply ml-0.5; color: #5F6368; }
+  .paiement-paypal { @apply ml-0.5 text-[17px] font-black italic; color: #003087; }
+  .paiement-paypal span { color: #009CDE; }
+
+  /* Marques de carte, en miniature dans le bouton doré (masquées faute de place) */
+  .paiement-cartes { @apply ml-1 flex items-center gap-1 max-[419px]:hidden; }
+  .paiement-visa {
+    @apply rounded-[4px] bg-white px-1.5 py-[3px] text-[10px] font-black italic leading-none;
+    color: #1A1F71;
+  }
+  .paiement-mc { @apply flex items-center rounded-[4px] bg-white px-1 py-[3px]; }
+  .paiement-mc i { @apply block h-3 w-3 rounded-full; background: #EB001B; }
+  .paiement-mc i + i { @apply -ml-1; background: #F79E1B; mix-blend-mode: multiply; }
+
+  /* Séparateur « ou » : filets de la couleur du volet */
+  .paiement-ou {
+    @apply my-3 flex items-center gap-3 text-label-sm font-extrabold uppercase tracking-[0.14em] text-muted;
+  }
+  .paiement-ou::before, .paiement-ou::after {
+    content: '';
+    @apply h-px flex-1;
+    background: var(--promo-ligne-filet);
+  }
+
+  [data-etat='traitement'] [data-moyen]:disabled { @apply opacity-100; }
+  [data-etat='traitement'] [data-moyen]:not(:has(.animate-spin)) { @apply opacity-40; }
+
+  /* Après paiement : la pièce d'or frappée d'une coche, au centre du volet */
+  .paiement-confirmation { @apply my-auto flex flex-col items-center py-6 text-center lg:py-0; }
+  .paiement-confirmation[hidden] { display: none; }
+  .paiement-sceau { animation: uv-forfait-entree .5s cubic-bezier(.22, .61, .36, 1) backwards; }
+}
