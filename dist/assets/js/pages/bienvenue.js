@@ -128,17 +128,25 @@
     payer(el('#payer'), 'Paiement en cours…');
   });
 
-  el('#paypal').addEventListener('click', () => {
+  /* Portefeuilles express : la plaque choisie garde sa place et bat, les autres
+     s'estompent ; la ligne sous la rangée dit ce qui se passe. */
+  els('[data-express]').forEach((b) => b.addEventListener('click', () => {
     if (carte.dataset.etat !== 'commande') return;
     erreur.hidden = true;
-    payer(el('#paypal'), 'Connexion à PayPal…');
-  });
+    payer(b, `Connexion à ${b.dataset.express}…`, true);
+  }));
 
   /* --- Paiement simulé ---------------------------------------------------------- */
-  function payer(bouton, libelle) {
+  function payer(bouton, libelle, plaque) {
     carte.dataset.etat = 'traitement';
     els('#moyens button, #moyens input').forEach((c) => { c.disabled = true; });
-    bouton.innerHTML = `${icone('progress_activity', 'animate-spin text-[20px]')} ${libelle}`;
+    if (plaque) {
+      bouton.classList.add('is-choisie');
+      bouton.innerHTML = icone('progress_activity', 'animate-spin text-[22px]');
+      el('#express-etat').textContent = libelle;
+    } else {
+      bouton.innerHTML = `${icone('progress_activity', 'animate-spin text-[20px]')} ${libelle}`;
+    }
     annoncer(libelle);
     setTimeout(confirmer, 1300);
   }

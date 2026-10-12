@@ -468,8 +468,10 @@ barré). Une **page**, pas une modale, et **aucun upsell** sur ce parcours.
   bandeau « Paiement totalement sécurisé » (Visa, Mastercard), le **bloc de saisies à icônes**
   de la charte pour la carte (numéro, expiration et CVV côte à côte ; pastille bleue à la saisie,
   verte dès que la valeur est reconnue ; marque Visa / Mastercard détectée), le bouton doré
-  « Payer — 4,99 € », puis PayPal en paiement express, la note Trustpilot (tuiles dorées, la
-  cinquième à demi pleine) et la mention d'enregistrement du moyen de paiement. Un fil d'or
+  « Payer — 4,99 € », puis le **paiement express sur une seule ligne** : PayPal, Google Pay,
+  Apple Pay et Samsung Pay, quatre plaques blanches reconnues à leur seul logo (le libellé reste
+  pour les lecteurs d'écran et l'infobulle), la note Trustpilot (tuiles dorées, la cinquième à
+  demi pleine) et la mention d'enregistrement du moyen de paiement. Un fil d'or
   court à la jointure des deux volets, là où le jour se lève. **Le jour, nulle part de blanc
   plein** : volet champagne, champs ivoire. **La nuit**, le ciel s'éteint (sol de nuit, lueur
   d'or retenue), le volet nuit remonte d'un cran et le volet du paiement prend les surfaces de
@@ -477,11 +479,14 @@ barré). Une **page**, pas une modale, et **aucun upsell** sur ce parcours.
 - **Saisie** : numéro mis en forme par groupes de quatre et contrôlé (somme de Luhn), date au
   format MM/AA refusée si passée, CVV à 3 chiffres ; une erreur à la fois, sous le bloc, le
   champ fautif reprenant le focus. **Paiement simulé** (1,3 s), par carte ou PayPal : rien n'est
-  transmis. Puis le volet nuit devient le reçu (« Paiement confirmé », « Merci Sophie »), le
+  transmis ; une plaque choisie garde sa place et bat, les autres s'estompent, la ligne sous la
+  rangée dit ce qui se passe. Puis le volet nuit devient le reçu (« Paiement confirmé », « Merci Sophie »), le
   volet champagne annonce les crédits ajoutés et le nouveau solde, et propose « Consulter un
   voyant » — ou « Reprendre avec Claire » quand on venait du tchat.
 - **Téléphone** : salutation et titre resserrés, garanties effacées, libellé « Expiration » et
-  CVV sans précision, pour que le paiement remonte dans l'écran.
+  CVV sans précision, pour que le paiement remonte dans l'écran. **Pas de barre d'onglets** sur
+  cette page : rien ne se glisse sous le bouton « Payer » ; l'en-tête reste, la page n'est jamais
+  une impasse.
 - La maquette présente l'offre à quiconque ouvre la page ; c'est au back-office de la réserver
   aux nouveaux inscrits et de n'en accepter qu'une par compte.
 

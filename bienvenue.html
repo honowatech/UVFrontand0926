@@ -23,7 +23,8 @@
 <!-- Offre de bienvenue : le tout premier forfait d'un nouvel inscrit, à prix
      découverte. Une carte de bienvenue posée sur un ciel d'aube : le volet nuit
      porte l'offre, le volet champagne le paiement. Pas d'upsell sur ce parcours.
-     L'en-tête et la barre d'onglets restent : la page n'est jamais une impasse. -->
+     L'en-tête reste (la page n'est jamais une impasse) ; pas de barre d'onglets :
+     rien ne doit se glisser sous le bouton « Payer ». -->
 <main id="contenu" class="bienvenue-fond flex flex-1 flex-col">
   <div class="shell flex flex-1 flex-col items-center justify-center py-3 sm:py-10 lg:py-14">
 
@@ -147,10 +148,33 @@
           <p class="paiement-ou" aria-hidden="true">ou</p>
 
           <p class="kicker text-center">Paiement express</p>
-          <!-- Plaque blanche dans les deux thèmes (data-uv-blanc), encres de marque -->
-          <button type="button" class="paiement-plaque mt-3" data-uv-blanc id="paypal">
-            Payer avec <span class="paiement-paypal" aria-hidden="true">Pay<span>Pal</span></span><span class="sr-only">PayPal</span>
-          </button>
+          <!-- Quatre portefeuilles sur une ligne, reconnus à leur seul logo :
+               plaques blanches dans les deux thèmes (data-uv-blanc), encres de
+               marque. Le libellé reste pour les lecteurs d'écran et l'infobulle. -->
+          <div class="bienvenue-express" role="group" aria-label="Payer en un clic avec un portefeuille">
+            <button type="button" class="bienvenue-express-plaque" data-uv-blanc data-express="PayPal" aria-label="Payer avec PayPal" title="Payer avec PayPal">
+              <span class="paiement-paypal bienvenue-logo-paypal" aria-hidden="true">Pay<span>Pal</span></span>
+            </button>
+            <button type="button" class="bienvenue-express-plaque" data-uv-blanc data-express="Google Pay" aria-label="Payer avec Google Pay" title="Payer avec Google Pay">
+              <span class="bienvenue-logo-gpay" aria-hidden="true">
+                <svg viewBox="0 0 48 48" aria-hidden="true">
+                  <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.8-6.8C35.6 2.4 30.2 0 24 0 14.6 0 6.4 5.4 2.5 13.2l7.9 6.2C12.3 13.2 17.7 9.5 24 9.5z"/>
+                  <path fill="#4285F4" d="M46.1 24.6c0-1.6-.1-3.1-.4-4.6H24v9.1h12.4c-.5 2.9-2.2 5.3-4.7 7l7.6 5.9c4.4-4.1 6.8-10.1 6.8-17.4z"/>
+                  <path fill="#FBBC05" d="M10.4 28.6c-.5-1.4-.8-2.9-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C.9 16.4 0 20.1 0 24s.9 7.6 2.5 10.8l7.9-6.2z"/>
+                  <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.8 2.3-8.3 2.3-6.3 0-11.7-3.7-13.6-9.9l-7.9 6.2C6.4 42.6 14.6 48 24 48z"/>
+                </svg><span>Pay</span>
+              </span>
+            </button>
+            <button type="button" class="bienvenue-express-plaque" data-uv-blanc data-express="Apple Pay" aria-label="Payer avec Apple Pay" title="Payer avec Apple Pay">
+              <span class="bienvenue-logo-apple" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.7c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.3 1.2 9.7.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.6-1-2.6-3.8zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.2-.6 2.8-1.4z"/></svg><span>Pay</span>
+              </span>
+            </button>
+            <button type="button" class="bienvenue-express-plaque" data-uv-blanc data-express="Samsung Pay" aria-label="Payer avec Samsung Pay" title="Payer avec Samsung Pay">
+              <span class="bienvenue-logo-samsung" aria-hidden="true"><b>Samsung</b><span>Pay</span></span>
+            </button>
+          </div>
+          <p class="bienvenue-express-etat" id="express-etat" aria-hidden="true">Un clic, sans saisir votre carte</p>
 
           <!-- Avis : les tuiles dorées de la charte, la cinquième à demi pleine -->
           <div class="bienvenue-avis">
@@ -191,8 +215,6 @@
     <p id="annonce" class="sr-only" aria-live="polite"></p>
   </div>
 </main>
-
-<uv-tabbar></uv-tabbar>
 
 <script src="assets/js/data.js"></script>
 <script src="assets/js/app.js"></script>
