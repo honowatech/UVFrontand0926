@@ -409,7 +409,14 @@
 
     function ouvrir(options) {
       const opts = options || {};
-      const { Store, pageCourante } = global.UV;
+      const { Store, pageCourante, lienBienvenue } = global.UV;
+      // Nouvel inscrit : son premier forfait est l'offre de bienvenue, une page
+      // (bienvenue.html) — la liste des forfaits classiques ne s'ouvre pour lui
+      // qu'une fois celle-ci prise. Pas d'upsell sur ce parcours.
+      if (Store.nouveauClient) {
+        location.href = lienBienvenue('retour' in opts ? opts.retour : undefined);
+        return null;
+      }
       // Depuis le tchat, « Reprendre » ramènera à la conversation après paiement.
       const voyant = 'retour' in opts ? opts.retour
         : pageCourante() === 'tchat.html' ? Store.all.dernierVoyant : null;

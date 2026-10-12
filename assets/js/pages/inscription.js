@@ -48,7 +48,8 @@
     if (!el('#majeur').checked) return dire('Merci de confirmer votre majorité et d’accepter les CGV.', el('#majeur'));
 
     erreur.classList.add('hidden');
-    Store.connexion({ prenom, email });
+    // Nouvel inscrit : la pastille crédits mènera à l'offre de bienvenue (bienvenue.html)
+    Store.inscription({ prenom, email });
     toast(`Bienvenue ${prenom} — vos 3 crédits sont disponibles.`, { ton: 'or', icone: 'auto_awesome' });
     setTimeout(() => { location.href = suite; }, 700);
   });
@@ -56,7 +57,7 @@
   /* --- Connexion tierce simulée ------------------------------------------------ */
   els('[data-sso]').forEach((b) => b.addEventListener('click', () => {
     const fournisseur = b.dataset.sso;
-    Store.connexion({ prenom: 'Sophie', email: `sophie@${fournisseur.toLowerCase()}.com` });
+    Store.inscription({ prenom: 'Sophie', email: `sophie@${fournisseur.toLowerCase()}.com` });
     toast(`Compte créé via ${fournisseur}. 3 crédits offerts ajoutés.`, { ton: 'or', icone: 'auto_awesome' });
     setTimeout(() => { location.href = suite; }, 700);
   }));

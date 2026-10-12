@@ -115,9 +115,10 @@ empreinte : une mise en ligne doit atteindre les visiteurs immédiatement) ; ima
 | `tarifs.html`, `faq.html` | *ajouts* — cibles des liens du menu principal |
 | `comment-ca-marche.html` | *ajout* — lien du pied de page (retiré du menu principal) |
 | `contact.html` | *ajout* — formulaire de contact (envoi simulé), lien « Nous contacter » du pied de page. Le motif s'ouvre sur l'invite « Motif de votre demande » et doit être choisi avant l'envoi ; il reste présélectionnable : `contact.html?motif=paiement` (`general`, `paiement`, `praticien`, `presse`). Une valeur inconnue laisse l'invite en place |
-| `modales.html` | *outil de développement* — un bouton par modale du site, pour les consulter une à une (lien « Modales » du tiroir mobile et du pied de page). Lien direct : `modales.html?ouvrir=promo-vert`, `?ouvrir=forfaits`, `?ouvrir=upsell`. Section « Pages promo » : la page promo, la confirmation d'achat, la page landing et le lien de chaque campagne de `UV_DATA.PROMOS` (état, période, lien) |
+| `modales.html` | *outil de développement* — un bouton par modale du site, pour les consulter une à une (lien « Modales » du tiroir mobile et du pied de page). Lien direct : `modales.html?ouvrir=promo-vert`, `?ouvrir=forfaits`, `?ouvrir=upsell`. Section « Pages promo » : la page promo, la confirmation d'achat, la page landing, l'offre de bienvenue (avec un bouton « Simuler un nouvel inscrit ») et le lien de chaque campagne de `UV_DATA.PROMOS` (état, période, lien) |
 | `promo.html` | *remplace* l'ancienne page `/promo` — modèle des promotions éphémères (voir « Promotions éphémères »). `promo.html?id=…` vise une campagne précise |
 | `paiement.html?pack=…&promo=…` | *remplace* la vue « Confirmer votre achat » de l'ancien site — ouverte par un pack de la page promo (voir « Promotions éphémères ») |
+| `bienvenue.html` | *ajout* — **l'offre de bienvenue**, le tout premier forfait d'un nouvel inscrit (15 messages pour 4,99 € au lieu de 19,99 €), carte bancaire ou PayPal. Une page et non une modale : la pastille crédits de l'en-tête y mène tant que ce premier forfait n'est pas pris, à la place de la liste des forfaits (voir « Offre de bienvenue »). `?retour=<praticien>` depuis le tchat |
 | `info.html?sujet=…` | Destination unique des pages secondaires hors périmètre V1 (mentions légales, CGV, confidentialité, charte, cookies, journal, partenaire) |
 | `landing.html` | *ajout* — page d'atterrissage servie à l'adresse **`/landing`** (contenu repris de `unevoyante.fr/landing1`) : inscription en deux étapes (prénom, puis e-mail), praticiens en ligne, déroulé, FAQ. Ni menu ni barre d'onglets, une barre « Tchatter gratuitement » fixe sur mobile. Styles dans `src/css/composants/landing.css` (teintes nuit dans `theme-nuit.css`) ; l'adresse courte est déclarée dans `src/dist.htaccess`, `scripts/serve.js`, `scripts/sitemap.js` et `scripts/statique.js` |
 | `404.html` | Toute adresse inconnue (servie par `scripts/serve.js`, à configurer chez l'hébergeur) : recherche et liens vers les pages principales. Son `<base href="/">` la rend valable à n'importe quelle profondeur d'adresse |
@@ -438,6 +439,51 @@ HTML ni au CSS :
   et au versement, avec les mêmes garde-fous à l'échéance.
 - La période de validité d'une promotion est celle de `data.js` : c'est au back-office de la
   faire respecter au moment du vrai paiement.
+
+## Offre de bienvenue
+
+`bienvenue.html` est le passage obligé de tout nouvel inscrit pour son **tout premier forfait** :
+15 messages pour 4,99 € au lieu de 19,99 € (`UV_DATA.OFFRES.bienvenue` : crédits, prix, prix
+barré). Une **page**, pas une modale, et **aucun upsell** sur ce parcours.
+
+- **Déclenchement** : à la création du compte (`inscription.html`, page landing, connexion
+  tierce), `Store.inscription()` pose `nouveauClient` dans l'état. Tant qu'il est posé, la
+  pastille crédits de l'en-tête — l'icône qui ouvre d'ordinaire la modale « Liste des forfaits » —
+  **mène à cette page, sur toutes les pages** (`majForfaits()` dans `app.js` : le lien change de
+  destination et cesse d'annoncer une boîte de dialogue). `UV.modales.forfaits.ouvrir()` applique
+  la même règle pour ses autres appelants : un nouvel inscrit **ne voit jamais la liste des
+  forfaits classiques**. Depuis le tchat, le praticien courant est transmis
+  (`bienvenue.html?retour=claire`, `UV.lienBienvenue()`).
+- **Fin** : le paiement verse les crédits et appelle `Store.premierForfaitPris()` ; la pastille
+  revient aussitôt à la liste des forfaits, sans rechargement. La déconnexion n'efface pas le
+  drapeau : un compte qui n'a pas pris son premier forfait retrouve l'offre à sa prochaine
+  connexion. Pour rejouer le parcours sans créer de compte : bouton « Simuler un nouvel
+  inscrit » sur `modales.html`.
+- **Direction visuelle** : une carte de bienvenue — pas un bon détachable : aucune perforation,
+  une seule pièce que l'on garde — posée sur un **ciel d'aube** (glace royale au zénith,
+  champagne à l'horizon, lueur d'or en bas de page). Le volet nuit porte l'offre : salutation au
+  prénom du compte, titre dont les chiffres passent en or, la pièce d'or des forfaits frappée des
+  15 crédits et, posée sur son bord, la pièce de remise « −75 % » (calculée, comme le coût par
+  message), le prix et l'ancien prix barré, les garanties. Le volet champagne porte le paiement :
+  bandeau « Paiement totalement sécurisé » (Visa, Mastercard), le **bloc de saisies à icônes**
+  de la charte pour la carte (numéro, expiration et CVV côte à côte ; pastille bleue à la saisie,
+  verte dès que la valeur est reconnue ; marque Visa / Mastercard détectée), le bouton doré
+  « Payer — 4,99 € », puis PayPal en paiement express, la note Trustpilot (tuiles dorées, la
+  cinquième à demi pleine) et la mention d'enregistrement du moyen de paiement. Un fil d'or
+  court à la jointure des deux volets, là où le jour se lève. **Le jour, nulle part de blanc
+  plein** : volet champagne, champs ivoire. **La nuit**, le ciel s'éteint (sol de nuit, lueur
+  d'or retenue), le volet nuit remonte d'un cran et le volet du paiement prend les surfaces de
+  nuit (jetons `--bv-…` dans `src/css/composants/bienvenue.css`, redéfinis dans `theme-nuit.css`).
+- **Saisie** : numéro mis en forme par groupes de quatre et contrôlé (somme de Luhn), date au
+  format MM/AA refusée si passée, CVV à 3 chiffres ; une erreur à la fois, sous le bloc, le
+  champ fautif reprenant le focus. **Paiement simulé** (1,3 s), par carte ou PayPal : rien n'est
+  transmis. Puis le volet nuit devient le reçu (« Paiement confirmé », « Merci Sophie »), le
+  volet champagne annonce les crédits ajoutés et le nouveau solde, et propose « Consulter un
+  voyant » — ou « Reprendre avec Claire » quand on venait du tchat.
+- **Téléphone** : salutation et titre resserrés, garanties effacées, libellé « Expiration » et
+  CVV sans précision, pour que le paiement remonte dans l'écran.
+- La maquette présente l'offre à quiconque ouvre la page ; c'est au back-office de la réserver
+  aux nouveaux inscrits et de n'en accepter qu'une par compte.
 
 ## Compléments apportés aux maquettes
 

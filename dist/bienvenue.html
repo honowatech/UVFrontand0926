@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr" data-statique>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<title>Votre offre de bienvenue | unevoyante.fr</title>
+<meta name="description" content="Votre premier forfait à prix découverte : 15 messages pour 4,99 € au lieu de 19,99 €. Paiement sécurisé par carte bancaire ou PayPal.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0F1F4B">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preload" href="assets/fonts/nunito-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/material-symbols.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/app.css">
+<!-- Thème : choix mémorisé, sinon préférence du système, appliqué avant le premier rendu (pas de flash) -->
+<script>(function(){var t;try{t=localStorage.getItem('unevoyante.theme')}catch(e){}if(t==='nuit'||(t!=='clair'&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')})()</script>
+</head>
+<body class="flex min-h-screen flex-col bg-ground">
+<a href="#contenu" class="skip-link">Aller au contenu principal</a>
+<uv-header sombre></uv-header>
+
+<!-- Offre de bienvenue : le tout premier forfait d'un nouvel inscrit, à prix
+     découverte. Une carte de bienvenue posée sur un ciel d'aube : le volet nuit
+     porte l'offre, le volet champagne le paiement. Pas d'upsell sur ce parcours.
+     L'en-tête et la barre d'onglets restent : la page n'est jamais une impasse. -->
+<main id="contenu" class="bienvenue-fond flex flex-1 flex-col">
+  <div class="shell flex flex-1 flex-col items-center justify-center py-3 sm:py-10 lg:py-14">
+
+    <!-- data-etat : commande · traitement · paye (posé par bienvenue.js) -->
+    <article class="bienvenue-carte" id="carte" data-etat="commande" aria-labelledby="bienvenue-titre">
+
+      <!-- ==================================================================
+           VOLET NUIT — l'offre : la pièce des 15 crédits, la remise, le prix
+           ================================================================== -->
+      <section class="bienvenue-offre">
+        <!-- Constellation de la charte, au tracé doré -->
+        <svg aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 h-full w-full text-gold opacity-40"
+             viewBox="0 0 400 520" fill="none" preserveAspectRatio="xMidYMid slice">
+          <circle cx="34" cy="48" r="1.5" fill="currentColor"/><circle cx="92" cy="96" r="2" fill="currentColor"/>
+          <circle cx="60" cy="190" r="1" fill="currentColor"/><circle cx="20" cy="300" r="1.5" fill="currentColor"/>
+          <circle cx="300" cy="34" r="2.5" fill="currentColor"/><circle cx="356" cy="88" r="1.5" fill="currentColor"/>
+          <circle cx="322" cy="164" r="1.5" fill="currentColor"/><circle cx="372" cy="230" r="2" fill="currentColor"/>
+          <circle cx="206" cy="20" r="1" fill="currentColor"/><circle cx="350" cy="420" r="1" fill="currentColor"/>
+          <circle cx="250" cy="480" r="1.5" fill="currentColor"/><circle cx="120" cy="500" r="1" fill="currentColor"/>
+          <path d="M34 48 L92 96 L60 190 M300 34 L356 88 L322 164 L372 230 M350 420 L250 480"
+                stroke="currentColor" stroke-dasharray="3 3" stroke-width=".75"/>
+        </svg>
+
+        <p class="bienvenue-pastille">
+          <span class="material-symbols-outlined icon-fill text-[15px]" aria-hidden="true" id="pastille-icone">waving_hand</span>
+          <span id="pastille">Offre de bienvenue</span>
+        </p>
+        <p class="bienvenue-salut" id="salut">Bienvenue parmi nous,</p>
+        <h1 id="bienvenue-titre" class="bienvenue-titre" tabindex="-1">
+          Continuez avec <span class="bienvenue-or text-gradient-gold">15 messages</span> pour
+          <span class="bienvenue-or text-gradient-gold">4,99&nbsp;€</span> au lieu de <s class="bienvenue-barre">19,99&nbsp;€</s>
+        </h1>
+        <p class="bienvenue-sous" id="sous-titre">Première consultation à prix découverte</p>
+
+        <!-- La pièce d'or des crédits, la remise frappée dessus, le prix (bienvenue.js) -->
+        <div class="bienvenue-recap" id="recap"></div>
+
+        <!-- Depuis le tchat : le praticien à retrouver après paiement -->
+        <p class="bienvenue-retour" id="retour" hidden>
+          <span class="material-symbols-outlined text-[18px]" aria-hidden="true">forum</span>
+          <span id="retour-texte"></span>
+        </p>
+
+        <ul class="bienvenue-garanties" role="list">
+          <li><span class="material-symbols-outlined text-[18px]" aria-hidden="true">bolt</span> Crédits disponibles dès le paiement</li>
+          <li><span class="material-symbols-outlined text-[18px]" aria-hidden="true">event_busy</span> Sans abonnement, sans date d'expiration</li>
+          <li><span class="material-symbols-outlined text-[18px]" aria-hidden="true">redeem</span> Réservée à votre premier forfait, une seule fois</li>
+        </ul>
+      </section>
+
+      <!-- ==================================================================
+           VOLET CHAMPAGNE — le paiement, puis la confirmation
+           ================================================================== -->
+      <section class="bienvenue-paiement">
+        <!-- Quelques étoiles restent dans le ciel d'aube -->
+        <svg aria-hidden="true" class="bienvenue-etoiles" viewBox="0 0 160 160" fill="none">
+          <circle cx="118" cy="28" r="2" fill="currentColor"/><circle cx="146" cy="62" r="1.5" fill="currentColor"/>
+          <circle cx="98" cy="84" r="1" fill="currentColor"/><circle cx="134" cy="118" r="1.5" fill="currentColor"/>
+          <path d="M118 28 L146 62 L98 84 L134 118" stroke="currentColor" stroke-dasharray="3 3" stroke-width=".75"/>
+        </svg>
+
+        <div id="moyens" class="bienvenue-moyens">
+          <p class="bienvenue-securite">
+            <span class="material-symbols-outlined icon-fill text-[18px]" aria-hidden="true">check_circle</span>
+            Paiement totalement sécurisé
+            <span class="bienvenue-marques" aria-hidden="true">
+              <span data-uv-blanc class="paiement-visa">VISA</span>
+              <span data-uv-blanc class="paiement-mc"><i></i><i></i></span>
+            </span>
+          </p>
+
+          <!-- Carte bancaire : le bloc de saisies à icônes de la charte. La
+               pastille passe au bleu à la saisie, au vert une fois la valeur
+               reconnue. Paiement simulé : rien n'est transmis. -->
+          <form id="formulaire" class="mt-4" novalidate>
+            <div class="saisies bienvenue-saisies">
+              <label class="saisie" data-saisie>
+                <span class="saisie-icone" aria-hidden="true">
+                  <span class="material-symbols-outlined text-[22px]">credit_card</span>
+                  <span class="material-symbols-outlined saisie-ok text-[22px]">check</span>
+                </span>
+                <span class="saisie-corps">
+                  <span class="saisie-libelle">Numéro de carte <span class="bienvenue-marque" id="marque" hidden></span></span>
+                  <input id="numero" class="saisie-champ" inputmode="numeric" autocomplete="cc-number"
+                         placeholder="0000 0000 0000 0000" maxlength="23" required aria-describedby="erreur">
+                </span>
+              </label>
+              <div class="saisies-rangee">
+                <label class="saisie" data-saisie>
+                  <span class="saisie-icone" aria-hidden="true">
+                    <span class="material-symbols-outlined text-[22px]">schedule</span>
+                    <span class="material-symbols-outlined saisie-ok text-[22px]">check</span>
+                  </span>
+                  <span class="saisie-corps">
+                    <span class="saisie-libelle"><span class="hidden sm:inline">Date d'expiration</span><span class="sm:hidden">Expiration</span></span>
+                    <input id="expiration" class="saisie-champ" inputmode="numeric" autocomplete="cc-exp"
+                           placeholder="MM/AA" maxlength="5" required aria-describedby="erreur">
+                  </span>
+                </label>
+                <label class="saisie" data-saisie>
+                  <span class="saisie-icone" aria-hidden="true">
+                    <span class="material-symbols-outlined text-[22px]">lock</span>
+                    <span class="material-symbols-outlined saisie-ok text-[22px]">check</span>
+                  </span>
+                  <span class="saisie-corps">
+                    <span class="saisie-libelle">CVV <span class="saisie-precision max-[639px]:hidden">3 chiffres</span></span>
+                    <input id="cvv" class="saisie-champ" inputmode="numeric" autocomplete="cc-csc"
+                           placeholder="•••" maxlength="4" required aria-describedby="erreur">
+                  </span>
+                </label>
+              </div>
+            </div>
+            <p id="erreur" class="bienvenue-erreur" role="alert" hidden></p>
+
+            <button type="submit" class="btn-gold btn-lg mt-4 w-full" id="payer">
+              <span class="material-symbols-outlined text-[22px]" aria-hidden="true">shield</span>
+              <span id="payer-libelle">Payer — 4,99&nbsp;€</span>
+            </button>
+          </form>
+
+          <p class="paiement-ou" aria-hidden="true">ou</p>
+
+          <p class="kicker text-center">Paiement express</p>
+          <!-- Plaque blanche dans les deux thèmes (data-uv-blanc), encres de marque -->
+          <button type="button" class="paiement-plaque mt-3" data-uv-blanc id="paypal">
+            Payer avec <span class="paiement-paypal" aria-hidden="true">Pay<span>Pal</span></span><span class="sr-only">PayPal</span>
+          </button>
+
+          <!-- Avis : les tuiles dorées de la charte, la cinquième à demi pleine -->
+          <div class="bienvenue-avis">
+            <p class="bienvenue-avis-mention">Bien</p>
+            <span class="bienvenue-tuiles" role="img" aria-label="Note Trustpilot : 4,5 étoiles sur 5">
+              <span class="bienvenue-tuile"><span class="material-symbols-outlined icon-fill text-[20px]" aria-hidden="true">star</span></span><span class="bienvenue-tuile"><span class="material-symbols-outlined icon-fill text-[20px]" aria-hidden="true">star</span></span><span class="bienvenue-tuile"><span class="material-symbols-outlined icon-fill text-[20px]" aria-hidden="true">star</span></span><span class="bienvenue-tuile"><span class="material-symbols-outlined icon-fill text-[20px]" aria-hidden="true">star</span></span><span class="bienvenue-tuile is-demie"><span class="material-symbols-outlined icon-fill text-[20px]" aria-hidden="true">star</span></span>
+            </span>
+            <p class="text-body-sm text-muted">Basé sur <strong class="font-bold text-navy underline underline-offset-2">479 avis</strong></p>
+            <p class="bienvenue-trustpilot">
+              <span class="material-symbols-outlined icon-fill text-[18px]" aria-hidden="true">star</span>
+              Trustpilot
+            </p>
+          </div>
+
+          <p class="bienvenue-mention">
+            En validant votre paiement, vous autorisez unevoyante.fr à enregistrer ce moyen de
+            paiement pour vos prochains achats de crédits, en 1 clic. Vous pouvez le retirer à tout
+            moment depuis votre compte.
+          </p>
+        </div>
+
+        <!-- Après paiement : la pièce frappée d'une coche, le nouveau solde, la suite -->
+        <div id="confirmation" class="bienvenue-confirmation" hidden>
+          <span class="forfait-piece forfait-piece-xl forfait-piece-eclat paiement-sceau" aria-hidden="true">
+            <span class="material-symbols-outlined text-[34px]">check</span>
+          </span>
+          <h2 id="confirmation-titre" class="mt-5 text-h-md text-navy sm:text-h-lg-m" tabindex="-1"></h2>
+          <p id="confirmation-solde" class="mt-2 text-body-md text-muted"></p>
+          <a href="voyants.html" id="suite" class="btn-gold btn-lg mt-7 w-full">
+            Consulter un voyant
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">arrow_forward</span>
+          </a>
+          <a href="compte.html" class="btn-link mt-4">Voir mon compte</a>
+        </div>
+      </section>
+    </article>
+
+    <p id="annonce" class="sr-only" aria-live="polite"></p>
+  </div>
+</main>
+
+<uv-tabbar></uv-tabbar>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/app.js"></script>
+<script src="assets/js/modales.js"></script>
+<script src="assets/js/pages/bienvenue.js"></script>
+</body>
+</html>

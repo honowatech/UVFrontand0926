@@ -43,6 +43,8 @@
       points: 2,                        // un point par message envoyé, quel que soit son coût en crédits
       compte: null,                     // { prenom, email, newsletter? } — facultatif, jamais bloquant
                                         // (newsletter : abonné tant que ce n'est pas false)
+      nouveauClient: false,             // compte créé, premier forfait pas encore pris : la pastille
+                                        // crédits mène à l'offre de bienvenue, jamais aux forfaits classiques
       favoris: [],
       conversations: conversationDemo(), // { [voyantId]: { messages:[], nonLus:number, maj:number } }
       dernierVoyant: 'claire',
@@ -194,6 +196,8 @@
     get points() { return etat.points; },
     get compte() { return etat.compte; },
     get connecte() { return !!etat.compte; },
+    /** Nouvel inscrit, tant qu'il n'a pas pris son premier forfait (l'offre de bienvenue). */
+    get nouveauClient() { return !!etat.compte && !!etat.nouveauClient; },
 
     set(patch) { etat = { ...etat, ...patch }; ecrire(); return etat; },
 
@@ -222,6 +226,16 @@
       if (nouveau && etat.credits < 3) etat.credits = 3;
       ecrire();
     },
+    /** Création de compte : connexion, 3 crédits offerts, et l'offre de bienvenue
+        en attente — jusqu'au premier forfait, elle remplace la liste des forfaits. */
+    inscription(compte) {
+      etat.compte = compte;
+      if (etat.credits < 3) etat.credits = 3;
+      etat.nouveauClient = true;
+      ecrire();
+    },
+    /** Premier forfait pris : les forfaits classiques reprennent la main. */
+    premierForfaitPris() { etat.nouveauClient = false; ecrire(); },
     deconnexion() { etat.compte = null; ecrire(); },
 
     basculerFavori(id) {
@@ -285,6 +299,14 @@
   function lienVoyant(id, ancre) {
     const statique = document.documentElement.hasAttribute('data-statique');
     return (statique ? `voyant-${id}.html` : `voyant.html?id=${id}`) + (ancre ? `#${ancre}` : '');
+  }
+
+  /** Adresse de l'offre de bienvenue (bienvenue.html), le premier forfait d'un
+      nouvel inscrit. Depuis le tchat, `retour` désigne le praticien à retrouver
+      après paiement ; non précisé, c'est la conversation courante. */
+  function lienBienvenue(retour) {
+    const voyant = retour !== undefined ? retour : pageCourante() === 'tchat.html' ? etat.dernierVoyant : null;
+    return `bienvenue.html${voyant ? `?retour=${encodeURIComponent(voyant)}` : ''}`;
   }
 
   function echapper(s) {
@@ -496,7 +518,8 @@
       ${boutonTheme(sombre)}
 
       <!-- Solde + recharge : ouvre la modale « Liste des forfaits » (modales.js),
-           sinon mène à la page Crédits. Sur mobile, l'icône et le chiffre seuls. -->
+           sinon mène à la page Crédits. Nouvel inscrit : mène à l'offre de
+           bienvenue (majForfaits). Sur mobile, l'icône et le chiffre seuls. -->
       <a href="credits.html" data-uv-forfaits aria-haspopup="dialog"
          class="inline-flex h-9 shrink-0 items-center gap-1 whitespace-nowrap rounded-full border pl-2 pr-2.5 text-label-sm font-bold transition-colors sm:gap-1.5 sm:px-3
                 ${sombre ? 'border-white/15 bg-white/10 text-white hover:bg-white/20' : 'border-line bg-ice text-navy hover:bg-tint'}"
@@ -565,9 +588,12 @@
 
       // Liste des forfaits : ouverte en modale quand modales.js est chargé ;
       // sinon, et pour un clic « nouvel onglet », le lien mène à la page Crédits.
+      // Nouvel inscrit : le lien mène à l'offre de bienvenue, son premier forfait
+      // — il ne voit jamais la liste des forfaits classiques.
+      majForfaits();
       el('[data-uv-forfaits]', this).addEventListener('click', (e) => {
         const forfaits = global.UV && global.UV.modales && global.UV.modales.forfaits;
-        if (!forfaits || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        if (Store.nouveauClient || !forfaits || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
         e.preventDefault();
         forfaits.ouvrir();
       });
@@ -683,6 +709,19 @@
     els('[data-uv-credits-s]').forEach((e) => { e.textContent = n > 1 ? 's' : ''; });
   }
   document.addEventListener('uv:etat', majCredits);
+
+  /** Destination de la pastille crédits : l'offre de bienvenue pour un nouvel
+      inscrit (une page, donc plus de « dialog » annoncé), la liste des forfaits
+      sinon. Suit l'état : dès le premier forfait pris, la liste revient. */
+  function majForfaits() {
+    const nouveau = Store.nouveauClient;
+    els('[data-uv-forfaits]').forEach((a) => {
+      a.href = nouveau ? lienBienvenue() : 'credits.html';
+      a.title = nouveau ? 'Votre offre de bienvenue' : 'Recharger mes crédits';
+      if (nouveau) a.removeAttribute('aria-haspopup'); else a.setAttribute('aria-haspopup', 'dialog');
+    });
+  }
+  document.addEventListener('uv:etat', majForfaits);
 
   /* ==========================================================================
      5. PIED DE PAGE PARTAGÉ
@@ -1154,7 +1193,7 @@
   /* --- API publique -------------------------------------------------------- */
   global.UV = {
     Store, fidelite, promos, toast, el, els, icone, etoiles, monogramme, euro, nombre, note, heure,
-    param, lienVoyant, echapper, STATUTS, carteVoyant, ligneVoyant, accordeon, filAriane,
+    param, lienVoyant, lienBienvenue, echapper, STATUTS, carteVoyant, ligneVoyant, accordeon, filAriane,
     majCredits, pageCourante, logo, piece,
     theme: { courant: themeCourant, basculer: basculerTheme, appliquer: appliquerTheme },
   };

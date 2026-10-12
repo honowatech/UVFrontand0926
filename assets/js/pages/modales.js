@@ -1,7 +1,7 @@
 /* modales.html — script de la page (chargé après data.js, app.js et modales.js). */
 (function () {
   'use strict';
-  const { el, els, icone, toast, filAriane } = UV;
+  const { el, els, icone, toast, filAriane, Store } = UV;
 
   el('#ariane').innerHTML = filAriane([['Accueil', 'index.html'], ['Modales']]);
 
@@ -10,7 +10,7 @@
   const MODALES = [
     {
       id: 'forfaits', label: 'Liste des forfaits',
-      declencheur: 'Pastille crédits de l’en-tête · toutes les pages',
+      declencheur: 'Pastille crédits de l’en-tête · toutes les pages (sauf nouvel inscrit : l’offre de bienvenue)',
       ouvrir: () => UV.modales.forfaits.ouvrir(),
     },
     {
@@ -111,6 +111,12 @@
     lienPromo('landing', 'landing.html', 'Page landing', `
       <p class="flex items-center gap-1.5">${icone('waving_hand', 'text-[16px] text-gold')} Inscription en deux étapes · 3 questions offertes</p>
       <p>${code('landing.html')} · ${code('/landing')} en ligne</p>`),
+    // Offre de bienvenue : le premier forfait d'un nouvel inscrit, à la place
+    // de la liste des forfaits (pastille crédits), sans upsell.
+    lienPromo('bienvenue', 'bienvenue.html', 'Offre de bienvenue', `
+      <p class="flex items-center gap-1.5">${icone('redeem', 'text-[16px] text-gold')} Pastille crédits · nouvel inscrit, jusqu’à son premier forfait</p>
+      <p>${code('bienvenue.html')} · ${code('bienvenue.html?retour=claire')} depuis le tchat</p>
+      <p id="bienvenue-simulation" class="flex flex-wrap items-center gap-x-3 gap-y-1"></p>`),
     ...UV_DATA.PROMOS.map((p) => {
       const [nom, ton, etat] = ETATS[UV.promos.etat(p)];
       return lienPromo(`promo-${p.id}`, `promo.html?id=${encodeURIComponent(p.id)}`, `Campagne · ${p.id}`, `
@@ -118,6 +124,32 @@
         <p>${code(`promo.html?id=${p.id}`)}</p>`);
     }),
   ].join('');
+
+  /* Simulation du parcours « nouvel inscrit » : l'état qui suit la création d'un
+     compte (inscription.html, landing), où la pastille crédits mène à l'offre
+     de bienvenue ; le premier forfait pris, la liste des forfaits revient. */
+  function rendreSimulation() {
+    const zone = el('#bienvenue-simulation');
+    if (!zone) return;
+    const nouveau = Store.nouveauClient;
+    zone.innerHTML = nouveau
+      ? `<span class="flex items-center gap-1.5">${icone('check_circle', 'text-[16px] text-online')} Nouvel inscrit : la pastille crédits mène ici</span>
+         <button type="button" class="btn-link" data-simulation="fin">Marquer le premier forfait pris</button>`
+      : `<button type="button" class="btn-link" data-simulation="debut">${icone('person', 'text-[16px]')} Simuler un nouvel inscrit</button>`;
+  }
+  rendreSimulation();
+  document.addEventListener('uv:etat', rendreSimulation);
+  el('#promos').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-simulation]');
+    if (!b) return;
+    if (b.dataset.simulation === 'debut') {
+      Store.inscription(Store.compte || { prenom: 'Sophie', email: 'sophie@exemple.fr' });
+      toast('Nouvel inscrit : la pastille crédits mène à l’offre de bienvenue.', { ton: 'or', icone: 'redeem' });
+    } else {
+      Store.premierForfaitPris();
+      toast('Premier forfait pris : la liste des forfaits revient.', { icone: 'check_circle' });
+    }
+  });
 
   // Lien direct vers une modale : modales.html?ouvrir=promo-vert
   const directe = MODALES.find((m) => m.id === UV.param('ouvrir'));

@@ -181,7 +181,8 @@
     erreur(2, '', champ);
     if (!el('#lp-majeur').checked) return erreur(2, 'Merci de confirmer votre majorité et d’accepter les CGV.', el('#lp-majeur'));
 
-    Store.connexion({ prenom, email });
+    // Nouvel inscrit : la pastille crédits mènera à l'offre de bienvenue (bienvenue.html)
+    Store.inscription({ prenom, email });
     afficherBienvenue(`Bienvenue ${prenom}, vos 3 questions sont prêtes`,
       choisi ? 'Votre voyant vous attend : posez votre première question.' : 'Choisissez un voyant en ligne et posez votre première question.');
     bienvenue.focus();

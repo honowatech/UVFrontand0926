@@ -545,6 +545,10 @@
     vert: { id: 'vert', nom: 'Offre spéciale', credits: 15, prix: 17.99, bonus: 50, duree: 15 },
     // Offre du jour : crédits offerts contre la vérification d'un numéro de mobile.
     mobile: { id: 'mobile', nom: 'Offre du jour', credits: 3, valeur: 7.5 },
+    // Offre de bienvenue (bienvenue.html) : le tout premier forfait d'un nouvel
+    // inscrit, à prix découverte. `prixBase` : le prix barré, celui du pack de
+    // même volume (Évidence). Jamais d'upsell sur cette offre.
+    bienvenue: { id: 'bienvenue', nom: 'Offre de bienvenue', credits: 15, prix: 4.99, prixBase: 19.99 },
   };
 
   /* --- Promotions éphémères (promo.html) -----------------------------------

@@ -1,0 +1,207 @@
+@layer components {
+  /* ==========================================================================
+     OFFRE DE BIENVENUE (bienvenue.html)
+     Le tout premier forfait d'un nouvel inscrit. Une carte de bienvenue — pas
+     un bon détachable : aucune perforation, une seule pièce que l'on garde —
+     posée sur un ciel d'aube : la glace royale au zénith, le champagne à
+     l'horizon. Le volet nuit porte l'offre (la pièce de 15 crédits, la remise
+     frappée dessus, le prix), le volet champagne le paiement ; un fil d'or les
+     réunit à la jointure, là où le jour se lève. Le jour, nulle part de blanc
+     plein : le volet est champagne, les champs d'un ivoire à peine plus clair.
+     La nuit, le ciel s'éteint et le volet prend les surfaces de nuit (jetons
+     --bv-… redéfinis dans theme-nuit.css).
+     ========================================================================== */
+  .bienvenue-fond {
+    --bv-ciel-hi: 232 238 251;     /* zénith : la glace royale */
+    --bv-ciel-lo: 250 240 214;     /* horizon : champagne */
+    --bv-aube: .28;                /* lueur d'or à l'horizon */
+    background:
+      radial-gradient(70% 42% at 50% 100%, rgb(var(--uv-gold) / var(--bv-aube)), transparent 70%),
+      radial-gradient(46% 38% at 10% 0%, rgb(var(--uv-royal-bg) / .14), transparent 70%),
+      linear-gradient(180deg, rgb(var(--bv-ciel-hi)) 0%, rgb(var(--bv-ciel-lo)) 100%);
+  }
+
+  .bienvenue-carte {
+    --bv-nuit-hi: #1F3C88; --bv-nuit-lo: #0F1F4B;
+    --bv-volet-hi: #FCF8EF; --bv-volet-lo: #F5EBD6;
+    --bv-champ: 255 253 248;       /* champs : ivoire, un cran au-dessus du volet */
+    --bv-champ-focus: 254 249 238; /* ligne en cours de saisie : gold-100 */
+    --bv-filet: #E6D9BB;
+    --promo-ligne-filet: var(--bv-filet); /* filets du séparateur « ou » */
+    @apply relative grid w-full max-w-[960px] grid-cols-1 overflow-hidden rounded-[28px]
+           lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)];
+    box-shadow: 0 24px 56px rgb(15 31 75 / .16), 0 2px 6px rgb(15 31 75 / .06);
+    animation: uv-forfait-entree .5s cubic-bezier(.22, .61, .36, 1) backwards;
+  }
+
+  /* --- Volet nuit : l'offre ------------------------------------------------ */
+  .bienvenue-offre {
+    @apply relative isolate flex flex-col px-6 pb-9 pt-6 text-white sm:px-9 sm:pt-8 lg:px-11 lg:pb-11 lg:pt-11;
+    background:
+      radial-gradient(70% 36% at 50% 100%, rgb(232 198 123 / .30), transparent 72%), /* l'aube, à la jointure */
+      radial-gradient(90% 55% at 100% 0%, rgb(201 162 74 / .20), transparent 60%),
+      radial-gradient(80% 50% at 0% 60%, rgb(91 123 196 / .28), transparent 68%),
+      linear-gradient(165deg, var(--bv-nuit-hi) 0%, var(--bv-nuit-lo) 72%);
+  }
+  /* Le fil d'or de la jointure : sous le volet nuit, à sa droite dès 1024 px */
+  .bienvenue-offre::after {
+    content: '';
+    @apply pointer-events-none absolute bottom-0 left-0 h-0.5 w-full;
+    background: linear-gradient(90deg, transparent 4%, rgb(240 212 138 / .95) 50%, transparent 96%);
+  }
+  @media (min-width: 1024px) {
+    .bienvenue-offre {
+      background:
+        radial-gradient(40% 70% at 100% 50%, rgb(232 198 123 / .28), transparent 72%),
+        radial-gradient(90% 55% at 100% 0%, rgb(201 162 74 / .16), transparent 60%),
+        radial-gradient(80% 50% at 0% 100%, rgb(91 123 196 / .28), transparent 68%),
+        linear-gradient(165deg, var(--bv-nuit-hi) 0%, var(--bv-nuit-lo) 72%);
+    }
+    .bienvenue-offre::after {
+      @apply bottom-auto left-auto right-0 top-0 h-full w-0.5;
+      background: linear-gradient(180deg, transparent 4%, rgb(240 212 138 / .95) 50%, transparent 96%);
+    }
+  }
+
+  .bienvenue-pastille {
+    @apply inline-flex items-center gap-1.5 self-start rounded-full bg-white/10 py-1.5 pl-2.5 pr-3.5
+           text-label-sm font-extrabold uppercase tracking-[0.14em] text-gold-300;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .16);
+  }
+  [data-etat='paye'] .bienvenue-pastille { color: #86EFAC; }
+  .bienvenue-salut { @apply mt-5 font-display text-[17px] font-bold text-white/80 sm:mt-6 sm:text-[19px]; }
+  .bienvenue-titre {
+    @apply mt-1 font-display text-[26px] font-extrabold leading-[1.2] text-white outline-none sm:text-[30px] lg:text-[32px];
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .bienvenue-or { @apply whitespace-nowrap font-black; }
+  .bienvenue-barre {
+    @apply whitespace-nowrap font-bold text-white/55;
+    text-decoration-line: line-through;
+    text-decoration-color: rgb(240 212 138 / .9);
+    text-decoration-thickness: 2px;
+  }
+  .bienvenue-sous { @apply mt-3 text-body-lg text-white/75; }
+
+  /* La pièce et le prix : verre posé sur la nuit, comme le récapitulatif de la
+     confirmation d'achat. La remise est frappée sur la pièce, comme la pièce
+     de bonus des promotions. */
+  .bienvenue-recap {
+    @apply mt-6 flex items-center gap-4 rounded-2xl p-4 sm:mt-7 sm:gap-5 sm:p-5;
+    background-color: rgb(255 255 255 / .08);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14);
+    --promo-ligne-fond: rgb(8 18 48 / .55); /* liseré de la pièce de remise */
+  }
+  /* La remise se pose sur le bord droit de la pièce, à mi-hauteur, pour
+     laisser lisibles le chiffre et la mention « crédits ». */
+  .bienvenue-recap .promo-pile { @apply mr-10; }
+  .bienvenue-remise {
+    @apply bottom-auto top-1/2 h-8 min-w-[48px] px-1.5 text-[12px] tracking-[-0.02em];
+    right: -40px;
+    transform: translateY(-50%) rotate(-8deg);
+  }
+  .bienvenue-prix {
+    @apply flex flex-wrap items-baseline gap-x-2.5 font-display text-[34px] font-black leading-none text-white sm:text-[38px];
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .bienvenue-prix .bienvenue-barre { @apply text-[17px] sm:text-[18px]; }
+  .bienvenue-cout { @apply mt-2 block text-body-sm text-white/70; }
+
+  .bienvenue-retour { @apply mt-4 flex items-start gap-2 text-body-sm font-semibold text-gold-300; }
+  .bienvenue-retour[hidden] { display: none; }
+  .bienvenue-retour .material-symbols-outlined { @apply mt-px shrink-0; }
+
+  /* Garanties : en pied de volet sur grand écran ; sur téléphone, le paiement
+     doit remonter dans l'écran, elles s'effacent. */
+  .bienvenue-garanties { @apply mt-7 hidden flex-col gap-2.5 text-body-sm text-white/75 sm:flex lg:mt-auto lg:pt-10; }
+  .bienvenue-garanties li { @apply flex items-center gap-2; }
+  .bienvenue-garanties .material-symbols-outlined { @apply text-gold-300; }
+
+  /* --- Volet champagne : le paiement -------------------------------------- */
+  .bienvenue-paiement {
+    @apply relative flex flex-col px-4 pb-6 pt-6 sm:px-8 sm:pb-8 sm:pt-8 lg:px-10 lg:pb-9 lg:pt-10;
+    background: linear-gradient(172deg, var(--bv-volet-hi), var(--bv-volet-lo));
+  }
+  .bienvenue-etoiles { @apply pointer-events-none absolute right-0 top-0 h-40 w-40 text-gold opacity-40; }
+  .bienvenue-moyens { @apply relative flex flex-1 flex-col; }
+  .bienvenue-moyens[hidden] { display: none; }
+
+  /* Paiement sécurisé : vert des statuts, lisible dans les deux thèmes */
+  .bienvenue-securite {
+    @apply flex items-center gap-2 rounded-xl px-3.5 py-2.5 text-label-md font-bold;
+    color: rgb(var(--uv-badge-online));
+    background-color: rgb(var(--uv-online) / .08);
+    box-shadow: inset 0 0 0 1px rgb(var(--uv-online) / .28);
+  }
+  .bienvenue-marques { @apply ml-auto flex shrink-0 items-center gap-1; }
+
+  /* Les champs : le bloc de saisies à icônes de la charte, sur l'ivoire du
+     volet ; date et CVV côte à côte. */
+  .bienvenue-saisies { background-color: rgb(var(--bv-champ)); border-color: var(--bv-filet); }
+  .bienvenue-saisies .saisie + .saisie { border-color: var(--bv-filet); }
+  .bienvenue-saisies .saisie:focus-within { background-color: rgb(var(--bv-champ-focus)); }
+  .bienvenue-saisies .saisie-icone { background-color: rgb(var(--uv-gold) / .14); color: rgb(var(--uv-gold-800)); }
+  .bienvenue-saisies .saisie-precision { background-color: rgb(var(--uv-gold) / .14); }
+  .bienvenue-saisies .saisie:focus-within .saisie-precision { background-color: rgb(var(--bv-champ)); }
+  .saisies-rangee { @apply grid grid-cols-2 border-t; border-color: var(--bv-filet); }
+  .saisies-rangee > .saisie { @apply border-t-0; }
+  .saisies-rangee > .saisie + .saisie { @apply border-l; border-color: var(--bv-filet); }
+  .bienvenue-marque { @apply inline-flex items-center; }
+  .bienvenue-marque[hidden] { display: none; }
+
+  .bienvenue-erreur {
+    @apply mt-3 rounded-md px-3 py-2.5 text-body-sm font-semibold;
+    color: rgb(var(--uv-sortie));
+    background-color: rgb(var(--uv-sortie) / .08);
+    box-shadow: inset 0 0 0 1px rgb(var(--uv-sortie) / .3);
+  }
+  .bienvenue-erreur[hidden] { display: none; }
+
+  /* Pendant le paiement : tout s'estompe, sauf le moyen choisi */
+  [data-etat='traitement'] .bienvenue-moyens button:disabled { @apply opacity-40; }
+  [data-etat='traitement'] .bienvenue-moyens button:disabled:has(.animate-spin) { @apply opacity-100; }
+  [data-etat='traitement'] .bienvenue-saisies { @apply opacity-60; }
+
+  /* Avis : les tuiles dorées de la charte (page landing), la cinquième à demi pleine */
+  .bienvenue-avis { @apply mt-6 flex flex-col items-center gap-1.5 text-center; }
+  .bienvenue-avis-mention { @apply font-display text-h-sm font-extrabold text-navy; }
+  .bienvenue-tuiles { @apply flex gap-1; }
+  .bienvenue-tuile {
+    @apply grid h-8 w-8 place-items-center rounded-[6px] text-white;
+    background: var(--uv-grad-gold-soft);
+  }
+  .bienvenue-tuile.is-demie { background: linear-gradient(90deg, #D4AE57 0 50%, var(--bv-filet) 50%); }
+  .bienvenue-trustpilot { @apply mt-1 inline-flex items-center gap-1 font-display text-[15px] font-extrabold text-navy; }
+  .bienvenue-trustpilot .material-symbols-outlined { color: #00B67A; }
+
+  .bienvenue-mention { @apply mt-6 text-center text-body-sm leading-relaxed text-muted; }
+
+  /* Après paiement : la pièce d'or frappée d'une coche, au centre du volet */
+  .bienvenue-confirmation { @apply relative my-auto flex flex-col items-center py-6 text-center lg:py-0; }
+  .bienvenue-confirmation[hidden] { display: none; }
+
+  /* --- Téléphone : l'offre se résume, le paiement remonte dans l'écran ------ */
+  @media (max-width: 639px) {
+    .bienvenue-carte { @apply rounded-3xl; }
+    .bienvenue-offre { @apply pb-7 pt-5; }
+    .bienvenue-salut { @apply mt-4 text-[15px]; }
+    .bienvenue-titre { @apply text-[22px]; }
+    .bienvenue-sous { @apply mt-2 text-body-md; }
+    .bienvenue-recap { @apply mt-4 gap-3 p-3; }
+    .bienvenue-recap .promo-pile { @apply mr-8; }
+    .bienvenue-recap .forfait-piece-xl { @apply h-14 w-14; }
+    .bienvenue-recap .forfait-piece-xl .forfait-piece-valeur { @apply text-[24px]; }
+    .bienvenue-recap .forfait-piece-xl .forfait-piece-mention { @apply mt-[2px] text-[7px]; }
+    .bienvenue-remise { @apply h-7 min-w-[42px] text-[11px]; right: -34px; }
+    /* Date et CVV côte à côte : chaque moitié se resserre */
+    .saisies-rangee .saisie { @apply gap-2.5 px-3; }
+    .saisies-rangee .saisie-icone { @apply h-10 w-10; }
+    .bienvenue-prix { @apply text-[28px]; }
+    .bienvenue-prix .bienvenue-barre { @apply text-[15px]; }
+    .bienvenue-paiement { @apply pt-5; }
+    .bienvenue-avis { @apply mt-5; }
+    .bienvenue-mention { @apply mt-5; }
+  }
+}

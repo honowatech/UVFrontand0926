@@ -35,6 +35,7 @@
 @import './css/composants/confirmation.css';
 @import './css/composants/landing.css';
 @import './css/composants/promo.css';
+@import './css/composants/bienvenue.css';
 
 /* Hors composants */
 @import './css/utilitaires.css';

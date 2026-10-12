@@ -116,3 +116,15 @@
   --promo-barre: 154 166 196;
   filter: drop-shadow(0 22px 44px rgb(0 0 0 / .5)) drop-shadow(0 0 1px rgb(255 255 255 / .08));
 }
+
+/* Offre de bienvenue : le ciel d'aube s'éteint (le sol de nuit, une lueur d'or
+   retenue à l'horizon), le volet nuit remonte d'un cran pour se détacher, le
+   volet du paiement et ses champs prennent les surfaces de nuit. */
+.dark .bienvenue-fond { --bv-ciel-hi: 8 14 34; --bv-ciel-lo: 14 23 51; --bv-aube: .14; }
+.dark .bienvenue-carte {
+  --bv-nuit-hi: #2F52A5; --bv-nuit-lo: #16295E;
+  --bv-volet-hi: #17234A; --bv-volet-lo: #111A38;
+  --bv-champ: 26 37 71; --bv-champ-focus: 34 48 92; --bv-filet: #2A3661;
+  box-shadow: 0 24px 56px rgb(0 0 0 / .5), inset 0 0 0 1px rgb(255 255 255 / .08);
+}
+.dark .bienvenue-etoiles { opacity: .3; }
