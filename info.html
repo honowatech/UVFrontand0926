@@ -43,6 +43,66 @@
 
       <div class="prose-uv" id="apercu"></div>
 
+      <!-- ==================================================================
+           AFFILIATION (sujet=partenaire) — même anatomie que le formulaire de
+           contact : invites dans les champs, libellés en `sr-only`, un seul
+           encart d'erreur. Envoi simulé, aucune donnée n'est transmise.
+           ================================================================== -->
+      <div id="affiliation" hidden>
+        <form id="formulaire" class="card flex flex-col gap-4 p-6 sm:p-8" novalidate>
+          <h2 class="text-center text-h-md">Demande d'inscription au programme d'affiliation</h2>
+
+          <a href="mailto:contact@unevoyante.fr?subject=Programme%20d%27affiliation" class="btn-quiet w-full">
+            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">mail</span>
+            Envoyez-nous un mail
+          </a>
+
+          <div>
+            <label class="sr-only" for="skype">Pseudo Skype</label>
+            <input id="skype" class="field" placeholder="Votre pseudo Skype" autocomplete="off">
+          </div>
+
+          <div>
+            <label class="sr-only" for="email">Adresse e-mail</label>
+            <input id="email" type="email" class="field" placeholder="Votre adresse e-mail" autocomplete="email">
+          </div>
+
+          <div>
+            <label class="sr-only" for="message">Votre message</label>
+            <textarea id="message" class="field" rows="5" placeholder="Entrez votre message"></textarea>
+          </div>
+
+          <!-- Piège à robots : invisible et hors tabulation, un humain le laisse vide. -->
+          <input id="site-web" name="site-web" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <!-- Vérification anti-robot, à remplacer par le widget reCAPTCHA (clé de
+               site + vérification serveur) quand l'envoi sera branché. -->
+          <label class="flex w-fit cursor-pointer items-center gap-3 rounded-md border border-line bg-surface px-4 py-3">
+            <input type="checkbox" id="humain" class="check">
+            <span class="text-body-md text-navy">Je ne suis pas un robot</span>
+            <span class="material-symbols-outlined ml-4 text-[24px] text-royal" aria-hidden="true">verified_user</span>
+          </label>
+
+          <p id="erreur" class="hidden rounded-md bg-red-50 p-3 text-body-sm text-red-700" role="alert"></p>
+
+          <button type="submit" id="envoyer" class="btn-gold btn-lg w-full">Envoyer</button>
+        </form>
+
+        <div id="confirmation" class="card-tint tint-sauge hidden p-6 text-center sm:p-8">
+          <span class="tint-chip mx-auto mb-4 h-14 w-14">
+            <span class="material-symbols-outlined text-[28px]" aria-hidden="true">mark_email_read</span>
+          </span>
+          <h2 class="mb-2 text-h-md outline-none" id="confirmation-titre" tabindex="-1">Demande envoyée</h2>
+          <p class="mx-auto max-w-lg text-body-md leading-relaxed text-muted">
+            Nous revenons vers vous à <strong class="font-semibold text-navy" id="confirmation-email"></strong>
+            pour finaliser votre inscription au programme d'affiliation.
+          </p>
+          <p class="mt-6 text-body-sm text-muted">
+            Maquette de démonstration&nbsp;: aucune donnée n'est transmise ni conservée.
+          </p>
+        </div>
+      </div>
+
       <div class="mt-10 rounded-3xl bg-surface p-8 shadow-card">
         <h2 class="mb-2 text-h-md">Poursuivre votre visite</h2>
         <p class="mb-6 text-body-md text-muted">

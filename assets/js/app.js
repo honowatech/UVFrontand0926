@@ -743,7 +743,7 @@
         ['Comment ça marche', 'comment-ca-marche.html'],
         ['Tarifs & packs', 'tarifs.html'],
         ['Journal ésotérique', 'info.html?sujet=journal'],
-        ['Devenir praticien partenaire', 'info.html?sujet=partenaire'],
+        ['Affiliation', 'info.html?sujet=partenaire'],
         ['Nous contacter', 'contact.html'],
       ],
     },
